@@ -16,3 +16,8 @@ dev = [
     "streamlit>=1.53.1",
     "typer>=0.21.1",
 ]
+docs = [
+    "mkdocs>=1.6.1",
+    "mkdocs-material>=9.7.1",
+    "mkdocs-material-extensions>=1.3.1",
+]
