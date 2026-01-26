@@ -75,3 +75,26 @@ The task challenges participants to use **Small Language Models (SLMs)** and inf
 The rise of **Agentic Workflows** has created a massive demand for systems that can communicate via structured protocols. To identify user intent, invoke external tools, or exchange information, an AI must output rigid, error-free structured data.
 
 While massive proprietary models (like GPT-5) solve this through scale, **GenSIE** targets the innovation gap in **Small Language Models (<14B)**. We aim to prove that with clever engineering (Chain-of-Thought, ReAct, Constrained Decoding), commodity hardware can perform complex structured extraction reliably.
+
+## Organizing Committee
+
+The GenSIE task is organized by a consortium between the **Research Group on Artificial Intelligence and Data Science (GIA-UH)** at the University of Havana and the **Research Group in Natural Language Processing and Information Systems (GPLSI)** at the University of Alicante.
+
+This team brings together expertise in both Computer Science (Generative AI, Large Language Models) and Linguistics (Corpus Annotation, Semantic Evaluation).
+
+### Members
+
+| Name | Affiliation | Role |
+| :--- | :--- | :--- |
+| **Yudivian Almeida Cruz** | University of Havana | PhD, Professor |
+| **Suilan Estévez Velarde** | University of Havana | PhD, Professor |
+| **Alejandro Piad Morffis** | University of Havana | PhD, Professor |
+| **Isabel Espinosa Zaragoza** | University of Alicante | PhD, Assistant Professor |
+| **María Miró Maestre** | University of Alicante | PhD, Postdoc Researcher |
+| **Lucía Sevilla Requena** | University of Alicante | PhD Student, Assoc. Prof. |
+| **Alba Pérez Montero** | University of Alicante | PhD Student |
+| **Ernesto Estevanell Valladares** | University of Havana | PhD Student |
+
+### Contact
+
+For questions regarding the task, dataset, or evaluation, please contact the corresponding author, [**Alejandro Piad Morffis**](mailto:apiad@matcom.uh.cu).
