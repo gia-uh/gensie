@@ -19,7 +19,7 @@ class GenSIESchema(BaseModel):
     )
 
     @classmethod
-    def get_json_schema(cls) -> dict[str, Any]:
+    def get_schema(cls) -> dict[str, Any]:
         """
         Returns the clean JSON Schema for the task input.
         We strip out Pydantic-specific titles/versions to keep the prompt clean.
@@ -34,7 +34,7 @@ class GenSIESchema(BaseModel):
     def flatten(self) -> dict[str, Any]:
         """
         Converts the instance data into a flat dot-notation dictionary.
-        This is the Official Transformation \Phi(J) for the metric.
+        This is the Official Transformation Phi(J) for the metric.
 
         Example:
             {"event": {"location": "Madrid", "tags": ["A", "B"]}}
