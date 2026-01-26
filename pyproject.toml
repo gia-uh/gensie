@@ -1,0 +1,18 @@
+[project]
+name = "gensie"
+version = "0.1.0"
+description = "GenSIE - General-purpose Schema-guided Information Extraction"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "lingo-ai>=1.3",
+]
+
+[dependency-groups]
+dev = [
+    "beaver-db>=1.3.0",
+    "pytest>=9.0.2",
+    "rich>=14.3.1",
+    "streamlit>=1.53.1",
+    "typer>=0.21.1",
+]
