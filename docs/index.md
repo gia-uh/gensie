@@ -57,7 +57,7 @@ The task challenges participants to use **Small Language Models (SLMs)** and inf
 
 | Date | Event |
 | :--- | :--- |
-| **March 01, 2026** | 🚀 **Starter Kit Release** (Baselines, Docker templates, 30-example Dev Set) |
+| ⚠️ **March 09, 2026** | 🚀 **Starter Kit Release** (Baselines, Docker templates, 30-example Dev Set) |
 | **April 01, 2026** | 📂 **Full Development Set** (Remaining 170 examples) |
 | **May 08, 2026** | 🛑 **Submission Deadline** (Docker containers) |
 | **May 09, 2026** | 🔓 **Test Set Release** (For local error analysis) |
@@ -69,6 +69,7 @@ The task challenges participants to use **Small Language Models (SLMs)** and inf
 ## News & Updates
 
 * **Jan 26, 2026:** Website launched.
+* **March 01, 2026:** We've had some delays with the preparation of the _starter-kit_ which forced to push the date back to **March 09** at the latest.
 
 ## Motivation
 
