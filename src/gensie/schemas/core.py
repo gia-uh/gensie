@@ -1,5 +1,33 @@
-from typing import Any
+from typing import Any, TypedDict, Literal
 from pydantic import BaseModel, ConfigDict
+
+
+class ComplexityDimensions(TypedDict):
+    depth: Literal[1, 2, 3, 4]
+    distance: Literal[1, 2, 3, 4]
+    dispersion: Literal[1, 2, 3, 4]
+    rigidity: Literal[1, 2, 3, 4]
+    grounding: Literal[1, 2, 3]
+
+
+class ComplexityMetadata(BaseModel):
+    overall_level: Literal["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L10"]
+    dimensions: ComplexityDimensions
+
+
+def complexity(overall_level: str, dimensions: dict[str, int]):
+    """
+    Decorator to annotate a GenSIESchema with its complexity profile.
+    """
+
+    def decorator(cls):
+        metadata = ComplexityMetadata(
+            overall_level=overall_level, dimensions=dimensions  # type: ignore
+        )
+        setattr(cls, "__complexity__", metadata)
+        return cls
+
+    return decorator
 
 
 class GenSIESchema(BaseModel):
@@ -22,14 +50,8 @@ class GenSIESchema(BaseModel):
     def get_schema(cls) -> dict[str, Any]:
         """
         Returns the clean JSON Schema for the task input.
-        We strip out Pydantic-specific titles/versions to keep the prompt clean.
         """
-        schema = cls.model_json_schema()
-        # Cleanup: Remove 'title' from definitions to save tokens and reduce bias
-        # (The LLM should focus on field names/descriptions, not the class name)
-        if "title" in schema:
-            del schema["title"]
-        return schema
+        return cls.model_json_schema()
 
     def flatten(self) -> dict[str, Any]:
         """
