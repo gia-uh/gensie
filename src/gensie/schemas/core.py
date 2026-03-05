@@ -1,6 +1,6 @@
-import json
-from typing import Any, Type
+from typing import Any
 from pydantic import BaseModel, ConfigDict
+
 
 class GenSIESchema(BaseModel):
     """
@@ -15,7 +15,7 @@ class GenSIESchema(BaseModel):
         extra="forbid",
         use_enum_values=True,
         populate_by_name=True,
-        validate_assignment=True
+        validate_assignment=True,
     )
 
     @classmethod
@@ -45,10 +45,10 @@ class GenSIESchema(BaseModel):
                 "event.tags.1": "B"
             }
         """
-        return self._flatten_dict(self.model_dump(mode='json'))
+        return self._flatten_dict(self.model_dump(mode="json"))
 
     @staticmethod
-    def _flatten_dict(data: dict | list | Any, parent_key: str = '') -> dict[str, Any]:
+    def _flatten_dict(data: dict | list | Any, parent_key: str = "") -> dict[str, Any]:
         items: dict[str, Any] = {}
 
         if isinstance(data, dict):
