@@ -71,7 +71,12 @@ This launches your agent at `http://localhost:8000`.
 You can test your performance against the starter data. The `eval` command will automatically pass the `--model` flag to your agent, simulating the evaluator's behavior. You can also generate a JSON report for later analysis:
 
 ```bash
-gensie eval --data data/starter/ --url http://localhost:8000 --pipeline baseline --model gpt-4o-mini --output report.json
+gensie eval
+    --data data/starter/
+    --url http://localhost:8000
+    --pipeline baseline
+    --model gpt-4o-mini
+    --output report.json
 ```
 
 !!! note "Error Penalization"
