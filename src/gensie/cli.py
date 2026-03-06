@@ -7,6 +7,7 @@ from typing import Optional, Dict, Any, List
 from rich.console import Console
 from rich.table import Table
 from rich.progress import track
+from collections import defaultdict
 from gensie.task import Task
 from gensie.eval import Evaluator, flatten_json
 
@@ -142,6 +143,99 @@ def eval(
         with open(output, "w", encoding="utf-8") as f:
             json.dump(report, f, indent=2, ensure_ascii=False)
         console.print(f"\n[bold blue]Report saved to {output}[/bold blue]")
+
+
+@app.command()
+def leaderboard(
+    results_dir: Path = typer.Argument(
+        Path("results"), help="Directory containing evaluation JSON reports"
+    ),
+    plain: bool = typer.Option(False, "--plain", help="Output in plain Markdown format"),
+):
+    """
+    Aggregates evaluation reports and displays a leaderboard.
+    Groups results by (Model, Dataset) and ranks by Micro-F1.
+    """
+    if not results_dir.is_dir():
+        console.print(f"[bold red]Error: {results_dir} is not a directory.[/bold red]")
+        raise typer.Exit(1)
+
+    reports = []
+    for file_path in results_dir.glob("*.json"):
+        try:
+            with open(file_path, "r", encoding="utf-8") as f:
+                data = json.load(f)
+
+            # Robustness: Validate required fields
+            if not all(k in data for k in ["participant", "config", "metrics"]):
+                continue
+
+            reports.append(
+                {
+                    "team": data["participant"].get("team_name", "Unknown"),
+                    "model": data["config"].get("model", "Unknown"),
+                    "pipeline": data["config"].get("pipeline", "Unknown"),
+                    "dataset": Path(data["config"].get("data_source", "Unknown")).name,
+                    "f1": data["metrics"].get("f1", 0.0),
+                }
+            )
+        except Exception:
+            # Skip malformed or incompatible JSONs
+            continue
+
+    if not reports:
+        console.print("[yellow]No valid evaluation reports found.[/yellow]")
+        return
+
+    # Grouping by (Model, Dataset)
+    groups = defaultdict(list)
+    for r in reports:
+        groups[(r["model"], r["dataset"])].append(r)
+
+    for (model, dataset), entries in groups.items():
+        # Sort all entries by F1 descending
+        entries.sort(key=lambda x: x["f1"], reverse=True)
+
+        # Calculate Best-per-team
+        best_per_team = {}
+        for e in entries:
+            if e["team"] not in best_per_team:
+                best_per_team[e["team"]] = e
+        best_entries = sorted(
+            best_per_team.values(), key=lambda x: x["f1"], reverse=True
+        )
+
+        if plain:
+            # Manual Markdown output
+            print(f"## Leaderboard: {dataset} (Model: {model})")
+            for title, data_list in [
+                ("Best per Team", best_entries),
+                ("All Pipelines", entries),
+            ]:
+                print(f"\n### {title}")
+                print("| Rank | Team | Pipeline | Micro-F1 |")
+                print("|---:|:---|:---|---:|")
+                for i, e in enumerate(data_list, 1):
+                    print(f"| {i} | {e['team']} | {e['pipeline']} | {e['f1']:.4f} |")
+            print("\n")
+        else:
+            # Rich Terminal output
+            console.rule(
+                f"[bold green]Leaderboard: {dataset} (Model: {model})[/bold green]"
+            )
+            for title, data_list in [
+                ("Best per Team", best_entries),
+                ("All Pipelines", entries),
+            ]:
+                table = Table(title=title, box=None)
+                table.add_column("Rank", justify="right", style="cyan")
+                table.add_column("Team", style="magenta")
+                table.add_column("Pipeline")
+                table.add_column("Micro-F1", justify="right", style="bold green")
+                for i, e in enumerate(data_list, 1):
+                    table.add_row(str(i), e["team"], e["pipeline"], f"{e['f1']:.4f}")
+                console.print(table)
+            console.print("\n")
 
 
 if __name__ == "__main__":
