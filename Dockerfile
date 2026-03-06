@@ -5,27 +5,25 @@ FROM python:3.13-slim
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
 # Set the working directory
-WORKDIR /app/gensie-lib
+WORKDIR /app
 
-# 1. Copy only the dependency files first to leverage Docker layer caching
+# 1. Copy only the dependency files first
 COPY pyproject.toml uv.lock README.md ./
 
-# 2. Install dependencies (excludes the project itself)
-# This layer will stay cached unless pyproject.toml or uv.lock changes.
-RUN uv sync --frozen --no-install-project --no-dev
+# 2. Install external dependencies only
+# We use --no-install-project if we were using uv sync, 
+# but with uv pip we can just install the requirements.
+# To avoid building the project, we use uv pip install on the dependencies.
+RUN uv pip install --system -r pyproject.toml
 
-# 3. Copy the actual source code
-COPY . .
+# 3. Copy the actual source code into a subfolder
+COPY . /app/gensie-lib
 
 # 4. Install the project in editable mode
-# This allows mounting a volume over /app/gensie-lib to see changes without rebuilding.
-RUN uv pip install -e .
+RUN uv pip install --system -e /app/gensie-lib
 
 # Expose the FastAPI port
 EXPOSE 8000
-
-# Ensure the virtual environment's binaries are in the PATH
-ENV PATH="/app/gensie-lib/.venv/bin:$PATH"
 
 # Set default environment variables for the agent
 ENV PARTICIPANT_PATH="gensie.baseline.OfficialParticipant"
@@ -33,5 +31,4 @@ ENV OPENAI_BASE_URL=""
 ENV OPENAI_API_KEY="sk-dummy"
 
 # Run the server via the CLI
-# USAGE: docker run -p 8000:8000 -v $(pwd):/app/gensie-lib gensie-baseline
-ENTRYPOINT ["gensie", "serve"]
+ENTRYPOINT ["gensie"]
