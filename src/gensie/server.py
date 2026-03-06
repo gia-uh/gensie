@@ -1,7 +1,7 @@
 from fastapi import FastAPI, HTTPException, Query
 from gensie.task import Task
 from gensie.agent import Participant
-from typing import Any, Dict, Optional
+from typing import Any, Dict
 import importlib
 import os
 
