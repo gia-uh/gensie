@@ -2,7 +2,15 @@
 
 To participate in GenSIE 2026, you must submit a **private GitHub repository** containing your full system and its environment configuration.
 
-## 1. Repository & License Requirements
+## 1. Submission Process
+
+To participate in GenSIE 2026, you must:
+1.  Maintain a **private GitHub repository** containing your full system and its environment configuration.
+2.  Open a **New Issue** in the official competition repository using the **[Competition Submission]** template.
+3.  Fill in your team name, participant details, and your repository URL.
+4.  Grant read access to the designated organizer account (`apiad`).
+
+## 2. Repository & License Requirements
 
 *   **License:** The repository must be open-sourced under a permissive FOSS license (e.g., **MIT, Apache 2.0**). Copyleft licenses (e.g., GPL) are **not** accepted to facilitate broader adoption.
 *   **Privacy & Release Cycle:** Submitted repositories must remain private during the competition phase. Teams will grant read access to a designated member of the organizing committee for evaluation. All repositories must be made publicly available immediately after the release of the official results.
