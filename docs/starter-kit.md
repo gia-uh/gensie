@@ -64,7 +64,11 @@ To start building your own solution:
 4.  **Iterate** using `gensie serve` and `gensie eval`.
 
 !!! tip "Fast Iteration with Docker"
-    The provided `Dockerfile` installs the package in **editable mode**. You can mount your local code as a volume to see changes instantly without rebuilding the image:
+    The provided `Dockerfile` installs the package in **editable mode**. You can use **Docker Compose** to build and run your agent with local volume mounting and environment variables pre-configured:
     ```bash
-    docker run -p 8000:8000 -v $(pwd):/app/gensie-lib gensie-baseline
+    docker compose up --build
     ```
+    This will:
+    1. Build the agent image.
+    2. Mount your local code so changes are reflected instantly (via FastAPI reload).
+    3. Load your API keys from the `.env` file.
