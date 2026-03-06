@@ -17,13 +17,17 @@ The kit provides a high-quality Python baseline in `src/gensie/baseline.py` that
 *   **`OfficialParticipant`**: The entry point for your submission. It acts as a factory that can host up to **three distinct pipelines**.
 
 ### Public Baselines
+
 During the evaluation period, the organizers will provide three open-source baselines executed via standard zero-shot prompting with grammar-constrained decoding. These target different compute tiers:
+
 *   **Tiny:** Llama 3.2 3B Instruct
 *   **Small:** Salamandra 7b Instruct (native Spanish language model)
 *   **Medium:** Qwen 3 14b
 
 ### Initial Benchmarks
+
 To provide a reference point for your experiments, we have performed internal testing on the **40 starter instances**:
+
 *   **Model:** `Meta-Llama-3.1-8B-Instruct`
 *   **Micro-F1:** `0.4126`
 
@@ -51,7 +55,7 @@ To make your agent available for evaluation, start the FastAPI server:
 ```bash
 gensie serve --port 8000
 ```
-This launches your agent at `http://localhost:8000`. 
+This launches your agent at `http://localhost:8000`.
 
 ### Running Local Benchmarks
 You can test your performance against the starter data. The `eval` command will automatically pass the `--model` flag to your agent, simulating the evaluator's behavior:
@@ -65,6 +69,7 @@ gensie eval --data data/starter/ --url http://localhost:8000 --pipeline baseline
 ## 5. How to Hack
 
 To start building your own solution:
+
 1.  **Configure Inference:** Before launching your container, ensure your `.env` file points to a valid backend. You can host a local model using [**LMStudio**](https://lmstudio.ai/) or connect to an external provider by setting `OPENAI_BASE_URL` and `OPENAI_API_KEY`.
 2.  **Launch:** Start the environment:
     ```bash

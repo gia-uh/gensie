@@ -13,15 +13,17 @@ To participate in GenSIE 2026, you must submit a **private GitHub repository** c
 The primary requirement for submission is a **`Dockerfile`** located in the root of your repository. The resulting container must be self-sufficient, containing all necessary code, dependencies, and auxiliary data (like local RAG databases) required for inference.
 
 ### Hardware Constraints
+
 Organizers will evaluate your system in a strictly controlled environment:
-*   **Agent Side:** Your code will run on a **modest CPU-only environment**. 
+
+*   **Agent Side:** Your code will run on a **modest CPU-only environment**.
 *   **NO GPUs:** Submissions must not depend on GPU-enabled hardware for the agent's logic.
 *   **Lightweight Dependencies:** Avoid heavy machine learning frameworks like TensorFlow or PyTorch for local inference. Simple libraries like `scikit-learn` for intent parsing or `fastembed` for RAG are permitted, provided they run efficiently on a standard CPU.
 *   **Local Knowledge Bases:** You may include local knowledge bases (e.g., SQLite, flat files) for RAG or other agentic strategies, provided they fit within the repository and container.
 
 ## 3. Infrastructure & Connectivity
 
-The evaluation environment is **completely isolated from the internet**. 
+The evaluation environment is **completely isolated from the internet**.
 
 *   **Inference Server:** Organizers will host the inference engine (OpenAI-compatible server) on high-end hardware (8x NVIDIA A100 GPUs).
 *   **Single Endpoint:** Your agent is **forbidden** from making any network calls other than to the provided inference server.
@@ -30,6 +32,7 @@ The evaluation environment is **completely isolated from the internet**.
 ## 4. Resource Quotas & Qualification
 
 To ensure fair access and stability:
+
 *   **Token Quota:** A strict maximum budget of **32K total tokens** (input + output) across all inference calls for each specific input example.
 *   **Timeout:** A strict wall-clock timeout of **60 seconds** per test instance.
 *   **Qualification Phase:** All submissions must pass a sanity check on a subset of the Dev Set before entering final evaluation. The container must execute without hanging/crashing and must demonstrate performance superior to the provided zero-shot baseline.
@@ -72,6 +75,7 @@ Returns metadata about your team and your available extraction pipelines.
 Executes an extraction task.
 
 **Query Parameters:**
+
 - `pipeline` (string, required): The name of the pipeline to use.
 - `model` (string, required): **MANDATORY.** You must use this specific model name when calling the inference server. Failing to use this model will result in an evaluation error.
 
