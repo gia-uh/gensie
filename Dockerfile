@@ -2,15 +2,10 @@ FROM python:3.13-slim
 
 WORKDIR /app
 
-# Install system dependencies for sentence-transformers and numpy
-RUN apt-get update && apt-get install -y \
-    build-essential \
-    && rm -rf /var/lib/apt/lists/*
-
 # Copy the entire gensie package
 COPY . /app/gensie-lib
 
-# Install the package in editable mode or normally
+# Install only core dependencies (excludes dev group like fastembed)
 RUN pip install --no-cache-dir "/app/gensie-lib"
 
 # Expose the FastAPI port
