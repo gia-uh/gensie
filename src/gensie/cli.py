@@ -1,8 +1,9 @@
 import typer
 import uvicorn
 import httpx
+import json
 from pathlib import Path
-from typing import Optional
+from typing import Optional, Dict, Any, List
 from rich.console import Console
 from rich.table import Table
 from rich.progress import track
@@ -27,8 +28,9 @@ def eval(
     pipeline: str = typer.Option("baseline", help="Name of the pipeline to evaluate"),
     model: str = typer.Option(..., help="The exact model name to use for inference"),
     limit: Optional[int] = typer.Option(None, help="Limit the number of tasks to evaluate"),
+    output: Optional[Path] = typer.Option(None, help="Path to save the JSON evaluation report"),
 ):
-    """Evaluates the agent against a local dataset."""
+    """Evaluates the agent against a local dataset and generates a report."""
     evaluator = Evaluator()
 
     if not data.is_dir():
@@ -42,34 +44,41 @@ def eval(
     tps_list = []
     gold_counts = []
     system_counts = []
+    individual_results: List[Dict[str, Any]] = []
 
     results_table = Table(title=f"Evaluation Results (Pipeline: {pipeline})")
     results_table.add_column("Task ID", style="cyan")
     results_table.add_column("TPS", justify="right")
     results_table.add_column("Gold Keys", justify="right")
     results_table.add_column("System Keys", justify="right")
+    results_table.add_column("Status", justify="center")
 
     params = {"pipeline": pipeline}
     if model:
         params["model"] = model
 
+    participant_info = {"team_name": "Unknown", "institution": "Unknown"}
+
     with httpx.Client(timeout=60.0) as client:
-        # Check /info first
+        # 1. Fetch Participant Info
         try:
             info_resp = client.get(f"{url}/info")
             info_resp.raise_for_status()
-            console.print(f"Auditing Team: [bold magenta]{info_resp.json()['team_name']}[/bold magenta]")
-        except Exception:
-            console.print("[yellow]Could not retrieve participant info.[/yellow]")
+            participant_info = info_resp.json()
+            console.print(
+                f"Auditing Team: [bold magenta]{participant_info.get('team_name', 'Unknown')}[/bold magenta]"
+            )
+        except Exception as e:
+            console.print(f"[yellow]Could not retrieve participant info: {e}[/yellow]")
 
+        # 2. Process Tasks
         for file_path in track(json_files, description="Processing tasks..."):
+            task = None
             try:
                 task = Task.load(file_path)
                 # Call agent
                 resp = client.post(
-                    f"{url}/run", 
-                    json=task.model_dump(mode="json"),
-                    params=params
+                    f"{url}/run", json=task.model_dump(mode="json"), params=params
                 )
                 resp.raise_for_status()
                 system_output = resp.json()
@@ -80,16 +89,34 @@ def eval(
                 )
                 g_count = len(flatten_json(task.output))
                 s_count = len(flatten_json(system_output))
+                status = "PASS"
 
-                tps_list.append(tps)
-                gold_counts.append(g_count)
-                system_counts.append(s_count)
-
-                results_table.add_row(task.id, f"{tps:.2f}", str(g_count), str(s_count))
             except Exception as e:
-                console.print(f"[yellow]Skipping {file_path.name}: {e}[/yellow]")
+                # Penalize failures with 0 score
+                status = "FAIL"
+                tps = 0.0
+                s_count = 0
+                g_count = len(flatten_json(task.output)) if task else 0
+                console.print(f"[bold red]Error processing {file_path.name}:[/bold red] {e}")
 
-    # Calculate final metrics
+            tps_list.append(tps)
+            gold_counts.append(g_count)
+            system_counts.append(s_count)
+
+            if task:
+                results_table.add_row(
+                    task.id, f"{tps:.2f}", str(g_count), str(s_count), 
+                    f"[green]{status}[/green]" if status == "PASS" else f"[red]{status}[/red]"
+                )
+                individual_results.append({
+                    "task_id": task.id,
+                    "tps": tps,
+                    "gold_keys": g_count,
+                    "system_keys": s_count,
+                    "status": status
+                })
+
+    # 3. Calculate final metrics
     metrics = evaluator.calculate_metrics(tps_list, gold_counts, system_counts)
 
     console.print(results_table)
@@ -99,6 +126,22 @@ def eval(
     summary_table.add_row("Recall", f"{metrics['recall']:.4f}")
     summary_table.add_row("Micro-F1", f"[bold green]{metrics['f1']:.4f}[/bold green]")
     console.print(summary_table)
+
+    # 4. Export JSON Report
+    if output:
+        report = {
+            "participant": participant_info,
+            "config": {
+                "model": model,
+                "pipeline": pipeline,
+                "data_source": str(data.absolute())
+            },
+            "metrics": metrics,
+            "tasks": individual_results
+        }
+        with open(output, "w", encoding="utf-8") as f:
+            json.dump(report, f, indent=2, ensure_ascii=False)
+        console.print(f"\n[bold blue]Report saved to {output}[/bold blue]")
 
 
 if __name__ == "__main__":

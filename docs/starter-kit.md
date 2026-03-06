@@ -58,10 +58,13 @@ gensie serve --port 8000
 This launches your agent at `http://localhost:8000`.
 
 ### Running Local Benchmarks
-You can test your performance against the starter data. The `eval` command will automatically pass the `--model` flag to your agent, simulating the evaluator's behavior:
+You can test your performance against the starter data. The `eval` command will automatically pass the `--model` flag to your agent, simulating the evaluator's behavior. You can also generate a JSON report for later analysis:
 ```bash
-gensie eval --data data/starter/ --url http://localhost:8000 --pipeline baseline --model gpt-4o-mini
+gensie eval --data data/starter/ --url http://localhost:8000 --pipeline baseline --model gpt-4o-mini --output report.json
 ```
+
+!!! note "Error Penalization"
+    If your agent fails to process a task (e.g., returns a 500 error or crashes), the evaluation engine will **penalize** the result with a 0 score for that instance. The task remains in the denominator for Recall calculation, effectively lowering your overall F1 score.
 
 !!! note "First Run & Embeddings"
     On its first run, `gensie eval` will automatically download the lightweight `BAAI/bge-small-en-v1.5` embedding model via `fastembed`. This is used for fast semantic similarity calculations on your CPU. The official leaderboard evaluation will use a more robust, heavier model (e.g., `paraphrase-multilingual-mpnet-base-v2`).
