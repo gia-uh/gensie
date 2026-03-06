@@ -52,16 +52,20 @@ You can test your performance against the starter data. The `eval` command will 
 gensie eval --data data/starter/ --url http://localhost:8000 --pipeline baseline --model gpt-4o-mini
 ```
 
-!!! note "Evaluation Embeddings"
-    The local `gensie eval` command uses the lightweight `BAAI/bge-small-en-v1.5` model via `fastembed` for fast semantic similarity calculations on your CPU. The official leaderboard evaluation will use a more robust, heavier model (e.g., `paraphrase-multilingual-mpnet-base-v2`).
+!!! note "First Run & Embeddings"
+    On its first run, `gensie eval` will automatically download the lightweight `BAAI/bge-small-en-v1.5` embedding model via `fastembed`. This is used for fast semantic similarity calculations on your CPU. The official leaderboard evaluation will use a more robust, heavier model (e.g., `paraphrase-multilingual-mpnet-base-v2`).
 
 ## 5. How to Hack
 
 To start building your own solution:
-1.  **Create a new agent class** in `src/gensie/` that inherits from `GenSIEAgent`.
-2.  **Implement the `run(task: Task)` method** with your custom logic (Prompting, RAG, etc.).
-3.  **Register your agent** in the `OfficialParticipant` class inside `baseline.py`.
-4.  **Iterate** using `gensie serve` and `gensie eval`.
+1.  **Configure Inference:** Before launching your container, ensure your `.env` file points to a valid backend. You can host a local model using [**LMStudio**](https://lmstudio.ai/) or connect to an external provider by setting `OPENAI_BASE_URL` and `OPENAI_API_KEY`.
+2.  **Launch:** Start the environment:
+    ```bash
+    docker compose up --build
+    ```
+3.  **Implement:** Create a new agent class in `src/gensie/` that inherits from `GenSIEAgent`.
+4.  **Register:** Add your agent to the `OfficialParticipant` class inside `baseline.py`.
+5.  **Benchmark:** Run `gensie eval` to see your progress.
 
 !!! tip "Fast Iteration with Docker"
     The provided `Dockerfile` installs the package in **editable mode**. You can use **Docker Compose** to build and run your agent with local volume mounting and environment variables pre-configured:
