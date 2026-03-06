@@ -1,9 +1,8 @@
 import typer
 import uvicorn
 import httpx
-import json
 from pathlib import Path
-from typing import List, Optional
+from typing import Optional
 from rich.console import Console
 from rich.table import Table
 from rich.progress import track

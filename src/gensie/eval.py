@@ -1,5 +1,4 @@
-import numpy as np
-from typing import Any, Dict, List, Set, Union
+from typing import Any, Dict, List
 from sentence_transformers import SentenceTransformer
 from sklearn.metrics.pairwise import cosine_similarity
 import re
@@ -89,8 +88,7 @@ class Evaluator:
         s_flat = flatten_json(system)
         
         tps = 0.0
-        all_keys = set(g_flat.keys()).union(set(s_flat.keys()))
-        
+
         for k in g_flat:
             if k in s_flat:
                 # Determine if rigid based on key name/schema
