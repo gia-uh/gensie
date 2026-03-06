@@ -53,11 +53,19 @@ The task challenges participants to use **Small Language Models (SLMs)** and inf
 </div>
 
 
+## Resources
+
+Explore our technical documentation to get started:
+
+*   🚀 [**Starter Kit**](./starter-kit.md): Baselines, local evaluation, and example data.
+*   📂 [**Submission Guidelines**](./submission.md): Official technical requirements for your entry.
+*   📊 [**Task Description**](./description.md): Detailed metrics and constraints.
+
 ## Schedule
 
 | Date | Event |
 | :--- | :--- |
-| ⚠️ **March 09, 2026** | 🚀 **Starter Kit Release** (Baselines, Docker templates, 30-example Dev Set) |
+| ✅ **March 06, 2026** | 🚀 **Starter Kit Released** ([View Guide](./starter-kit.md)) |
 | **April 01, 2026** | 📂 **Full Development Set** (Remaining 170 examples) |
 | **May 08, 2026** | 🛑 **Submission Deadline** (Docker containers) |
 | **May 09, 2026** | 🔓 **Test Set Release** (For local error analysis) |
@@ -76,6 +84,8 @@ The task challenges participants to use **Small Language Models (SLMs)** and inf
 The rise of **Agentic Workflows** has created a massive demand for systems that can communicate via structured protocols. To identify user intent, invoke external tools, or exchange information, an AI must output rigid, error-free structured data.
 
 While massive proprietary models (like GPT-5) solve this through scale, **GenSIE** targets the innovation gap in **Small Language Models (<14B)**. We aim to prove that with clever engineering (Chain-of-Thought, ReAct, Constrained Decoding), commodity hardware can perform complex structured extraction reliably.
+
+Furthermore, we aim to prioritize efficiency and sustainability to ensure that high-performance extraction pipelines remain deployable in real-world scenarios. By focusing on models that run on consumer-grade hardware, we promote sustainable AI and cost-effective solutions that are accessible to smaller research groups and industry practitioners.
 
 ## Organizing Committee
 

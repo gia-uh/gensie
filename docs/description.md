@@ -18,6 +18,10 @@ The system must generate a **valid JSON object** that:
 2.  Contains information faithfully extracted from the `Context`.
 3.  **Returns `null`** for information not present (Hallucination Check).
 
+## Grounding & Hallucination Traps
+
+A critical aspect of GenSIE is evaluating the model's ability to remain strictly grounded in the source text. To test this, we design specific schema fields that ask for information **not present** in the input context—even if that information is widely known (e.g., asking for the specific date of a famous historical event when the text only mentions the year). In such cases, the system must explicitly return a `null` value. The frequency of these "null" targets will be kept intentionally low to prevent systems from artificially inflating their scores by defaulting to empty outputs, but their presence is vital for penalizing parametric hallucinations. This design enforces a strict "retrieval-only" behavior essential for reliable, trustworthy downstream applications.
+
 ## Example Instance
 
 !!! example "Input Context"
@@ -51,14 +55,14 @@ The system must generate a **valid JSON object** that:
 
 Note that `clinical_outcome` requires **semantic reasoning** mapping "94.1%" to the enum `POSITIVE`, as explained in the instructions. These semantic reasoning subproblems can range in complexity.
 
-## The Zero-Shot Constraint
+## The Zero-Shot Challenge
 
-This is a **Zero-Shot Schema** task.
+A crucial aspect of the GenSIE challenge is that it is a **zero-shot schema** task.
 
-* **Development Phase:** You will see schemas like `Biography`, `Recipe`, and others.
-* **Test Phase:** You will encounter **entirely new schemas** (e.g., `LegalContract`, `ProductSpec`, and others).
+* **Development Phase:** Participants will be given examples with a set of schemas (e.g., `Event`, `Biography`, `Recipe`).
+* **Test Phase:** The private evaluation set will contain **entirely new schemas** (e.g., `LegalContract`, `MedicalProcedure`, `ProductSpec`) that the model has not seen in the training data, along with some schemas that were present in the development set.
 
-Your system must generalize to the *structure*, not memorize the entity types.
+This forces participants to build systems that can generalize to *any* structure, rather than overfitting to specific entity types. You must leverage the schema's field names, types, and descriptions dynamically at inference time.
 
 ## Evaluation Metrics
 
