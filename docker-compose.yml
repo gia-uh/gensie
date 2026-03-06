@@ -9,8 +9,8 @@ services:
       - .env
     environment:
       - PARTICIPANT_PATH=${PARTICIPANT_PATH:-gensie.baseline.OfficialParticipant}
-      - AGENT_MODEL=${AGENT_MODEL:-gpt-4o-mini}
       - OPENAI_BASE_URL=${OPENAI_BASE_URL}
       - OPENAI_API_KEY=${OPENAI_API_KEY}
+
     # Using reload mode for faster development
     command: ["serve", "--host", "0.0.0.0", "--port", "8000"]

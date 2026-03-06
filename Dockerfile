@@ -29,7 +29,6 @@ ENV PATH="/app/gensie-lib/.venv/bin:$PATH"
 
 # Set default environment variables for the agent
 ENV PARTICIPANT_PATH="gensie.baseline.OfficialParticipant"
-ENV AGENT_MODEL="gpt-4o-mini"
 ENV OPENAI_BASE_URL=""
 ENV OPENAI_API_KEY="sk-dummy"
 

@@ -21,7 +21,7 @@ class GenSIEAgent(ABC):
     """
 
     @abstractmethod
-    def run(self, task: Task) -> Dict[str, Any]:
+    def run(self, task: Task, model: str) -> Dict[str, Any]:
         """
         Processes a single Task and returns the extracted JSON data.
         The returned dictionary must adhere to task.target_schema.

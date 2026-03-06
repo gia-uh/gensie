@@ -31,28 +31,16 @@ async def info():
 
 @app.post("/run")
 async def run_task(
-    task: Task, 
+    task: Task,
     pipeline: str = Query("baseline", description="Name of the pipeline to execute"),
-    model: Optional[str] = Query(None, description="Optional model override for the agent")
+    model: str = Query(..., description="The exact model name to use for inference"),
 ) -> Dict[str, Any]:
-    """Executes the extraction task using the specified pipeline."""
+    """Executes the extraction task using the specified pipeline and model."""
     try:
         p = get_participant()
         agent = p.get_agent(pipeline)
-        
-        # If a model override is provided, we try to apply it
-        # This assumes agents can handle dynamic model switching or are initialized per request
-        # For the baseline BasicAgent, we'll re-initialize it if model changes, 
-        # but a better way is to pass the model to the run method.
-        # However, to keep GenSIEAgent.run signature simple, we check if the agent has a 'model' attr.
-        if model and hasattr(agent, 'model'):
-            # Temporary override logic: re-initialize if it's a BasicAgent or similar
-            # A more robust participant implementation would handle this.
-            from gensie.baseline import BasicAgent
-            if isinstance(agent, BasicAgent):
-                agent = BasicAgent(model=model)
 
-        result = agent.run(task)
+        result = agent.run(task, model=model)
         return result
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

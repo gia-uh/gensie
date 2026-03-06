@@ -25,7 +25,7 @@ def eval(
     data: Path = typer.Option(..., help="Path to directory containing JSON tasks"),
     url: str = typer.Option("http://localhost:8000", help="Agent service URL"),
     pipeline: str = typer.Option("baseline", help="Name of the pipeline to evaluate"),
-    model: Optional[str] = typer.Option(None, help="Model override for the agent"),
+    model: str = typer.Option(..., help="The exact model name to use for inference"),
     limit: Optional[int] = typer.Option(None, help="Limit the number of tasks to evaluate"),
 ):
     """Evaluates the agent against a local dataset."""

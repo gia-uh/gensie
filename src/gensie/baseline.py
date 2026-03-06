@@ -12,18 +12,15 @@ class BasicAgent(GenSIEAgent):
     Configurable via environment variables:
     - OPENAI_BASE_URL: (Optional) Custom endpoint for local LLMs.
     - OPENAI_API_KEY: (Required) Your API key.
-    - AGENT_MODEL: (Required) The model name to use.
     """
 
-    def __init__(self, model: str = None):
+    def __init__(self):
         self.client = OpenAI(
             base_url=os.getenv("OPENAI_BASE_URL"),
             api_key=os.getenv("OPENAI_API_KEY", "sk-dummy"),
         )
-        # Use provided model or fallback to env or default
-        self.model = model or os.getenv("AGENT_MODEL", "gpt-4o-mini")
 
-    def run(self, task: Task) -> Dict[str, Any]:
+    def run(self, task: Task, model: str) -> Dict[str, Any]:
         """
         Executes the extraction using OpenAI's response_format for strict schema compliance.
         """
@@ -31,7 +28,7 @@ class BasicAgent(GenSIEAgent):
 
         # Call OpenAI with the task's JSON schema
         response = self.client.chat.completions.create(
-            model=self.model,
+            model=model,
             messages=[
                 {"role": "system", "content": "You are a precise data extraction agent."},
                 {"role": "user", "content": prompt},
