@@ -5,6 +5,7 @@ To participate in GenSIE 2026, you must submit a **private GitHub repository** c
 ## 1. Submission Process
 
 To participate in GenSIE 2026, you must:
+
 1.  Maintain a **private GitHub repository** containing your full system and its environment configuration.
 2.  Open a **New Issue** in the official competition repository using the **[Competition Submission]** template.
 3.  Fill in your team name, participant details, and your repository URL.
