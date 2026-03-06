@@ -41,7 +41,8 @@ uv run gensie eval --data data/starter/ --url http://localhost:8000 --pipeline b
 
 1.  **Inherit from `GenSIEAgent`**: Implement your extraction logic in `src/gensie/`.
 2.  **Register your Pipelines**: Configure up to 3 pipelines in `OfficialParticipant` (see `src/gensie/baseline.py`).
-3.  **Dockerize**: Use the provided `Dockerfile` and `docker-compose.yml` for testing and final submission.
+3.  **Submit**: Open a [**Competition Submission Issue**](https://github.com/gia-uh/gensie/issues/new?template=submission.md) to register your team and repository.
+4.  **Dockerize**: Use the provided `Dockerfile` and `docker-compose.yml` for testing and final submission.
 
 ```bash
 docker compose up --build

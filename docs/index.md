@@ -59,6 +59,7 @@ Explore our technical documentation to get started:
 
 *   🚀 [**Starter Kit**](./starter-kit.md): Baselines, local evaluation, and example data.
 *   📂 [**Submission Guidelines**](./submission.md): Official technical requirements for your entry.
+*   📝 [**Submit Entry**](https://github.com/gia-uh/gensie/issues/new?template=submission.md): Open an issue to register your team.
 *   📊 [**Task Description**](./description.md): Detailed metrics and constraints.
 
 ## Schedule
