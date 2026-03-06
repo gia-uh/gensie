@@ -1,43 +1,63 @@
-# GenSIE 2026 - Organizing Repository
+# GenSIE 2026 Public Starter Kit
 
-**[GenSIE](https://uhgia.org/gensie) (General-purpose Schema-guided Information Extraction)** is a shared task for [IberLEF 2026](https://sites.google.com/view/iberlef-2026).
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Python 3.13+](https://img.shields.io/badge/python-3.13+-blue.svg)](https://www.python.org/downloads/)
+[![Docker](https://img.shields.io/badge/docker-ready-blue.svg)](./Dockerfile)
 
-This **monorepo** contains the entire lifecycle of the challenge:
-
-1.  **Public Website:** The documentation hosted on GitHub Pages.
-2.  **Starter Kit:** The Docker templates and baselines released to participants.
-3.  **Internal Tools:** Scripts for generating the Golden Dataset and running evaluations.
-
+**GenSIE (General-purpose Schema-guided Information Extraction)** is a shared task at [IberLEF 2026](https://sites.google.com/view/iberlef-2026). This repository provides the official starter kit for participants.
 
 ## 🚀 Quick Start
 
-This project uses [`uv`](https://github.com/astral-sh/uv) for fast dependency management.
-
-### 1. Setup
-
-```bash
-# Install dependencies (including dev & docs groups)
-uv sync
-
-```
-
-### 2. Website Development
-
-The website is built with **MkDocs Material**.
+### 1. Installation
+We recommend using [**uv**](https://github.com/astral-sh/uv) for fast dependency management:
 
 ```bash
-# Run the local dev server ([http://127.0.0.1:8000](http://127.0.0.1:8000))
-uv run mkdocs serve
-
-# Deploy to GitHub Pages (Manual Trigger)
-uv run mkdocs gh-deploy --force
-
+git clone <repository-url>
+cd gensie
+uv sync --group dev
 ```
 
-### 3. Data Generation (Internal)
+### 2. Configuration
+Create a `.env` file to configure your inference backend:
 
-**TODO;**
+```bash
+OPENAI_API_KEY="your-api-key"
+OPENAI_BASE_URL="http://localhost:1234/v1" # Optional: for local LLMs
+```
 
-## 📜 License
+### 3. Serving your Agent
+Start the FastAPI server:
+```bash
+uv run gensie serve --port 8000
+```
 
-This repository is licensed MIT.
+### 4. Running Benchmarks
+Evaluate your agent against the 40 starter instances:
+```bash
+uv run gensie eval --data data/starter/ --url http://localhost:8000 --pipeline baseline --model gpt-4o-mini
+```
+
+## 🛠️ How to Participate
+
+1.  **Inherit from `GenSIEAgent`**: Implement your extraction logic in `src/gensie/`.
+2.  **Register your Pipelines**: Configure up to 3 pipelines in `OfficialParticipant` (see `src/gensie/baseline.py`).
+3.  **Dockerize**: Use the provided `Dockerfile` and `docker-compose.yml` for testing and final submission.
+
+```bash
+docker compose up --build
+```
+
+## 📊 Dataset & Metrics
+
+The kit includes **40 silver-generated instances** for initial testing. Official metrics use **Flattened Schema Scoring** (Micro-F1), which combines exact matches for rigid fields and semantic similarity for free-text fields.
+
+## 📜 Documentation
+
+For more details, see our guides:
+*   🚀 [**Starter Kit Guide**](./docs/starter-kit.md)
+*   📂 [**Submission Guidelines**](./docs/submission.md)
+*   📊 [**Task Description**](./docs/description.md)
+
+## ⚖️ License
+
+This starter kit is licensed under the **MIT License**.
