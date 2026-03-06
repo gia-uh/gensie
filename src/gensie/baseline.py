@@ -2,7 +2,7 @@ import os
 import json
 from typing import Any, Dict
 from openai import OpenAI
-from gensie.agent import GenSIEAgent
+from gensie.agent import GenSIEAgent, Participant, ParticipantInfo, PipelineInfo
 from gensie.task import Task
 
 
@@ -15,12 +15,13 @@ class BasicAgent(GenSIEAgent):
     - AGENT_MODEL: (Required) The model name to use.
     """
 
-    def __init__(self):
+    def __init__(self, model: str = None):
         self.client = OpenAI(
             base_url=os.getenv("OPENAI_BASE_URL"),
             api_key=os.getenv("OPENAI_API_KEY", "sk-dummy"),
         )
-        self.model = os.getenv("AGENT_MODEL", "gpt-4o-mini")
+        # Use provided model or fallback to env or default
+        self.model = model or os.getenv("AGENT_MODEL", "gpt-4o-mini")
 
     def run(self, task: Task) -> Dict[str, Any]:
         """
@@ -53,10 +54,37 @@ class BasicAgent(GenSIEAgent):
             # Fallback for unexpected API errors
             return {"error": f"Failed to parse model response: {str(e)}"}
 
-    def get_info(self) -> Dict[str, Any]:
-        return {
-            "team_name": "GenSIE Baseline",
-            "institution": "Official",
-            "model_name": self.model,
-            "description": "Simple OpenAI-powered agent using Structured Outputs.",
+
+class OfficialParticipant(Participant):
+    """
+    Standard entry point for the competition.
+    Participants can configure up to 3 pipelines here.
+    """
+
+    def __init__(self):
+        # Default pipeline using the reference BasicAgent
+        self.pipelines = {
+            "baseline": BasicAgent(),
+            # "pipeline2": MyCustomAgent(arg1, arg2...),
+            # "pipeline3": AnotherAgent(...),
         }
+
+    def get_info(self) -> ParticipantInfo:
+        return ParticipantInfo(
+            team_name="GenSIE Baseline Team",
+            institution="Official",
+            pipelines=[
+                PipelineInfo(
+                    name="baseline",
+                    description="Standard OpenAI agent using structured outputs."
+                ),
+                # Add descriptions for your other pipelines here:
+                # PipelineInfo(name="pipeline2", description="My advanced RAG agent"),
+            ]
+        )
+
+    def get_agent(self, pipeline_name: str) -> GenSIEAgent:
+        if pipeline_name not in self.pipelines:
+            # Fallback to default if pipeline not found, or raise error
+            return self.pipelines["baseline"]
+        return self.pipelines[pipeline_name]
