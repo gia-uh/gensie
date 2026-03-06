@@ -1,0 +1,66 @@
+{
+  "id": "legal_legislation_002",
+  "input_text": "## Artículo 12\n\nLos españoles son mayores de edad a los dieciocho años.",
+  "instruction": "Analiza el texto para responder si los españoles alcanzan la mayoría de edad a los 16 años.",
+  "target_schema": {
+    "additionalProperties": false,
+    "description": "Performs binary legal reasoning based on a legislative text.\nComplexity: L8 (Logical Inference & Evidence Aggregation).",
+    "properties": {
+      "question": {
+        "description": "The specific question to be answered (e.g., 'Is the death penalty prohibited?')",
+        "title": "Question",
+        "type": "string"
+      },
+      "is_applicable": {
+        "description": "True if the condition described in the question is met or permitted by the text",
+        "title": "Is Applicable",
+        "type": "boolean"
+      },
+      "evidence_quotes": {
+        "description": "Direct verbatim fragments from the text that support the answer",
+        "items": {
+          "type": "string"
+        },
+        "title": "Evidence Quotes",
+        "type": "array"
+      },
+      "cited_articles": {
+        "description": "List of article identifiers involved (e.g., 'Art. 1', 'Art. 15')",
+        "items": {
+          "type": "string"
+        },
+        "title": "Cited Articles",
+        "type": "array"
+      },
+      "is_explicit": {
+        "description": "True if the answer is literally stated; False if it requires inference or synthesis",
+        "title": "Is Explicit",
+        "type": "boolean"
+      }
+    },
+    "required": [
+      "question",
+      "is_applicable",
+      "evidence_quotes",
+      "is_explicit"
+    ],
+    "title": "LegalInquiry",
+    "type": "object"
+  },
+  "output": {
+    "question": "¿Son los españoles mayores de edad a los 16 años?",
+    "is_applicable": false,
+    "evidence_quotes": [
+      "Los españoles son mayores de edad a los dieciocho años."
+    ],
+    "cited_articles": [
+      "Artículo 12"
+    ],
+    "is_explicit": true
+  },
+  "metadata": {
+    "source": "BOE-A-1978-31229.md",
+    "domain": "legal",
+    "subdomain": "legislation"
+  }
+}

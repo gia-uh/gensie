@@ -1,0 +1,66 @@
+{
+  "id": "legal_legislation_005",
+  "input_text": "## Artículo 63\n\n1. El Rey acredita a los embajadores y otros representantes diplomáticos. Los representantes extranjeros en España están acreditados ante él.\n\n2. Al Rey corresponde manifestar el consentimiento del Estado para obligarse internacionalmente por medio de tratados, de conformidad con la Constitución y las leyes.\n\n3. Al Rey corresponde, previa autorización de las Cortes Generales, declarar la guerra y hacer la paz.",
+  "instruction": "Analiza si el Rey puede declarar la guerra de forma unilateral sin aprobación de ninguna otra institución.",
+  "target_schema": {
+    "additionalProperties": false,
+    "description": "Performs binary legal reasoning based on a legislative text.\nComplexity: L8 (Logical Inference & Evidence Aggregation).",
+    "properties": {
+      "question": {
+        "description": "The specific question to be answered (e.g., 'Is the death penalty prohibited?')",
+        "title": "Question",
+        "type": "string"
+      },
+      "is_applicable": {
+        "description": "True if the condition described in the question is met or permitted by the text",
+        "title": "Is Applicable",
+        "type": "boolean"
+      },
+      "evidence_quotes": {
+        "description": "Direct verbatim fragments from the text that support the answer",
+        "items": {
+          "type": "string"
+        },
+        "title": "Evidence Quotes",
+        "type": "array"
+      },
+      "cited_articles": {
+        "description": "List of article identifiers involved (e.g., 'Art. 1', 'Art. 15')",
+        "items": {
+          "type": "string"
+        },
+        "title": "Cited Articles",
+        "type": "array"
+      },
+      "is_explicit": {
+        "description": "True if the answer is literally stated; False if it requires inference or synthesis",
+        "title": "Is Explicit",
+        "type": "boolean"
+      }
+    },
+    "required": [
+      "question",
+      "is_applicable",
+      "evidence_quotes",
+      "is_explicit"
+    ],
+    "title": "LegalInquiry",
+    "type": "object"
+  },
+  "output": {
+    "question": "¿Puede el Rey declarar la guerra sin autorización?",
+    "is_applicable": false,
+    "evidence_quotes": [
+      "previa autorización de las Cortes Generales"
+    ],
+    "cited_articles": [
+      "Artículo 63.3"
+    ],
+    "is_explicit": true
+  },
+  "metadata": {
+    "source": "BOE-A-1978-31229.md",
+    "domain": "legal",
+    "subdomain": "legislation"
+  }
+}

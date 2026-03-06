@@ -1,0 +1,81 @@
+{
+  "id": "legal_entities_001",
+  "input_text": "DON JUAN CARLOS I, REY DE ESPAÑA, A TODOS LOS QUE LA PRESENTE VIEREN Y ENTENDIEREN,\n\nSABED: QUE LAS CORTES HAN APROBADO Y EL PUEBLO ESPAÑOL RATIFICADO LA SIGUIENTE CONSTITUCIÓN:",
+  "instruction": "Extrae las entidades nombradas (personas, organizaciones, lugares) mencionadas en el encabezado de la Constitución.",
+  "target_schema": {
+    "$defs": {
+      "Entity": {
+        "additionalProperties": false,
+        "description": "A single named entity mention.",
+        "properties": {
+          "text": {
+            "description": "The verbatim text mention from the source",
+            "title": "Text",
+            "type": "string"
+          },
+          "label": {
+            "$ref": "#/$defs/EntityType",
+            "description": "The category of the entity"
+          }
+        },
+        "required": [
+          "text",
+          "label"
+        ],
+        "title": "Entity",
+        "type": "object"
+      },
+      "EntityType": {
+        "enum": [
+          "PERSON",
+          "ORGANIZATION",
+          "LOCATION",
+          "DATE",
+          "EVENT",
+          "MISCELLANEOUS"
+        ],
+        "title": "EntityType",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Extracts named entity mentions categorized by type in a single list.\nComplexity: L5 (Hierarchical Grouping).",
+    "properties": {
+      "entities": {
+        "description": "List of all recognized named entities",
+        "items": {
+          "$ref": "#/$defs/Entity"
+        },
+        "title": "Entities",
+        "type": "array"
+      }
+    },
+    "title": "NamedEntities",
+    "type": "object"
+  },
+  "output": {
+    "entities": [
+      {
+        "text": "JUAN CARLOS I",
+        "label": "PERSON"
+      },
+      {
+        "text": "CORTES",
+        "label": "ORGANIZATION"
+      },
+      {
+        "text": "ESPAÑA",
+        "label": "LOCATION"
+      },
+      {
+        "text": "CONSTITUCIÓN",
+        "label": "MISCELLANEOUS"
+      }
+    ]
+  },
+  "metadata": {
+    "source": "BOE-A-1978-31229.md",
+    "domain": "legal",
+    "subdomain": "legislation"
+  }
+}

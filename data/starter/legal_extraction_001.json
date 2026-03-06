@@ -1,0 +1,29 @@
+{
+  "id": "legal_extraction_001",
+  "input_text": "2. Los Estatutos podrán reconocer banderas y enseñas propias de las Comunidades Autónomas. Estas se utilizarán junto a la bandera de España en sus edificios públicos y en sus actos oficiales.\n\n\n\n## Artículo 5\n\nLa capital del Estado es la villa de Madrid.\n\n\n\n## Artículo 6\n\nLos partidos políticos expresan el pluralismo político, concurren a la formación y manifestación de la voluntad popular y son instrumento fundamental para la participación política. Su creación y el ejercicio de su actividad son libres dentro del respeto a la Constitución y a la ley. Su estructura interna y funcionamiento deberán ser democráticos.",
+  "instruction": "¿Cuál es la capital del Estado español?",
+  "target_schema": {
+    "additionalProperties": false,
+    "description": "Extracts a single verbatim fragment that answers the provided instruction.\nComplexity: L1 (Literal Extraction).",
+    "properties": {
+      "answer": {
+        "description": "The verbatim fragment from the source text that answers the question",
+        "title": "Answer",
+        "type": "string"
+      }
+    },
+    "required": [
+      "answer"
+    ],
+    "title": "TextAnswer",
+    "type": "object"
+  },
+  "output": {
+    "answer": "La capital del Estado es la villa de Madrid."
+  },
+  "metadata": {
+    "source": "BOE-A-1978-31229.md",
+    "domain": "legal",
+    "subdomain": "legislation"
+  }
+}

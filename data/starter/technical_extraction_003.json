@@ -1,0 +1,29 @@
+{
+  "id": "technical_extraction_003",
+  "input_text": "# VLC media player\n\nVLC media player es un reproductor y framework multimedia, libre y de código abierto desarrollado por el proyecto VideoLAN. Es un programa multiplataforma con versiones disponibles para muchos sistemas operativos, es capaz de reproducir casi cualquier formato de vídeo sin necesidad de instalar códecs externos y puede reproducir vídeos en formatos DVD, Bluray, a resoluciones normales, en alta definición o incluso en ultra alta definición o 4K.\nVLC es un reproductor de audio y vídeo capaz de reproducir muchos códecs y formatos de audio y vídeo, además de capacidad de streaming. Es software libre, distribuido bajo la licencia GPLv2.1+.​\n\n\n== Historia ==\nEl proyecto original de VideoLAN se inició como un proyecto académico en 1996, fue desarrollado como un cliente y servidor para transmitir vídeos en la red del campus universitario. Inicialmente fue desarrollado por estudiantes del École Centrale Paris, ahora es desarrollado por programadores de todo el planeta y es coordinado por la Organización sin ánimo de lucro VideoLAN.\nLas siglas VLC solía usarse para referirse a VideoLAN Client, pero como VLC no es solamente un cliente, esta sigla ya no se usa.​​ VLC es el cuarto programa más descargado en el sitio SourceForge.net.\nDesde el año 2009 el proyecto VLC se separa del École Centrale Paris y se desarrolla de forma independiente por el proyecto VideoLAN.\n\n\n=== Rama 0.x ===\nDespués de cinco años de desarrollo VLC fue liberado bajo licencia GPL el 1 de febrero del año 2001.\nVLC 0.5: En el año 2002 algunos desarrolladores decidieron tomar ventaja de «separadores» (demuxers) y códecs para poder transcodificar, esto se logró en el año 2003 en su versión 0.5, aunque no estaban incluidas en el programa.",
+  "instruction": "¿Bajo qué licencia se distribuye el software VLC?",
+  "target_schema": {
+    "additionalProperties": false,
+    "description": "Extracts a single verbatim fragment that answers the provided instruction.\nComplexity: L1 (Literal Extraction).",
+    "properties": {
+      "answer": {
+        "description": "The verbatim fragment from the source text that answers the question",
+        "title": "Answer",
+        "type": "string"
+      }
+    },
+    "required": [
+      "answer"
+    ],
+    "title": "TextAnswer",
+    "type": "object"
+  },
+  "output": {
+    "answer": "Es software libre, distribuido bajo la licencia GPLv2.1+."
+  },
+  "metadata": {
+    "source": "wiki_vlc_media_player.md",
+    "domain": "technical",
+    "subdomain": "software"
+  }
+}

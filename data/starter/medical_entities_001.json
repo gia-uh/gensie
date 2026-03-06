@@ -1,0 +1,77 @@
+{
+  "id": "medical_entities_001",
+  "input_text": "FICHA TECNICA PARACETAMOL/ CODEINA LEVEL 24mg/ml +2,40mg/ml SOLUCION ORAL [...] Paracetamol/codeína Level 24 mg/ml + 2,40 mg/ml solución oral.\n\n# 2. COMPOSICIÓN CUALITATIVA Y CUANTITATIVA",
+  "instruction": "Identifica los nombres de medicamentos y formatos mencionados en este fragmento.",
+  "target_schema": {
+    "$defs": {
+      "Entity": {
+        "additionalProperties": false,
+        "description": "A single named entity mention.",
+        "properties": {
+          "text": {
+            "description": "The verbatim text mention from the source",
+            "title": "Text",
+            "type": "string"
+          },
+          "label": {
+            "$ref": "#/$defs/EntityType",
+            "description": "The category of the entity"
+          }
+        },
+        "required": [
+          "text",
+          "label"
+        ],
+        "title": "Entity",
+        "type": "object"
+      },
+      "EntityType": {
+        "enum": [
+          "PERSON",
+          "ORGANIZATION",
+          "LOCATION",
+          "DATE",
+          "EVENT",
+          "MISCELLANEOUS"
+        ],
+        "title": "EntityType",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Extracts named entity mentions categorized by type in a single list.\nComplexity: L5 (Hierarchical Grouping).",
+    "properties": {
+      "entities": {
+        "description": "List of all recognized named entities",
+        "items": {
+          "$ref": "#/$defs/Entity"
+        },
+        "title": "Entities",
+        "type": "array"
+      }
+    },
+    "title": "NamedEntities",
+    "type": "object"
+  },
+  "output": {
+    "entities": [
+      {
+        "text": "PARACETAMOL",
+        "label": "MISCELLANEOUS"
+      },
+      {
+        "text": "CODEINA LEVEL",
+        "label": "MISCELLANEOUS"
+      },
+      {
+        "text": "PDF",
+        "label": "MISCELLANEOUS"
+      }
+    ]
+  },
+  "metadata": {
+    "source": "CIMA_61072.md",
+    "domain": "medical",
+    "subdomain": "drug_safety"
+  }
+}

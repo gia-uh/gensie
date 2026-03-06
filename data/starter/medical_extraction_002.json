@@ -1,0 +1,29 @@
+{
+  "id": "medical_extraction_002",
+  "input_text": "# 2. COMPOSICIÓN CUALITATIVA Y CUANTITATIVA\n\nCada comprimido recubierto contiene 650 mg de paracetamol.\n\nExcipientes con efecto conocido\n\nCada comprimido contiene 32,5 mg de aceite de ricino hidrogenado.\n\nPara consultar la lista completa de excipientes, ver sección 6.1.\n\n# 3. FORMA FARMACÉUTICA\n\nComprimido recubierto con película.\n\nComprimidos recubiertos, oblongos, biconvexos, de color blanco, con ranura por una cara y el código en la otra.",
+  "instruction": "¿Cuánto aceite de ricino contiene cada comprimido?",
+  "target_schema": {
+    "additionalProperties": false,
+    "description": "Extracts a single verbatim fragment that answers the provided instruction.\nComplexity: L1 (Literal Extraction).",
+    "properties": {
+      "answer": {
+        "description": "The verbatim fragment from the source text that answers the question",
+        "title": "Answer",
+        "type": "string"
+      }
+    },
+    "required": [
+      "answer"
+    ],
+    "title": "TextAnswer",
+    "type": "object"
+  },
+  "output": {
+    "answer": "Cada comprimido contiene 32,5 mg de aceite de ricino hidrogenado."
+  },
+  "metadata": {
+    "source": "CIMA_68066.md",
+    "domain": "medical",
+    "subdomain": "drug_safety"
+  }
+}

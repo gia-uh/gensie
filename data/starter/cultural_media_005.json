@@ -1,0 +1,143 @@
+{
+  "id": "cultural_media_005",
+  "input_text": "# Tenía dudas con la nueva serie de Guy Ritchie, pero 'El joven Sherlock' me ha convencido. La nueva versión del detective es desenfadada y muy entretenida [...] ## Como él no hay otro igual\n\nAmbientado en Oxford unos cuantos años antes de que Sherlock Holmes fuera una eminencia detectivesca, la serie nos lleva al misterioso robo de un incunable de la biblioteca de la universidad. Dispuesto a limpiar su nombre, Sherlock empieza a investigar descubriendo que el robo puede ser solo una distracción para algo más. De hecho, que no os engañen los títulos de los episodios (todos disponibles ya en la plataforma), ya que estamos ante el mismo misterio.\n\nUn misterio, si bien entretenido y deja bastante claro desde el comienzo que hay cierta conspiración, que va dejando una buena ristra de interrogantes en el espectador. Interrogantes más en el sentido de la perplejidad que va dejando algunas cosas en el desarrollo de la serie. No quiero meterme en spoilers pero cuando la respuesta a \"¿de qué ha servido esta acción?\" no se da, esto dice, a mi juicio, que no el guion no está del todo encajado. [...] Todo esto funciona gracias, sobre todo, a que la dinámica entre los personajes funciona muy bien. Casi de la manga, tenemos un colegueo imprevisto entre Sherlock y Moriarty y las interacciones entre ambos o las disputas con Mycroft logran que no prestes demasiada atención a las leves torpezas del guion. [...] A ratos intrigante, a ratos simplemente entretenida, creo que 'El joven Sherlock' no reinventa al personaje pero sí que ofrece una buena dosis de misterio y asesinato capaz de hacer que vayas viendo episodio a episodio sin que te des casi cuenta. [...] ",
+  "instruction": "Identifica la serie, plataforma de estreno, responsables creativos y valoración final destacando qué funciona y qué no.",
+  "target_schema": {
+    "$defs": {
+      "MediumType": {
+        "enum": [
+          "MOVIE",
+          "BOOK",
+          "TV_SERIES",
+          "VIDEO_GAME"
+        ],
+        "title": "MediumType",
+        "type": "string"
+      },
+      "Sentiment": {
+        "enum": [
+          "POSITIVE",
+          "NEUTRAL",
+          "NEGATIVE"
+        ],
+        "title": "Sentiment",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Extracts comprehensive metadata and subjective critique from a cultural review.\nComplexity: L5 (Opinion Distillation & Fact Aggregation).",
+    "properties": {
+      "work_title": {
+        "description": "The name of the movie, book, or series",
+        "title": "Work Title",
+        "type": "string"
+      },
+      "medium": {
+        "$ref": "#/$defs/MediumType",
+        "description": "The type of media being reviewed"
+      },
+      "director": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "The person who directed the film or series",
+        "title": "Director"
+      },
+      "main_cast": {
+        "description": "Key actors or performers mentioned in the review",
+        "items": {
+          "type": "string"
+        },
+        "title": "Main Cast",
+        "type": "array"
+      },
+      "release_year": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "The year the work was released",
+        "title": "Release Year"
+      },
+      "rating": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "The score given by the reviewer, normalized to a 0-10 scale",
+        "title": "Rating"
+      },
+      "sentiment": {
+        "$ref": "#/$defs/Sentiment",
+        "description": "Overall tone of the review"
+      },
+      "pros": {
+        "description": "Specific positive aspects highlighted by the critic",
+        "items": {
+          "type": "string"
+        },
+        "title": "Pros",
+        "type": "array"
+      },
+      "cons": {
+        "description": "Specific negative aspects or flaws mentioned",
+        "items": {
+          "type": "string"
+        },
+        "title": "Cons",
+        "type": "array"
+      },
+      "key_verdict": {
+        "description": "A concise summary of the final judgment (e.g., 'Una copia barata', 'Fascinante rareza')",
+        "title": "Key Verdict",
+        "type": "string"
+      }
+    },
+    "required": [
+      "work_title",
+      "medium",
+      "sentiment",
+      "key_verdict"
+    ],
+    "title": "MediaReview",
+    "type": "object"
+  },
+  "output": {
+    "work_title": "El joven Sherlock",
+    "medium": "TV_SERIES",
+    "director": "Matthew Parkhill",
+    "main_cast": [],
+    "sentiment": "POSITIVE",
+    "pros": [
+      "Desenfadada y muy entretenida",
+      "Dinámica entre los personajes funciona muy bien",
+      "Buena dosis de misterio y asesinato"
+    ],
+    "cons": [
+      "Costuras pueden echar para atrás",
+      "No reinventa al personaje"
+    ],
+    "key_verdict": "nueva versión del detective desenfadada y muy entretenida"
+  },
+  "metadata": {
+    "source": "espinof_tenia-dudas-nueva-serie-guy-ritchie-joven-sherlock-me-ha-convencido-nueva-version-detective-desenfadada-muy-entretenida.md",
+    "domain": "cultural",
+    "subdomain": "movie_reviews"
+  }
+}

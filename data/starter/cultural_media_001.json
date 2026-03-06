@@ -1,0 +1,147 @@
+{
+  "id": "cultural_media_001",
+  "input_text": "# 'Cleaner: Rescate Vertical' logra que Daisy Ridley brille como heroína de acción en un plagio desvergonzado de 'Jungla de cristal' [...] John McClane arrastrándose por el túnel de ventilación, en camiseta de tirantes, es pura historia del cine. A todos nos gusta 'Jungla de cristal', y los homenajes constantes no son sino una muestra de admiración absoluta. [...] fusilar el guion entero. Eso es lo que hace 'Cleaner: Rescate Vertical', una película que solo impresionará a los que nunca entraron en el Nakatomi. [...] Lo siento mucho por Daisy Ridley [...] Las peleas están bien coreografiadas y su actuación es más o menos cumplidora y carismática, pero ella, por más ganas que le ponga, no es la elección apropiada. [...] tras las cámaras de 'Cleaner' está uno de los mejores directores de acción de los 90 y los 00: Martin Campbell. [...] Esta tiene algunos momentos logrados de acción descerebrada, pero empañados por una continua sensación insípida: no sabe a nada, porque tampoco intenta siquiera hacerlo. [...] quedando tan solo un triste imitador de marca blanca.",
+  "instruction": "Extrae la información de la crítica de cine, identificando el título, director, reparto principal, valoración y veredicto final.",
+  "target_schema": {
+    "$defs": {
+      "MediumType": {
+        "enum": [
+          "MOVIE",
+          "BOOK",
+          "TV_SERIES",
+          "VIDEO_GAME"
+        ],
+        "title": "MediumType",
+        "type": "string"
+      },
+      "Sentiment": {
+        "enum": [
+          "POSITIVE",
+          "NEUTRAL",
+          "NEGATIVE"
+        ],
+        "title": "Sentiment",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Extracts comprehensive metadata and subjective critique from a cultural review.\nComplexity: L5 (Opinion Distillation & Fact Aggregation).",
+    "properties": {
+      "work_title": {
+        "description": "The name of the movie, book, or series",
+        "title": "Work Title",
+        "type": "string"
+      },
+      "medium": {
+        "$ref": "#/$defs/MediumType",
+        "description": "The type of media being reviewed"
+      },
+      "director": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "The person who directed the film or series",
+        "title": "Director"
+      },
+      "main_cast": {
+        "description": "Key actors or performers mentioned in the review",
+        "items": {
+          "type": "string"
+        },
+        "title": "Main Cast",
+        "type": "array"
+      },
+      "release_year": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "The year the work was released",
+        "title": "Release Year"
+      },
+      "rating": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "The score given by the reviewer, normalized to a 0-10 scale",
+        "title": "Rating"
+      },
+      "sentiment": {
+        "$ref": "#/$defs/Sentiment",
+        "description": "Overall tone of the review"
+      },
+      "pros": {
+        "description": "Specific positive aspects highlighted by the critic",
+        "items": {
+          "type": "string"
+        },
+        "title": "Pros",
+        "type": "array"
+      },
+      "cons": {
+        "description": "Specific negative aspects or flaws mentioned",
+        "items": {
+          "type": "string"
+        },
+        "title": "Cons",
+        "type": "array"
+      },
+      "key_verdict": {
+        "description": "A concise summary of the final judgment (e.g., 'Una copia barata', 'Fascinante rareza')",
+        "title": "Key Verdict",
+        "type": "string"
+      }
+    },
+    "required": [
+      "work_title",
+      "medium",
+      "sentiment",
+      "key_verdict"
+    ],
+    "title": "MediaReview",
+    "type": "object"
+  },
+  "output": {
+    "work_title": "Cleaner: Rescate Vertical",
+    "medium": "MOVIE",
+    "director": "Martin Campbell",
+    "main_cast": [
+      "Daisy Ridley"
+    ],
+    "sentiment": "NEGATIVE",
+    "pros": [
+      "Peleas bien coreografiadas",
+      "Actuación carismática de Daisy Ridley",
+      "Momentos logrados de acción descerebrada"
+    ],
+    "cons": [
+      "Plagio desvergonzado de 'Jungla de cristal'",
+      "Guion sin matices",
+      "Mano de Martin Campbell inexistente",
+      "Sensación insípida"
+    ],
+    "key_verdict": "triste imitador de marca blanca"
+  },
+  "metadata": {
+    "source": "espinof_cleaner-rescate-vertical-logra-que-daisy-ridley-brille-como-heroina-accion-plagio-desvergonzado-jungla-cristal.md",
+    "domain": "cultural",
+    "subdomain": "movie_reviews"
+  }
+}

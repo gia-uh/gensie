@@ -1,0 +1,66 @@
+{
+  "id": "legal_legislation_003",
+  "input_text": "## Artículo 17\n\n1. Toda persona tiene derecho a la libertad y a la seguridad. Nadie puede ser privado de su libertad, sino con la observancia de lo establecido en este artículo y en los casos y en la forma previstos en la ley.\n\n2. La detención preventiva no podrá durar más del tiempo estrictamente necesario para la realización de las averiguaciones tendentes al esclarecimiento de los hechos, y, en todo caso, en el plazo máximo de setenta y dos horas, el detenido deberá ser puesto en libertad o a disposición de la autoridad judicial.\n\n3. Toda persona detenida debe ser informada de forma inmediata, y de modo que le sea comprensible, de sus derechos y de las razones de su detención, no pudiendo ser obligada a declarar. Se garantiza la asistencia de abogado al detenido en las diligencias policiales y judiciales, en los términos que la ley establezca.\n\n4. La ley regulará un procedimiento de «habeas corpus» para producir la inmediata puesta a disposición judicial de toda persona detenida ilegalmente. Asimismo, por ley se determinará el plazo máximo de duración de la prisión provisional.",
+  "instruction": "Identifica si una persona detenida tiene el derecho a ser informada de sus derechos de manera inmediata.",
+  "target_schema": {
+    "additionalProperties": false,
+    "description": "Performs binary legal reasoning based on a legislative text.\nComplexity: L8 (Logical Inference & Evidence Aggregation).",
+    "properties": {
+      "question": {
+        "description": "The specific question to be answered (e.g., 'Is the death penalty prohibited?')",
+        "title": "Question",
+        "type": "string"
+      },
+      "is_applicable": {
+        "description": "True if the condition described in the question is met or permitted by the text",
+        "title": "Is Applicable",
+        "type": "boolean"
+      },
+      "evidence_quotes": {
+        "description": "Direct verbatim fragments from the text that support the answer",
+        "items": {
+          "type": "string"
+        },
+        "title": "Evidence Quotes",
+        "type": "array"
+      },
+      "cited_articles": {
+        "description": "List of article identifiers involved (e.g., 'Art. 1', 'Art. 15')",
+        "items": {
+          "type": "string"
+        },
+        "title": "Cited Articles",
+        "type": "array"
+      },
+      "is_explicit": {
+        "description": "True if the answer is literally stated; False if it requires inference or synthesis",
+        "title": "Is Explicit",
+        "type": "boolean"
+      }
+    },
+    "required": [
+      "question",
+      "is_applicable",
+      "evidence_quotes",
+      "is_explicit"
+    ],
+    "title": "LegalInquiry",
+    "type": "object"
+  },
+  "output": {
+    "question": "¿Tiene un detenido derecho a información inmediata sobre sus derechos?",
+    "is_applicable": true,
+    "evidence_quotes": [
+      "Toda persona detenida debe ser informada de forma inmediata, y de modo que le sea comprensible, de sus derechos"
+    ],
+    "cited_articles": [
+      "Artículo 17.3"
+    ],
+    "is_explicit": true
+  },
+  "metadata": {
+    "source": "BOE-A-1978-31229.md",
+    "domain": "legal",
+    "subdomain": "legislation"
+  }
+}

@@ -1,0 +1,151 @@
+{
+  "id": "cultural_media_002",
+  "input_text": "# Un espectáculo atrevido y extravagante. '¡La novia!' es una fascinante rareza de Hollywood, pero le falta desatarse aún más [...] Warner lleva ya un tiempo sorprendiéndonos. Ya el año pasado llegaron tanto la fallida 'Mickey 17' como la excelente 'Una batalla tras otra', pero se ve que con '¡La novia!' no lo vieron claro y decidieron retrasar su lanzamiento hasta este 6 de marzo de 2026. [...] segundo largometraje como directora de Maggie Gyllenhaal ha contado con 90 millones de presupuesto [...] monstruo de Frankenstein -inspirado Christian Bale- [...] aparición de Jessie Buckley como Mary Shelley [...] personaje de Jake Gyllenhaal [...] '¡La novia!' sigue siendo entretenida incluso entonces si es que llegas a conectar con lo que propone durante sus primeros minutos. De lo contrario, es probable que acabes odiando la película con todo tu alma [...] Yo me quedo más a medias, disfrutando de lo bueno, pero lamentándome de que vaya aún más allá.",
+  "instruction": "Extrae los detalles de la obra, incluyendo el año de estreno esperado, directora, reparto y puntos positivos/negativos destacados.",
+  "target_schema": {
+    "$defs": {
+      "MediumType": {
+        "enum": [
+          "MOVIE",
+          "BOOK",
+          "TV_SERIES",
+          "VIDEO_GAME"
+        ],
+        "title": "MediumType",
+        "type": "string"
+      },
+      "Sentiment": {
+        "enum": [
+          "POSITIVE",
+          "NEUTRAL",
+          "NEGATIVE"
+        ],
+        "title": "Sentiment",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Extracts comprehensive metadata and subjective critique from a cultural review.\nComplexity: L5 (Opinion Distillation & Fact Aggregation).",
+    "properties": {
+      "work_title": {
+        "description": "The name of the movie, book, or series",
+        "title": "Work Title",
+        "type": "string"
+      },
+      "medium": {
+        "$ref": "#/$defs/MediumType",
+        "description": "The type of media being reviewed"
+      },
+      "director": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "The person who directed the film or series",
+        "title": "Director"
+      },
+      "main_cast": {
+        "description": "Key actors or performers mentioned in the review",
+        "items": {
+          "type": "string"
+        },
+        "title": "Main Cast",
+        "type": "array"
+      },
+      "release_year": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "The year the work was released",
+        "title": "Release Year"
+      },
+      "rating": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "The score given by the reviewer, normalized to a 0-10 scale",
+        "title": "Rating"
+      },
+      "sentiment": {
+        "$ref": "#/$defs/Sentiment",
+        "description": "Overall tone of the review"
+      },
+      "pros": {
+        "description": "Specific positive aspects highlighted by the critic",
+        "items": {
+          "type": "string"
+        },
+        "title": "Pros",
+        "type": "array"
+      },
+      "cons": {
+        "description": "Specific negative aspects or flaws mentioned",
+        "items": {
+          "type": "string"
+        },
+        "title": "Cons",
+        "type": "array"
+      },
+      "key_verdict": {
+        "description": "A concise summary of the final judgment (e.g., 'Una copia barata', 'Fascinante rareza')",
+        "title": "Key Verdict",
+        "type": "string"
+      }
+    },
+    "required": [
+      "work_title",
+      "medium",
+      "sentiment",
+      "key_verdict"
+    ],
+    "title": "MediaReview",
+    "type": "object"
+  },
+  "output": {
+    "work_title": "¡La novia!",
+    "medium": "MOVIE",
+    "director": "Maggie Gyllenhaal",
+    "main_cast": [
+      "Christian Bale",
+      "Jessie Buckley",
+      "Jake Gyllenhaal"
+    ],
+    "release_year": 2026,
+    "sentiment": "NEUTRAL",
+    "pros": [
+      "Espectáculo atrevido y extravagante",
+      "Fascinante rareza",
+      "Entretenida si conectas con la propuesta",
+      "Reparto disfruta con sus personajes"
+    ],
+    "cons": [
+      "Le falta desatarse aún más",
+      "Se queda en una extraña tierra de nadie",
+      "Maggie Gyllenhaal le falta mayor ímpetu tras las cámaras",
+      "Empieza a repetirse a sí misma"
+    ],
+    "key_verdict": "fascinante rareza de Hollywood, pero le falta desatarse aún más"
+  },
+  "metadata": {
+    "source": "espinof_espectaculo-atrevido-extravagante-novia-fascinante-rareza-hollywood-le-falta-desatarse.md",
+    "domain": "cultural",
+    "subdomain": "movie_reviews"
+  }
+}

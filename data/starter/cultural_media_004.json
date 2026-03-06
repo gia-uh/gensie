@@ -1,0 +1,149 @@
+{
+  "id": "cultural_media_004",
+  "input_text": "# 'El mago del Kremlin' cuenta con el carisma de Jude Law y Paul Dano, pero se queda a medio gas y no es el gran drama sobre el ascenso de Putin que prometía [...] dirigida por Olivier Assayas, es una película que adapta la novela de Giuliano da Empoli [...] La premisa es potente [...] reparto es impecable sobre el papel. [...] lo que podría haber sido un thriller político vibrante termina convertido en un ejercicio cerebral, elegante y ambicioso, pero también gélido y desigual [...] Paul Dano nos ofrece una interpretación contenida y precisa [...] Jude Law, en cambio, es electrizante. [...] La fotografía de Yorick Le Saux envuelve Moscú en tonos invernales elegantes [...] rompecabezas político muy elegante con poca sustancia.",
+  "instruction": "Extrae los datos de la película, incluyendo director, fotografía, reparto y una evaluación de sus pros y contras según el autor.",
+  "target_schema": {
+    "$defs": {
+      "MediumType": {
+        "enum": [
+          "MOVIE",
+          "BOOK",
+          "TV_SERIES",
+          "VIDEO_GAME"
+        ],
+        "title": "MediumType",
+        "type": "string"
+      },
+      "Sentiment": {
+        "enum": [
+          "POSITIVE",
+          "NEUTRAL",
+          "NEGATIVE"
+        ],
+        "title": "Sentiment",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Extracts comprehensive metadata and subjective critique from a cultural review.\nComplexity: L5 (Opinion Distillation & Fact Aggregation).",
+    "properties": {
+      "work_title": {
+        "description": "The name of the movie, book, or series",
+        "title": "Work Title",
+        "type": "string"
+      },
+      "medium": {
+        "$ref": "#/$defs/MediumType",
+        "description": "The type of media being reviewed"
+      },
+      "director": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "The person who directed the film or series",
+        "title": "Director"
+      },
+      "main_cast": {
+        "description": "Key actors or performers mentioned in the review",
+        "items": {
+          "type": "string"
+        },
+        "title": "Main Cast",
+        "type": "array"
+      },
+      "release_year": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "The year the work was released",
+        "title": "Release Year"
+      },
+      "rating": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "The score given by the reviewer, normalized to a 0-10 scale",
+        "title": "Rating"
+      },
+      "sentiment": {
+        "$ref": "#/$defs/Sentiment",
+        "description": "Overall tone of the review"
+      },
+      "pros": {
+        "description": "Specific positive aspects highlighted by the critic",
+        "items": {
+          "type": "string"
+        },
+        "title": "Pros",
+        "type": "array"
+      },
+      "cons": {
+        "description": "Specific negative aspects or flaws mentioned",
+        "items": {
+          "type": "string"
+        },
+        "title": "Cons",
+        "type": "array"
+      },
+      "key_verdict": {
+        "description": "A concise summary of the final judgment (e.g., 'Una copia barata', 'Fascinante rareza')",
+        "title": "Key Verdict",
+        "type": "string"
+      }
+    },
+    "required": [
+      "work_title",
+      "medium",
+      "sentiment",
+      "key_verdict"
+    ],
+    "title": "MediaReview",
+    "type": "object"
+  },
+  "output": {
+    "work_title": "El mago del Kremlin",
+    "medium": "MOVIE",
+    "director": "Olivier Assayas",
+    "main_cast": [
+      "Paul Dano",
+      "Jude Law"
+    ],
+    "sentiment": "NEUTRAL",
+    "pros": [
+      "Carisma de Jude Law y Paul Dano",
+      "Premisa potente",
+      "Ejercicio cerebral, elegante y ambicioso",
+      "Fotografía impecable de Yorick Le Saux"
+    ],
+    "cons": [
+      "Se queda a medio gas",
+      "Gélido y desigual",
+      "Falta de tensión",
+      "Distancia emocional constante"
+    ],
+    "key_verdict": "rompecabezas político muy elegante con poca sustancia"
+  },
+  "metadata": {
+    "source": "espinof_mago-kremlin-cuenta-carisma-jude-law-paul-dano-se-queda-a-medio-gas-no-gran-drama-ascenso-putin-que-esperaba-ver.md",
+    "domain": "cultural",
+    "subdomain": "movie_reviews"
+  }
+}

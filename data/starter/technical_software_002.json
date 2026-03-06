@@ -1,0 +1,135 @@
+{
+  "id": "technical_software_002",
+  "input_text": "# Blender [...] En sus orígenes en 1994, Blender era distribuido de forma gratuita pero sin el código fuente, hasta que en 2002 pasó a ser software libre. Actualmente es compatible con todas las versiones de Windows, macOS, GNU/Linux, Android, Solaris, FreeBSD e IRIX. [...] Debido a las decepcionantes ventas y al continuo clima de dificultades económicas, los nuevos inversores decidieron dar por terminadas las actividades de NaN. Esto también incluía parar el desarrollo de Blender. Si bien existían claramente defectos en la actual versión de Blender, con una arquitectura interna del software compleja, características inacabadas y una interfaz de usuario no muy común, la magnífica ayuda de la comunidad y los clientes que habían comprado Blender Publisher en el pasado provocó que Ton no pudiera permitir que Blender desapareciera en el olvido. Como relanzar una nueva compañía con un equipo suficientemente grande de desarrolladores no era factible, en marzo de 2002, Ton Roosendaal fundó la\norganización no lucrativa Blender Foundation (Fundación Blender). [...] El domingo 13 de octubre de 2002, Blender fue liberado al mundo bajo los términos de la Licencia Pública General de GNU v2 (GPL). El desarrollo de Blender continúa hasta nuestros días conducido por un equipo de voluntarios procedentes de diversas partes del mundo y liderados por el creador de Blender, Ton Roosendaal. De hecho, Blender se ha mantenido en la licencia \"GNU GPLv2 o superior\" intencionadamente no actualizándose a GPLv3, ante la ausencia de beneficios.​",
+  "instruction": "Identifica al creador y líder de Blender, así como las plataformas soportadas según el texto.",
+  "target_schema": {
+    "$defs": {
+      "SoftwareType": {
+        "enum": [
+          "ARCHIVER",
+          "WEB_BROWSER",
+          "OFFICE_SUITE",
+          "IDE_EDITOR",
+          "GRAPHICS_EDITOR",
+          "MEDIA_PLAYER",
+          "SYSTEM_TOOL",
+          "OTHER"
+        ],
+        "title": "SoftwareType",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Detailed technical description of a software application.\nComplexity: L9 (Adversarial Null Traps).",
+    "properties": {
+      "official_name": {
+        "description": "The full official name of the software",
+        "title": "Official Name",
+        "type": "string"
+      },
+      "app_category": {
+        "$ref": "#/$defs/SoftwareType",
+        "description": "The primary functional category of the app"
+      },
+      "license": {
+        "description": "The specific license mentioned (e.g., GPL, Proprietary)",
+        "title": "License",
+        "type": "string"
+      },
+      "platforms": {
+        "description": "Operating systems mentioned as supported (e.g., Windows, macOS, Linux)",
+        "items": {
+          "type": "string"
+        },
+        "title": "Platforms",
+        "type": "array"
+      },
+      "primary_developer": {
+        "description": "The individual or organization that developed the software",
+        "title": "Primary Developer",
+        "type": "string"
+      },
+      "features": {
+        "description": "List of specific technical capabilities or features mentioned",
+        "items": {
+          "type": "string"
+        },
+        "title": "Features",
+        "type": "array"
+      },
+      "exact_release_date": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "The EXACT date (DD/MM/YYYY) of the first release. RETURN NULL IF ONLY THE YEAR IS MENTIONED.",
+        "title": "Exact Release Date"
+      },
+      "latest_stable_version_sha256": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "The SHA256 checksum of the latest installer. RETURN NULL IF NOT EXPLICITLY IN THE TEXT.",
+        "title": "Latest Stable Version Sha256"
+      },
+      "current_ceo_name": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "The name of the current CEO of the developing organization. RETURN NULL IF NOT IN TEXT.",
+        "title": "Current Ceo Name"
+      }
+    },
+    "required": [
+      "official_name",
+      "app_category",
+      "license",
+      "primary_developer"
+    ],
+    "title": "SoftwareDescription",
+    "type": "object"
+  },
+  "output": {
+    "official_name": "Blender",
+    "app_category": "GRAPHICS_EDITOR",
+    "license": "Licencia Pública General de GNU v2 (GPL)",
+    "platforms": [
+      "Windows",
+      "macOS",
+      "GNU/Linux",
+      "Android",
+      "Solaris",
+      "FreeBSD",
+      "IRIX"
+    ],
+    "primary_developer": "Blender Foundation",
+    "features": [
+      "Software libre"
+    ],
+    "exact_release_date": null,
+    "latest_stable_version_sha256": null,
+    "current_ceo_name": "Ton Roosendaal"
+  },
+  "metadata": {
+    "source": "wiki_blender.md",
+    "domain": "technical",
+    "subdomain": "software"
+  }
+}

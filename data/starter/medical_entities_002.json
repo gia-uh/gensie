@@ -1,0 +1,81 @@
+{
+  "id": "medical_entities_002",
+  "input_text": "FICHA TECNICA PARACETAMOL CINFA 650 mg COMPRIMIDOS RECUBIERTOS CON PELICULA EFG [...] paracetamol cinfa 650 mg comprimidos recubiertos con película EFG\n\n# 2. COMPOSICIÓN CUALITATIVA Y CUANTITATIVA",
+  "instruction": "Extrae los nombres de medicamentos, laboratorios y formatos mencionados en este fragmento técnico.",
+  "target_schema": {
+    "$defs": {
+      "Entity": {
+        "additionalProperties": false,
+        "description": "A single named entity mention.",
+        "properties": {
+          "text": {
+            "description": "The verbatim text mention from the source",
+            "title": "Text",
+            "type": "string"
+          },
+          "label": {
+            "$ref": "#/$defs/EntityType",
+            "description": "The category of the entity"
+          }
+        },
+        "required": [
+          "text",
+          "label"
+        ],
+        "title": "Entity",
+        "type": "object"
+      },
+      "EntityType": {
+        "enum": [
+          "PERSON",
+          "ORGANIZATION",
+          "LOCATION",
+          "DATE",
+          "EVENT",
+          "MISCELLANEOUS"
+        ],
+        "title": "EntityType",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Extracts named entity mentions categorized by type in a single list.\nComplexity: L5 (Hierarchical Grouping).",
+    "properties": {
+      "entities": {
+        "description": "List of all recognized named entities",
+        "items": {
+          "$ref": "#/$defs/Entity"
+        },
+        "title": "Entities",
+        "type": "array"
+      }
+    },
+    "title": "NamedEntities",
+    "type": "object"
+  },
+  "output": {
+    "entities": [
+      {
+        "text": "Cinfa",
+        "label": "ORGANIZATION"
+      },
+      {
+        "text": "paracetamol cinfa",
+        "label": "MISCELLANEOUS"
+      },
+      {
+        "text": "comprimidos recubiertos con película",
+        "label": "MISCELLANEOUS"
+      },
+      {
+        "text": "EFG",
+        "label": "MISCELLANEOUS"
+      }
+    ]
+  },
+  "metadata": {
+    "source": "CIMA_68066.md",
+    "domain": "medical",
+    "subdomain": "drug_safety"
+  }
+}

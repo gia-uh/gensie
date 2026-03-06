@@ -1,0 +1,85 @@
+{
+  "id": "technical_entities_002",
+  "input_text": "# VLC media player [...] VLC media player es un reproductor y framework multimedia, libre y de código abierto desarrollado por el proyecto VideoLAN. Es un programa multiplataforma con versiones disponibles para muchos sistemas operativos, es capaz de reproducir casi cualquier formato de vídeo sin necesidad de instalar códecs externos y puede reproducir vídeos en formatos DVD, Bluray, a resoluciones normales, en alta definición o incluso en ultra alta definición o 4K.",
+  "instruction": "Extrae las entidades nombradas, incluyendo el nombre del software, el proyecto desarrollador y los formatos soportados.",
+  "target_schema": {
+    "$defs": {
+      "Entity": {
+        "additionalProperties": false,
+        "description": "A single named entity mention.",
+        "properties": {
+          "text": {
+            "description": "The verbatim text mention from the source",
+            "title": "Text",
+            "type": "string"
+          },
+          "label": {
+            "$ref": "#/$defs/EntityType",
+            "description": "The category of the entity"
+          }
+        },
+        "required": [
+          "text",
+          "label"
+        ],
+        "title": "Entity",
+        "type": "object"
+      },
+      "EntityType": {
+        "enum": [
+          "PERSON",
+          "ORGANIZATION",
+          "LOCATION",
+          "DATE",
+          "EVENT",
+          "MISCELLANEOUS"
+        ],
+        "title": "EntityType",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Extracts named entity mentions categorized by type in a single list.\nComplexity: L5 (Hierarchical Grouping).",
+    "properties": {
+      "entities": {
+        "description": "List of all recognized named entities",
+        "items": {
+          "$ref": "#/$defs/Entity"
+        },
+        "title": "Entities",
+        "type": "array"
+      }
+    },
+    "title": "NamedEntities",
+    "type": "object"
+  },
+  "output": {
+    "entities": [
+      {
+        "text": "VideoLAN",
+        "label": "ORGANIZATION"
+      },
+      {
+        "text": "VLC media player",
+        "label": "MISCELLANEOUS"
+      },
+      {
+        "text": "DVD",
+        "label": "MISCELLANEOUS"
+      },
+      {
+        "text": "Bluray",
+        "label": "MISCELLANEOUS"
+      },
+      {
+        "text": "4K",
+        "label": "MISCELLANEOUS"
+      }
+    ]
+  },
+  "metadata": {
+    "source": "wiki_vlc_media_player.md",
+    "domain": "technical",
+    "subdomain": "software"
+  }
+}

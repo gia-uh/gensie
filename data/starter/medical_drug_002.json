@@ -1,0 +1,156 @@
+{
+  "id": "medical_drug_002",
+  "input_text": "paracetamol cinfa 650 mg comprimidos recubiertos con película EFG [...] Adultos y adolescentes mayores de 15 años (y peso superior a 50 kg) [...] ## 4.8. Reacciones adversas [...] Raras (≥1/10.000 a <1/1.000) [...] Hipotensión [...] Niveles aumentados de transaminasas hepáticas [...] Malestar [...] Muy raras (<1/10.000) [...] Trombocitopenia, agranulocitosis, leucopenia, neutropenia, anemia hemolítica.",
+  "instruction": "Extrae la descripción estructurada del medicamento, incluyendo su uso en población pediátrica y la lista detallada de efectos adversos.",
+  "target_schema": {
+    "$defs": {
+      "FrequencyLevel": {
+        "enum": [
+          "HIGH",
+          "MEDIUM",
+          "LOW",
+          "UNKNOWN"
+        ],
+        "title": "FrequencyLevel",
+        "type": "string"
+      },
+      "ImpactLevel": {
+        "enum": [
+          "MILD",
+          "MODERATE",
+          "SEVERE",
+          "CRITICAL"
+        ],
+        "title": "ImpactLevel",
+        "type": "string"
+      },
+      "SideEffect": {
+        "additionalProperties": false,
+        "description": "Detailed description of an adverse reaction.",
+        "properties": {
+          "reaction": {
+            "description": "Name of the adverse effect in Spanish",
+            "title": "Reaction",
+            "type": "string"
+          },
+          "system_organ_class": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Affected body system (e.g., Trastornos vasculares)",
+            "title": "System Organ Class"
+          },
+          "probability": {
+            "$ref": "#/$defs/FrequencyLevel",
+            "description": "Frequency based on text: Raras/Muy raras -> LOW, Frecuentes -> HIGH"
+          },
+          "impact": {
+            "$ref": "#/$defs/ImpactLevel",
+            "description": "Inferred clinical severity of the reaction"
+          }
+        },
+        "required": [
+          "reaction",
+          "probability",
+          "impact"
+        ],
+        "title": "SideEffect",
+        "type": "object"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Comprehensive structured description of a medication.\nComplexity: L8 (Nested Lists & Semantic Mapping).",
+    "properties": {
+      "common_name": {
+        "description": "The generic name of the active principle",
+        "title": "Common Name",
+        "type": "string"
+      },
+      "official_name": {
+        "description": "The full commercial or official name of the drug",
+        "title": "Official Name",
+        "type": "string"
+      },
+      "pharmaceutical_format": {
+        "description": "The physical form (e.g., Comprimido, Cápsula, Solución)",
+        "title": "Pharmaceutical Format",
+        "type": "string"
+      },
+      "standard_doses": {
+        "description": "List of available strengths or doses mentioned (e.g., ['1 g', '500 mg'])",
+        "items": {
+          "type": "string"
+        },
+        "title": "Standard Doses",
+        "type": "array"
+      },
+      "is_pediatric": {
+        "description": "True if the drug is indicated for children or infants",
+        "title": "Is Pediatric",
+        "type": "boolean"
+      },
+      "side_effects": {
+        "description": "Structured list of all adverse reactions found in section 4.8",
+        "items": {
+          "$ref": "#/$defs/SideEffect"
+        },
+        "title": "Side Effects",
+        "type": "array"
+      }
+    },
+    "required": [
+      "common_name",
+      "official_name",
+      "pharmaceutical_format",
+      "is_pediatric"
+    ],
+    "title": "DrugDescription",
+    "type": "object"
+  },
+  "output": {
+    "common_name": "Paracetamol",
+    "official_name": "paracetamol cinfa 650 mg comprimidos recubiertos con película EFG",
+    "pharmaceutical_format": "Comprimido recubierto con película",
+    "standard_doses": [
+      "650 mg"
+    ],
+    "is_pediatric": false,
+    "side_effects": [
+      {
+        "reaction": "Hipotensión",
+        "system_organ_class": "Trastornos vasculares",
+        "probability": "LOW",
+        "impact": "MODERATE"
+      },
+      {
+        "reaction": "Niveles aumentados de transaminasas hepáticas",
+        "system_organ_class": "Trastornos hepatobiliares",
+        "probability": "LOW",
+        "impact": "MODERATE"
+      },
+      {
+        "reaction": "Malestar",
+        "system_organ_class": "Trastornos generales",
+        "probability": "LOW",
+        "impact": "MILD"
+      },
+      {
+        "reaction": "Trombocitopenia",
+        "system_organ_class": "Trastornos de la sangre",
+        "probability": "LOW",
+        "impact": "SEVERE"
+      }
+    ]
+  },
+  "metadata": {
+    "source": "CIMA_68066.md",
+    "domain": "medical",
+    "subdomain": "drug_safety"
+  }
+}

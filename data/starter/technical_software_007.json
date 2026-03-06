@@ -1,0 +1,128 @@
+{
+  "id": "technical_software_007",
+  "input_text": "# GIMP [...] Los iniciadores del desarrollo de GIMP en 1995 fueron los estudiantes Spencer Kimball y Peter Mattis como un ejercicio semestral en la Universidad de Berkeley en el club informático de estudiantes.​ La primera versión de GIMP se desarrolló inicialmente en sistemas Unix y fue pensada especialmente para GNU/Linux como una herramienta libre para trabajar con imágenes.​ [...] La versión 1.0 de GIMP se publicó el 5 de junio de 1998.",
+  "instruction": "Extrae los nombres de los desarrolladores originales de GIMP y su fecha de lanzamiento oficial 1.0.",
+  "target_schema": {
+    "$defs": {
+      "SoftwareType": {
+        "enum": [
+          "ARCHIVER",
+          "WEB_BROWSER",
+          "OFFICE_SUITE",
+          "IDE_EDITOR",
+          "GRAPHICS_EDITOR",
+          "MEDIA_PLAYER",
+          "SYSTEM_TOOL",
+          "OTHER"
+        ],
+        "title": "SoftwareType",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Detailed technical description of a software application.\nComplexity: L9 (Adversarial Null Traps).",
+    "properties": {
+      "official_name": {
+        "description": "The full official name of the software",
+        "title": "Official Name",
+        "type": "string"
+      },
+      "app_category": {
+        "$ref": "#/$defs/SoftwareType",
+        "description": "The primary functional category of the app"
+      },
+      "license": {
+        "description": "The specific license mentioned (e.g., GPL, Proprietary)",
+        "title": "License",
+        "type": "string"
+      },
+      "platforms": {
+        "description": "Operating systems mentioned as supported (e.g., Windows, macOS, Linux)",
+        "items": {
+          "type": "string"
+        },
+        "title": "Platforms",
+        "type": "array"
+      },
+      "primary_developer": {
+        "description": "The individual or organization that developed the software",
+        "title": "Primary Developer",
+        "type": "string"
+      },
+      "features": {
+        "description": "List of specific technical capabilities or features mentioned",
+        "items": {
+          "type": "string"
+        },
+        "title": "Features",
+        "type": "array"
+      },
+      "exact_release_date": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "The EXACT date (DD/MM/YYYY) of the first release. RETURN NULL IF ONLY THE YEAR IS MENTIONED.",
+        "title": "Exact Release Date"
+      },
+      "latest_stable_version_sha256": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "The SHA256 checksum of the latest installer. RETURN NULL IF NOT EXPLICITLY IN THE TEXT.",
+        "title": "Latest Stable Version Sha256"
+      },
+      "current_ceo_name": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "The name of the current CEO of the developing organization. RETURN NULL IF NOT IN TEXT.",
+        "title": "Current Ceo Name"
+      }
+    },
+    "required": [
+      "official_name",
+      "app_category",
+      "license",
+      "primary_developer"
+    ],
+    "title": "SoftwareDescription",
+    "type": "object"
+  },
+  "output": {
+    "official_name": "GIMP",
+    "app_category": "GRAPHICS_EDITOR",
+    "license": "herramienta libre",
+    "platforms": [
+      "Unix",
+      "GNU/Linux"
+    ],
+    "primary_developer": "Spencer Kimball y Peter Mattis",
+    "features": [],
+    "exact_release_date": "5 de junio de 1998",
+    "latest_stable_version_sha256": null,
+    "current_ceo_name": null
+  },
+  "metadata": {
+    "source": "wiki_gimp.md",
+    "domain": "technical",
+    "subdomain": "software"
+  }
+}
