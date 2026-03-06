@@ -22,6 +22,13 @@ During the evaluation period, the organizers will provide three open-source base
 *   **Small:** Salamandra 7b Instruct (native Spanish language model)
 *   **Medium:** Qwen 3 14b
 
+### Initial Benchmarks
+To provide a reference point for your experiments, we have performed internal testing on the **40 starter instances**:
+*   **Model:** `Meta-Llama-3.1-8B-Instruct`
+*   **Micro-F1:** `0.4126`
+
+While your mileage may vary depending on prompting and system configuration, this is a reasonable "lower baseline" to aim for. We will report official **Inter-Annotator Agreement (IAA)** and human performance metrics upon the release of the final test set.
+
 ## 3. Environment Setup
 
 We recommend using **`uv`** for dependency management. The environment is optimized for **CPU-only execution**, avoiding heavy ML frameworks.
