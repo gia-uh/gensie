@@ -26,23 +26,30 @@ During the evaluation period, the organizers will provide three open-source base
 
 ### Initial Benchmarks
 
-To provide a reference point for your experiments, we have performed internal testing on the **40 starter instances**:
+To provide a reference point for your experiments, we have performed internal testing on the **40 starter instances** using the provided zero-shot baseline:
 
-*   **Model:** `Meta-Llama-3.1-8B-Instruct`
-*   **Micro-F1:** `0.4126`
+| Model                    | Micro-F1 |
+| :----------------------- | -------: |
+| `llama-3.2-3b-instruct`  | `0.2950` |
+| `llama-3.1-8b-instruct`  | `0.3109` |
+| `gemini-3-flash-preview` | `0.4334` |
+| `llama-4-maverick`       | `0.4549` |
 
-While your mileage may vary depending on prompting and system configuration, this is a reasonable "lower baseline" to aim for. We will report official **Inter-Annotator Agreement (IAA)** and human performance metrics upon the release of the final test set.
+While your mileage may vary depending on prompting and system configuration, these are reasonable "lower baselines" to aim for. We will report official **Inter-Annotator Agreement (IAA)** and human performance metrics upon the release of the final test set.
 
 ## 3. Environment Setup
 
 We recommend using **`uv`** for dependency management. The environment is optimized for **CPU-only execution**, avoiding heavy ML frameworks.
 
 1.  **Install dependencies:**
+
     ```bash
     uv sync --group dev
     ```
 2.  **Configure Environment:**
+
     The evaluator will provide `OPENAI_API_KEY` and `OPENAI_BASE_URL` at runtime. For local development, create a `.env` file in the root of the `gensie` folder:
+
     ```bash
     OPENAI_API_KEY="your-api-key"
     OPENAI_BASE_URL="http://localhost:1234/v1" # Point to your local LMStudio or OpenAI
@@ -51,14 +58,18 @@ We recommend using **`uv`** for dependency management. The environment is optimi
 ## 4. Local Development Workflow
 
 ### Serving your Agent
+
 To make your agent available for evaluation, start the FastAPI server:
+
 ```bash
 gensie serve --port 8000
 ```
 This launches your agent at `http://localhost:8000`.
 
 ### Running Local Benchmarks
+
 You can test your performance against the starter data. The `eval` command will automatically pass the `--model` flag to your agent, simulating the evaluator's behavior. You can also generate a JSON report for later analysis:
+
 ```bash
 gensie eval --data data/starter/ --url http://localhost:8000 --pipeline baseline --model gpt-4o-mini --output report.json
 ```
@@ -84,10 +95,13 @@ To start building your own solution:
 
 !!! tip "Fast Iteration with Docker"
     The provided `Dockerfile` installs the package in **editable mode**. You can use **Docker Compose** to build and run your agent with local volume mounting and environment variables pre-configured:
+
     ```bash
     docker compose up --build
     ```
+
     This will:
+
     1. Build the agent image.
     2. Mount your local code so changes are reflected instantly (via FastAPI reload).
     3. Load your API keys from the `.env` file.
