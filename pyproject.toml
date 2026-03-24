@@ -10,6 +10,20 @@ dependencies = [
     "openai>=1.50.0",
     "typer>=0.12.5",
     "rich>=13.9.0",
+    "PyYAML>=6.0.2",
+]
+
+[project.optional-dependencies]
+local = [
+    "httpx>=0.27.0",
+    "fastembed>=0.3.0",
+    "pytest>=9.0.2",
+    "mkdocs>=1.6.1",
+    "mkdocs-material>=9.7.1",
+    "mkdocs-material-extensions>=1.3.1",
+]
+slurm = [
+    "vllm>=0.8.5",
 ]
 
 [dependency-groups]
@@ -23,6 +37,9 @@ docs = [
     "mkdocs-material>=9.7.1",
     "mkdocs-material-extensions>=1.3.1",
 ]
+slurm = [
+    "vllm>=0.8.5",
+]
 
 [build-system]
 requires = ["hatchling"]
@@ -30,6 +47,14 @@ build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/gensie"]
+
+[tool.hatch.build.targets.wheel.force-include]
+"src/gensie/slurm/profiles/base.toml" = "gensie/slurm/profiles/base.toml"
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "/src/gensie/slurm/profiles/base.toml",
+]
 
 [project.scripts]
 gensie = "gensie.cli:app"

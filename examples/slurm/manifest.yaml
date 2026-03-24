@@ -1,0 +1,3 @@
+evaluations:
+  - ./eval-8b.yaml
+  - ./eval-70b.yaml

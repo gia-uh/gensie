@@ -37,6 +37,49 @@ Evaluate your agent against the 40 starter instances:
 uv run gensie eval --data data/starter/ --url http://localhost:8000 --pipeline baseline --model gpt-4o-mini
 ```
 
+### Optional Conda Setup
+If you prefer conda, an additive environment definition is provided. This does not replace the existing `uv` or Docker workflows.
+
+```bash
+conda env create -f environment.yml
+conda activate gensie
+gensie serve --port 8000
+gensie eval --data data/starter/ --url http://localhost:8000 --pipeline baseline --model gpt-4o-mini
+```
+
+Conda installs the software and CLI only. Runtime credentials still come from environment variables, so export `OPENAI_API_KEY` and `OPENAI_BASE_URL` in your shell before running, or keep using Docker Compose which injects `.env` for you.
+
+### Optional Slurm + vLLM Evaluation
+For cluster-side evaluation, `gensie` now includes a focused `slurm` workflow that renders one job-local `vllm serve` process, one job-local `gensie serve` process, and then runs `gensie eval` against them.
+
+1. Copy the example profile and adjust it for your cluster:
+```bash
+mkdir -p .gensie/slurm/profiles
+cp examples/slurm/default.toml .gensie/slurm/profiles/default.toml
+```
+
+2. Render a single evaluation job:
+```bash
+gensie slurm eval render \
+  --profile default \
+  --spec examples/slurm/eval-8b.yaml
+```
+
+3. Submit a multi-model manifest as a Slurm array:
+```bash
+gensie slurm eval submit \
+  --profile default \
+  --manifest examples/slurm/manifest.yaml
+```
+
+4. Inspect the run:
+```bash
+gensie slurm status --run-id <run-id>
+gensie slurm logs --run-id <run-id> --stream out
+```
+
+The repository base profile already defaults to the shared Miniconda path `/home/gplsi/estevanell/miniconda3/bin/conda` and the `gensie` conda env. User-local profiles only need to provide cluster-specific scheduler values such as `partition`, `time`, and `memory`.
+
 ## 🛠️ How to Participate
 
 1.  **Inherit from `GenSIEAgent`**: Implement your extraction logic in `src/gensie/`.

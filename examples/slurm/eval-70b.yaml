@@ -1,0 +1,6 @@
+name: llama-3.3-70b-starter
+data_path: ../../data/starter
+pipeline: baseline
+participant_path: gensie.baseline.OfficialParticipant
+model_source: meta-llama/Llama-3.3-70B-Instruct
+served_model_name: meta-llama/Llama-3.3-70B-Instruct

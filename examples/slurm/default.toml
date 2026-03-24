@@ -1,0 +1,17 @@
+# Copy this file to `.gensie/slurm/profiles/default.toml` and adjust the
+# scheduler values for your cluster before submitting jobs.
+
+partition = "gpu"
+time = "04:00:00"
+memory = "80G"
+
+# Optional scheduler controls:
+# qos = "normal"
+# account = "research"
+# constraint = "a100"
+
+# Optional runtime controls:
+# gpus = 1
+# cpus_per_task = 8
+# vllm_max_model_len = 8192
+# required_env = ["HF_TOKEN"]

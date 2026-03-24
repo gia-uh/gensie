@@ -10,16 +10,26 @@ from rich.progress import track
 from collections import defaultdict
 from gensie.task import Task
 from gensie.eval import Evaluator, flatten_json
+from gensie.slurm import slurm_app
 
 app = typer.Typer(help="GenSIE Developer Tools")
+app.add_typer(slurm_app, name="slurm")
 console = Console()
 
 
 @app.command()
-def serve(host: str = "0.0.0.0", port: int = 8000):
+def serve(
+    host: str = "0.0.0.0",
+    port: int = 8000,
+    reload: bool = typer.Option(
+        True,
+        "--reload/--no-reload",
+        help="Enable the development code reloader.",
+    ),
+):
     """Starts the FastAPI server for the agent."""
     console.print(f"[bold green]Starting GenSIE Agent Server on {host}:{port}...[/bold green]")
-    uvicorn.run("gensie.server:app", host=host, port=port, reload=True)
+    uvicorn.run("gensie.server:app", host=host, port=port, reload=reload)
 
 
 @app.command()
