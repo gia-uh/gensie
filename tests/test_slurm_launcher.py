@@ -13,6 +13,8 @@ def _write_profile(profile_dir: Path) -> None:
                 'partition = "gpu"',
                 'time = "02:00:00"',
                 'memory = "80G"',
+                'conda_executable = "/opt/miniconda/bin/conda"',
+                'conda_env = "gensie-slurm"',
             ]
         )
         + "\n",

@@ -18,6 +18,8 @@ def _write_profile(profile_dir: Path) -> None:
                 'partition = "gpu"',
                 'time = "01:00:00"',
                 'memory = "64G"',
+                'conda_executable = "/opt/miniconda/bin/conda"',
+                'conda_env = "gensie-slurm"',
             ]
         )
         + "\n",
@@ -77,7 +79,7 @@ def test_slurm_validate_accepts_profile_only(monkeypatch, tmp_path: Path):
     payload = json.loads(result.stdout)
     assert payload["selection_type"] == "profile_only"
     assert payload["task_count"] == 0
-    assert payload["settings"]["conda_env"] == "gensie"
+    assert payload["settings"]["conda_env"] == "gensie-slurm"
 
 
 def test_slurm_eval_render_outputs_submission_manifest(tmp_path: Path):

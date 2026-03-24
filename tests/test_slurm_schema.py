@@ -12,6 +12,8 @@ def test_resolve_slurm_settings_uses_base_conda_defaults(tmp_path: Path):
                 'partition = "gpu"',
                 'time = "01:00:00"',
                 'memory = "64G"',
+                'conda_executable = "/opt/miniconda/bin/conda"',
+                'conda_env = "gensie-slurm"',
             ]
         )
         + "\n",
@@ -24,7 +26,7 @@ def test_resolve_slurm_settings_uses_base_conda_defaults(tmp_path: Path):
         cli_overrides={},
     )
 
-    assert resolved.settings.conda_executable == "/home/gplsi/estevanell/miniconda3/bin/conda"
-    assert resolved.settings.conda_env == "gensie"
-    assert resolved.origins["conda_executable"] == "base"
-    assert resolved.origins["conda_env"] == "base"
+    assert resolved.settings.conda_executable == "/opt/miniconda/bin/conda"
+    assert resolved.settings.conda_env == "gensie-slurm"
+    assert resolved.origins["conda_executable"] == "profile:default"
+    assert resolved.origins["conda_env"] == "profile:default"

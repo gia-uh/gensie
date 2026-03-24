@@ -1,12 +1,8 @@
 # Base Slurm profile for GenSIE self-hosted vLLM evaluation runs.
 #
-# This file contains the shared runtime defaults used by the local cluster setup.
-# User profiles under `.gensie/slurm/profiles/` are still expected to provide
-# cluster-specific scheduler values such as partition and memory, plus any required
-# environment variables like HF_TOKEN.
-
-conda_executable = "/home/gplsi/estevanell/miniconda3/bin/conda"
-conda_env = "gensie"
+# This file intentionally contains only shared runtime defaults. User profiles
+# under `.gensie/slurm/profiles/` are expected to provide cluster-specific
+# scheduler values and the concrete conda installation to use on that cluster.
 
 gpus = 1
 cpus_per_task = 4

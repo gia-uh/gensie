@@ -78,7 +78,7 @@ gensie slurm status --run-id <run-id>
 gensie slurm logs --run-id <run-id> --stream out
 ```
 
-The repository base profile already defaults to the shared Miniconda path `/home/gplsi/estevanell/miniconda3/bin/conda` and the `gensie` conda env. User-local profiles only need to provide cluster-specific scheduler values such as `partition`, `time`, and `memory`.
+Each user-local Slurm profile must declare the conda installation it should run with via `conda_executable` plus exactly one of `conda_env` or `conda_prefix`, in addition to cluster-specific scheduler values such as `partition`, `time`, and `memory`.
 
 ## 🛠️ How to Participate
 

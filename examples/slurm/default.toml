@@ -4,6 +4,8 @@
 partition = "gpu"
 time = "04:00:00"
 memory = "80G"
+conda_executable = "/shared/miniconda3/bin/conda"
+conda_env = "gensie"
 
 # Optional scheduler controls:
 # qos = "normal"
