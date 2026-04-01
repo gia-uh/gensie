@@ -1,0 +1,304 @@
+{
+  "participant": {
+    "team_name": "GenSIE Baseline Team",
+    "institution": "Official",
+    "pipelines": [
+      {
+        "name": "baseline",
+        "description": "Standard OpenAI agent using structured outputs."
+      }
+    ]
+  },
+  "config": {
+    "model": "openai/gpt-oss-20b",
+    "pipeline": "baseline",
+    "data_source": "/home/gplsi/estevanell/gensie/data/starter"
+  },
+  "metrics": {
+    "precision": 0.3902439024390244,
+    "recall": 0.39669421487603307,
+    "f1": 0.3934426229508197
+  },
+  "tasks": [
+    {
+      "task_id": "legal_entities_001",
+      "tps": 4.0,
+      "gold_keys": 8,
+      "system_keys": 6,
+      "status": "PASS"
+    },
+    {
+      "task_id": "medical_extraction_001",
+      "tps": 1.0,
+      "gold_keys": 1,
+      "system_keys": 1,
+      "status": "PASS"
+    },
+    {
+      "task_id": "medical_drug_003",
+      "tps": 7.0,
+      "gold_keys": 11,
+      "system_keys": 15,
+      "status": "PASS"
+    },
+    {
+      "task_id": "legal_legislation_004",
+      "tps": 2.0,
+      "gold_keys": 5,
+      "system_keys": 5,
+      "status": "PASS"
+    },
+    {
+      "task_id": "medical_drug_005",
+      "tps": 8.0,
+      "gold_keys": 11,
+      "system_keys": 13,
+      "status": "PASS"
+    },
+    {
+      "task_id": "medical_entities_002",
+      "tps": 3.0,
+      "gold_keys": 8,
+      "system_keys": 8,
+      "status": "PASS"
+    },
+    {
+      "task_id": "cultural_extraction_002",
+      "tps": 0.0,
+      "gold_keys": 1,
+      "system_keys": 1,
+      "status": "PASS"
+    },
+    {
+      "task_id": "legal_legislation_003",
+      "tps": 2.0,
+      "gold_keys": 5,
+      "system_keys": 5,
+      "status": "PASS"
+    },
+    {
+      "task_id": "cultural_entities_001",
+      "tps": 0.0,
+      "gold_keys": 10,
+      "system_keys": 10,
+      "status": "PASS"
+    },
+    {
+      "task_id": "medical_drug_002",
+      "tps": 14.0,
+      "gold_keys": 21,
+      "system_keys": 37,
+      "status": "PASS"
+    },
+    {
+      "task_id": "medical_entities_001",
+      "tps": 4.0,
+      "gold_keys": 6,
+      "system_keys": 6,
+      "status": "PASS"
+    },
+    {
+      "task_id": "technical_software_004",
+      "tps": 10.0,
+      "gold_keys": 16,
+      "system_keys": 21,
+      "status": "PASS"
+    },
+    {
+      "task_id": "legal_extraction_001",
+      "tps": 1.0,
+      "gold_keys": 1,
+      "system_keys": 1,
+      "status": "PASS"
+    },
+    {
+      "task_id": "legal_legislation_005",
+      "tps": 0.0,
+      "gold_keys": 5,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "cultural_media_001",
+      "tps": 6.0,
+      "gold_keys": 13,
+      "system_keys": 16,
+      "status": "PASS"
+    },
+    {
+      "task_id": "cultural_entities_002",
+      "tps": 1.0,
+      "gold_keys": 22,
+      "system_keys": 20,
+      "status": "PASS"
+    },
+    {
+      "task_id": "technical_software_003",
+      "tps": 5.0,
+      "gold_keys": 16,
+      "system_keys": 6,
+      "status": "PASS"
+    },
+    {
+      "task_id": "cultural_media_002",
+      "tps": 7.0,
+      "gold_keys": 17,
+      "system_keys": 17,
+      "status": "PASS"
+    },
+    {
+      "task_id": "technical_extraction_002",
+      "tps": 0.0,
+      "gold_keys": 1,
+      "system_keys": 1,
+      "status": "PASS"
+    },
+    {
+      "task_id": "medical_drug_004",
+      "tps": 5.0,
+      "gold_keys": 9,
+      "system_keys": 9,
+      "status": "PASS"
+    },
+    {
+      "task_id": "technical_extraction_003",
+      "tps": 1.0,
+      "gold_keys": 1,
+      "system_keys": 1,
+      "status": "PASS"
+    },
+    {
+      "task_id": "technical_software_005",
+      "tps": 10.0,
+      "gold_keys": 21,
+      "system_keys": 18,
+      "status": "PASS"
+    },
+    {
+      "task_id": "technical_entities_003",
+      "tps": 0.0,
+      "gold_keys": 24,
+      "system_keys": 8,
+      "status": "PASS"
+    },
+    {
+      "task_id": "legal_extraction_002",
+      "tps": 1.0,
+      "gold_keys": 1,
+      "system_keys": 1,
+      "status": "PASS"
+    },
+    {
+      "task_id": "technical_entities_001",
+      "tps": 5.0,
+      "gold_keys": 12,
+      "system_keys": 12,
+      "status": "PASS"
+    },
+    {
+      "task_id": "legal_legislation_001",
+      "tps": 0.0,
+      "gold_keys": 5,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "technical_software_007",
+      "tps": 4.0,
+      "gold_keys": 9,
+      "system_keys": 7,
+      "status": "PASS"
+    },
+    {
+      "task_id": "technical_extraction_001",
+      "tps": 0.0,
+      "gold_keys": 1,
+      "system_keys": 1,
+      "status": "PASS"
+    },
+    {
+      "task_id": "medical_extraction_003",
+      "tps": 0.0,
+      "gold_keys": 1,
+      "system_keys": 1,
+      "status": "PASS"
+    },
+    {
+      "task_id": "cultural_media_003",
+      "tps": 6.0,
+      "gold_keys": 12,
+      "system_keys": 15,
+      "status": "PASS"
+    },
+    {
+      "task_id": "cultural_media_005",
+      "tps": 4.0,
+      "gold_keys": 10,
+      "system_keys": 16,
+      "status": "PASS"
+    },
+    {
+      "task_id": "cultural_media_004",
+      "tps": 4.0,
+      "gold_keys": 15,
+      "system_keys": 18,
+      "status": "PASS"
+    },
+    {
+      "task_id": "technical_software_006",
+      "tps": 3.0,
+      "gold_keys": 7,
+      "system_keys": 7,
+      "status": "PASS"
+    },
+    {
+      "task_id": "medical_extraction_002",
+      "tps": 0.0,
+      "gold_keys": 1,
+      "system_keys": 1,
+      "status": "PASS"
+    },
+    {
+      "task_id": "legal_legislation_002",
+      "tps": 4.0,
+      "gold_keys": 5,
+      "system_keys": 5,
+      "status": "PASS"
+    },
+    {
+      "task_id": "technical_software_002",
+      "tps": 3.0,
+      "gold_keys": 15,
+      "system_keys": 11,
+      "status": "PASS"
+    },
+    {
+      "task_id": "cultural_extraction_001",
+      "tps": 0.0,
+      "gold_keys": 1,
+      "system_keys": 1,
+      "status": "PASS"
+    },
+    {
+      "task_id": "technical_entities_002",
+      "tps": 6.0,
+      "gold_keys": 10,
+      "system_keys": 10,
+      "status": "PASS"
+    },
+    {
+      "task_id": "technical_software_001",
+      "tps": 7.0,
+      "gold_keys": 13,
+      "system_keys": 16,
+      "status": "PASS"
+    },
+    {
+      "task_id": "medical_drug_001",
+      "tps": 6.0,
+      "gold_keys": 12,
+      "system_keys": 22,
+      "status": "PASS"
+    }
+  ]
+}
