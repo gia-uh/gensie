@@ -72,6 +72,10 @@ gensie slurm eval submit \
   --manifest examples/slurm/manifest.yaml
 ```
 
+User-local Slurm profiles, manifests, and specs belong under `.gensie/slurm/`
+rather than `examples/slurm/`, so cluster-specific settings and internal model
+sweeps stay out of the public starter kit.
+
 4. Inspect the run:
 ```bash
 gensie slurm status --run-id <run-id>
