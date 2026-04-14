@@ -3,19 +3,20 @@ import re
 from typing import Any, Dict, List
 
 
-def flatten_json(data: Any, parent_key: str = "", sep: str = ".") -> Dict[str, Any]:
+def flatten_json(data: Any, parent_key: str = "", sep: str = ".", expand_lists: bool = True) -> Dict[str, Any]:
     """
     Official Transformation Phi(J): Flattens nested JSON into dot-notation.
+    If expand_lists=False, it stops at list boundaries (preserving the list as a value).
     """
     items: Dict[str, Any] = {}
     if isinstance(data, dict):
         for k, v in data.items():
             new_key = f"{parent_key}{sep}{k}" if parent_key else k
-            items.update(flatten_json(v, new_key, sep=sep))
-    elif isinstance(data, list):
+            items.update(flatten_json(v, new_key, sep=sep, expand_lists=expand_lists))
+    elif isinstance(data, list) and expand_lists:
         for i, v in enumerate(data):
             new_key = f"{parent_key}{sep}{i}" if parent_key else str(i)
-            items.update(flatten_json(v, new_key, sep=sep))
+            items.update(flatten_json(v, new_key, sep=sep, expand_lists=expand_lists))
     else:
         items[parent_key] = data
     return items
@@ -69,15 +70,66 @@ class Evaluator:
         return len(intersection) / len(union)
 
     def semantic_similarity(self, s1: str, s2: str) -> float:
-        """Cosine similarity of embeddings using fastembed."""
+        """Cosine similarity of embeddings using fastembed. Falls back to lexical if missing."""
         if self.model is None:
-            raise ImportError(
-                "Evaluation requires 'fastembed'. Install it with 'pip install fastembed'."
-            )
+            return self.lexical_similarity(s1, s2)
 
         embeddings = list(self.model.embed([str(s1), str(s2)]))
         sim = cosine_similarity(embeddings[0].tolist(), embeddings[1].tolist())
         return float(max(0.0, sim))
+
+    def resolve_ref(self, schema: Dict[str, Any], ref_path: str) -> Dict[str, Any]:
+        """Resolves $defs references in JSON Schema."""
+        if not ref_path.startswith("#/"):
+            return {}
+        parts = ref_path.split("/")
+        curr = schema
+        for p in parts[1:]:
+            curr = curr.get(p, {})
+        return curr
+
+    def _greedy_match(self, gold_list: List[Any], system_list: List[Any], item_schema: Dict[str, Any], root_schema: Dict[str, Any]) -> float:
+        """
+        Calculates similarity sum between two lists using Greedy Bipartite Matching.
+        """
+        if not gold_list or not system_list:
+            return 0.0
+
+        # Precompute similarity matrix
+        matrix = []
+        for g_item in gold_list:
+            row = []
+            for s_item in system_list:
+                # Recursive score for nested items
+                sim = self.score_instance(g_item, s_item, item_schema, root_schema=root_schema)
+                row.append(sim)
+            matrix.append(row)
+
+        matches = 0.0
+        used_g = set()
+        used_s = set()
+
+        # Find best matches greedily
+        while len(used_g) < len(gold_list) and len(used_s) < len(system_list):
+            best_sim = -1.0
+            best_pair = (-1, -1)
+
+            for i in range(len(gold_list)):
+                if i in used_g: continue
+                for j in range(len(system_list)):
+                    if j in used_s: continue
+                    if matrix[i][j] > best_sim:
+                        best_sim = matrix[i][j]
+                        best_pair = (i, j)
+
+            if best_sim >= 0:
+                matches += best_sim
+                used_g.add(best_pair[0])
+                used_s.add(best_pair[1])
+            else:
+                break
+
+        return matches
 
     def compute_value_similarity(self, g_val: Any, s_val: Any, is_rigid: bool) -> float:
         """
@@ -95,32 +147,97 @@ class Evaluator:
         lex = self.lexical_similarity(g_val, s_val)
         return self.alpha * sem + (1 - self.alpha) * lex
 
-    def get_field_type_info(self, schema: Dict[str, Any], key: str) -> bool:
+    def get_field_type_info(self, schema: Dict[str, Any], key: str, root_schema: Dict[str, Any]) -> bool:
         """
-        Determines if a flattened key corresponds to a rigid or free-text field.
+        Determines if a field is rigid (Enum, Bool, Number) or free-text (String).
+        Performs recursive lookup on dot-notation keys.
         """
-        if isinstance(key, str) and (
-            "description" in key.lower() or "summary" in key.lower()
-        ):
-            return False
+        if not schema:
+            return True
+        
+        parts = [p for p in key.split(".") if p]
+        curr = schema
+
+        for p in parts:
+            if curr.get("type") == "array":
+                curr = curr.get("items", {})
+            elif curr.get("type") == "object":
+                curr = curr.get("properties", {}).get(p, {})
+            
+            # Resolve refs
+            if "$ref" in curr:
+                curr = self.resolve_ref(root_schema, curr["$ref"])
+            
+            if not curr:
+                return True
+
+        # Resolve final ref if any
+        if "$ref" in curr:
+            curr = self.resolve_ref(root_schema, curr["$ref"])
+
+        # Deciding rigidity
+        if "enum" in curr: return True
+        if curr.get("type") in ["number", "integer", "boolean"]: return True
+        if curr.get("type") == "string": return False
+        
         return True
 
     def score_instance(
-        self, gold: Dict[str, Any], system: Dict[str, Any], schema: Dict[str, Any]
+        self, gold: Any, system: Any, schema: Dict[str, Any], root_schema: Dict[str, Any] = None
     ) -> float:
-        """Calculates True Positive Score (TPS) for a single instance."""
-        g_flat = flatten_json(gold)
-        s_flat = flatten_json(system)
+        """
+        Calculates Total Match Score (TMS) for a single instance or object.
+        Supports Jaccard Similarity for lists. Returns normalized 0-1 score.
+        """
+        if root_schema is None:
+            root_schema = schema
 
-        tps = 0.0
+        # Handle simple types (Base case)
+        if not isinstance(gold, (dict, list)):
+            is_rigid = self.get_field_type_info(schema, "", root_schema)
+            return self.compute_value_similarity(gold, system, is_rigid)
 
-        for k in g_flat:
-            if k in s_flat:
-                # Determine if rigid based on key name/schema
-                is_rigid = self.get_field_type_info(schema, k)
-                tps += self.compute_value_similarity(g_flat[k], s_flat[k], is_rigid)
+        # Handle Objects
+        if isinstance(gold, dict):
+            if not isinstance(system, dict): return 0.0
+            
+            # Shallow flatten to get top-level keys
+            g_flat = flatten_json(gold, expand_lists=False)
+            s_flat = flatten_json(system, expand_lists=False)
+            
+            if not g_flat: return 1.0 if not s_flat else 0.0
 
-        return tps
+            total_similarity = 0.0
+            properties = schema.get("properties", {}) if schema else {}
+
+            for k, g_val in g_flat.items():
+                # Get schema for this specific field
+                field_schema = properties.get(k, {})
+                if "$ref" in field_schema:
+                    field_schema = self.resolve_ref(root_schema, field_schema["$ref"])
+
+                s_val = s_flat.get(k)
+                if s_val is not None:
+                    total_similarity += self.score_instance(g_val, s_val, field_schema, root_schema=root_schema)
+            
+            # Normalize by max possible keys (Precision/Recall blend at instance level)
+            return total_similarity / max(len(g_flat), len(s_flat))
+
+        # Handle Lists (Bipartite Matching)
+        if isinstance(gold, list):
+            if not isinstance(system, list): return 0.0
+            if not gold: return 1.0 if not system else 0.0
+            
+            item_schema = schema.get("items", {}) if schema else {}
+            if "$ref" in item_schema:
+                item_schema = self.resolve_ref(root_schema, item_schema["$ref"])
+
+            matches = self._greedy_match(gold, system, item_schema, root_schema=root_schema)
+            # IoU (Jaccard) for lists
+            denom = len(gold) + len(system) - matches
+            return matches / denom if denom > 0 else 0.0
+
+        return 0.0
 
     def calculate_metrics(
         self, tps_list: List[float], gold_counts: List[int], system_counts: List[int]

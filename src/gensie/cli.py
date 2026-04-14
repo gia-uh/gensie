@@ -88,8 +88,8 @@ def eval(
                 tps = evaluator.score_instance(
                     task.output, system_output, task.target_schema
                 )
-                g_count = len(flatten_json(task.output))
-                s_count = len(flatten_json(system_output))
+                g_count = len(flatten_json(task.output, expand_lists=False))
+                s_count = len(flatten_json(system_output, expand_lists=False))
                 status = "PASS"
 
             except Exception as e:
@@ -97,7 +97,7 @@ def eval(
                 status = "FAIL"
                 tps = 0.0
                 s_count = 0
-                g_count = len(flatten_json(task.output)) if task else 0
+                g_count = len(flatten_json(task.output, expand_lists=False)) if task else 0
                 console.print(f"[bold red]Error processing {file_path.name}:[/bold red] {e}")
 
             tps_list.append(tps)
