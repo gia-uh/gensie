@@ -9,6 +9,42 @@ Inside the repository at `data/starter/`, you will find **40 JSON instances** co
 !!! warning "Data Curation"
     These examples have been generated using Gemini 3 Pro and **manually curated** for grounding and correctness. However, they have not yet passed the official "Gold Curation" protocol. Expect this set to be updated when the full development set is released. The **format**, however, is final and will not change.
 
+## 1.5 Development Data (v0.1 - Silver)
+
+**150 instances** are available in `data/dev/dev.jsonl` covering 8 domains:
+
+| Domain | Subdomain | Tasks |
+|:-------|:---------| ------:|
+| cultural | literature, monuments, movie_reviews | 29 |
+| environmental | ecology | 10 |
+| general | disasters | 10 |
+| legal | contracts, judicial, legislation | 22 |
+| lifestyle | recipes | 10 |
+| medical | diseases, drug_safety, health_news | 31 |
+| stem | astronomy_detailed | 20 |
+| technical | software | 18 |
+
+### Data Collection
+- Sources: Wikipedia, Wikinoticias, BOE, CIMA (drug safety), Espinof (movie reviews)
+- Web crawling + synthetic generation pipelines
+
+### Generation & Quality Assurance
+- Generated with **Claude Opus 4.6** via specialized subagents
+- Passed through **1-2 audit phases** with silver-auditor subagent
+- Manually spot-checked for broad inconsistencies
+
+### ⚠️ Known Limitations
+This is **NOT gold-standard data** - may contain errors:
+- Some grounding may be incomplete
+- Schema alignment edge cases not fully resolved
+- Use for **development** only
+
+### Reporting Errors
+Found an issue? Please submit at: https://github.com/gia-uh/gensie/issues
+
+### Status
+- **Silver** - Will be replaced with curated gold data when available
+
 ## 2. Reference Implementation & Baselines
 
 The kit provides a high-quality Python baseline in `src/gensie/baseline.py` that is fully compliant with the competition's hardware and connectivity constraints.
