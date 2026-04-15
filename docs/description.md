@@ -117,6 +117,20 @@ $$ Sim(g_k, s_k) = \alpha \cdot \text{CosSim}(\mathbf{e}_{g_k}, \mathbf{e}_{s_k}
 * **Lexical:** A normalized token-overlap score.
 * **$\alpha$:** Weighting parameter (default $\approx 0.7$).
 
+#### Case C: Null Values (Hallucination Penalty)
+The evaluator penalizes hallucinations where the system fabricates information not present in the source text:
+
+| Gold | System | Score |
+|:-----|:-------|:------|
+| `"field": "value"` | `"field": null` | 0.0 ❌ (hallucinated null) |
+| `"field": null` | `"field": "value"` | 0.0 ❌ (hallucinated value) |
+| `"field": null` | `"field": null` | 1.0 ✅ (correct null) |
+| missing key | `"field": "value"` | Ignored (precision penalty via denominator) |
+
+- If gold has a value but system returns `null`: score 0.0
+- If gold has `null` but system returns a value: score 0.0
+- System keys not in gold do not contribute to similarity but increase the system size, reducing precision
+
 ### Aggregated Metrics
 
 We calculate the total **True Positive Score (TPS)** by summing the similarity scores of all shared keys.
