@@ -102,6 +102,7 @@ $$\Phi(J) = \{ (k_1, v_1), (k_2, v_2), \dots, (k_n, v_n) \}$$
 Once aligned by keys, we compare the values. The scoring method depends strictly on the **data type** defined in the schema.
 
 #### Case A: Rigid Types
+
 For fields where precision is binary (Numbers, Dates, Booleans, and Enum Strings), we require an **Exact Match**.
 
 $$ Sim(g_k, s_k) = \mathbb{I}(g_k = s_k) $$
@@ -109,6 +110,7 @@ $$ Sim(g_k, s_k) = \mathbb{I}(g_k = s_k) $$
 * **Example:** If the Gold schema expects `"clinical_outcome": "POSITIVE"` and the system outputs `"positive"` (lowercase) or `"SUCCESS"`, the score is $0$.
 
 #### Case B: Free Text
+
 For fields describing content (Descriptions, Summaries), we use a hybrid metric combining semantic and lexical similarity.
 
 $$ Sim(g_k, s_k) = \alpha \cdot \text{CosSim}(\mathbf{e}_{g_k}, \mathbf{e}_{s_k}) + (1 - \alpha) \cdot \text{Lexical}(g_k, s_k) $$
@@ -118,6 +120,7 @@ $$ Sim(g_k, s_k) = \alpha \cdot \text{CosSim}(\mathbf{e}_{g_k}, \mathbf{e}_{s_k}
 * **$\alpha$:** Weighting parameter (default $\approx 0.7$).
 
 #### Case C: Null Values (Hallucination Penalty)
+
 The evaluator penalizes hallucinations where the system fabricates information not present in the source text:
 
 | Gold | System | Score |
@@ -132,6 +135,7 @@ The evaluator penalizes hallucinations where the system fabricates information n
 - System keys not in gold do not contribute to similarity but increase the system size, reducing precision
 
 #### Lists: Order-Independent Matching
+
 Since JSON lists have no inherent order, we use a **greedy bipartite matching** heuristic to maximize the alignment score:
 
 1. Construct a similarity matrix between all gold items and all system items

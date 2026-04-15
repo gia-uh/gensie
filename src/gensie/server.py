@@ -10,11 +10,14 @@ app = FastAPI(title="GenSIE Agent Server")
 # Global participant instance
 participant: Participant = None
 
+
 def get_participant() -> Participant:
     global participant
     if participant is None:
         # Load participant from environment or default to OfficialParticipant
-        participant_path = os.getenv("PARTICIPANT_PATH", "gensie.baseline.OfficialParticipant")
+        participant_path = os.getenv(
+            "PARTICIPANT_PATH", "gensie.baseline.OfficialParticipant"
+        )
         try:
             module_name, class_name = participant_path.rsplit(".", 1)
             module = importlib.import_module(module_name)
@@ -24,10 +27,12 @@ def get_participant() -> Participant:
             raise RuntimeError(f"Failed to load participant {participant_path}: {e}")
     return participant
 
+
 @app.get("/info")
 async def info():
     """Returns metadata about the participant and available pipelines."""
     return get_participant().get_info()
+
 
 @app.post("/run")
 async def run_task(

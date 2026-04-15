@@ -3,7 +3,9 @@ import re
 from typing import Any, Dict, List
 
 
-def flatten_json(data: Any, parent_key: str = "", sep: str = ".", expand_lists: bool = True) -> Dict[str, Any]:
+def flatten_json(
+    data: Any, parent_key: str = "", sep: str = ".", expand_lists: bool = True
+) -> Dict[str, Any]:
     """
     Official Transformation Phi(J): Flattens nested JSON into dot-notation.
     If expand_lists=False, it stops at list boundaries (preserving the list as a value).
@@ -88,7 +90,13 @@ class Evaluator:
             curr = curr.get(p, {})
         return curr
 
-    def _greedy_match(self, gold_list: List[Any], system_list: List[Any], item_schema: Dict[str, Any], root_schema: Dict[str, Any]) -> float:
+    def _greedy_match(
+        self,
+        gold_list: List[Any],
+        system_list: List[Any],
+        item_schema: Dict[str, Any],
+        root_schema: Dict[str, Any],
+    ) -> float:
         """
         Calculates similarity sum between two lists using Greedy Bipartite Matching.
         """
@@ -101,7 +109,9 @@ class Evaluator:
             row = []
             for s_item in system_list:
                 # Recursive score for nested items
-                sim = self.score_instance(g_item, s_item, item_schema, root_schema=root_schema)
+                sim = self.score_instance(
+                    g_item, s_item, item_schema, root_schema=root_schema
+                )
                 row.append(sim)
             matrix.append(row)
 
@@ -115,9 +125,11 @@ class Evaluator:
             best_pair = (-1, -1)
 
             for i in range(len(gold_list)):
-                if i in used_g: continue
+                if i in used_g:
+                    continue
                 for j in range(len(system_list)):
-                    if j in used_s: continue
+                    if j in used_s:
+                        continue
                     if matrix[i][j] > best_sim:
                         best_sim = matrix[i][j]
                         best_pair = (i, j)
@@ -147,14 +159,16 @@ class Evaluator:
         lex = self.lexical_similarity(g_val, s_val)
         return self.alpha * sem + (1 - self.alpha) * lex
 
-    def get_field_type_info(self, schema: Dict[str, Any], key: str, root_schema: Dict[str, Any]) -> bool:
+    def get_field_type_info(
+        self, schema: Dict[str, Any], key: str, root_schema: Dict[str, Any]
+    ) -> bool:
         """
         Determines if a field is rigid (Enum, Bool, Number) or free-text (String).
         Performs recursive lookup on dot-notation keys.
         """
         if not schema:
             return True
-        
+
         parts = [p for p in key.split(".") if p]
         curr = schema
 
@@ -163,11 +177,11 @@ class Evaluator:
                 curr = curr.get("items", {})
             elif curr.get("type") == "object":
                 curr = curr.get("properties", {}).get(p, {})
-            
+
             # Resolve refs
             if "$ref" in curr:
                 curr = self.resolve_ref(root_schema, curr["$ref"])
-            
+
             if not curr:
                 return True
 
@@ -176,14 +190,21 @@ class Evaluator:
             curr = self.resolve_ref(root_schema, curr["$ref"])
 
         # Deciding rigidity
-        if "enum" in curr: return True
-        if curr.get("type") in ["number", "integer", "boolean"]: return True
-        if curr.get("type") == "string": return False
-        
+        if "enum" in curr:
+            return True
+        if curr.get("type") in ["number", "integer", "boolean"]:
+            return True
+        if curr.get("type") == "string":
+            return False
+
         return True
 
     def score_instance(
-        self, gold: Any, system: Any, schema: Dict[str, Any], root_schema: Dict[str, Any] = None
+        self,
+        gold: Any,
+        system: Any,
+        schema: Dict[str, Any],
+        root_schema: Dict[str, Any] = None,
     ) -> float:
         """
         Calculates Total Match Score (TMS) for a single instance or object.
@@ -199,13 +220,15 @@ class Evaluator:
 
         # Handle Objects
         if isinstance(gold, dict):
-            if not isinstance(system, dict): return 0.0
-            
+            if not isinstance(system, dict):
+                return 0.0
+
             # Shallow flatten to get top-level keys
             g_flat = flatten_json(gold, expand_lists=False)
             s_flat = flatten_json(system, expand_lists=False)
-            
-            if not g_flat: return 1.0 if not s_flat else 0.0
+
+            if not g_flat:
+                return 1.0 if not s_flat else 0.0
 
             total_similarity = 0.0
             properties = schema.get("properties", {}) if schema else {}
@@ -218,21 +241,27 @@ class Evaluator:
 
                 s_val = s_flat.get(k)
                 if s_val is not None:
-                    total_similarity += self.score_instance(g_val, s_val, field_schema, root_schema=root_schema)
-            
+                    total_similarity += self.score_instance(
+                        g_val, s_val, field_schema, root_schema=root_schema
+                    )
+
             # Normalize by max possible keys (Precision/Recall blend at instance level)
             return total_similarity / max(len(g_flat), len(s_flat))
 
         # Handle Lists (Bipartite Matching)
         if isinstance(gold, list):
-            if not isinstance(system, list): return 0.0
-            if not gold: return 1.0 if not system else 0.0
-            
+            if not isinstance(system, list):
+                return 0.0
+            if not gold:
+                return 1.0 if not system else 0.0
+
             item_schema = schema.get("items", {}) if schema else {}
             if "$ref" in item_schema:
                 item_schema = self.resolve_ref(root_schema, item_schema["$ref"])
 
-            matches = self._greedy_match(gold, system, item_schema, root_schema=root_schema)
+            matches = self._greedy_match(
+                gold, system, item_schema, root_schema=root_schema
+            )
             # IoU (Jaccard) for lists
             denom = len(gold) + len(system) - matches
             return matches / denom if denom > 0 else 0.0
@@ -249,6 +278,10 @@ class Evaluator:
 
         precision = total_tps / total_s if total_s > 0 else 0.0
         recall = total_tps / total_g if total_g > 0 else 0.0
-        f1 = (2 * precision * recall) / (precision + recall) if (precision + recall) > 0 else 0.0
+        f1 = (
+            (2 * precision * recall) / (precision + recall)
+            if (precision + recall) > 0
+            else 0.0
+        )
 
         return {"precision": precision, "recall": recall, "f1": f1}

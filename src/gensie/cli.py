@@ -18,7 +18,9 @@ console = Console()
 @app.command()
 def serve(host: str = "0.0.0.0", port: int = 8000):
     """Starts the FastAPI server for the agent."""
-    console.print(f"[bold green]Starting GenSIE Agent Server on {host}:{port}...[/bold green]")
+    console.print(
+        f"[bold green]Starting GenSIE Agent Server on {host}:{port}...[/bold green]"
+    )
     uvicorn.run("gensie.server:app", host=host, port=port, reload=True)
 
 
@@ -28,8 +30,12 @@ def eval(
     url: str = typer.Option("http://localhost:8000", help="Agent service URL"),
     pipeline: str = typer.Option("baseline", help="Name of the pipeline to evaluate"),
     model: str = typer.Option(..., help="The exact model name to use for inference"),
-    limit: Optional[int] = typer.Option(None, help="Limit the number of tasks to evaluate"),
-    output: Optional[Path] = typer.Option(None, help="Path to save the JSON evaluation report"),
+    limit: Optional[int] = typer.Option(
+        None, help="Limit the number of tasks to evaluate"
+    ),
+    output: Optional[Path] = typer.Option(
+        None, help="Path to save the JSON evaluation report"
+    ),
 ):
     """Evaluates the agent against a local dataset and generates a report."""
     evaluator = Evaluator()
@@ -97,8 +103,12 @@ def eval(
                 status = "FAIL"
                 tps = 0.0
                 s_count = 0
-                g_count = len(flatten_json(task.output, expand_lists=False)) if task else 0
-                console.print(f"[bold red]Error processing {file_path.name}:[/bold red] {e}")
+                g_count = (
+                    len(flatten_json(task.output, expand_lists=False)) if task else 0
+                )
+                console.print(
+                    f"[bold red]Error processing {file_path.name}:[/bold red] {e}"
+                )
 
             tps_list.append(tps)
             gold_counts.append(g_count)
@@ -106,16 +116,23 @@ def eval(
 
             if task:
                 results_table.add_row(
-                    task.id, f"{tps:.2f}", str(g_count), str(s_count), 
-                    f"[green]{status}[/green]" if status == "PASS" else f"[red]{status}[/red]"
+                    task.id,
+                    f"{tps:.2f}",
+                    str(g_count),
+                    str(s_count),
+                    f"[green]{status}[/green]"
+                    if status == "PASS"
+                    else f"[red]{status}[/red]",
                 )
-                individual_results.append({
-                    "task_id": task.id,
-                    "tps": tps,
-                    "gold_keys": g_count,
-                    "system_keys": s_count,
-                    "status": status
-                })
+                individual_results.append(
+                    {
+                        "task_id": task.id,
+                        "tps": tps,
+                        "gold_keys": g_count,
+                        "system_keys": s_count,
+                        "status": status,
+                    }
+                )
 
     # 3. Calculate final metrics
     metrics = evaluator.calculate_metrics(tps_list, gold_counts, system_counts)
@@ -135,10 +152,10 @@ def eval(
             "config": {
                 "model": model,
                 "pipeline": pipeline,
-                "data_source": str(data.absolute())
+                "data_source": str(data.absolute()),
             },
             "metrics": metrics,
-            "tasks": individual_results
+            "tasks": individual_results,
         }
         with open(output, "w", encoding="utf-8") as f:
             json.dump(report, f, indent=2, ensure_ascii=False)
@@ -150,7 +167,9 @@ def leaderboard(
     results_dir: Path = typer.Argument(
         Path("results"), help="Directory containing evaluation JSON reports"
     ),
-    plain: bool = typer.Option(False, "--plain", help="Output in plain Markdown format"),
+    plain: bool = typer.Option(
+        False, "--plain", help="Output in plain Markdown format"
+    ),
 ):
     """
     Aggregates evaluation reports and displays a leaderboard.

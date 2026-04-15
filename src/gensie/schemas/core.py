@@ -22,7 +22,8 @@ def complexity(overall_level: str, dimensions: dict[str, int]):
 
     def decorator(cls):
         metadata = ComplexityMetadata(
-            overall_level=overall_level, dimensions=dimensions  # type: ignore
+            overall_level=overall_level,
+            dimensions=dimensions,  # type: ignore
         )
         setattr(cls, "__complexity__", metadata)
         return cls

@@ -30,7 +30,10 @@ class BasicAgent(GenSIEAgent):
         response = self.client.chat.completions.create(
             model=model,
             messages=[
-                {"role": "system", "content": "You are a precise data extraction agent."},
+                {
+                    "role": "system",
+                    "content": "You are a precise data extraction agent.",
+                },
                 {"role": "user", "content": prompt},
             ],
             response_format={
@@ -73,11 +76,11 @@ class OfficialParticipant(Participant):
             pipelines=[
                 PipelineInfo(
                     name="baseline",
-                    description="Standard OpenAI agent using structured outputs."
+                    description="Standard OpenAI agent using structured outputs.",
                 ),
                 # Add descriptions for your other pipelines here:
                 # PipelineInfo(name="pipeline2", description="My advanced RAG agent"),
-            ]
+            ],
         )
 
     def get_agent(self, pipeline_name: str) -> GenSIEAgent:
