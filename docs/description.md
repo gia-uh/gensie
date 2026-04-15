@@ -131,6 +131,16 @@ The evaluator penalizes hallucinations where the system fabricates information n
 - If gold has `null` but system returns a value: score 0.0
 - System keys not in gold do not contribute to similarity but increase the system size, reducing precision
 
+#### Lists: Order-Independent Matching
+Since JSON lists have no inherent order, we use a **greedy bipartite matching** heuristic to maximize the alignment score:
+
+1. Construct a similarity matrix between all gold items and all system items
+2. Iteratively pick the highest-similarity pair, remove both from consideration, repeat
+3. Score = sum of matched similarities
+4. Normalize by Jaccard index: `|gold| + |system| - |matches|`
+
+This allows flexibility in list ordering while penalizing missing or extra items.
+
 ### Aggregated Metrics
 
 We calculate the total **True Positive Score (TPS)** by summing the similarity scores of all shared keys.
