@@ -1,0 +1,88 @@
+{
+  "id": "cultural_literature_006",
+  "input_text": "# Nada (novela)\n\n## Introducción\nNada es la primera novela de la escritora barcelonesa Carmen Laforet y una de las obras literarias más importantes de la España del siglo XX. Se trata de una obra existencialista​ que representa el estancamiento y la pobreza que se vivieron en la posguerra española, durante los primeros años del franquismo. Dotada de un estilo literario que supuso una renovación en la prosa de la época, Nada refleja también la lenta desaparición de la pequeña burguesía tras la Guerra Civil.\nLa novela ha gozado de gran reconocimiento y recibió dos galardones literarios: el Premio Nadal 1944​ y el Premio Fastenrath 1948, de la Real Academia Española.​  Además, fue incluida en la lista de las 100 mejores novelas en español del siglo XX del periódico español El Mundo.​\nLa obra llamó la atención no solo por la juventud de la autora al escribirla, quien tenía entonces 22 años, sino también por la descripción que elaboró sobre la sociedad de la época.​ Frente a quienes afirmaron que Nada era una novela autobiográfica, la propia autora escribió, en la introducción a la compilación titulada Novelas (1.ª edición de 1957, Barcelona, Editorial Planeta), el siguiente texto: «No es, como ninguna de mis novelas, autobiográfica, aunque el relato de una chica estudiante, como yo fui en Barcelona, e incluso la circunstancia de haberla colocado viviendo en una calle de esta ciudad donde yo misma he vivido, haya planteado esta cuestión más de una vez».​",
+  "instruction": "Extrae los metadatos bibliográficos y temas principales de la obra literaria descrita.",
+  "target_schema": {
+    "additionalProperties": false,
+    "description": "Extracts basic bibliographic metadata and key themes from a book description or encyclopedia entry.\nComplexity: L2 (Explicit Information Retrieval).",
+    "properties": {
+      "title": {
+        "description": "The official title of the literary work",
+        "title": "Title",
+        "type": "string"
+      },
+      "author": {
+        "description": "The primary author or creator of the work",
+        "title": "Author",
+        "type": "string"
+      },
+      "publication_year": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "The year the work was first published",
+        "title": "Publication Year"
+      },
+      "genres": {
+        "description": "Literary genres associated with the work (e.g., 'Science Fiction', 'Romance')",
+        "items": {
+          "type": "string"
+        },
+        "title": "Genres",
+        "type": "array"
+      },
+      "key_themes": {
+        "description": "Main topics or themes explored in the work",
+        "items": {
+          "type": "string"
+        },
+        "title": "Key Themes",
+        "type": "array"
+      },
+      "original_language": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "The language in which the work was originally written",
+        "title": "Original Language"
+      }
+    },
+    "required": [
+      "title",
+      "author"
+    ],
+    "title": "LiteraryWork",
+    "type": "object"
+  },
+  "output": {
+    "title": "Nada",
+    "author": "Carmen Laforet",
+    "publication_year": null,
+    "genres": [
+      "novela existencialista"
+    ],
+    "key_themes": [
+      "posguerra española",
+      "estancamiento y pobreza",
+      "desaparición de la pequeña burguesía"
+    ],
+    "original_language": "español"
+  },
+  "metadata": {
+    "source": "nada_(novela).md",
+    "domain": "cultural",
+    "subdomain": "literature"
+  }
+}

@@ -1,0 +1,148 @@
+{
+  "id": "stem_astronomy_detailed_017",
+  "input_text": "# Tritón\n\nTritón es un satélite de Neptuno que se encuentra a 4500 millones de kilómetros del Sol. Es uno de los astros más fríos del sistema solar (-235 °C). Descubierto por William Lassell el 10 de octubre de 1846,​ solo 17 días después del propio descubrimiento del planeta, este debe su nombre al dios Neptuno, Poseidón de la mitología griega. Con un diámetro de 2707 km, Tritón es el satélite más grande de Neptuno y el séptimo del sistema solar, además de ser la única luna de gran tamaño que posee una órbita retrógrada, es decir, una órbita cuya dirección es contraria a la rotación del planeta (algo excepcional en un cuerpo de semejante tamaño). A causa de esta órbita retrógrada y a su composición,​ similar a la de Plutón,​ se considera que Tritón fue capturado del cinturón de Kuiper por la fuerza gravitacional de Neptuno.\nTritón está formado por una corteza de nitrógeno congelado que recubre un manto de hielo, el cual se cree que envuelve un núcleo sólido compuesto de roca y metal.​ Posee una densidad media de 2.061 g/cm³​ y está compuesto en un 15-35 % de agua helada.\nTritón es uno de los pocos satélites del sistema solar que presenta actividad geológica. Gracias a esta actividad, su superficie es relativamente joven y revela una compleja historia marcada por terrenos criovolcánicos y tectónicos intrigantes.​ Durante el sobrevuelo del Voyager 2, se capturaron imágenes que mostraban lo que parecían ser géiseres de nitrógeno líquido emergiendo desde su superficie helada. Este hallazgo redefinió las concepciones sobre el vulcanismo, pues se creía que los cuerpos gélidos no podían ser geológicamente activos. Tritón demostró que la actividad geológica no requiere exclusivamente roca fundida, sino que puede involucrar cualquier medio fluido como nitrógeno o agua. Además, cuenta con una tenue atmósfera de nitrógeno cuya presión es inferior a 1/70000 de la presión de la atmósfera terrestre a nivel del mar.\nDada su proximidad a Neptuno, se especula que Tritón podría desintegrarse en el futuro debido a la influencia gravitacional del planeta. Este proceso daría lugar a un sistema de anillos más brillante que el de Saturno, al cruzar el límite de Roche.​",
+  "instruction": "Extrae las propiedades físicas y orbitales del cuerpo celeste descrito en el texto, incluyendo su nombre oficial, tipo de cuerpo, diámetro, densidad y datos de su descubrimiento.",
+  "target_schema": {
+    "$defs": {
+      "CelestialBodyType": {
+        "enum": [
+          "ASTEROIDE",
+          "COMETA",
+          "PLANETA",
+          "LUNA",
+          "PLANETA ENANO",
+          "OBJETO INTERESTELAR",
+          "OTRO"
+        ],
+        "title": "CelestialBodyType",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Extracts physical and orbital parameters of celestial bodies.\nComplexity: L5 (Precision Extraction & Normalization).",
+    "properties": {
+      "official_name": {
+        "description": "The primary scientific designation or name",
+        "title": "Official Name",
+        "type": "string"
+      },
+      "body_type": {
+        "$ref": "#/$defs/CelestialBodyType",
+        "description": "The classification of the celestial object"
+      },
+      "mass_kg": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Mass in kilograms (scientific notation or float)",
+        "title": "Mass Kg"
+      },
+      "diameter_km": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Mean diameter in kilometers",
+        "title": "Diameter Km"
+      },
+      "eccentricity": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Orbital eccentricity (e.g., 1.199)",
+        "title": "Eccentricity"
+      },
+      "orbital_period_days": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Time to complete one orbit in Earth days",
+        "title": "Orbital Period Days"
+      },
+      "semi_major_axis_au": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Average distance from the sun in AU",
+        "title": "Semi Major Axis Au"
+      },
+      "discovery_date": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Date of discovery in YYYY-MM-DD format",
+        "title": "Discovery Date"
+      },
+      "discoverer": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Name of the person or observatory that found the object",
+        "title": "Discoverer"
+      }
+    },
+    "required": [
+      "official_name",
+      "body_type"
+    ],
+    "title": "CelestialObjectProperties",
+    "type": "object"
+  },
+  "output": {
+    "official_name": "Tritón",
+    "body_type": "LUNA",
+    "mass_kg": null,
+    "diameter_km": 2707.0,
+    "eccentricity": null,
+    "orbital_period_days": null,
+    "semi_major_axis_au": null,
+    "discovery_date": "1846-10-10",
+    "discoverer": "William Lassell"
+  },
+  "metadata": {
+    "source": "solar_system_17_triton.md",
+    "domain": "stem",
+    "subdomain": "astronomy_detailed"
+  }
+}

@@ -1,0 +1,171 @@
+{
+  "id": "medical_diseases_03",
+  "input_text": "El cáncer de tráquea, o neoplasia traqueal primaria, es una patología poco común, pero que usualmente es maligna en adultos y benigna en niños. Se presenta con síntomas que se mimetizan con otras condiciones, lo que lleva a diagnósticos tardíos, siendo descubierto en estados avanzados y afectando al pronóstico del paciente. [...] Histopatología\nEl cáncer de tráquea puede provenir de células epiteliales, estructuras mesenquimales o glándulas salivales. Es maligno en el 90% de los casos en adultos y solo maligniza en un 20-30% de casos en infantes.\nEl carcinoma de células escamosas es el tipo más común en tráquea, seguido del carcinoma quístico adenoide. Otros tipos son el mucoepidermoide, el carcinoma de células pequeñas y el carcinoma neuroendocrino, entre otros.\nEl carcinoma escamoso suele haber metastatizado a pulmón y mediastino hasta en un tercio de los casos, al momento del diagnóstico, y estas lesiones se presentan como exofíticas o ulcerativas. En contraste, el carcinoma adenoide quístico toma varios años en crecer, normalmente. [...] Manifestaciones Clínicas\nEl cáncer traqueal primario puede presentarse con signos y síntomas de obstrucción de la vía aérea, tos y hemoptisis (de la irritación mucosa) o síntomas relacionados con la invasión de estructuras adyacentes y que llevan a la disfagia o la ronquera debido a una parálisis nerviosa recurrente. El cáncer de células escamosas se presenta usualmente con hemoptisis y se diagnostica en cuatro a seis meses desde el establecimiento de los síntomas, mientras que el carcinoma quístico adenoide crece lentamente y presenta disnea y sibilancias.\nEl diagnóstico erróneo o retrasado se produce por muchos factores. Primero, los síntomas inespecíficos son confundibles con muchas otras enfermedades. Segundo, el lumen de la tráquea es usualmente largo y con un importante reservorio, por ello se requiere que el tumor afecte el 50-75% del diámetro antes de mostrar síntomas. Tercero, los carcinomas quísticos adenoides, y otros tumores benignos, crecen tan lentamente que tardan mucho en aparecer los síntomas.\nUn factor de riego que establece una sospecha de cáncer de tráquea es que aparezcan síntomas respiratorios que no responden a tratamiento.\n\nDiagnóstico\nLa evaluación inicial empieza con una radiografía de tórax, que descarte otras patologías. La visualización de una masa traqueal o estrechamientos solo sucede en una minoría de casos.​ Un TAC puede facilitar la detección temprana del cáncer, su grado y el patrón de invasión. La imagenología revelaría si el cáncer es localizado o si tiene metástasis, lo que ayuda a decidir el tipo de tratamiento.​​\nLa evaluación por broncoscopía provee la oportunidad de visualizar directamente la masa y extraer una biopsia del tejido. El uso de ultrasonido endobronquial permite una mejor evaluación de la extensión de la pared invadida por el tumor, y permite una detección de tumores paratraqueales invadiendo la tráquea.​\n\nTratamiento\nLa resección quirúrgica es el tratamiento de elección, siempre que sea posible. Por lo general, seguido por terapia complementaria con radiación o quimioterapia. Mejora el pronóstico, los síntomas y la calidad de vida. La supervivencia a cinco años es del 50% para los pacientes tratados con cirugía, y de 10% en los pacientes que no son candidatos quirúrgicos.\nVarios factores juegan un papel antes de decidir la intervención quirúrgica, como la edad, las comorbilidades, la movilidad del cuello, la duración de la extensión del cáncer y el grado de invasión.​\nLa intervención quirúrgica no es la recomendada en pacientes con tumores de más del 50% de la longitud traqueal porque conlleva un aumento de la mortalidad. Otras contraindicaciones para la cirugía incluyen insuficiencia respiratoria, dependencia de corticosteroides orales, invasión del corazón o la aorta, metástasis a distancia, compromiso de múltiples grupos de ganglios linfáticos y radioterapia previa con una dosis alta superior a 50 Gy.​​",
+  "instruction": "Extrae el perfil de la enfermedad",
+  "target_schema": {
+    "$defs": {
+      "EtiologyType": {
+        "enum": [
+          "INFECTIOUS",
+          "GENETIC",
+          "AUTOIMMUNE",
+          "DEGENERATIVE",
+          "UNKNOWN",
+          "OTHER"
+        ],
+        "title": "EtiologyType",
+        "type": "string"
+      },
+      "Symptom": {
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "description": "Verbatim name of the symptom",
+            "title": "Name",
+            "type": "string"
+          },
+          "severity_level": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Inferred severity if mentioned (Mild, Moderate, Severe)",
+            "title": "Severity Level"
+          },
+          "is_primary": {
+            "default": true,
+            "description": "True if this is a defining symptom of the disease",
+            "title": "Is Primary",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "name"
+        ],
+        "title": "Symptom",
+        "type": "object"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Hierarchical extraction of pathology details from medical summaries.\nComplexity: L5 (Hierarchical Grouping).",
+    "properties": {
+      "pathology_name": {
+        "description": "The medical name of the disease or disorder",
+        "title": "Pathology Name",
+        "type": "string"
+      },
+      "etiology_type": {
+        "$ref": "#/$defs/EtiologyType",
+        "description": "The primary origin or cause of the disease"
+      },
+      "etiology_description": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "A brief summary of how the disease is caused",
+        "title": "Etiology Description"
+      },
+      "symptoms": {
+        "description": "Structured list of reported symptoms",
+        "items": {
+          "$ref": "#/$defs/Symptom"
+        },
+        "title": "Symptoms",
+        "type": "array"
+      },
+      "diagnosis_methods": {
+        "description": "Clinical tests or methods mentioned for identifying the pathology",
+        "items": {
+          "type": "string"
+        },
+        "title": "Diagnosis Methods",
+        "type": "array"
+      },
+      "is_chronic": {
+        "anyOf": [
+          {
+            "type": "boolean"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "True if the text explicitly defines the disease as chronic or long-term",
+        "title": "Is Chronic"
+      }
+    },
+    "required": [
+      "pathology_name",
+      "etiology_type"
+    ],
+    "title": "DiseaseProfile",
+    "type": "object"
+  },
+  "output": {
+    "pathology_name": "Cáncer de tráquea",
+    "etiology_type": "OTHER",
+    "etiology_description": "El cáncer de tráquea puede provenir de células epiteliales, estructuras mesenquimales o glándulas salivales.",
+    "symptoms": [
+      {
+        "name": "obstrucción de la vía aérea",
+        "severity_level": null,
+        "is_primary": true
+      },
+      {
+        "name": "tos",
+        "severity_level": null,
+        "is_primary": true
+      },
+      {
+        "name": "hemoptisis",
+        "severity_level": null,
+        "is_primary": true
+      },
+      {
+        "name": "disfagia",
+        "severity_level": null,
+        "is_primary": false
+      },
+      {
+        "name": "ronquera",
+        "severity_level": null,
+        "is_primary": false
+      },
+      {
+        "name": "disnea",
+        "severity_level": null,
+        "is_primary": false
+      },
+      {
+        "name": "sibilancias",
+        "severity_level": null,
+        "is_primary": false
+      }
+    ],
+    "diagnosis_methods": [
+      "radiografía de tórax",
+      "TAC",
+      "broncoscopía",
+      "biopsia",
+      "ultrasonido endobronquial"
+    ],
+    "is_chronic": null
+  },
+  "metadata": {
+    "source": "wiki_diseases_20260414_cáncer_de_tráquea.md",
+    "domain": "medical",
+    "subdomain": "diseases"
+  }
+}

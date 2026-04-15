@@ -1,0 +1,97 @@
+{
+  "id": "legal_legislation_004",
+  "input_text": "# Ley de Carreteras de Canarias\n\nSource: https://es.wikipedia.org/wiki/Ley_de_Carreteras_de_Canarias\n\nLa Ley de Carreteras de Canarias o Ley 9/1991, de 8 de mayo, de Carreteras de Canarias​ (publicada en el Boletín Oficial de Canarias número 63, de 15 de mayo de 1991)​ es una ley autonómica aprobada por el Parlamento de Canarias el 8 de mayo de 1991 en el ejercicio de su potestad legislativa conferida por el Estatuto de Autonomía de Canarias.\n\nPrecisiones conceptuales\nConcepto de carretera de titularidad estatal o «carretera del Estado»\nLa Ley 37/2015, de 29 de septiembre, de carreteras,​ regula el régimen de carreteras en España. \nSu objeto, conforme al artículo 1, es, a los efectos de la ley, «la ordenación y gestión de la Red de Carreteras del Estado y sus correspondientes zonas de dominio público y protección». \nLos conceptos de carreteras y red de carreteras del Estado se regulan en el artículo 4 de la ley. \nEn cuanto a las carreteras del Estado central, de acuerdo con su apartado 1: «Son carreteras del Estado, a los efectos de esta ley, aquellas cuya titularidad, independientemente de su sistema de gestión, corresponde a la Administración General del Estado, que ejerce sus competencias sobre las mismas a través del Ministerio de Fomento. Las carreteras del Estado están constituidas por la Red de Carreteras del Estado y su Viario Anexo». \nY con respecto a la red de carreteras del Estado central, según el apartado 4: «Constituyen la Red de Carreteras del Estado las integradas en un itinerario de interés general o cuya función en el sistema de transporte afecte a más de una comunidad autónoma». \nEn su apartado 5 se define el concepto de itinerarios de interés general: «Se consideran itinerarios de interés general aquellos en los que concurra alguna de las siguientes circunstancias: a) Formar parte de los principales itinerarios de tráfico internacional incluidos en los correspondientes convenios. b) Constituir acceso principal a un puerto o aeropuerto de interés general, a los centros logísticos de la defensa, o a los del transporte y logística que sean declarados de interés general por el Ministerio de Fomento. c) Servir de acceso a los principales pasos fronterizos. d) Enlazar las comunidades autónomas, conectando los principales núcleos de población del territorio del Estado de manera que formen una red continua que soporte regularmente un tráfico de largo recorrido».\n\nInexistencia de carreteras estatales en Canarias\nEn el archipiélago canario no existen carreteras estatales pues lógicamente todas sus carreteras son intracomunitarias. La Ley de Carreteras de Canarias es básicamente un calco de la Ley estatal, aportando mejoras en muchos aspectos, que tiene en cuenta las especificidades canarias en cuanto a la orografía, la inexistencia de vías y transportes alternativos —como podría ser el ferrocarril—, la densidad de ocupación poblacional y otras circunstancias singulares.\n\nContenido de la Ley de Carreteras de Canarias\nLa Ley de Carreteras de Canarias comienza con una definición y clasificación de las carreteras, enumerándose las contenidas en la Ley estatal (autopistas, autovías, vías rápidas, carreteras convencionales, travesías, etc.). Aunque en Canarias no existen las denominadas vías rápidas catalogadas como tales, se identifican según la posesión de ciertas características que ofrecen una calidad en la circulación del tráfico rodado, tales como la distancia de los arcenes, número de carriles, límites de acceso, etc.\nLa Ley canaria realiza otra clasificación en función de la titularidad administrativa. Así, conforme a su situación geográfica, habrá carreteras regionales (de la comunidad autónoma), insulares (de los Cabildos insulares) y municipales (de los Ayuntamientos).\nOtro aspecto a destacar de la Ley canaria es la conceptualización de las zonas de dominio público y demás limitaciones genéricas como la zona de servidumbre, la zona de afección y el límite de edificación, todo ello adaptado a las especiales circunstancias del archipiélago canario. También se reconoce el respeto a los derechos adquiridos en el interior de las zonas de dominio público con anterioridad a la entrada en vigor de la propia Ley.\n\nDerecho supletorio\nLa Ley de Carreteras de Canarias se ve complementada supletoriamente, además de por la Ley estatal, por el Reglamento General de Carreteras o «Real Decreto 1812/1994, de 2 de septiembre, por el que se aprueba el Reglamento General de Carreteras»​ (publicado en el BOE número 228 de 23 de septiembre de 1994),​ que se dictó como desarrollo de la Ley estatal.\nEl Reglamento de Carreteras de Canarias previsto en la Disposición Transitoria Segunda de la Ley de Carreteras de Canarias fue aprobado mediante el Decreto 131/1995, de 11 de mayo.​\n\nVéase también\nRed de carreteras de Tenerife\nRed de carreteras de Gran Canaria\nCarreteras nacionales de España\nAutopistas y autovías de España\nCarreteras secundarias de España\n\n\n== Notas ==",
+  "instruction": "Extrae el resumen del contrato o acto legislativo",
+  "target_schema": {
+    "$defs": {
+      "JurisdictionScope": {
+        "enum": [
+          "NACIONAL",
+          "AUTONÓMICO",
+          "LOCAL",
+          "EUROPEO"
+        ],
+        "title": "JurisdictionScope",
+        "type": "string"
+      },
+      "LawRange": {
+        "enum": [
+          "LEY ORGÁNICA",
+          "LEY ORDINARIA",
+          "REAL DECRETO",
+          "REAL DECRETO-LEY",
+          "CONSTITUCIÓN",
+          "OTRA"
+        ],
+        "title": "LawRange",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Aggregates dispersed metadata and status of a Spanish law.\nComplexity: L7 (Dispersed Aggregation).",
+    "properties": {
+      "official_title": {
+        "description": "Full official title of the law",
+        "title": "Official Title",
+        "type": "string"
+      },
+      "law_range": {
+        "$ref": "#/$defs/LawRange",
+        "description": "The legal rank of the norm"
+      },
+      "sanction_date": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Date of sanction in YYYY-MM-DD",
+        "title": "Sanction Date"
+      },
+      "jurisdiction": {
+        "$ref": "#/$defs/JurisdictionScope",
+        "description": "The scope of application"
+      },
+      "is_repealed": {
+        "description": "True if the text mentions the law is no longer in effect or has been replaced",
+        "title": "Is Repealed",
+        "type": "boolean"
+      },
+      "affected_articles": {
+        "description": "List of specific articles mentioned as modified or relevant",
+        "items": {
+          "type": "string"
+        },
+        "title": "Affected Articles",
+        "type": "array"
+      }
+    },
+    "required": [
+      "official_title",
+      "law_range",
+      "jurisdiction",
+      "is_repealed"
+    ],
+    "title": "LegislativeAct",
+    "type": "object"
+  },
+  "output": {
+    "official_title": "Ley 9/1991, de 8 de mayo, de Carreteras de Canarias",
+    "law_range": "LEY ORDINARIA",
+    "sanction_date": "1991-05-08",
+    "jurisdiction": "AUTONÓMICO",
+    "is_repealed": false,
+    "affected_articles": [
+      "Disposición Transitoria Segunda"
+    ]
+  },
+  "metadata": {
+    "source": "wiki_legislation_20260414_ley_de_carreteras_de_canarias.md",
+    "domain": "legal",
+    "subdomain": "legislation"
+  }
+}

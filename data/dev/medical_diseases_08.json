@@ -1,0 +1,129 @@
+{
+  "id": "medical_diseases_08",
+  "input_text": "# Enfermedad crónica\n\nSource: https://es.wikipedia.org/wiki/Enfermedad_cr%C3%B3nica\n\nUna  enfermedad crónica  es una enfermedad de  larga duración y, por lo general, de progresión lenta.​ No hay un consenso acerca del plazo a partir del cual una enfermedad pasa a considerarse crónica; pero por término medio, toda enfermedad que tenga una duración mayor a seis meses puede considerarse como crónica. \nHay muchos tipos de enfermedades crónicas, desde la diabetes y el VIH hasta la artritis y el cansancio persistente. Si bien, la ciencia médica ha logrado grandes progresos en el desarrollo de tratamientos eficaces para los efectos físicos de estas enfermedades, muchas víctimas siguen enfrentando un desafío asombroso para su salud mental y emocional.\nLas enfermedades crónicas no se distribuyen al azar sino que se ven más frecuentemente en determinadas personas, familias y comunidades,​ como consecuencia de diversos factores ambientales que interactúan con un perfil genético vulnerable.​ Determinantes claves son los hábitos de vida perjudiciales para la salud.​\n\nEtimología\nEl término \"crónico\", del griego Χρονος (Chronos): «dios del tiempo», como su etimología lo indica, se refiere al tiempo de evolución de la enfermedad, pero nada dice acerca de su gravedad. Hay enfermedades crónicas sin gravedad alguna, como la rinitis crónica, y otras potencialmente muy graves, como la arterioesclerosis.\nCuando a una enfermedad se le pone el adjetivo crónica, se suele tratar de una enfermedad no curable salvo raras excepciones (por ejemplo la insuficiencia renal crónica es curable con el trasplante renal, algunos tipos de asma —sobre todo en la infancia— acaban curando, las hepatitis crónicas de origen vírico pueden curar con tratamiento antiviral).\n\nEpidemiología\nEn epidemiología se entienden como enfermedades crónicas aquellas enfermedades de alta prevalencia y no curables. En general incluyen enfermedades cardiovasculares (cardiopatía isquémica, insuficiencia cardíaca, enfermedad cerebrovascular, principalmente), enfermedades neoplásicas sin tratamiento curativo, enfermedades respiratorias crónicas (enfermedad pulmonar obstructiva crónica y asma), enfermedades osteoarticulares invalidantes (artritis reumatoide y artrosis grave), enfermedades invalidantes, diabetes mellitus, y otras muchas. Para el año 2005 la Organización Mundial de la Salud (OMS) calculó que 35 millones de personas murieron por culpa de una enfermedad crónica, de las cuales la mitad eran mujeres menores de 70 años.​ Tres años más tarde la OMS calculó que en 2008, 36 millones de personas murieron de una enfermedad crónica, de las cuales la mitad pertenecían al sexo femenino y el 29 % era de menos de 60 años de edad. También incluye la OMS dentro del concepto de enfermedades crónicas, una serie de minusvalías, como la ceguera o la hipoacusia (pérdida de audición).\nLas enfermedades crónicas graves tienen por causa factores de riesgo comunes y modificables. Dichos factores de riesgo explican la gran mayoría de las muertes por ese tipo de enfermedades a todas las edades, en hombres y mujeres y en todo el mundo. Entre ellos destacan:\n\nuna alimentación poco sana;\nla inactividad física;\nel consumo de tabaco.\nCada año, como mínimo:\n\n4,9 millones de personas mueren de resultas del tabaco;\n2,6 millones de personas mueren como consecuencia de su sobrepeso u obesidad;\n4,4 millones de personas mueren como resultado de unos niveles de colesterol total elevados;\n7,1 millones de personas mueren como resultado de una tensión arterial elevada. [...] Etiología\nEn respuesta a un considerable volumen de datos científicos emergentes, los Centros para el Control y Prevención de Enfermedades recientemente concluyeron que la fuente de prácticamente todas las enfermedades representa una compleja interacción entre las características genéticas del individuo con un ambiente modificable.​\nEn lugar de tratarse principalmente de un origen genético, la investigación en expansión sigue demostrando que la enfermedad crónica es generalmente la consecuencia de diversos factores ambientales que actúan en concierto con un perfil genético vulnerable, a menudo por mecanismos epigenéticos que regulan o modifican la expresión génica.​\nUn creciente número de enfermedades crónicas tiene como base la alteración de la permeabilidad intestinal. Estas comprenden enfermedades autoinmunes, cánceres, enfermedades del sistema nervioso, enfermedades inflamatorias, infecciones, alergias y asma. Menos del 10 % de aquellas personas con una mayor susceptibilidad genética desarrollan la enfermedad, lo que sugiere la existencia de un fuerte desencadenante ambiental, que afecta también al progreso y pronóstico de la enfermedad. En la mayoría de los casos, este aumento de la permeabilidad intestinal se produce antes que la enfermedad.​\nUna teoría sobre la causa del desarrollo de estas enfermedades es que pueden estar involucrados los antígenos absorbidos por el intestino, cuando la mucosa intestinal está dañada y existe un aumento de la permeabilidad intestinal. Esto provoca que el intestino pierda su capacidad de barrera protectora y pasen a la sangre sustancias que no deberían pasar, lo que puede ocasionar reacciones que desembocan en el desarrollo de enfermedades que pueden afectar a diversos órganos y sistemas.​ Los dos factores más potentes que producen aumento de la permeabilidad intestinal son ciertas bacterias intestinales y la gliadina​ (proteína que forma parte del gluten), independientemente de la predisposición genética, es decir, tanto en celíacos como en no celíacos.​​ Otras posibles causas son la prematuridad y la exposición a radiación, quimioterapia o ciertas toxinas.​",
+  "instruction": "Extrae el perfil de la enfermedad",
+  "target_schema": {
+    "$defs": {
+      "EtiologyType": {
+        "enum": [
+          "INFECTIOUS",
+          "GENETIC",
+          "AUTOIMMUNE",
+          "DEGENERATIVE",
+          "UNKNOWN",
+          "OTHER"
+        ],
+        "title": "EtiologyType",
+        "type": "string"
+      },
+      "Symptom": {
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "description": "Verbatim name of the symptom",
+            "title": "Name",
+            "type": "string"
+          },
+          "severity_level": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Inferred severity if mentioned (Mild, Moderate, Severe)",
+            "title": "Severity Level"
+          },
+          "is_primary": {
+            "default": true,
+            "description": "True if this is a defining symptom of the disease",
+            "title": "Is Primary",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "name"
+        ],
+        "title": "Symptom",
+        "type": "object"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Hierarchical extraction of pathology details from medical summaries.\nComplexity: L5 (Hierarchical Grouping).",
+    "properties": {
+      "pathology_name": {
+        "description": "The medical name of the disease or disorder",
+        "title": "Pathology Name",
+        "type": "string"
+      },
+      "etiology_type": {
+        "$ref": "#/$defs/EtiologyType",
+        "description": "The primary origin or cause of the disease"
+      },
+      "etiology_description": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "A brief summary of how the disease is caused",
+        "title": "Etiology Description"
+      },
+      "symptoms": {
+        "description": "Structured list of reported symptoms",
+        "items": {
+          "$ref": "#/$defs/Symptom"
+        },
+        "title": "Symptoms",
+        "type": "array"
+      },
+      "diagnosis_methods": {
+        "description": "Clinical tests or methods mentioned for identifying the pathology",
+        "items": {
+          "type": "string"
+        },
+        "title": "Diagnosis Methods",
+        "type": "array"
+      },
+      "is_chronic": {
+        "anyOf": [
+          {
+            "type": "boolean"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "True if the text explicitly defines the disease as chronic or long-term",
+        "title": "Is Chronic"
+      }
+    },
+    "required": [
+      "pathology_name",
+      "etiology_type"
+    ],
+    "title": "DiseaseProfile",
+    "type": "object"
+  },
+  "output": {
+    "pathology_name": "Enfermedad crónica",
+    "etiology_type": "OTHER",
+    "etiology_description": "Consecuencia de diversos factores ambientales que interactúan con un perfil genético vulnerable. Determinantes claves son los hábitos de vida perjudiciales para la salud.",
+    "symptoms": [],
+    "diagnosis_methods": [],
+    "is_chronic": true
+  },
+  "metadata": {
+    "source": "wiki_diseases_20260414_enfermedad_crónica.md",
+    "domain": "medical",
+    "subdomain": "diseases"
+  }
+}

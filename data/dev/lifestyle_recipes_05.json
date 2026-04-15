@@ -1,0 +1,190 @@
+{
+  "id": "lifestyle_recipes_05",
+  "input_text": "# Arroz bomba\n\nSource: https://es.wikipedia.org/wiki/Arroz_bomba\n\nArroz bomba es una variedad de arroz (Oryza sativa L.) de grano redondo.​ Es considerado un arroz de grano mediano debido a que contiene menos amilopectina.\nEste arroz es muy habitual en la cocina de la costa del este de España y se usa especialmente para la elaboración de paella​ y recetas similares.\n\nCaracterísticas\nSe trata de un arroz originario de la India.​ Este tipo de arroces se cultiva desde la Edad Media en la península ibérica y se caracteriza por ser menos fácilmente adherible al fondo de los recipientes de cocción (se debe al contenido de un tercio de amilosa). Es de la variedad de grano corto, posee un color perlado y un aspecto consistente.  Una característica de este arroz es que el grano posee una mayor resistencia a \"abrirse\" durante la cocción, debido en parte a que se suele expandir durante la misma (en algunas ocasiones se menciona que como un acordeón​). Tal expansión, puede llegar a alcanzar hasta dos, o tres veces volumen inicial del grano. Este tipo de arroz requiere un mayor contenido de agua que otros de grano largo. De esta forma, los granos suelen tener la misma estructura tras la cocción. Suele ser uno de los más caros entre los arroces españoles.​\nUno de los más preciados es procedente de Calasparra (este con denominación de Origen) y de Moratalla.[cita requerida] También tienen gran tradición los arroces bomba de Silla (Valencia) y, sobre todo, de Pego (Alicante).[cita requerida]\n\nPlagas\nEl cultivo de este arroz está amenazado en la Comunidad Valenciana por la Pyricularia​(en Murcia la misma piricularia ha causado mermas​) y las malezas.\n\nReferencias\nVéase también\nArroz glutinoso\n Wikimedia Commons alberga una categoría multimedia sobre Arroz bomba.\nArroz de Calasparra - Se trata de una Denominación de Origen de Murcia dónde se cultiva este tipo de arroz.",
+  "instruction": "Extrae la receta",
+  "target_schema": {
+    "$defs": {
+      "CookingTechnique": {
+        "enum": [
+          "SOFREÍR",
+          "HERVIR",
+          "HORNEAR",
+          "FREÍR",
+          "VAPOR",
+          "COCCIÓN LENTA"
+        ],
+        "title": "CookingTechnique",
+        "type": "string"
+      },
+      "DietaryTag": {
+        "enum": [
+          "VEGANO",
+          "VEGETARIANO",
+          "SIN GLUTEN",
+          "SIN LÁCTEOS",
+          "BAJO EN CARBOHIDRATOS"
+        ],
+        "title": "DietaryTag",
+        "type": "string"
+      },
+      "RecipeIngredient": {
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "description": "Verbatim name of the ingredient",
+            "title": "Name",
+            "type": "string"
+          },
+          "amount": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Numerical quantity",
+            "title": "Amount"
+          },
+          "unit": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/UnitType"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Unit of measurement"
+          }
+        },
+        "required": [
+          "name"
+        ],
+        "title": "RecipeIngredient",
+        "type": "object"
+      },
+      "UnitType": {
+        "enum": [
+          "g",
+          "ml",
+          "kg",
+          "unidad",
+          "pizca",
+          "cucharada",
+          "otro"
+        ],
+        "title": "UnitType",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Holistic reasoning over a traditional recipe.\nRequires inferring dietary suitability and complexity from steps.\nComplexity: L10 (Holistic Reasoning).",
+    "properties": {
+      "dish_name": {
+        "description": "The name of the recipe",
+        "title": "Dish Name",
+        "type": "string"
+      },
+      "servings": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of portions generated",
+        "title": "Servings"
+      },
+      "ingredients": {
+        "description": "Structured list of ingredients",
+        "items": {
+          "$ref": "#/$defs/RecipeIngredient"
+        },
+        "title": "Ingredients",
+        "type": "array"
+      },
+      "complexity_score": {
+        "description": "Inferred difficulty from 1 (easy) to 10 (pro chef) based on steps and time",
+        "maximum": 10,
+        "minimum": 1,
+        "title": "Complexity Score",
+        "type": "integer"
+      },
+      "dietary_tags": {
+        "description": "Reasoned tags based on the absence of certain ingredient types (e.g., meat, gluten)",
+        "items": {
+          "$ref": "#/$defs/DietaryTag"
+        },
+        "title": "Dietary Tags",
+        "type": "array"
+      },
+      "technique_sequence": {
+        "description": "The chronological sequence of main cooking techniques applied",
+        "items": {
+          "$ref": "#/$defs/CookingTechnique"
+        },
+        "title": "Technique Sequence",
+        "type": "array"
+      },
+      "total_time_minutes": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Normalized total duration in minutes",
+        "title": "Total Time Minutes"
+      }
+    },
+    "required": [
+      "dish_name",
+      "ingredients",
+      "complexity_score",
+      "technique_sequence"
+    ],
+    "title": "RecipeProcedural",
+    "type": "object"
+  },
+  "output": {
+    "dish_name": "Arroz bomba",
+    "servings": null,
+    "ingredients": [
+      {
+        "name": "arroz bomba",
+        "amount": null,
+        "unit": null
+      },
+      {
+        "name": "agua",
+        "amount": null,
+        "unit": null
+      }
+    ],
+    "complexity_score": 1,
+    "dietary_tags": [
+      "VEGANO",
+      "SIN GLUTEN",
+      "SIN LÁCTEOS"
+    ],
+    "technique_sequence": [
+      "HERVIR"
+    ],
+    "total_time_minutes": null
+  },
+  "metadata": {
+    "source": "wiki_recipe_20260414_arroz_bomba.md",
+    "domain": "lifestyle",
+    "subdomain": "recipes"
+  }
+}

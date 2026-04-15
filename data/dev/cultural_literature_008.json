@@ -1,0 +1,90 @@
+{
+  "id": "cultural_literature_008",
+  "input_text": "# Crónica de una muerte anunciada\n\n## Introducción\nCrónica de una muerte anunciada​ es una novela del escritor colombiano \nGabriel García Márquez, publicada en 1981. Fue incluida entre las 100 mejores en español del siglo XX del periódico español El Mundo.​\nRepresentó un acercamiento entre lo periodístico, lo narrativo, y una aproximación a la novela policial. La historia contada se inspira en un suceso real, ocurrido en 1951 en el Municipio de Sucre, al sur del Departamento de Sucre, en Colombia, del que el autor tomó la acción central (el crimen), los protagonistas, el escenario y las circunstancias, para alterar lo narrativo, pero sin descuidar los datos y las precisiones obligadas en toda crónica periodística.​\n\n## Argumento\nEn un pequeño y aislado pueblo en la costa del Caribe, se casan Bayardo San Román, un rico recién llegado, y Ángela Vicario. Se van a su nueva casa, y allí Bayardo descubre que su esposa no es virgen. Bayardo devuelve a Ángela a la casa de sus padres, donde es golpeada por su madre e interrogada por sus hermanos, Ángela culpará a Santiago Nasar.\nLos hermanos Vicario –Pedro y Pablo–, obligados por la defensa del honor familiar, anuncian a la mayoría del pueblo que matarían a Nasar. Este no se entera, sino minutos antes de morir. Los hermanos matan a cuchillazos a Santiago, después de pensarlo en varias ocasiones, en la puerta de su casa, a la vista de la gente que no hizo o no pudo hacer nada para evitarlo. Pasados 27 años, el amigo de Santiago (el narrador) reconstruye los hechos, de los que fue testigo, en forma de crónica, combinando narración y testimonios.\nAños después, Ángela estaría escribiendo cada día a Bayardo, primero en tono formal, después con cartas de joven enamorada y, al final, fingiendo enfermedades. Así, Bayardo vuelve 17 años después, muy desmejorado y con las cartas sin abrir.",
+  "instruction": "Extrae los metadatos bibliográficos y temas principales de la obra literaria descrita.",
+  "target_schema": {
+    "additionalProperties": false,
+    "description": "Extracts basic bibliographic metadata and key themes from a book description or encyclopedia entry.\nComplexity: L2 (Explicit Information Retrieval).",
+    "properties": {
+      "title": {
+        "description": "The official title of the literary work",
+        "title": "Title",
+        "type": "string"
+      },
+      "author": {
+        "description": "The primary author or creator of the work",
+        "title": "Author",
+        "type": "string"
+      },
+      "publication_year": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "The year the work was first published",
+        "title": "Publication Year"
+      },
+      "genres": {
+        "description": "Literary genres associated with the work (e.g., 'Science Fiction', 'Romance')",
+        "items": {
+          "type": "string"
+        },
+        "title": "Genres",
+        "type": "array"
+      },
+      "key_themes": {
+        "description": "Main topics or themes explored in the work",
+        "items": {
+          "type": "string"
+        },
+        "title": "Key Themes",
+        "type": "array"
+      },
+      "original_language": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "The language in which the work was originally written",
+        "title": "Original Language"
+      }
+    },
+    "required": [
+      "title",
+      "author"
+    ],
+    "title": "LiteraryWork",
+    "type": "object"
+  },
+  "output": {
+    "title": "Crónica de una muerte anunciada",
+    "author": "Gabriel García Márquez",
+    "publication_year": 1981,
+    "genres": [
+      "novela",
+      "novela policial",
+      "crónica"
+    ],
+    "key_themes": [
+      "honor",
+      "crimen",
+      "muerte"
+    ],
+    "original_language": "español"
+  },
+  "metadata": {
+    "source": "crónica_de_una_muerte_anunciada.md",
+    "domain": "cultural",
+    "subdomain": "literature"
+  }
+}

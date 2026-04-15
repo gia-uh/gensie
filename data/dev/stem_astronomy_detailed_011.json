@@ -1,0 +1,148 @@
+{
+  "id": "stem_astronomy_detailed_011",
+  "input_text": "# Eris (planeta enano)\n\nEris o (136199) Eris (símbolo: )​ es un planeta enano del sistema solar. Es el objeto transneptuniano más masivo, el segundo más grande después de Plutón y el cuerpo más grande del sistema solar que no ha sido visitado por una sonda espacial. Tiene un diámetro de 2326±12 km, ligeramente inferior a los 2377±2 km del de Plutón, y una masa un 27 % mayor que la de Plutón.​ En cambio, solo representa el 0,27 % de la masa terrestre. Fue descubierto en enero de 2005 por un equipo del observatorio Palomar dirigido por Michael E. Brown; su identidad fue verificada más tarde ese mismo año. Es un objeto transneptuniano (TNO), miembro de una población de objetos de alta excentricidad conocida como disco disperso, y posee un satélite llamado Disnomia. Estos objetos han sido arrastrados a una órbita más lejana de lo habitual por interacciones gravitatorias con Neptuno en las etapas iniciales de la formación del sistema solar. En febrero de 2016 su distancia al Sol era de 96,3 ua,​ alrededor de tres veces la de Plutón. Con la excepción de algunos cometas, Eris y Disnomia eran por entonces el segundo objeto natural más lejano del sistema solar ​ (el más lejano era V774104 descubierto en noviembre de 2015 a 103 ua).​\nPuesto que Eris parecía ser más grande que Plutón, la NASA lo consideró inicialmente como el décimo planeta del sistema solar, al igual que sus descubridores y los medios de comunicación.​ La perspectiva de que en el futuro se descubriesen otros objetos de tamaño similar, motivó a la Unión Astronómica Internacional (UAI) para definir el término «planeta» por primera vez mediante una resolución el 24 de agosto de 2006.​ Asimismo, la Asamblea determinó que Eris era un planeta enano, junto con Ceres, Plutón, Haumea y Makemake,​ por lo que se reducía el número de planetas conocidos del sistema solar a ocho, la misma cantidad que existía antes del descubrimiento de Plutón. Además, en julio de 2008 se creó la categoría plutoides en la que se incluyó a los planetas enanos excepto Ceres.​​\nLa observación de una ocultación estelar por Eris en 2010 mostró que su diámetro era de 2326±12 km, no muy diferente del de Plutón.​​ Después de que la New Horizons estableciera el diámetro de Plutón en 2372±4 km en julio de 2015, se concluyó que Eris es un poco más pequeño que Plutón.​",
+  "instruction": "Extrae las propiedades físicas y orbitales del cuerpo celeste descrito en el texto, incluyendo su nombre oficial, tipo de cuerpo, diámetro y datos de descubrimiento cuando estén disponibles.",
+  "target_schema": {
+    "$defs": {
+      "CelestialBodyType": {
+        "enum": [
+          "ASTEROIDE",
+          "COMETA",
+          "PLANETA",
+          "LUNA",
+          "PLANETA ENANO",
+          "OBJETO INTERESTELAR",
+          "OTRO"
+        ],
+        "title": "CelestialBodyType",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Extracts physical and orbital parameters of celestial bodies.\nComplexity: L5 (Precision Extraction & Normalization).",
+    "properties": {
+      "official_name": {
+        "description": "The primary scientific designation or name",
+        "title": "Official Name",
+        "type": "string"
+      },
+      "body_type": {
+        "$ref": "#/$defs/CelestialBodyType",
+        "description": "The classification of the celestial object"
+      },
+      "mass_kg": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Mass in kilograms (scientific notation or float)",
+        "title": "Mass Kg"
+      },
+      "diameter_km": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Mean diameter in kilometers",
+        "title": "Diameter Km"
+      },
+      "eccentricity": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Orbital eccentricity (e.g., 1.199)",
+        "title": "Eccentricity"
+      },
+      "orbital_period_days": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Time to complete one orbit in Earth days",
+        "title": "Orbital Period Days"
+      },
+      "semi_major_axis_au": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Average distance from the sun in AU",
+        "title": "Semi Major Axis Au"
+      },
+      "discovery_date": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Date of discovery in YYYY-MM-DD format",
+        "title": "Discovery Date"
+      },
+      "discoverer": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Name of the person or observatory that found the object",
+        "title": "Discoverer"
+      }
+    },
+    "required": [
+      "official_name",
+      "body_type"
+    ],
+    "title": "CelestialObjectProperties",
+    "type": "object"
+  },
+  "output": {
+    "official_name": "(136199) Eris",
+    "body_type": "PLANETA ENANO",
+    "mass_kg": null,
+    "diameter_km": 2326.0,
+    "eccentricity": null,
+    "orbital_period_days": null,
+    "semi_major_axis_au": null,
+    "discovery_date": null,
+    "discoverer": "Michael E. Brown"
+  },
+  "metadata": {
+    "source": "solar_system_11_eris.md",
+    "domain": "stem",
+    "subdomain": "astronomy_detailed"
+  }
+}

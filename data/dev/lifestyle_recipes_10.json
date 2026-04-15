@@ -1,0 +1,230 @@
+{
+  "id": "lifestyle_recipes_10",
+  "input_text": "# Caldereta de toro de lidia\n\nSource: https://es.wikipedia.org/wiki/Caldereta_de_toro_de_lidia\n\nLa caldereta de toro de lidia es un plato de comida típico de la gastronomía de España. Se considera un plato típico del norte de la Comunidad de Madrid, y se consume en las fiestas patronales de diferentes localidades madrileñas; aunque la tradición se ha extendido a otras comunidades autónomas de España como Guadalajara o Extremadura.\n\nHistoria\nTiene origen en la localidad madrileña de Hoyo de Manzanares, en 1787, año de fundación del pueblo.​Uno de los primeros toreros que comenzaron la tradición de este plato típico fue \"Filigranas\", apodado como \"El Calderetero\" tras alcanzar una gran fama durante el siglo XVIII por cocinar los toros que él mismo toreaba.​\n\nDescripción\nLa caldereta de toro de lidia es un guiso hecho a base de patatas y carne magra de toro de lidia, aliñada con ajos, aceite y, en ocasiones, un chorro de coñac. Para su preparación se calienta al fuego una amplia cazuela con el aceite de oliva, se dora la carne y se retira la cazuela. Se pelan y trocean las cebollas, zanahorias y pimientos, que se rehogan en la misma cazuela. Se cubren con vino blanco y tomate frito, se añaden las patatas, y se cuece a fuego lento hasta que las patatas estén blandas y la carne esté tierna.​​\nPara la caldereta se utiliza el rabo por ser una de las partes más gelatinosas de las carnes del toro.​ La carne del toro de lidia es una carne magra y dura. Es un producto autóctono de máxima calidad y alta densidad nutricional, y se considera un manjar procedente de las mejores ganaderías regionales según la Consejería de Medio Ambiente, Vivienda y Agricultura de la Comunidad Madrid.​",
+  "instruction": "Extrae la receta",
+  "target_schema": {
+    "$defs": {
+      "CookingTechnique": {
+        "enum": [
+          "SOFREÍR",
+          "HERVIR",
+          "HORNEAR",
+          "FREÍR",
+          "VAPOR",
+          "COCCIÓN LENTA"
+        ],
+        "title": "CookingTechnique",
+        "type": "string"
+      },
+      "DietaryTag": {
+        "enum": [
+          "VEGANO",
+          "VEGETARIANO",
+          "SIN GLUTEN",
+          "SIN LÁCTEOS",
+          "BAJO EN CARBOHIDRATOS"
+        ],
+        "title": "DietaryTag",
+        "type": "string"
+      },
+      "RecipeIngredient": {
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "description": "Verbatim name of the ingredient",
+            "title": "Name",
+            "type": "string"
+          },
+          "amount": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Numerical quantity",
+            "title": "Amount"
+          },
+          "unit": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/UnitType"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Unit of measurement"
+          }
+        },
+        "required": [
+          "name"
+        ],
+        "title": "RecipeIngredient",
+        "type": "object"
+      },
+      "UnitType": {
+        "enum": [
+          "g",
+          "ml",
+          "kg",
+          "unidad",
+          "pizca",
+          "cucharada",
+          "otro"
+        ],
+        "title": "UnitType",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Holistic reasoning over a traditional recipe.\nRequires inferring dietary suitability and complexity from steps.\nComplexity: L10 (Holistic Reasoning).",
+    "properties": {
+      "dish_name": {
+        "description": "The name of the recipe",
+        "title": "Dish Name",
+        "type": "string"
+      },
+      "servings": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of portions generated",
+        "title": "Servings"
+      },
+      "ingredients": {
+        "description": "Structured list of ingredients",
+        "items": {
+          "$ref": "#/$defs/RecipeIngredient"
+        },
+        "title": "Ingredients",
+        "type": "array"
+      },
+      "complexity_score": {
+        "description": "Inferred difficulty from 1 (easy) to 10 (pro chef) based on steps and time",
+        "maximum": 10,
+        "minimum": 1,
+        "title": "Complexity Score",
+        "type": "integer"
+      },
+      "dietary_tags": {
+        "description": "Reasoned tags based on the absence of certain ingredient types (e.g., meat, gluten)",
+        "items": {
+          "$ref": "#/$defs/DietaryTag"
+        },
+        "title": "Dietary Tags",
+        "type": "array"
+      },
+      "technique_sequence": {
+        "description": "The chronological sequence of main cooking techniques applied",
+        "items": {
+          "$ref": "#/$defs/CookingTechnique"
+        },
+        "title": "Technique Sequence",
+        "type": "array"
+      },
+      "total_time_minutes": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Normalized total duration in minutes",
+        "title": "Total Time Minutes"
+      }
+    },
+    "required": [
+      "dish_name",
+      "ingredients",
+      "complexity_score",
+      "technique_sequence"
+    ],
+    "title": "RecipeProcedural",
+    "type": "object"
+  },
+  "output": {
+    "dish_name": "Caldereta de toro de lidia",
+    "servings": null,
+    "ingredients": [
+      {
+        "name": "carne magra de toro de lidia",
+        "amount": null,
+        "unit": null
+      },
+      {
+        "name": "patatas",
+        "amount": null,
+        "unit": null
+      },
+      {
+        "name": "ajos",
+        "amount": null,
+        "unit": null
+      },
+      {
+        "name": "aceite de oliva",
+        "amount": null,
+        "unit": null
+      },
+      {
+        "name": "coñac",
+        "amount": null,
+        "unit": null
+      },
+      {
+        "name": "cebollas",
+        "amount": null,
+        "unit": null
+      },
+      {
+        "name": "zanahorias",
+        "amount": null,
+        "unit": null
+      },
+      {
+        "name": "pimientos",
+        "amount": null,
+        "unit": null
+      },
+      {
+        "name": "vino blanco",
+        "amount": null,
+        "unit": null
+      },
+      {
+        "name": "tomate frito",
+        "amount": null,
+        "unit": null
+      }
+    ],
+    "complexity_score": 5,
+    "dietary_tags": [
+      "SIN GLUTEN",
+      "SIN LÁCTEOS"
+    ],
+    "technique_sequence": [
+      "SOFREÍR",
+      "COCCIÓN LENTA"
+    ],
+    "total_time_minutes": null
+  },
+  "metadata": {
+    "source": "wiki_recipe_20260414_caldereta_de_toro_de_lidia.md",
+    "domain": "lifestyle",
+    "subdomain": "recipes"
+  }
+}

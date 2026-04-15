@@ -1,0 +1,127 @@
+{
+  "id": "technical_software_013",
+  "input_text": "# 7-Zip\n\n7-Zip es un archivador de ficheros libre desarrollado por Igor Pavlov. Por defecto utiliza el formato de archivo 7z, también libre, (con extensión .7z). Este formato usa los métodos de compresión LZMA y PPMD (más adecuado para textos), desarrollados por su autor, y puede aplicar un filtro a los ejecutables para aumentar su compresibilidad. Los archivos 7z pueden ser sólidos, donde múltiples archivos de tipo similar se comprimen en un único flujo, con el fin de explotar la redundancia combinado inherente a archivos similares, a diferencia de los ZIP, lo que mejora la compresión de conjuntos de archivos pequeños.\n\n\n== Características ==\nAlto porcentaje de compresión con el formato 7z.\n7-Zip es software libre con licencia GNU GPL.\nSegún la web oficial, comprime de 30% a 70% más que el Formato de compresión ZIP y PKZip.​\nCapacidad de autoextracción para el formato 7z.",
+  "instruction": "Analiza la descripción del software para extraer detalles técnicos, desarrolladores y licencias.",
+  "target_schema": {
+    "$defs": {
+      "SoftwareType": {
+        "enum": [
+          "ARCHIVER",
+          "WEB_BROWSER",
+          "OFFICE_SUITE",
+          "IDE_EDITOR",
+          "GRAPHICS_EDITOR",
+          "MEDIA_PLAYER",
+          "SYSTEM_TOOL",
+          "OTHER"
+        ],
+        "title": "SoftwareType",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Detailed technical description of a software application.\nComplexity: L9 (Adversarial Null Traps).",
+    "properties": {
+      "official_name": {
+        "description": "The full official name of the software",
+        "title": "Official Name",
+        "type": "string"
+      },
+      "app_category": {
+        "$ref": "#/$defs/SoftwareType",
+        "description": "The primary functional category of the app"
+      },
+      "license": {
+        "description": "The specific license mentioned (e.g., GPL, Proprietary)",
+        "title": "License",
+        "type": "string"
+      },
+      "platforms": {
+        "description": "Operating systems mentioned as supported (e.g., Windows, macOS, Linux)",
+        "items": {
+          "type": "string"
+        },
+        "title": "Platforms",
+        "type": "array"
+      },
+      "primary_developer": {
+        "description": "The individual or organization that developed the software",
+        "title": "Primary Developer",
+        "type": "string"
+      },
+      "features": {
+        "description": "List of specific technical capabilities or features mentioned",
+        "items": {
+          "type": "string"
+        },
+        "title": "Features",
+        "type": "array"
+      },
+      "exact_release_date": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "The EXACT date (DD/MM/YYYY) of the first release. RETURN NULL IF ONLY THE YEAR IS MENTIONED.",
+        "title": "Exact Release Date"
+      },
+      "latest_stable_version_sha256": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "The SHA256 checksum of the latest installer. RETURN NULL IF NOT EXPLICITLY IN THE TEXT.",
+        "title": "Latest Stable Version Sha256"
+      },
+      "current_ceo_name": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "The name of the current CEO of the developing organization. RETURN NULL IF NOT IN TEXT.",
+        "title": "Current Ceo Name"
+      }
+    },
+    "required": [
+      "official_name",
+      "app_category",
+      "license",
+      "primary_developer"
+    ],
+    "title": "SoftwareDescription",
+    "type": "object"
+  },
+  "output": {
+    "official_name": "7-Zip",
+    "app_category": "ARCHIVER",
+    "license": "GNU LGPL",
+    "platforms": [],
+    "primary_developer": "Igor Pavlov",
+    "features": [
+      "compresión de archivos"
+    ],
+    "exact_release_date": null,
+    "latest_stable_version_sha256": null,
+    "current_ceo_name": null
+  },
+  "metadata": {
+    "source": "wiki_7-zip.md",
+    "domain": "technical",
+    "subdomain": "software"
+  }
+}

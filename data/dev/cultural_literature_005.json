@@ -1,0 +1,89 @@
+{
+  "id": "cultural_literature_005",
+  "input_text": "# La Regenta\n\n## Introducción\nLa Regenta es la primera novela de Leopoldo Alas «Clarín», publicada en dos tomos en 1884 y 1885.​ En palabras de su autor, «fue escrita o artículos sueltos» que «según iba escribiendo iba mandando al editor». Gran parte de la crítica la ha considerado la obra cumbre de Clarín y de la novela española del siglo XIX, la segunda de la literatura española​ y uno de los máximos exponentes del naturalismo y del realismo. Asimismo, la crítica ha venido señalando, desde el momento de su publicación, los vínculos entre La Regenta y Madame Bovary (1857), del escritor francés Gustave Flaubert.​\nLa novela, cuya acción transcurre en  Vetusta, una ciudad provinciana española tras cuyo nombre enmascaró Clarín a la capital asturiana, Oviedo, solo pudo ser publicada en Barcelona (Daniel Cortezo y Cía.), ya que constituyó un verdadero escándalo en su momento, sobre todo en Oviedo, donde el obispo de la ciudad, Ramón Martínez Vigil, publicó en su contra una pastoral que mereció una réplica de Clarín.​​\nLa novela narra la historia de Ana Ozores, una joven y bella mujer atrapada en un matrimonio sin amor con el regente de la ciudad de Vetusta, un hombre mayor y severo. A pesar de su aparente respetabilidad, Ana sufre una intensa agitación emocional y espiritual, luchando con sus deseos y una creciente sensación de aislamiento. Se convierte en el objeto de deseo de dos hombres: el carismático y moralmente ambiguo Don Álvaro, y el devoto pero reprimido sacerdote Fermín de Pas. Atrapada entre estas influencias conflictivas, el conflicto interno de Ana se intensifica, llevándola a una crisis de fe e identidad. La novela explora temas de presión social, represión, hipocresía y las tensiones entre los deseos personales y las expectativas públicas, ofreciendo una aguda crítica del tejido moral y religioso de la sociedad española.\nEn su argumento se basó la versión cinematográfica homónima de 1974 dirigida por Gonzalo Suárez y protagonizada por Emma Penella. De 1995 data la serie para televisión homónima, dirigida por Fernando Méndez Leite, con Aitana Sánchez-Gijón y Carmelo Gómez como protagonistas.\n\n## Argumento\nEn la ciudad de provincias de Vetusta, vive Ana Ozores, una mujer de noble linaje venido a menos, casada con don Víctor Quintanar, regente de la Audiencia, de quien recibe el apelativo de «La Regenta». El matrimonio de Ana con don Víctor fue una unión de conveniencia; ella, mucho más joven que su esposo, lo considera más un amigo y protector que un verdadero compañero de vida. Su existencia transcurre entre la soledad y el tedio, marcada por la frustración de no haber sido madre y el anhelo de algo más elevado y desconocido. Su marido, por su parte, aunque sin quererlo, no le presta la atención adecuada y no comprende sus necesidades, prefiriendo la caza a ella. Los conflictos internos de Ana y su fragilidad la llevan a una morbosa exaltación mística hacia el joven vicario de la diócesis, don Fermín, quien siente cierta atracción física hacia la mujer, que sin embargo ella no corresponde. Al mismo tiempo, la bella y sensual protagonista cede a las tentaciones del confidente de su marido, don Álvaro Mesía, conocido como el Don Juan de Vetusta. Su relación permanece en secreto hasta que la criada de Ana, Petra, revela la traición a Don Víctor. El ex regente decide entonces desafiar a duelo al traidor, pero inesperadamente sale derrotado. La novela termina con la descripción de Ana: consumida por el remordimiento y la postración espiritual y física, está destinada a la muerte social.",
+  "instruction": "Extrae los metadatos bibliográficos y temas principales de la obra literaria descrita.",
+  "target_schema": {
+    "additionalProperties": false,
+    "description": "Extracts basic bibliographic metadata and key themes from a book description or encyclopedia entry.\nComplexity: L2 (Explicit Information Retrieval).",
+    "properties": {
+      "title": {
+        "description": "The official title of the literary work",
+        "title": "Title",
+        "type": "string"
+      },
+      "author": {
+        "description": "The primary author or creator of the work",
+        "title": "Author",
+        "type": "string"
+      },
+      "publication_year": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "The year the work was first published",
+        "title": "Publication Year"
+      },
+      "genres": {
+        "description": "Literary genres associated with the work (e.g., 'Science Fiction', 'Romance')",
+        "items": {
+          "type": "string"
+        },
+        "title": "Genres",
+        "type": "array"
+      },
+      "key_themes": {
+        "description": "Main topics or themes explored in the work",
+        "items": {
+          "type": "string"
+        },
+        "title": "Key Themes",
+        "type": "array"
+      },
+      "original_language": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "The language in which the work was originally written",
+        "title": "Original Language"
+      }
+    },
+    "required": [
+      "title",
+      "author"
+    ],
+    "title": "LiteraryWork",
+    "type": "object"
+  },
+  "output": {
+    "title": "La Regenta",
+    "author": "Leopoldo Alas «Clarín»",
+    "publication_year": 1884,
+    "genres": [
+      "naturalismo",
+      "realismo"
+    ],
+    "key_themes": [
+      "presión social",
+      "represión",
+      "hipocresía"
+    ],
+    "original_language": null
+  },
+  "metadata": {
+    "source": "la_regenta.md",
+    "domain": "cultural",
+    "subdomain": "literature"
+  }
+}

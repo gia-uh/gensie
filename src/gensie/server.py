@@ -5,6 +5,10 @@ from typing import Any, Dict
 import importlib
 import os
 
+from logging import getLogger
+
+logger = getLogger("gensie")
+
 app = FastAPI(title="GenSIE Agent Server")
 
 # Global participant instance
@@ -48,4 +52,5 @@ async def run_task(
         result = agent.run(task, model=model)
         return result
     except Exception as e:
+        logger.error(str(e))
         raise HTTPException(status_code=500, detail=str(e))

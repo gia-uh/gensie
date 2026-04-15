@@ -1,0 +1,160 @@
+{
+  "id": "legal_judicial_008",
+  "input_text": "# A 17 años del atentado a la AMIA, la presidenta de Argentina asistiría al acto conmemorativo\n\nEste lunes 18 de julio se conmemora el 17º aniversario del atentado a la mutual judía AMIA y la DAIA.\nLa presidenta Cristina Fernández de Kirchner asistiría al acto central, que se realizará en las puertas del edificio en Pasteur 633, a las 9:30 horas. La convocatoria contará con la presencia de familiares y ciudadanos en general bajo el lema \"Tu presencia en el acto es un atentado al olvido\".\nA las 9.53 sonará un sirena, hora en que dentonó la bomba en el edificio de la AMIA el 18 de julio de 1994 y que causó 85 muertos y muchos heridos. Durante el acto hablarán el presidente de la mutual AMIA, Guillermo Borger, un familiar de las víctimas, y el juez federal, Daniel Rafecas.\nLa presidenta de Argentina confirmó su presencia, y estaría en el palco del acto junto al canciller Héctor Timmerman y varios funcionarios del gabinete presidencial.\nPor su parte, el grupo Memoria Activa realizará un acto hoy a la tarde, a las 17:30 horas locales, en Pasteur 633, bajo el lema \"votá verdad y justicia\".Hablaran en ese acto la rabina Silvina Chemen, el periodista Alfredo Zaiat. un familiar y un estudiante. El grupo Memoria Activa, integrado por familaires de víctimas del atentado, ante el descontento con los avances de la causa judicial, anunciaron que podrían pedir a la Corte Interamericana de Derechos Humanos que el estado argentino sea sancionado.",
+  "instruction": "Extrae la información estructurada de este artículo de noticias sobre un evento judicial, incluyendo el titular, resumen, categoría, ubicación, fecha, personas y organizaciones clave, y cifras de víctimas.",
+  "target_schema": {
+    "$defs": {
+      "NewsCategory": {
+        "enum": [
+          "JUDICIAL",
+          "DISASTER",
+          "HEALTH",
+          "ENVIRONMENT",
+          "POLITICS",
+          "ECONOMY",
+          "SCIENCE",
+          "CULTURE",
+          "SPORTS",
+          "OTHER"
+        ],
+        "title": "NewsCategory",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Extracts structured information from general news articles.\nComplexity: L4 (Sparse Extraction) - Some fields may be null/missing.",
+    "properties": {
+      "headline": {
+        "description": "The main headline or title of the news article",
+        "title": "Headline",
+        "type": "string"
+      },
+      "summary": {
+        "description": "A brief summary of the main facts reported (1-3 sentences)",
+        "title": "Summary",
+        "type": "string"
+      },
+      "category": {
+        "$ref": "#/$defs/NewsCategory",
+        "description": "The thematic category of the news story"
+      },
+      "location": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Geographic location where the event occurred (city, country, or region)",
+        "title": "Location"
+      },
+      "date": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Date mentioned in the article (may be implicit or explicit)",
+        "title": "Date"
+      },
+      "key_people": {
+        "description": "Names of key individuals mentioned in the article",
+        "items": {
+          "type": "string"
+        },
+        "title": "Key People",
+        "type": "array"
+      },
+      "key_organizations": {
+        "description": "Names of organizations, companies, or governments mentioned",
+        "items": {
+          "type": "string"
+        },
+        "title": "Key Organizations",
+        "type": "array"
+      },
+      "casualties": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of deaths mentioned, if any",
+        "title": "Casualties"
+      },
+      "injured": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of people injured, if any",
+        "title": "Injured"
+      },
+      "affected_count": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of people affected or displaced, if applicable",
+        "title": "Affected Count"
+      }
+    },
+    "required": [
+      "headline",
+      "summary",
+      "category"
+    ],
+    "title": "NewsArticle",
+    "type": "object"
+  },
+  "output": {
+    "headline": "A 17 años del atentado a la AMIA, la presidenta de Argentina asistiría al acto conmemorativo",
+    "summary": "Se conmemora el 17º aniversario del atentado a la mutual judía AMIA y la DAIA. La presidenta Cristina Fernández de Kirchner asistiría al acto central en Pasteur 633, donde a las 9:53 sonará una sirena recordando la hora en que detonó la bomba el 18 de julio de 1994, causando 85 muertos.",
+    "category": "JUDICIAL",
+    "location": "Pasteur 633, Argentina",
+    "date": "18 de julio de 1994",
+    "key_people": [
+      "Cristina Fernández de Kirchner",
+      "Guillermo Borger",
+      "Daniel Rafecas",
+      "Héctor Timmerman",
+      "Silvina Chemen",
+      "Alfredo Zaiat"
+    ],
+    "key_organizations": [
+      "AMIA",
+      "DAIA",
+      "Memoria Activa",
+      "Corte Interamericana de Derechos Humanos"
+    ],
+    "casualties": 85,
+    "injured": null,
+    "affected_count": null
+  },
+  "metadata": {
+    "source": "wikinews_judicial_20260415_008_a_17_años_del_atentado_a_la_amia_la_presidenta_de_.md",
+    "domain": "legal",
+    "subdomain": "judicial"
+  }
+}

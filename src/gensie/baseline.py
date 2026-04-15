@@ -4,6 +4,11 @@ from typing import Any, Dict
 from openai import OpenAI
 from gensie.agent import GenSIEAgent, Participant, ParticipantInfo, PipelineInfo
 from gensie.task import Task
+from dotenv import load_dotenv
+from logging import getLogger
+
+load_dotenv()
+logger = getLogger("gensie")
 
 
 class BasicAgent(GenSIEAgent):
@@ -53,6 +58,9 @@ class BasicAgent(GenSIEAgent):
         except (json.JSONDecodeError, AttributeError, IndexError) as e:
             # Fallback for unexpected API errors
             return {"error": f"Failed to parse model response: {str(e)}"}
+        except Exception as e:
+            logger.error(str(e))
+            return {"error": str(e)}
 
 
 class OfficialParticipant(Participant):

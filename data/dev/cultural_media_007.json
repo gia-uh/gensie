@@ -1,0 +1,150 @@
+{
+  "id": "cultural_media_007",
+  "input_text": "# Me he llevado un pequeño chasco con 'Malcolm: De mal en peor'. El revival de la estupenda sitcom con Frankie Muniz y Bryan Cranston no hace justicia a la original\n\nSource: https://www.espinof.com/criticas/me-he-llevado-pequeno-chasco-malcolm-mal-peor-revival-estupenda-sitcom-frankie-muniz-bryan-cranston-no-hace-justicia-a-original\n\nCasi 20 años después (el último episodio se emitió en mayo de 2006) regresa Malcolm y su alocada familia. Disney+ ha estrenado '\nMalcolm: De mal en peor\n' (Malcolm: Life Is Still Unfair), miniserie de cuatro episodios creada por Linwood Boomer, creador de\nla serie original\n. Y la verdad es que para lo que han hecho, casi mejor ni molestarse.\nNo es que sea mala, pero sí que es bastante anodina en lo que retomamos el contacto con la familia en lo que se prepara para el 40 aniversario de los padres. Con esta sinopsis tan escueta como suficiente regresamos a la vida del personaje interpretado por\nFrankie Muniz\ny de un detalle importante de saber:\ntodos estos años ha decidido poner una distancia\nde seguridad más que prudencial con su familia, ya que sacan lo peor de él. Algo que afecta también a su hija y su novia.\nMalcolm: siempre en medio\nComo espectador de la serie original\n, tenía bastantes ganas de ver este breve revival. Y lo mejor que se puede decir es que prácticamente parece que no ha pasado el tiempo. Sí, claro, están más mayores e incluso a alguno de los secundarios habituales les ha pasado algo más factura que otros, pero el ingenio y la comedia física característica de la sitcom están intacto.\nEn Espinof\nAl actor original de Dewey le ofrecieron \"un pastizal\" para participar en el revival de 'Malcolm'. Prefirió estudiar\nEl hecho de que los cuatro episodios estén unidos por la misma historia hace que por longitud y cómo se van repartiendo las subtramas, uno tenga más la sensación de estar viendo '\nMalcolm: La película\n' que una miniserie. Es verdad que debido al formato elegido (en realidad son algo menos de dos horas de metraje en total) es difícil que no parezca otra cosa. O esto o episodio extremadamente largo.\nDicho esto, donde\nmás falla la miniserie es en el equilibrio de las tramas\n, sobre todo respecto a los hermanos de Malcolm. Se notan\npoco rematadas\n, especialmente la de Reese pese a que es la que proporciona el mayor grado de comedia física. Otras, sí que es verdad, que funcionan muy bien: podría ver perfectamente un spin-off con Leah y Tristian.\nTampoco ayuda que en estos 20 años tengamos dos hermanos \"nuevos\" —Jamie era un niño pequeño en las últimas temporadas y se sugería que Lois estaba embarazada de Kelly al final de la serie— a los que estamos conociendo ahora y tenemos un contexto algo parco sobre ellos. Esto causa que\nen algún momento de mucho peso emocional el espectador se halle algo desconcertado\n, como si se hubiera perdido algo.\nNo es problema, en absoluto, de los actores.\nVaughan Murrae tiene una bastante presencia con un papel prominente y lo resuelve con gracilidad\n. También se nota que el reparto ha venido a jugar, sobre todo un\nBryan Cranston delirante\n(literalmente) y una Jane Kaczmarek que sigue dando oro interpretativo.\nEn resumidas cuentas podría decir que, si bien hay cosas que funcionan y me he divertido, me he llevado un pequeño chasco con 'Malcolm: De mal en peor'. Una miniserie entrañable pero que,\nmás allá del factor nostalgia y algún que otro gag estupendo, no hace justicia a la serie original\n.\nEn Espinof |\nLas series más esperadas de 2026\nEn Espinof |\nLas 23 mejores series que puedes ver en Hulu, el antiguo Star de Disney+",
+  "instruction": "Extrae la información técnica de la miniserie, el reparto mencionado y los puntos positivos y negativos destacados en la crítica.",
+  "target_schema": {
+    "$defs": {
+      "MediumType": {
+        "enum": [
+          "MOVIE",
+          "BOOK",
+          "TV_SERIES",
+          "VIDEO_GAME"
+        ],
+        "title": "MediumType",
+        "type": "string"
+      },
+      "Sentiment": {
+        "enum": [
+          "POSITIVE",
+          "NEUTRAL",
+          "NEGATIVE"
+        ],
+        "title": "Sentiment",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Extracts comprehensive metadata and subjective critique from a cultural review.\nComplexity: L5 (Opinion Distillation & Fact Aggregation).",
+    "properties": {
+      "work_title": {
+        "description": "The name of the movie, book, or series",
+        "title": "Work Title",
+        "type": "string"
+      },
+      "medium": {
+        "$ref": "#/$defs/MediumType",
+        "description": "The type of media being reviewed"
+      },
+      "director": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "The person who directed the film or series",
+        "title": "Director"
+      },
+      "main_cast": {
+        "description": "Key actors or performers mentioned in the review",
+        "items": {
+          "type": "string"
+        },
+        "title": "Main Cast",
+        "type": "array"
+      },
+      "release_year": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "The year the work was released",
+        "title": "Release Year"
+      },
+      "rating": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "The score given by the reviewer, normalized to a 0-10 scale",
+        "title": "Rating"
+      },
+      "sentiment": {
+        "$ref": "#/$defs/Sentiment",
+        "description": "Overall tone of the review"
+      },
+      "pros": {
+        "description": "Specific positive aspects highlighted by the critic",
+        "items": {
+          "type": "string"
+        },
+        "title": "Pros",
+        "type": "array"
+      },
+      "cons": {
+        "description": "Specific negative aspects or flaws mentioned",
+        "items": {
+          "type": "string"
+        },
+        "title": "Cons",
+        "type": "array"
+      },
+      "key_verdict": {
+        "description": "A concise summary of the final judgment (e.g., 'Una copia barata', 'Fascinante rareza')",
+        "title": "Key Verdict",
+        "type": "string"
+      }
+    },
+    "required": [
+      "work_title",
+      "medium",
+      "sentiment",
+      "key_verdict"
+    ],
+    "title": "MediaReview",
+    "type": "object"
+  },
+  "output": {
+    "work_title": "Malcolm: De mal en peor",
+    "medium": "TV_SERIES",
+    "director": null,
+    "main_cast": [
+      "Frankie Muniz",
+      "Bryan Cranston",
+      "Jane Kaczmarek",
+      "Vaughan Murrae"
+    ],
+    "release_year": null,
+    "rating": null,
+    "sentiment": "NEGATIVE",
+    "pros": [
+      "El ingenio y la comedia física de la sitcom están intactos",
+      "El reparto ha venido a jugar, con un Bryan Cranston delirante y una Jane Kaczmarek que sigue dando oro interpretativo"
+    ],
+    "cons": [
+      "Bastante anodina",
+      "Las tramas de los hermanos están poco rematadas",
+      "No hace justicia a la serie original"
+    ],
+    "key_verdict": "Un pequeño chasco que no hace justicia a la sitcom original"
+  },
+  "metadata": {
+    "source": "espinof_me-he-llevado-pequeno-chasco-malcolm-mal-peor-revival-estupenda-sitcom-frankie-muniz-bryan-cranston-no-hace-justicia-a-original.md",
+    "domain": "cultural",
+    "subdomain": "movie_reviews"
+  }
+}

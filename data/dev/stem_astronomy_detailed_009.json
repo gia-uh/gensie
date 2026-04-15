@@ -1,0 +1,148 @@
+{
+  "id": "stem_astronomy_detailed_009",
+  "input_text": "# Ceres (planeta enano)\n\nCeres es un planeta enano y el objeto astronómico más grande del cinturón de asteroides, región del sistema solar que se encuentra entre las órbitas de Marte y Júpiter. Fue el primer asteroide descubierto, el 1 de enero de 1801, por el astrónomo y sacerdote Giuseppe Piazzi desde el Observatorio Astronómico de Palermo, en Italia. Originalmente fue considerado un planeta, pero se catalogó como asteroide en la década de 1850 cuando se empezaron a descubrir otros objetos en órbitas similares. A comienzos del siglo XXI, tras la redefinición de «planeta», fue reclasificado en planeta enano, siendo además el único completamente dentro de la órbita de Neptuno. Su diámetro de aproximadamente 945 km lo convierte en el 33.º objeto conocido más grande del sistema solar. Se estima que su masa es un tercio de la masa total del cinturón de asteroides, siendo el único objeto de dicho cinturón que ha alcanzado el equilibrio hidrostático.\nVisto desde la Tierra, su magnitud aparente oscila entre 6,7 y 9,3; por lo tanto, es demasiado débil para ser observado a simple vista excepto en las oposiciones más favorables y bajo cielos muy oscuros. Como resultado, las características de su superficie son apenas visibles incluso con los telescopios más potentes, y poco se sabía sobre él hasta que la sonda robótica Dawn, de la NASA, se acercó a Ceres para su misión orbital en 2015.\nDawn descubrió que la superficie está compuesta por una mezcla de hielo de agua y diversos minerales hidratados como carbonatos y arcillas. Los datos de gravedad sugieren que el interior de Ceres podría estar diferenciado en un núcleo rocoso y un manto de hielo, y existir un océano bajo la capa de hielo.​​ Aunque es probable que Ceres carezca de un océano interno de agua líquida, las salmueras todavía fluyen a través del manto exterior y llegan a la superficie, lo que permite que criovolcanes como el Ahuna Mons se formen aproximadamente cada cincuenta millones de años. Esto convierte a Ceres en el cuerpo criovolcánico conocido más cercano al Sol, y las salmueras proporcionan un hábitat potencial para la vida microbiana.\nEn enero de 2014 se detectaron emisiones de vapor de agua de varias regiones de Ceres,​ creando una atmósfera tenue y transitoria conocida como exosfera, un hecho imprevisto en los grandes objetos del cinturón de asteroides y sello distintivo de los cometas.",
+  "instruction": "Extrae las propiedades físicas y orbitales del cuerpo celeste descrito en el texto, incluyendo su nombre oficial, clasificación, diámetro y datos de su descubrimiento.",
+  "target_schema": {
+    "$defs": {
+      "CelestialBodyType": {
+        "enum": [
+          "ASTEROIDE",
+          "COMETA",
+          "PLANETA",
+          "LUNA",
+          "PLANETA ENANO",
+          "OBJETO INTERESTELAR",
+          "OTRO"
+        ],
+        "title": "CelestialBodyType",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Extracts physical and orbital parameters of celestial bodies.\nComplexity: L5 (Precision Extraction & Normalization).",
+    "properties": {
+      "official_name": {
+        "description": "The primary scientific designation or name",
+        "title": "Official Name",
+        "type": "string"
+      },
+      "body_type": {
+        "$ref": "#/$defs/CelestialBodyType",
+        "description": "The classification of the celestial object"
+      },
+      "mass_kg": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Mass in kilograms (scientific notation or float)",
+        "title": "Mass Kg"
+      },
+      "diameter_km": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Mean diameter in kilometers",
+        "title": "Diameter Km"
+      },
+      "eccentricity": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Orbital eccentricity (e.g., 1.199)",
+        "title": "Eccentricity"
+      },
+      "orbital_period_days": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Time to complete one orbit in Earth days",
+        "title": "Orbital Period Days"
+      },
+      "semi_major_axis_au": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Average distance from the sun in AU",
+        "title": "Semi Major Axis Au"
+      },
+      "discovery_date": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Date of discovery in YYYY-MM-DD format",
+        "title": "Discovery Date"
+      },
+      "discoverer": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Name of the person or observatory that found the object",
+        "title": "Discoverer"
+      }
+    },
+    "required": [
+      "official_name",
+      "body_type"
+    ],
+    "title": "CelestialObjectProperties",
+    "type": "object"
+  },
+  "output": {
+    "official_name": "Ceres",
+    "body_type": "PLANETA ENANO",
+    "mass_kg": null,
+    "diameter_km": 945.0,
+    "eccentricity": null,
+    "orbital_period_days": null,
+    "semi_major_axis_au": null,
+    "discovery_date": "1801-01-01",
+    "discoverer": "Giuseppe Piazzi"
+  },
+  "metadata": {
+    "source": "solar_system_09_ceres.md",
+    "domain": "stem",
+    "subdomain": "astronomy_detailed"
+  }
+}

@@ -1,0 +1,150 @@
+{
+  "id": "cultural_media_009",
+  "input_text": "# 'Incontrolable' es un biopic formulaico, pero despierta una ternura infinita. Y tiene la primera gran interpretación del año\n\nSource: https://www.espinof.com/criticas/incontrolable-biopic-formulaico-despierta-ternura-infinita-tiene-primera-gran-interpretacion-ano\n\nHay algo de justicia poética -y también es muy bonito- en que\nRobert Aramayo\nle arrebatara el BAFTA a Timothée Chalamet por su trabajo en '\nIncontrolable\n'. No porque uno sea mejor, sino porque aquí hay una interpretación que nace desde un lugar muy honesto y que sostiene\nuna película que, sin ser perfecta, sí que llega a un lugar mucho más profundo\n.\nBasada en la vida real de\nJohn Davidson\n, la película dirigida por\nKirk Jones\nreconstruye su infancia y juventud en la Escocia de los años 80, cuando el síndrome de Tourette era poco comprendido y, en muchos casos, directamente castigado. Pero más allá de su dimensión biográfica o didáctica, lo que realmente emociona de 'Incontrolable' es su ternura. Es\nuna película que abraza a su protagonista incluso en sus momentos más difíciles\n, que entiende su dolor sin explotarlo, y que encuentra belleza en su lucha constante por llevar una vida normal en un mundo que no le entiende.\nNo se entiende lo que es diferente\nLa película no esquiva la dureza de la historia. Desde muy joven, John se enfrenta a un entorno que no entiende su condición y que reacciona a él con miedo, incomodidad o directamente violencia.\nEl Tourette no es aquí un simple rasgo, sino algo que condiciona cada aspecto de su vida\n, desde las relaciones personales hasta su propia seguridad. Porque no le deja tener una rutina como la de cualquier otra persona.\nSin embargo, lejos de caer en el dramatismo fácil, la película encuentra un equilibrio muy delicado en el que hay dolor pero también momentos de humor, de incomodidad compartida, e incluso de cierta ligereza. Esa mezcla es la que hace que\nel retrato sea más completo y más cercano\n.\nEn Espinof\nLas 10 mejores películas de 2026… por ahora\nY en el centro de todo está la empatía, porque la película no justifica ciertas reacciones, sino que las contextualiza, mostrando\nuna sociedad que simplemente no sabía cómo enfrentarse a algo que no entendía\n. Y aun así, deja claro que la ignorancia nunca debería ser una excusa.\nAdemás, hay que hablar del trabajo de Robert Aramayo, que es, sencillamente, extraordinario. Su interpretación no busca el lucimiento, sino la verdad. Construye\nun personaje vulnerable, a veces imprevisible, incluso incómodo, pero que despierta muchísima ternura\n.\nA su alrededor, nombres como Maxine Peake, Shirley Henderson o Peter Mullan aportan matices y profundidad, construyendo un entorno que refuerza constantemente el viaje emocional de John. En especial,\nme quedaría también con el personaje de su madre\n, lleno de contradicciones y emociones difíciles de encajar.\nComo un abrazo calentito\nEs cierto que 'Incontrolable' es, en muchos aspectos, una película convencional.\nSu estructura sigue los códigos clásicos de cualquier biopic\n, su narrativa avanza de forma bastante previsible y en ocasiones se acerca a ese tono didáctico de los dramas televisivos de otra época.\nPero incluso ahí hay algo entrañable. Esa falta de artificio, esa manera directa de contar la historia, hace que todo sea mucho más sincero.\nLa película no intenta reinventar nada, solo contar bien una historia que debíamos conocer\n.\nY quizá por eso emociona tanto. Porque más allá de sus limitaciones, hay una intención muy clara de conectar, de hacer comprender, de\nacercarnos a alguien que durante mucho tiempo fue ignorado e incomprendido\n. Y cuando eso ocurre, todo lo demás pasa a un segundo plano.\nEn Espinof |\nLas películas más esperadas de 2026\nEn Espinof |\nLas mejores películas biográficas de la historia del cine",
+  "instruction": "Extrae la información técnica de la película, el reparto mencionado y los puntos positivos y negativos destacados en la crítica.",
+  "target_schema": {
+    "$defs": {
+      "MediumType": {
+        "enum": [
+          "MOVIE",
+          "BOOK",
+          "TV_SERIES",
+          "VIDEO_GAME"
+        ],
+        "title": "MediumType",
+        "type": "string"
+      },
+      "Sentiment": {
+        "enum": [
+          "POSITIVE",
+          "NEUTRAL",
+          "NEGATIVE"
+        ],
+        "title": "Sentiment",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Extracts comprehensive metadata and subjective critique from a cultural review.\nComplexity: L5 (Opinion Distillation & Fact Aggregation).",
+    "properties": {
+      "work_title": {
+        "description": "The name of the movie, book, or series",
+        "title": "Work Title",
+        "type": "string"
+      },
+      "medium": {
+        "$ref": "#/$defs/MediumType",
+        "description": "The type of media being reviewed"
+      },
+      "director": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "The person who directed the film or series",
+        "title": "Director"
+      },
+      "main_cast": {
+        "description": "Key actors or performers mentioned in the review",
+        "items": {
+          "type": "string"
+        },
+        "title": "Main Cast",
+        "type": "array"
+      },
+      "release_year": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "The year the work was released",
+        "title": "Release Year"
+      },
+      "rating": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "The score given by the reviewer, normalized to a 0-10 scale",
+        "title": "Rating"
+      },
+      "sentiment": {
+        "$ref": "#/$defs/Sentiment",
+        "description": "Overall tone of the review"
+      },
+      "pros": {
+        "description": "Specific positive aspects highlighted by the critic",
+        "items": {
+          "type": "string"
+        },
+        "title": "Pros",
+        "type": "array"
+      },
+      "cons": {
+        "description": "Specific negative aspects or flaws mentioned",
+        "items": {
+          "type": "string"
+        },
+        "title": "Cons",
+        "type": "array"
+      },
+      "key_verdict": {
+        "description": "A concise summary of the final judgment (e.g., 'Una copia barata', 'Fascinante rareza')",
+        "title": "Key Verdict",
+        "type": "string"
+      }
+    },
+    "required": [
+      "work_title",
+      "medium",
+      "sentiment",
+      "key_verdict"
+    ],
+    "title": "MediaReview",
+    "type": "object"
+  },
+  "output": {
+    "work_title": "Incontrolable",
+    "medium": "MOVIE",
+    "director": "Kirk Jones",
+    "main_cast": [
+      "Robert Aramayo",
+      "Maxine Peake",
+      "Shirley Henderson",
+      "Peter Mullan"
+    ],
+    "release_year": null,
+    "rating": null,
+    "sentiment": "POSITIVE",
+    "pros": [
+      "Interpretación extraordinaria de Robert Aramayo",
+      "Ternura y empatía del retrato",
+      "Equilibrio entre dolor y humor"
+    ],
+    "cons": [
+      "Estructura de biopic formulaico y convencional",
+      "Narrativa previsible con tono didáctico"
+    ],
+    "key_verdict": "Despierta una ternura infinita con la primera gran interpretación del año"
+  },
+  "metadata": {
+    "source": "espinof_incontrolable-biopic-formulaico-despierta-ternura-infinita-tiene-primera-gran-interpretacion-ano.md",
+    "domain": "cultural",
+    "subdomain": "movie_reviews"
+  }
+}

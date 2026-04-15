@@ -1,0 +1,154 @@
+{
+  "id": "environmental_ecology_008",
+  "input_text": "# Alcaldes del mundo acuerdan \"Pacto de la Ciudad de México\"\n\nAlcaldes de diversas ciudades del orbe firmaron el Pacto de la Ciudad de México, un acuerdo que busca comprometer a las capitales de distintos países a tomar acciones en corto plazo en materia ambiental y climática, y que será presentado como propuesta a la cumbre COP16, que se realizará este año en Cancún.\nEntre los compromisos contenidos en el documento, está el diseñar estrategias a nivel local para mitigar las repercusiones del cambio climático, llevar un registro puntual de las mismas, involucrar a la sociedad civil y crear un secretariado del pacto para dar seguimiento a las acciones que las ciudades del mundo realicen.\n\"Nosotros vamos a poder ver a nuestros hijos y a nuestros nietos a los ojos y decirles que nosotros sí actuamos para resolver este problema\", dijo David Cadman, presidente de Gobiernos Locales por la Sustentabilidad (ICLEI) y concejal de Vancouver, sobre el documento que se presentará en la cumbre contra el cambio climático COP 16. El alcalde de la Ciudad de México, Marcelo Ebrard, señaló que se llegará a la misma con un acuerdo que tome acciones a corto plazo, ante lo que calificó como un fracaso, la edición 15 celebrada en Copenhagen el año pasado.",
+  "instruction": "Extrae la información estructurada de este artículo de noticias sobre un acuerdo ambiental internacional entre alcaldes, siguiendo el esquema proporcionado. Devuelve null en los campos que no se puedan determinar a partir del texto.",
+  "target_schema": {
+    "$defs": {
+      "NewsCategory": {
+        "enum": [
+          "JUDICIAL",
+          "DISASTER",
+          "HEALTH",
+          "ENVIRONMENT",
+          "POLITICS",
+          "ECONOMY",
+          "SCIENCE",
+          "CULTURE",
+          "SPORTS",
+          "OTHER"
+        ],
+        "title": "NewsCategory",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Extracts structured information from general news articles.\nComplexity: L4 (Sparse Extraction) - Some fields may be null/missing.",
+    "properties": {
+      "headline": {
+        "description": "The main headline or title of the news article",
+        "title": "Headline",
+        "type": "string"
+      },
+      "summary": {
+        "description": "A brief summary of the main facts reported (1-3 sentences)",
+        "title": "Summary",
+        "type": "string"
+      },
+      "category": {
+        "$ref": "#/$defs/NewsCategory",
+        "description": "The thematic category of the news story"
+      },
+      "location": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Geographic location where the event occurred (city, country, or region)",
+        "title": "Location"
+      },
+      "date": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Date mentioned in the article (may be implicit or explicit)",
+        "title": "Date"
+      },
+      "key_people": {
+        "description": "Names of key individuals mentioned in the article",
+        "items": {
+          "type": "string"
+        },
+        "title": "Key People",
+        "type": "array"
+      },
+      "key_organizations": {
+        "description": "Names of organizations, companies, or governments mentioned",
+        "items": {
+          "type": "string"
+        },
+        "title": "Key Organizations",
+        "type": "array"
+      },
+      "casualties": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of deaths mentioned, if any",
+        "title": "Casualties"
+      },
+      "injured": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of people injured, if any",
+        "title": "Injured"
+      },
+      "affected_count": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of people affected or displaced, if applicable",
+        "title": "Affected Count"
+      }
+    },
+    "required": [
+      "headline",
+      "summary",
+      "category"
+    ],
+    "title": "NewsArticle",
+    "type": "object"
+  },
+  "output": {
+    "headline": "Alcaldes del mundo acuerdan \"Pacto de la Ciudad de México\"",
+    "summary": "Alcaldes de diversas ciudades del mundo firmaron el Pacto de la Ciudad de México, un acuerdo que busca comprometer a las capitales a tomar acciones ambientales y climáticas a corto plazo, y que será presentado como propuesta a la cumbre COP16 en Cancún.",
+    "category": "ENVIRONMENT",
+    "location": "Ciudad de México",
+    "date": null,
+    "key_people": [
+      "David Cadman",
+      "Marcelo Ebrard"
+    ],
+    "key_organizations": [
+      "Gobiernos Locales por la Sustentabilidad (ICLEI)",
+      "COP16"
+    ],
+    "casualties": null,
+    "injured": null,
+    "affected_count": null
+  },
+  "metadata": {
+    "source": "wikinews_ecologia_20260415_008_alcaldes_del_mundo_acuerdan_pacto_de_la_ciudad_de_.md",
+    "domain": "environmental",
+    "subdomain": "ecology"
+  }
+}

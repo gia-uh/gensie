@@ -1,0 +1,210 @@
+{
+  "id": "lifestyle_recipes_02",
+  "input_text": "# All i pebre\n\nSource: https://es.wikipedia.org/wiki/All_i_pebre\n\nEl all i pebre (en valenciano: all i pebre, ‘ajo y pimentón’) es un guiso tradicional de la Comunidad Valenciana, especialmente asociado a la zona de la Albufera y a las comarcas de la Huerta y la Ribera del Júcar. Su base se elabora a partir de ajo y pimentón, a los que se añaden patatas y pescado, siendo la variante más característica la de anguila, aunque también existen preparaciones con mújol, rape u otras especies.\n\nEtimología\nEl nombre all i pebre proviene del valenciano y significa literalmente «ajo y pimentón» (all = ajo, pebre = pimentón). La denominación hace referencia a los dos ingredientes básicos que conforman el sofrito característico del plato, sobre el cual se construye la receta tradicional con anguila y patata.​​\n\nHistoria\nEl all i pebre es un guiso tradicional de la Albufera de Valencia, cuyo origen humilde se sitúa entre los pescadores de la zona. Su receta clásica incluye anguila, ajo, pimentón, agua (o caldo) y, en muchos casos, patata, ingredientes que estaban disponibles de forma accesible para las comunidades ribereñas.\nSe cree que la cuna del plato está en Catarroja,​​ cerca del Puerto de Catarroja, aunque existe disputa con El Palmar sobre dónde surgió con exactitud. Ambas localidades están muy vinculadas al lago de la Albufera, donde la pesca de anguilas fue históricamente abundante. \nLos pescadores de Catarroja, en una época en la que la captura de la anguila era abundante, empezaron a utilizar en sus hogares a este pez de aspecto alargado en alguna de sus recetas. Corrían malos tiempos y las familias se abastecían principalmente de los productos que la tierra y el mar les ofrecían.\nA medida que creció su fama, el all i pebre dejó de ser solo un plato familiar o doméstico para convertirse en símbolo gastronómico de la región. Se popularizó en restaurantes locales, ferias y certámenes culinarios. En particular, Catarroja celebra desde hace décadas un concurso anual del all i pebre, lo que ha contribuido a mantener viva la receta tradicional y promover variantes. ​\nEn los últimos años se ha visto cómo la disponibilidad de anguila silvestre decrece, lo que obliga a algunos establecimientos a importar anguilas de piscifactorías.\n\nPreparación\nEl all i pebre se elabora tradicionalmente con anguila fresca, que se corta en trozos regulares de unos cuatro a cinco centímetros. En una cazuela de barro se sofríen los ajos con aceite de oliva y, posteriormente, se añade pimentón para conformar la base del guiso. A continuación se incorpora agua o caldo, junto con patatas cortadas en trozos irregulares, que aportan espesor a la salsa.​\nUna vez comienza la cocción, se añaden los trozos de anguila y se deja hervir lentamente hasta que el pescado queda tierno y las patatas bien cocidas. El resultado es un guiso de textura espesa y sabor intenso, en el que destacan el ajo, el pimentón y el jugo de la anguila.​\nEl plato se sirve habitualmente caliente y recién preparado, ya que no se conserva bien tras varias horas de reposo. Aunque la receta básica es común, existen variantes que incorporan guindilla para aportar un matiz picante o hierbas aromáticas según la tradición familiar o local.​\n\nReferencias\nEnlaces externos\nEl Port de Catarroja y La Primitiva. Haciendo “patria” (Valencia-España) Agencia Nuevas Dimensiones (2016). Consultado el 16 de febrero de 2022.",
+  "instruction": "Extrae la receta",
+  "target_schema": {
+    "$defs": {
+      "CookingTechnique": {
+        "enum": [
+          "SOFREÍR",
+          "HERVIR",
+          "HORNEAR",
+          "FREÍR",
+          "VAPOR",
+          "COCCIÓN LENTA"
+        ],
+        "title": "CookingTechnique",
+        "type": "string"
+      },
+      "DietaryTag": {
+        "enum": [
+          "VEGANO",
+          "VEGETARIANO",
+          "SIN GLUTEN",
+          "SIN LÁCTEOS",
+          "BAJO EN CARBOHIDRATOS"
+        ],
+        "title": "DietaryTag",
+        "type": "string"
+      },
+      "RecipeIngredient": {
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "description": "Verbatim name of the ingredient",
+            "title": "Name",
+            "type": "string"
+          },
+          "amount": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Numerical quantity",
+            "title": "Amount"
+          },
+          "unit": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/UnitType"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Unit of measurement"
+          }
+        },
+        "required": [
+          "name"
+        ],
+        "title": "RecipeIngredient",
+        "type": "object"
+      },
+      "UnitType": {
+        "enum": [
+          "g",
+          "ml",
+          "kg",
+          "unidad",
+          "pizca",
+          "cucharada",
+          "otro"
+        ],
+        "title": "UnitType",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Holistic reasoning over a traditional recipe.\nRequires inferring dietary suitability and complexity from steps.\nComplexity: L10 (Holistic Reasoning).",
+    "properties": {
+      "dish_name": {
+        "description": "The name of the recipe",
+        "title": "Dish Name",
+        "type": "string"
+      },
+      "servings": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of portions generated",
+        "title": "Servings"
+      },
+      "ingredients": {
+        "description": "Structured list of ingredients",
+        "items": {
+          "$ref": "#/$defs/RecipeIngredient"
+        },
+        "title": "Ingredients",
+        "type": "array"
+      },
+      "complexity_score": {
+        "description": "Inferred difficulty from 1 (easy) to 10 (pro chef) based on steps and time",
+        "maximum": 10,
+        "minimum": 1,
+        "title": "Complexity Score",
+        "type": "integer"
+      },
+      "dietary_tags": {
+        "description": "Reasoned tags based on the absence of certain ingredient types (e.g., meat, gluten)",
+        "items": {
+          "$ref": "#/$defs/DietaryTag"
+        },
+        "title": "Dietary Tags",
+        "type": "array"
+      },
+      "technique_sequence": {
+        "description": "The chronological sequence of main cooking techniques applied",
+        "items": {
+          "$ref": "#/$defs/CookingTechnique"
+        },
+        "title": "Technique Sequence",
+        "type": "array"
+      },
+      "total_time_minutes": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Normalized total duration in minutes",
+        "title": "Total Time Minutes"
+      }
+    },
+    "required": [
+      "dish_name",
+      "ingredients",
+      "complexity_score",
+      "technique_sequence"
+    ],
+    "title": "RecipeProcedural",
+    "type": "object"
+  },
+  "output": {
+    "dish_name": "All i pebre",
+    "servings": null,
+    "ingredients": [
+      {
+        "name": "anguila fresca",
+        "amount": null,
+        "unit": null
+      },
+      {
+        "name": "ajos",
+        "amount": null,
+        "unit": null
+      },
+      {
+        "name": "aceite de oliva",
+        "amount": null,
+        "unit": null
+      },
+      {
+        "name": "pimentón",
+        "amount": null,
+        "unit": null
+      },
+      {
+        "name": "patatas",
+        "amount": null,
+        "unit": null
+      },
+      {
+        "name": "agua o caldo",
+        "amount": null,
+        "unit": null
+      }
+    ],
+    "complexity_score": 6,
+    "dietary_tags": [
+      "SIN GLUTEN",
+      "SIN LÁCTEOS"
+    ],
+    "technique_sequence": [
+      "SOFREÍR",
+      "HERVIR"
+    ],
+    "total_time_minutes": null
+  },
+  "metadata": {
+    "source": "wiki_recipe_20260414_all_i_pebre.md",
+    "domain": "lifestyle",
+    "subdomain": "recipes"
+  }
+}

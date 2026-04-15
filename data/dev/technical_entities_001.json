@@ -1,0 +1,89 @@
+{
+  "id": "technical_entities_001",
+  "input_text": "# 7-Zip [...] 7-Zip es un archivador de ficheros libre desarrollado por Igor Pavlov. Por defecto utiliza el formato de archivo 7z, también libre, (con extensión .7z). Este formato usa los métodos de compresión LZMA y PPMD (más adecuado para textos), desarrollados por su autor, y puede aplicar un filtro a los ejecutables para aumentar su compresibilidad. Los archivos 7z pueden ser sólidos, donde múltiples archivos de tipo similar se comprimen en un único flujo, con el fin de explotar la redundancia combinado inherente a archivos similares, a diferencia de los ZIP, lo que mejora la compresión de conjuntos de archivos pequeños.",
+  "instruction": "Identifica el software, desarrolladores y formatos de compresión mencionados.",
+  "target_schema": {
+    "$defs": {
+      "Entity": {
+        "additionalProperties": false,
+        "description": "A single named entity mention.",
+        "properties": {
+          "text": {
+            "description": "The verbatim text mention from the source",
+            "title": "Text",
+            "type": "string"
+          },
+          "label": {
+            "$ref": "#/$defs/EntityType",
+            "description": "The category of the entity"
+          }
+        },
+        "required": [
+          "text",
+          "label"
+        ],
+        "title": "Entity",
+        "type": "object"
+      },
+      "EntityType": {
+        "enum": [
+          "PERSON",
+          "ORGANIZATION",
+          "LOCATION",
+          "DATE",
+          "EVENT",
+          "MISCELLANEOUS"
+        ],
+        "title": "EntityType",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Extracts named entity mentions categorized by type in a single list.\nComplexity: L5 (Hierarchical Grouping).",
+    "properties": {
+      "entities": {
+        "description": "List of all recognized named entities",
+        "items": {
+          "$ref": "#/$defs/Entity"
+        },
+        "title": "Entities",
+        "type": "array"
+      }
+    },
+    "title": "NamedEntities",
+    "type": "object"
+  },
+  "output": {
+    "entities": [
+      {
+        "text": "Igor Pavlov",
+        "label": "PERSON"
+      },
+      {
+        "text": "7-Zip",
+        "label": "MISCELLANEOUS"
+      },
+      {
+        "text": "7z",
+        "label": "MISCELLANEOUS"
+      },
+      {
+        "text": "LZMA",
+        "label": "MISCELLANEOUS"
+      },
+      {
+        "text": "PPMD",
+        "label": "MISCELLANEOUS"
+      },
+      {
+        "text": "ZIP",
+        "label": "MISCELLANEOUS"
+      }
+    ]
+  },
+  "metadata": {
+    "source": "wiki_7-zip.md",
+    "domain": "technical",
+    "subdomain": "software"
+  }
+}

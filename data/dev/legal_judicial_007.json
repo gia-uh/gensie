@@ -1,0 +1,148 @@
+{
+  "id": "legal_judicial_007",
+  "input_text": "# 47 muertos deja derrumbe de edificio en la India\n\nAl menos 47 personas han muerto en la localidad india de Thane tras el fatal colapso de un edificio que estaba siendo ilegalmente construido y ocupado por varias familias.\nEl incidente ocurrió en horas de la tarde del jueves, y durante el viernes aún los cuerpos de rescate sacaban cuerpos sin vida del lugar del derrumbe.\nEntre los fallecidos hay 12 niños, 20 hombres y 9 mujeres. Otras 69 personas resultaron heridas y fueron trasladadas a hospitales cercanos.\nSegún los trabajadores del edificio en construcción de siete pisos, su jornada laboral ya había terminado, sin embargo su jefe los obligó a descargar ladrillos de un camión, en ese momento el edificio se desplomó.\nAl menos 35 familias se encontraban ocupando los primeros cuatro pisos del edificio. Los dueños de la construcción han sido demandados por las autoridades por el delito de asesinato, sin embargo se encuentran en fuga.",
+  "instruction": "Extrae la información estructurada de este artículo de noticias sobre el derrumbe de un edificio en la India, incluyendo el titular, resumen, categoría, ubicación, personas y organizaciones clave, y cifras de víctimas.",
+  "target_schema": {
+    "$defs": {
+      "NewsCategory": {
+        "enum": [
+          "JUDICIAL",
+          "DISASTER",
+          "HEALTH",
+          "ENVIRONMENT",
+          "POLITICS",
+          "ECONOMY",
+          "SCIENCE",
+          "CULTURE",
+          "SPORTS",
+          "OTHER"
+        ],
+        "title": "NewsCategory",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Extracts structured information from general news articles.\nComplexity: L4 (Sparse Extraction) - Some fields may be null/missing.",
+    "properties": {
+      "headline": {
+        "description": "The main headline or title of the news article",
+        "title": "Headline",
+        "type": "string"
+      },
+      "summary": {
+        "description": "A brief summary of the main facts reported (1-3 sentences)",
+        "title": "Summary",
+        "type": "string"
+      },
+      "category": {
+        "$ref": "#/$defs/NewsCategory",
+        "description": "The thematic category of the news story"
+      },
+      "location": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Geographic location where the event occurred (city, country, or region)",
+        "title": "Location"
+      },
+      "date": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Date mentioned in the article (may be implicit or explicit)",
+        "title": "Date"
+      },
+      "key_people": {
+        "description": "Names of key individuals mentioned in the article",
+        "items": {
+          "type": "string"
+        },
+        "title": "Key People",
+        "type": "array"
+      },
+      "key_organizations": {
+        "description": "Names of organizations, companies, or governments mentioned",
+        "items": {
+          "type": "string"
+        },
+        "title": "Key Organizations",
+        "type": "array"
+      },
+      "casualties": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of deaths mentioned, if any",
+        "title": "Casualties"
+      },
+      "injured": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of people injured, if any",
+        "title": "Injured"
+      },
+      "affected_count": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of people affected or displaced, if applicable",
+        "title": "Affected Count"
+      }
+    },
+    "required": [
+      "headline",
+      "summary",
+      "category"
+    ],
+    "title": "NewsArticle",
+    "type": "object"
+  },
+  "output": {
+    "headline": "47 muertos deja derrumbe de edificio en la India",
+    "summary": "Al menos 47 personas murieron en Thane, India, tras el colapso de un edificio en construcción ilegal ocupado por varias familias. Los dueños de la construcción han sido demandados por asesinato pero se encuentran en fuga.",
+    "category": "DISASTER",
+    "location": "Thane, India",
+    "date": null,
+    "key_people": [],
+    "key_organizations": [],
+    "casualties": 47,
+    "injured": 69,
+    "affected_count": null
+  },
+  "metadata": {
+    "source": "wikinews_judicial_20260415_007_47_muertos_deja_derrumbe_de_edificio_en_la_india.md",
+    "domain": "legal",
+    "subdomain": "judicial"
+  }
+}

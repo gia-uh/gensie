@@ -1,0 +1,157 @@
+{
+  "id": "legal_judicial_002",
+  "input_text": "# 'Oscar Montero' ha sido condenado a 40 años de prisión por atentado al Club El Nogal\n\nEl Juzgado Octavo del Circuito Especializado de Bogotá ha condenado, en el día de hoy, a 40 años de prisión a Hernán Darío Velásquez Saldarriaga, alias Oscar Montero, líder de la columna móvil \"Teófilo Forero\" de las Fuerzas Armadas Revolucionarias de Colombia (FARC), por liderar y planear el atentado terrorista perpetrado por esta organización contra el Club El Nogal.\nSegún ha afirmado el fiscal antiterrorismo asignado al caso:\n\nEn el mismo fallo, ha sido condenado también Leyder Verú Verú, alias Leonor, a 7 años y medio de prisión, por los delitos de \"tráfico, fabricación, porte de armas de fuego y rebelión\". Y fue absuelta Marley Yurley Capera Quezada, alias La Pilosa.\nLa Fiscalía General de la Nación ha anunciado que apelará esta decisión, buscando que todos aquellos de quienes se presume su participación en el hecho, sean condenados.",
+  "instruction": "Extrae la información estructurada de este artículo de noticias judiciales sobre la condena por el atentado al Club El Nogal, identificando las personas clave, organizaciones involucradas y los detalles del fallo judicial.",
+  "target_schema": {
+    "$defs": {
+      "NewsCategory": {
+        "enum": [
+          "JUDICIAL",
+          "DISASTER",
+          "HEALTH",
+          "ENVIRONMENT",
+          "POLITICS",
+          "ECONOMY",
+          "SCIENCE",
+          "CULTURE",
+          "SPORTS",
+          "OTHER"
+        ],
+        "title": "NewsCategory",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Extracts structured information from general news articles.\nComplexity: L4 (Sparse Extraction) - Some fields may be null/missing.",
+    "properties": {
+      "headline": {
+        "description": "The main headline or title of the news article",
+        "title": "Headline",
+        "type": "string"
+      },
+      "summary": {
+        "description": "A brief summary of the main facts reported (1-3 sentences)",
+        "title": "Summary",
+        "type": "string"
+      },
+      "category": {
+        "$ref": "#/$defs/NewsCategory",
+        "description": "The thematic category of the news story"
+      },
+      "location": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Geographic location where the event occurred (city, country, or region)",
+        "title": "Location"
+      },
+      "date": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Date mentioned in the article (may be implicit or explicit)",
+        "title": "Date"
+      },
+      "key_people": {
+        "description": "Names of key individuals mentioned in the article",
+        "items": {
+          "type": "string"
+        },
+        "title": "Key People",
+        "type": "array"
+      },
+      "key_organizations": {
+        "description": "Names of organizations, companies, or governments mentioned",
+        "items": {
+          "type": "string"
+        },
+        "title": "Key Organizations",
+        "type": "array"
+      },
+      "casualties": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of deaths mentioned, if any",
+        "title": "Casualties"
+      },
+      "injured": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of people injured, if any",
+        "title": "Injured"
+      },
+      "affected_count": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of people affected or displaced, if applicable",
+        "title": "Affected Count"
+      }
+    },
+    "required": [
+      "headline",
+      "summary",
+      "category"
+    ],
+    "title": "NewsArticle",
+    "type": "object"
+  },
+  "output": {
+    "headline": "'Oscar Montero' ha sido condenado a 40 años de prisión por atentado al Club El Nogal",
+    "summary": "El Juzgado Octavo del Circuito Especializado de Bogotá condenó a 40 años de prisión a Hernán Darío Velásquez Saldarriaga, alias Oscar Montero, líder de la columna móvil Teófilo Forero de las FARC, por liderar y planear el atentado terrorista contra el Club El Nogal. También fue condenado Leyder Verú Verú a 7 años y medio de prisión, y fue absuelta Marley Yurley Capera Quezada.",
+    "category": "JUDICIAL",
+    "location": "Bogotá",
+    "date": null,
+    "key_people": [
+      "Hernán Darío Velásquez Saldarriaga",
+      "Leyder Verú Verú",
+      "Marley Yurley Capera Quezada"
+    ],
+    "key_organizations": [
+      "Juzgado Octavo del Circuito Especializado de Bogotá",
+      "Fuerzas Armadas Revolucionarias de Colombia (FARC)",
+      "Fiscalía General de la Nación",
+      "Club El Nogal"
+    ],
+    "casualties": null,
+    "injured": null,
+    "affected_count": null
+  },
+  "metadata": {
+    "source": "wikinews_judicial_20260415_002_oscar_montero_ha_sido_condenado_a_40_años_de_prisi.md",
+    "domain": "legal",
+    "subdomain": "judicial"
+  }
+}

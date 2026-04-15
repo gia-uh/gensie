@@ -1,0 +1,129 @@
+{
+  "id": "medical_diseases_06",
+  "input_text": "# Enfermedad localizada\n\nSource: https://es.wikipedia.org/wiki/Enfermedad_localizada\n\nUna enfermedad localizada es un proceso infeccioso o neoplásico que se origina y se limita a un sistema o área general del cuerpo,​ como un esguince de tobillo, un forúnculo en la mano, un absceso en el dedo. \nUn cáncer localizado que no se ha extendido más allá de los márgenes del órgano involucrado también se puede describir como enfermedad localizada, mientras que los cánceres que se extienden a otros tejidos se describen como invasivos. Los tumores que no son de origen hematológico pero que se extienden al torrente sanguíneo o al sistema linfático se conocen como metastásicos. \nLas enfermedades localizadas se contrastan con las enfermedades diseminadas y las enfermedades sistémicas. \nAlgunas enfermedades pueden cambiar de enfermedades locales a enfermedades diseminadas. La neumonía, por ejemplo, generalmente se limita a uno o ambos pulmones, pero puede diseminarse a través de la sepsis, en la cual el microbio responsable de la neumonía \"siembra\" el torrente sanguíneo o el sistema linfático y se transporta a sitios distantes en el cuerpo. Cuando eso ocurre, el proceso ya no se describe como una enfermedad localizada, sino más bien como una enfermedad diseminada.\n\nVéase también\nEnfermedad\nNosología\n\n\n== Referencias ==",
+  "instruction": "Extrae el perfil de la enfermedad",
+  "target_schema": {
+    "$defs": {
+      "EtiologyType": {
+        "enum": [
+          "INFECTIOUS",
+          "GENETIC",
+          "AUTOIMMUNE",
+          "DEGENERATIVE",
+          "UNKNOWN",
+          "OTHER"
+        ],
+        "title": "EtiologyType",
+        "type": "string"
+      },
+      "Symptom": {
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "description": "Verbatim name of the symptom",
+            "title": "Name",
+            "type": "string"
+          },
+          "severity_level": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Inferred severity if mentioned (Mild, Moderate, Severe)",
+            "title": "Severity Level"
+          },
+          "is_primary": {
+            "default": true,
+            "description": "True if this is a defining symptom of the disease",
+            "title": "Is Primary",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "name"
+        ],
+        "title": "Symptom",
+        "type": "object"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Hierarchical extraction of pathology details from medical summaries.\nComplexity: L5 (Hierarchical Grouping).",
+    "properties": {
+      "pathology_name": {
+        "description": "The medical name of the disease or disorder",
+        "title": "Pathology Name",
+        "type": "string"
+      },
+      "etiology_type": {
+        "$ref": "#/$defs/EtiologyType",
+        "description": "The primary origin or cause of the disease"
+      },
+      "etiology_description": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "A brief summary of how the disease is caused",
+        "title": "Etiology Description"
+      },
+      "symptoms": {
+        "description": "Structured list of reported symptoms",
+        "items": {
+          "$ref": "#/$defs/Symptom"
+        },
+        "title": "Symptoms",
+        "type": "array"
+      },
+      "diagnosis_methods": {
+        "description": "Clinical tests or methods mentioned for identifying the pathology",
+        "items": {
+          "type": "string"
+        },
+        "title": "Diagnosis Methods",
+        "type": "array"
+      },
+      "is_chronic": {
+        "anyOf": [
+          {
+            "type": "boolean"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "True if the text explicitly defines the disease as chronic or long-term",
+        "title": "Is Chronic"
+      }
+    },
+    "required": [
+      "pathology_name",
+      "etiology_type"
+    ],
+    "title": "DiseaseProfile",
+    "type": "object"
+  },
+  "output": {
+    "pathology_name": "Enfermedad localizada",
+    "etiology_type": "OTHER",
+    "etiology_description": "Proceso infeccioso o neoplásico que se origina y se limita a un sistema o área general del cuerpo.",
+    "symptoms": [],
+    "diagnosis_methods": [],
+    "is_chronic": null
+  },
+  "metadata": {
+    "source": "wiki_diseases_20260414_enfermedad_localizada.md",
+    "domain": "medical",
+    "subdomain": "diseases"
+  }
+}

@@ -1,0 +1,152 @@
+{
+  "id": "cultural_media_002",
+  "input_text": "# Un espectáculo atrevido y extravagante. '¡La novia!' es una fascinante rareza de Hollywood, pero le falta desatarse aún más [...] Cada vez es más raro que en Hollywood confíen grandes presupuestos a películas que se salgan de la norma, pero también es verdad que Warner lleva ya un tiempo sorprendiéndonos. Ya el año pasado llegaron tanto la fallida 'Mickey 17' como la excelente 'Una batalla tras otra', pero se ve que con '¡La novia!' no lo vieron claro y decidieron retrasar su lanzamiento hasta este 6 de marzo de 2026. [...] Mitad secuela apócrifa de 'Frankenstein', mitad reimaginación de 'La novia de Frankenstein', el segundo largometraje como directora de Maggie Gyllenhaal ha contado con 90 millones de presupuesto -inicialmente se dijo que 80, pero Variety ha elevado esa cifra- para dar forma a un espectáculo atrevido y extravagante. El problema es que la actitud excesiva está ahí, pero le falta desatar aún más su locura y eso acaba condenándola a quedarse en una extraña tierra de nadie. [...] Situada de los años 30 del siglo XX, '¡La novia!' nos presenta a un monstruo de Frankenstein -inspirado Christian Bale- que lleva más de un siglo deambulando de aquí para allá y ha decidido que necesita una novia. A partir de ahí todo se desmadra, pero lo cierto es que la película ya hace toda una declaración de intenciones con la primera aparición de Jessie Buckley como Mary Shelley, la escritora a la que debemos la creación de uno de los personajes más famosos tanto de la ciencia ficción como del terror. [...] Eso es algo que encaja bien durante la primera media hora, ya que se sientan las bases para luego poder hacer básicamente cualquier cosa. Y es que no hay nada que hubiese encajado realmente mal, pues si ya empiezas por todo lo alto, lo único que te queda es ir aún más allá. Es ahí donde '¡La novia!' acaba pinchando, pues queda la sensación de que a Gyllenhaal le falta un mayor ímpetu tras las cámaras, o quizá simplemente sea que le pusieron unos límites bastante claros. [...] Sea cual sea el caso, lo cierto es que la propia evolución de la historia se siente demasiado plácida dentro de lo que nos habían propuesto hasta entonces. Hay un cierto matiz de estar demasiado encantado de conocerse, que se extiende también a esos homenajes más o menos claros al cine de otra época, ya sea a través del personaje de Jake Gyllenhaal o con algunas elecciones de nombres que no parecen para nada una casualidad como que haya por ahí tanto una Ida como un Lupino. [...] No sé si será que llega un punto en el que se queda sin más trucos, pues ella es también la autora del guion, pero llega un punto en el que '¡La novia!' simplemente empieza a repetirse a sí misma. Es cierto que lo hace dentro de un caos más o menos controlado que puede distraer a algunos espectadores de este hecho, pero la fiesta que parecía proponer de entrada se agota mucho antes de que aparezcan los títulos de crédito finales al son de una canción que vuelve a delatar otra vez más que a la película le ha faltado esa dosis extra de jolgorio e imaginación. [...] Eso choca un poco por lo proclive que se muestra casi todo el reparto a disfrutar con sus personajes. Sí que Bale resulta algo más estoico, pero es lo que el personaje requiere y tampoco voy a ponerle ninguna pega por ello. El resto sí que está en una clave más cercano a ese exceso conceptual que forma parte en todo momento del ADN de la película. [...] Con sus problemas, '¡La novia!' sigue siendo entretenida incluso entonces si es que llegas a conectar con lo que propone durante sus primeros minutos. De lo contrario, es probable que acabes odiando la película con todo tu alma, pero tampoco me sorprendería que haya quien entre tanto en ella que la ame con todo su corazón. Yo me quedo más a medias, disfrutando de lo bueno, pero lamentándome de que vaya aún más allá.",
+  "instruction": "Extrae los detalles de la obra, incluyendo el año de estreno esperado, directora, reparto y puntos positivos/negativos destacados.",
+  "target_schema": {
+    "$defs": {
+      "MediumType": {
+        "enum": [
+          "MOVIE",
+          "BOOK",
+          "TV_SERIES",
+          "VIDEO_GAME"
+        ],
+        "title": "MediumType",
+        "type": "string"
+      },
+      "Sentiment": {
+        "enum": [
+          "POSITIVE",
+          "NEUTRAL",
+          "NEGATIVE"
+        ],
+        "title": "Sentiment",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Extracts comprehensive metadata and subjective critique from a cultural review.\nComplexity: L5 (Opinion Distillation & Fact Aggregation).",
+    "properties": {
+      "work_title": {
+        "description": "The name of the movie, book, or series",
+        "title": "Work Title",
+        "type": "string"
+      },
+      "medium": {
+        "$ref": "#/$defs/MediumType",
+        "description": "The type of media being reviewed"
+      },
+      "director": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "The person who directed the film or series",
+        "title": "Director"
+      },
+      "main_cast": {
+        "description": "Key actors or performers mentioned in the review",
+        "items": {
+          "type": "string"
+        },
+        "title": "Main Cast",
+        "type": "array"
+      },
+      "release_year": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "The year the work was released",
+        "title": "Release Year"
+      },
+      "rating": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "The score given by the reviewer, normalized to a 0-10 scale",
+        "title": "Rating"
+      },
+      "sentiment": {
+        "$ref": "#/$defs/Sentiment",
+        "description": "Overall tone of the review"
+      },
+      "pros": {
+        "description": "Specific positive aspects highlighted by the critic",
+        "items": {
+          "type": "string"
+        },
+        "title": "Pros",
+        "type": "array"
+      },
+      "cons": {
+        "description": "Specific negative aspects or flaws mentioned",
+        "items": {
+          "type": "string"
+        },
+        "title": "Cons",
+        "type": "array"
+      },
+      "key_verdict": {
+        "description": "A concise summary of the final judgment (e.g., 'Una copia barata', 'Fascinante rareza')",
+        "title": "Key Verdict",
+        "type": "string"
+      }
+    },
+    "required": [
+      "work_title",
+      "medium",
+      "sentiment",
+      "key_verdict"
+    ],
+    "title": "MediaReview",
+    "type": "object"
+  },
+  "output": {
+    "work_title": "¡La novia!",
+    "medium": "MOVIE",
+    "director": "Maggie Gyllenhaal",
+    "main_cast": [
+      "Christian Bale",
+      "Jessie Buckley",
+      "Jake Gyllenhaal"
+    ],
+    "release_year": 2026,
+    "rating": null,
+    "sentiment": "NEUTRAL",
+    "pros": [
+      "Espectáculo atrevido y extravagante",
+      "Fascinante rareza",
+      "Entretenida si conectas con la propuesta",
+      "Reparto disfruta con sus personajes"
+    ],
+    "cons": [
+      "Le falta desatarse aún más",
+      "Se queda en una extraña tierra de nadie",
+      "A Gyllenhaal le falta un mayor ímpetu tras las cámaras",
+      "Empieza a repetirse a sí misma"
+    ],
+    "key_verdict": "fascinante rareza de Hollywood, pero le falta desatarse aún más"
+  },
+  "metadata": {
+    "source": "espinof_espectaculo-atrevido-extravagante-novia-fascinante-rareza-hollywood-le-falta-desatarse.md",
+    "domain": "cultural",
+    "subdomain": "movie_reviews"
+  }
+}

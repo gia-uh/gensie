@@ -1,0 +1,227 @@
+{
+  "id": "lifestyle_recipes_08",
+  "input_text": "# Bajoques farcides\n\nSource: https://es.wikipedia.org/wiki/Bajoques_farcides\n\nLos pimientos rellenos de arroz (en valenciano estándar pimentons farcits, aunque en la tradición local se conocen como bajoques farcides) son un plato típico de la cocina valenciana. Su ingrediente principal es el pimiento, generalmente rojo,​ que se rellena de arroz y otros condimentos.​ \nLa receta está especialmente asociada a las comarcas centrales de la Comunidad Valenciana, en el límite entre las provincias de Alicante y Valencia, con una fuerte implantación en la ciudad de Alcoy, donde constituye una de las elaboraciones más representativas de su gastronomía.\n\nEtimología\nLa denominación bajoques farcides procede de la lengua valenciana. El término bajoques presenta una notable variación semántica dentro del dominio lingüístico catalán-valenciano. En algunas comarcas del interior y del norte de Alicante, así como en zonas de la Marina Alta, la palabra designa a los pimientos, mientras que en otras áreas del mismo ámbito lingüístico se emplea para referirse a las judías verdes. En el caso del plato, la acepción válida es la de “pimientos”.​​\nEl segundo componente, farcides, es el participio femenino plural del verbo farcir, que significa “rellenar”. Se utiliza en concordancia de género y número con bajoques, por lo que la traducción literal de la expresión es “pimientos rellenos”.​\nLa elección del término bajoques en lugar de otros vocablos más extendidos en valenciano, como pebrots o pebreres, responde a la tradición dialectal de las comarcas centrales de la Comunidad Valenciana, especialmente en torno a la ciudad de Alcoy, donde este plato tiene una fuerte implantación cultural y gastronómica. ​​\n\nHistoria\nSe sabe que la receta formaba parte de la alimentación habitual en hogares de trabajadores y campesinos, especialmente en períodos de escasez o en contextos donde la autosuficiencia de la huerta y los productos locales era fundamental. En el caso concreto de la ciudad de Alcoy, la tradición oral relata que muchas mujeres preparaban las bajoques farcides por las mañanas y dejaban la bandeja lista en el horno de pan de su casa para que, durante la jornada laboral en la fábrica, el calor residual completara la cocción. Al regresar, recogían la comida ya hecha.​\nEl vínculo con la cultura obrera industrial de la zona ha sido destacado por algunas crónicas modernas. Además, los usos sociales y festivos han contribuido a su conservación.\nReferencias se encuentran también en registros modernos de gastronomía local, guías turísticas, blogs históricos de cocina valenciana, y obras literarias que recogen costumbres del interior. Aunque ninguno de estos documentos establece una fecha de origen precisa, todos coinciden en que su uso está extendido desde al menos finales del siglo XIX y durante el siglo XX, conforme la industria y la vida urbana se mezclaban con las tradiciones rurales. Por ejemplo, se menciona que hacia los años setenta del siglo XX ya era un plato que se preparaba en hogares de generaciones mayores, transmitido de madres a hijas, con recetas caseras que varían ligeramente en ingredientes según el acceso a ellos.\n\nPreparación\nLa elaboración de las bajoques farcides consiste en rellenar pimientos, habitualmente rojos y de tamaño medio, con una mezcla a base de arroz y otros ingredientes que varían según la tradición familiar o la disponibilidad de productos. El relleno más común combina arroz crudo con sofrito de tomate, cebolla y ajo, aderezado con aceite de oliva, sal, pimentón y hierbas aromáticas. En algunas versiones se incorpora carne picada, embutido o productos de la matanza, lo que aporta mayor riqueza calórica y sabor al conjunto.\nLos pimientos, previamente vaciados de semillas, se rellenan con la mezcla sin llegar a colmarlos para permitir que el arroz aumente de volumen durante la cocción. Una vez preparados, se disponen en una cazuela o en una fuente apta para horno, que se cubre parcialmente con caldo o agua para facilitar la cocción del arroz. Tradicionalmente, en Alcoy y su comarca, los recipientes se dejaban en el horno de pan ya apagado, aprovechando el calor residual tras la cocción diaria, lo que permitía una preparación lenta y uniforme.​",
+  "instruction": "Extrae la receta",
+  "target_schema": {
+    "$defs": {
+      "CookingTechnique": {
+        "enum": [
+          "SOFREÍR",
+          "HERVIR",
+          "HORNEAR",
+          "FREÍR",
+          "VAPOR",
+          "COCCIÓN LENTA"
+        ],
+        "title": "CookingTechnique",
+        "type": "string"
+      },
+      "DietaryTag": {
+        "enum": [
+          "VEGANO",
+          "VEGETARIANO",
+          "SIN GLUTEN",
+          "SIN LÁCTEOS",
+          "BAJO EN CARBOHIDRATOS"
+        ],
+        "title": "DietaryTag",
+        "type": "string"
+      },
+      "RecipeIngredient": {
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "description": "Verbatim name of the ingredient",
+            "title": "Name",
+            "type": "string"
+          },
+          "amount": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Numerical quantity",
+            "title": "Amount"
+          },
+          "unit": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/UnitType"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Unit of measurement"
+          }
+        },
+        "required": [
+          "name"
+        ],
+        "title": "RecipeIngredient",
+        "type": "object"
+      },
+      "UnitType": {
+        "enum": [
+          "g",
+          "ml",
+          "kg",
+          "unidad",
+          "pizca",
+          "cucharada",
+          "otro"
+        ],
+        "title": "UnitType",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Holistic reasoning over a traditional recipe.\nRequires inferring dietary suitability and complexity from steps.\nComplexity: L10 (Holistic Reasoning).",
+    "properties": {
+      "dish_name": {
+        "description": "The name of the recipe",
+        "title": "Dish Name",
+        "type": "string"
+      },
+      "servings": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of portions generated",
+        "title": "Servings"
+      },
+      "ingredients": {
+        "description": "Structured list of ingredients",
+        "items": {
+          "$ref": "#/$defs/RecipeIngredient"
+        },
+        "title": "Ingredients",
+        "type": "array"
+      },
+      "complexity_score": {
+        "description": "Inferred difficulty from 1 (easy) to 10 (pro chef) based on steps and time",
+        "maximum": 10,
+        "minimum": 1,
+        "title": "Complexity Score",
+        "type": "integer"
+      },
+      "dietary_tags": {
+        "description": "Reasoned tags based on the absence of certain ingredient types (e.g., meat, gluten)",
+        "items": {
+          "$ref": "#/$defs/DietaryTag"
+        },
+        "title": "Dietary Tags",
+        "type": "array"
+      },
+      "technique_sequence": {
+        "description": "The chronological sequence of main cooking techniques applied",
+        "items": {
+          "$ref": "#/$defs/CookingTechnique"
+        },
+        "title": "Technique Sequence",
+        "type": "array"
+      },
+      "total_time_minutes": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Normalized total duration in minutes",
+        "title": "Total Time Minutes"
+      }
+    },
+    "required": [
+      "dish_name",
+      "ingredients",
+      "complexity_score",
+      "technique_sequence"
+    ],
+    "title": "RecipeProcedural",
+    "type": "object"
+  },
+  "output": {
+    "dish_name": "Bajoques farcides",
+    "servings": null,
+    "ingredients": [
+      {
+        "name": "pimientos rojos",
+        "amount": null,
+        "unit": null
+      },
+      {
+        "name": "arroz",
+        "amount": null,
+        "unit": null
+      },
+      {
+        "name": "tomate",
+        "amount": null,
+        "unit": null
+      },
+      {
+        "name": "cebolla",
+        "amount": null,
+        "unit": null
+      },
+      {
+        "name": "ajo",
+        "amount": null,
+        "unit": null
+      },
+      {
+        "name": "aceite de oliva",
+        "amount": null,
+        "unit": null
+      },
+      {
+        "name": "sal",
+        "amount": null,
+        "unit": null
+      },
+      {
+        "name": "pimentón",
+        "amount": null,
+        "unit": null
+      },
+      {
+        "name": "hierbas aromáticas",
+        "amount": null,
+        "unit": null
+      }
+    ],
+    "complexity_score": 6,
+    "dietary_tags": [
+      "VEGANO",
+      "VEGETARIANO",
+      "SIN GLUTEN",
+      "SIN LÁCTEOS"
+    ],
+    "technique_sequence": [
+      "SOFREÍR",
+      "HORNEAR"
+    ],
+    "total_time_minutes": null
+  },
+  "metadata": {
+    "source": "wiki_recipe_20260414_bajoques_farcides.md",
+    "domain": "lifestyle",
+    "subdomain": "recipes"
+  }
+}

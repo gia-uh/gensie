@@ -1,0 +1,88 @@
+{
+  "id": "cultural_literature_004",
+  "input_text": "# Fortunata y Jacinta\n\n## Introducción\nFortunata y Jacinta es una novela del escritor español Benito Pérez Galdós publicada en cuatro volúmenes entre enero y junio de 1887,​​​ dentro del ciclo de las Novelas españolas contemporáneas. Según la opinión mayoritaria de la crítica literaria, se trata de la mejor novela de su autor, y junto a La Regenta de Leopoldo Alas,​ una de las más populares y representativas del realismo literario español y de la novela española del siglo XIX.​​ Situada en el Madrid de la segunda mitad de dicho siglo, relata las vidas cruzadas de dos mujeres de distinta extracción social unidas por un destino trágico.​​\nLa novela fue adaptada al teatro por Ricardo López Aranda en 1969 y llevada al cine por Angelino Fons en 1970. Diez años después Televisión Española produjo y emitió una adaptación  a la pequeña pantalla a cargo del director Mario Camus.",
+  "instruction": "Extrae los metadatos bibliográficos y temas principales de la obra literaria descrita.",
+  "target_schema": {
+    "additionalProperties": false,
+    "description": "Extracts basic bibliographic metadata and key themes from a book description or encyclopedia entry.\nComplexity: L2 (Explicit Information Retrieval).",
+    "properties": {
+      "title": {
+        "description": "The official title of the literary work",
+        "title": "Title",
+        "type": "string"
+      },
+      "author": {
+        "description": "The primary author or creator of the work",
+        "title": "Author",
+        "type": "string"
+      },
+      "publication_year": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "The year the work was first published",
+        "title": "Publication Year"
+      },
+      "genres": {
+        "description": "Literary genres associated with the work (e.g., 'Science Fiction', 'Romance')",
+        "items": {
+          "type": "string"
+        },
+        "title": "Genres",
+        "type": "array"
+      },
+      "key_themes": {
+        "description": "Main topics or themes explored in the work",
+        "items": {
+          "type": "string"
+        },
+        "title": "Key Themes",
+        "type": "array"
+      },
+      "original_language": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "The language in which the work was originally written",
+        "title": "Original Language"
+      }
+    },
+    "required": [
+      "title",
+      "author"
+    ],
+    "title": "LiteraryWork",
+    "type": "object"
+  },
+  "output": {
+    "title": "Fortunata y Jacinta",
+    "author": "Benito Pérez Galdós",
+    "publication_year": 1887,
+    "genres": [
+      "novela realista"
+    ],
+    "key_themes": [
+      "destino trágico",
+      "clases sociales",
+      "Madrid"
+    ],
+    "original_language": null
+  },
+  "metadata": {
+    "source": "fortunata_y_jacinta.md",
+    "domain": "cultural",
+    "subdomain": "literature"
+  }
+}

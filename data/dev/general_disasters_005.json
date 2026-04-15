@@ -1,0 +1,155 @@
+{
+  "id": "general_disasters_005",
+  "input_text": "# \"Matthew\" se debilita y solo causa leves lluvias en Centroamérica\n\nLa tormenta tropical \"Matthew\" perdió fuerza este sábado y se redujo a depresión tropical luego de pasar por el oeste de Honduras. \"Matthew\" causó lluvias en toda Centroamérica, pero fueron menores de las esperadas debido al rápido debilitamiento del fenómeno atmosférico.\nLa ahora depresión tropical que se formó frente a las costas de Colombia y que generó alertas de diversos tipos en toda Centroamérica el miércoles solo ha generado lluvias de leves, sin embargo en algunas zonas de Honduras y Guatemala las lluvias fueron fuertes pero no generaron víctimas.\nA pesar de su debilitamiento los cuerpos de socorro piden no bajar la guardia incluso después de la disipación de \"Matthew\", por que seguirán las lluvias y la gran nubosidad en toda la región.\nEn Costa Rica el gobierno informó que la situación es tranquila, ya que solo abran lluvias leves en la región pacífica y fronteriza con Nicaragua, donde la Comisión Nacional de Emergencias había habilitado albergues y llevado distintos materiales de emergencia, puesto que se pronosticaban fuertes lluvias e incluso inundaciones en esas zonas situación que no ocurrió.\nEn Honduras el ministro de la Comisión Permanente de Contingencias dijo en rueda de prensa que a pesar de que la tormenta perdió fuerza \"sigue siendo un peligro y se mantendrá la alerta roja en todo el país hasta que las condiciones de emergencias disminuyan\". Las lluvias causaron la crecida de algunos ríos, aunque no generaron pérdidas humanas se reportan al menos 2 puentes dañados y perdidas en campos agrícolas.\nEn Guatemala el meteorólogo Mynor Díaz del Instituto Nacional de Sismología, Vulcanología, Meteorología e Hidrología (INSIVUMEH) dijo que las lluvias en ese país se mantendrán por otras 48 horas, y que la situación más crítica será en las próximas 12 horas en las regiones del Caribe y el norte de Guatemala donde se esperan lluvias torrenciales.\nEn Mexico la Comisión Nacional del Agua (CONAGUA) alertó al estado de Tabasco sobre la posibilidad de que se presenten lluvias intensas en las 48 horas siguientes, esto debido a que “Matthew” cambio su trayectoria y se dirige a esa zona.\n“Matthew” es la decimotercera tormenta que se forma en el Caribe en lo que se lleva de la temporada de huracanes del atlántico que comenzó el 1 de junio y se prevé se extienda hasta el 30 de noviembre.",
+  "instruction": "Extrae la información estructurada de este artículo de noticias sobre un desastre natural, incluyendo el titular, un resumen de los hechos principales, la categoría temática, la ubicación geográfica, las personas y organizaciones clave mencionadas, y cualquier cifra de víctimas, heridos o afectados.",
+  "target_schema": {
+    "$defs": {
+      "NewsCategory": {
+        "enum": [
+          "JUDICIAL",
+          "DISASTER",
+          "HEALTH",
+          "ENVIRONMENT",
+          "POLITICS",
+          "ECONOMY",
+          "SCIENCE",
+          "CULTURE",
+          "SPORTS",
+          "OTHER"
+        ],
+        "title": "NewsCategory",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Extracts structured information from general news articles.\nComplexity: L4 (Sparse Extraction) - Some fields may be null/missing.",
+    "properties": {
+      "headline": {
+        "description": "The main headline or title of the news article",
+        "title": "Headline",
+        "type": "string"
+      },
+      "summary": {
+        "description": "A brief summary of the main facts reported (1-3 sentences)",
+        "title": "Summary",
+        "type": "string"
+      },
+      "category": {
+        "$ref": "#/$defs/NewsCategory",
+        "description": "The thematic category of the news story"
+      },
+      "location": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Geographic location where the event occurred (city, country, or region)",
+        "title": "Location"
+      },
+      "date": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Date mentioned in the article (may be implicit or explicit)",
+        "title": "Date"
+      },
+      "key_people": {
+        "description": "Names of key individuals mentioned in the article",
+        "items": {
+          "type": "string"
+        },
+        "title": "Key People",
+        "type": "array"
+      },
+      "key_organizations": {
+        "description": "Names of organizations, companies, or governments mentioned",
+        "items": {
+          "type": "string"
+        },
+        "title": "Key Organizations",
+        "type": "array"
+      },
+      "casualties": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of deaths mentioned, if any",
+        "title": "Casualties"
+      },
+      "injured": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of people injured, if any",
+        "title": "Injured"
+      },
+      "affected_count": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of people affected or displaced, if applicable",
+        "title": "Affected Count"
+      }
+    },
+    "required": [
+      "headline",
+      "summary",
+      "category"
+    ],
+    "title": "NewsArticle",
+    "type": "object"
+  },
+  "output": {
+    "headline": "\"Matthew\" se debilita y solo causa leves lluvias en Centroamérica",
+    "summary": "La tormenta tropical \"Matthew\" perdió fuerza y se redujo a depresión tropical tras pasar por el oeste de Honduras, causando lluvias menores de las esperadas en toda Centroamérica. No se reportaron víctimas, aunque se registraron al menos 2 puentes dañados y pérdidas en campos agrícolas en Honduras.",
+    "category": "DISASTER",
+    "location": "Centroamérica",
+    "date": null,
+    "key_people": [
+      "Mynor Díaz"
+    ],
+    "key_organizations": [
+      "Comisión Nacional de Emergencias",
+      "Comisión Permanente de Contingencias",
+      "Instituto Nacional de Sismología, Vulcanología, Meteorología e Hidrología (INSIVUMEH)",
+      "Comisión Nacional del Agua (CONAGUA)"
+    ],
+    "casualties": 0,
+    "injured": null,
+    "affected_count": null
+  },
+  "metadata": {
+    "source": "wikinews_desastres_y_accidentes_20260415_005_matthew_se_debilita_y_solo_causa_leves_lluvias_en_.md",
+    "domain": "general",
+    "subdomain": "disasters"
+  }
+}

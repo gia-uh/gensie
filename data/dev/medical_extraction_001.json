@@ -1,0 +1,29 @@
+{
+  "id": "medical_extraction_001",
+  "input_text": "# 2. COMPOSICIÓN CUALITATIVA Y CUANTITATIVA\n\n## 2.2. Composición cualitativa y cuantitativa\n\nCada mililitro de solución contiene:\n\nPrincipios activos:\n\nParacetamol........................................................  24 mg.\n\nCodeína fosfato hemihidrato............................ 2,40 mg (equivalente a 2,35 mg de Codeína fosfato).\n\n### 2.2.1. Excipiente(s) con efecto conocido\n\nEtanol 0,07 ml, azorrubina (carmoisina) (E-122) (0,05 mg), sacarosa (593 mg), benzoato de sodio (E-211)(1,5 mg), propilenglicol (E-1520)(0,15 g) y alcohol bencílico (aroma de frambuesa) (1,42 mg).",
+  "instruction": "¿Qué frase encabeza la descripción del contenido por mililitro?",
+  "target_schema": {
+    "additionalProperties": false,
+    "description": "Extracts a single verbatim fragment that answers the provided instruction.\nComplexity: L1 (Literal Extraction).",
+    "properties": {
+      "answer": {
+        "description": "The verbatim fragment from the source text that answers the question",
+        "title": "Answer",
+        "type": "string"
+      }
+    },
+    "required": [
+      "answer"
+    ],
+    "title": "TextAnswer",
+    "type": "object"
+  },
+  "output": {
+    "answer": "Cada mililitro de solución contiene:"
+  },
+  "metadata": {
+    "source": "CIMA_61072.md",
+    "domain": "medical",
+    "subdomain": "drug_safety"
+  }
+}

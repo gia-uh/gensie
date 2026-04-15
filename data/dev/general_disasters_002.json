@@ -1,0 +1,151 @@
+{
+  "id": "general_disasters_002",
+  "input_text": "# \"Danielle\" se convierte en huracán\n\nLa tormenta tropical \"Danielle\" alcanzó la categoría de huracán luego de que se desplazara continuamente con vientos sostenidos de 120 kilómetros por hora y a una velocidad de 28 kilómetros por hora. El Centro Nacional de Huracanes de Miami clasificó a la tormenta tropical en huracán de categoría y advirtió que el ciclón podría alcanzar la categoría 3 o incluso mayor.\nEl ojo de la tormenta se encuentra a unos 2000 kilómetros de las Antillas y avanza con dirección oeste-noroeste.\nSin embargo el Pacífico también se encuentra en alerta debido a la tormenta \"Frank\" que se acerca peligrosamente a las costa pacifica de México y en las próximas horas podría convertirse en un huracán; \"Frank\" es la sexta tormenta tropical de la temporada de huracanes en el Pacífico y viaja a 110 kilómetros por hora con vientos sostenidos de 90 kilómetros por hora. La tormenta se encuentra a mas de 200 kilómetros al sur-sureste de Puerto Ángel y el gobierno mexicana ha extendido la alerta desde Punta Maldonado hasta Acapulco.",
+  "instruction": "Extrae la información estructurada de este artículo de noticias sobre un fenómeno meteorológico, incluyendo el titular, resumen, categoría, ubicación, organizaciones clave, y cualquier cifra de víctimas o afectados mencionada.",
+  "target_schema": {
+    "$defs": {
+      "NewsCategory": {
+        "enum": [
+          "JUDICIAL",
+          "DISASTER",
+          "HEALTH",
+          "ENVIRONMENT",
+          "POLITICS",
+          "ECONOMY",
+          "SCIENCE",
+          "CULTURE",
+          "SPORTS",
+          "OTHER"
+        ],
+        "title": "NewsCategory",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Extracts structured information from general news articles.\nComplexity: L4 (Sparse Extraction) - Some fields may be null/missing.",
+    "properties": {
+      "headline": {
+        "description": "The main headline or title of the news article",
+        "title": "Headline",
+        "type": "string"
+      },
+      "summary": {
+        "description": "A brief summary of the main facts reported (1-3 sentences)",
+        "title": "Summary",
+        "type": "string"
+      },
+      "category": {
+        "$ref": "#/$defs/NewsCategory",
+        "description": "The thematic category of the news story"
+      },
+      "location": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Geographic location where the event occurred (city, country, or region)",
+        "title": "Location"
+      },
+      "date": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Date mentioned in the article (may be implicit or explicit)",
+        "title": "Date"
+      },
+      "key_people": {
+        "description": "Names of key individuals mentioned in the article",
+        "items": {
+          "type": "string"
+        },
+        "title": "Key People",
+        "type": "array"
+      },
+      "key_organizations": {
+        "description": "Names of organizations, companies, or governments mentioned",
+        "items": {
+          "type": "string"
+        },
+        "title": "Key Organizations",
+        "type": "array"
+      },
+      "casualties": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of deaths mentioned, if any",
+        "title": "Casualties"
+      },
+      "injured": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of people injured, if any",
+        "title": "Injured"
+      },
+      "affected_count": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of people affected or displaced, if applicable",
+        "title": "Affected Count"
+      }
+    },
+    "required": [
+      "headline",
+      "summary",
+      "category"
+    ],
+    "title": "NewsArticle",
+    "type": "object"
+  },
+  "output": {
+    "headline": "\"Danielle\" se convierte en huracán",
+    "summary": "La tormenta tropical \"Danielle\" alcanzó la categoría de huracán con vientos sostenidos de 120 km/h. El Centro Nacional de Huracanes de Miami advirtió que podría alcanzar la categoría 3 o mayor. Además, la tormenta \"Frank\" se acerca a la costa pacífica de México y podría convertirse en huracán.",
+    "category": "DISASTER",
+    "location": "Antillas y costa pacífica de México",
+    "date": null,
+    "key_people": [],
+    "key_organizations": [
+      "Centro Nacional de Huracanes de Miami",
+      "gobierno mexicano"
+    ],
+    "casualties": null,
+    "injured": null,
+    "affected_count": null
+  },
+  "metadata": {
+    "source": "wikinews_desastres_y_accidentes_20260415_002_danielle_se_convierte_en_huracán.md",
+    "domain": "general",
+    "subdomain": "disasters"
+  }
+}

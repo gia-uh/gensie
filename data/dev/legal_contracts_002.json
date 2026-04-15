@@ -1,0 +1,126 @@
+{
+  "id": "legal_contracts_002",
+  "input_text": "# ACUERDO MARCO PARA LA PRESTACIÓN DE SERVICIOS METAFÍSICOS Y EXTRACCIÓN DE ENERGÍA\n\nEn la ciudad de Madrid, a los efectos de registro documental, pero surtiendo plenos efectos materiales el decimoquinto día hábil posterior a la firma de la última parte, la cual se certifica notarialmente que tuvo lugar el 12 de abril de 2026.\n\n**REUNIDOS**\n\nDe una parte, la entidad *NexoCorp S.A.*, operando bajo la denominación comercial \"Void Solutions\", y compareciendo en estricta representación de su corporación matriz *Aetherium LLC*, con sede social registrada en las Islas Vírgenes Británicas (en lo sucesivo y para los fines de este documento, referida conjuntamente como \"El Proveedor Primario\").\n\nDe otra parte, el consorcio independiente *Hermandad de Investigadores de Anomalías Temporales* (H.I.A.T.), debidamente representada por su Gran Maestre en funciones, Don Eulogio Valverde (en adelante, \"El Adquirente\").\n\n**EXPONEN Y ACUERDAN**\n\n**PRIMERO - Objeto del Contrato:**\nEl Proveedor Primario se compromete a suministrar al Adquirente un flujo constante de partículas subatómicas estabilizadas, derivadas de la extracción de anomalías temporales, según las especificaciones técnicas descritas en el Anexo Omega.\n\n**SEGUNDO - Obligaciones de las Partes:**\nEl Adquirente asume la total responsabilidad de la contención de los residuos ectoplásmicos derivados. Cualquier fallo en dicha contención exime al Proveedor Primario de responsabilidad civil extracontractual.\n\n**TERCERO - Restricciones de Difusión:**\nBajo ninguna circunstancia, la información contenida en el Anexo Omega, así como cualquier comunicación cruzada relacionada con las especificaciones del hiper-motor de extracción o las coordenadas de las anomalías, podrá ser reproducida, transmitida, vendida o revelada a entidades no expresamente mencionadas en este documento como partes firmantes. La vulneración de esta cláusula conllevará sanciones punitivas superiores a la disolución corporativa.\n\n**CUARTO - Ley Aplicable y Resolución de Disputas:**\nLas partes acuerdan expresamente someterse a las leyes civiles del Estado de Nevada (EE.UU.) para cualquier aspecto relacionado con la facturación y ejecución monetaria. No obstante, de manera excepcional y vinculante, si la disputa involucra directamente daños derivados de la manipulación de materia oscura o alteraciones en el continuo espacio-tiempo local, el fuero competente y la legislación imperativa a aplicar será exclusivamente el del Principado de Andorra.",
+  "instruction": "Extrae el resumen del contrato o acto legislativo",
+  "target_schema": {
+    "$defs": {
+      "ContractType": {
+        "enum": [
+          "PRESTACIÓN DE SERVICIOS",
+          "COMPRAVENTA",
+          "LABORAL",
+          "CONFIDENCIALIDAD",
+          "ACUERDO MARCO",
+          "OTRO"
+        ],
+        "title": "ContractType",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Identifies the core parameters and semantic structure of an agreement.\nComplexity: L5 (Hierarchical & Semantic Extraction).",
+    "properties": {
+      "contract_title": {
+        "description": "The formal title or heading of the contract",
+        "title": "Contract Title",
+        "type": "string"
+      },
+      "contract_type": {
+        "$ref": "#/$defs/ContractType",
+        "description": "The broad legal category of the agreement"
+      },
+      "effective_date": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "The date the contract goes into effect (YYYY-MM-DD or verbatim)",
+        "title": "Effective Date"
+      },
+      "parties": {
+        "description": "The names of the individuals or organizations entering into the agreement",
+        "items": {
+          "type": "string"
+        },
+        "title": "Parties",
+        "type": "array"
+      },
+      "total_clauses": {
+        "description": "Total number of numbered or named sections (e.g., PRIMERO, SEGUNDO...)",
+        "title": "Total Clauses",
+        "type": "integer"
+      },
+      "governing_law_jurisdiction": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "The state, country, or jurisdiction whose laws govern the contract",
+        "title": "Governing Law Jurisdiction"
+      },
+      "has_nda_clause": {
+        "default": false,
+        "description": "True if the text explicitly mentions confidentiality or non-disclosure",
+        "title": "Has Nda Clause",
+        "type": "boolean"
+      },
+      "has_liability_limitation": {
+        "default": false,
+        "description": "True if there is an explicit clause limiting or exempting liability",
+        "title": "Has Liability Limitation",
+        "type": "boolean"
+      },
+      "monetary_amount": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Total amount of the contract if specified numerically",
+        "title": "Monetary Amount"
+      }
+    },
+    "required": [
+      "contract_title",
+      "contract_type",
+      "parties",
+      "total_clauses"
+    ],
+    "title": "ContractSummary",
+    "type": "object"
+  },
+  "output": {
+    "contract_title": "ACUERDO MARCO PARA LA PRESTACIÓN DE SERVICIOS METAFÍSICOS Y EXTRACCIÓN DE ENERGÍA",
+    "contract_type": "ACUERDO MARCO",
+    "effective_date": "decimoquinto día hábil posterior a la firma de la última parte (certificada notarialmente el 12 de abril de 2026)",
+    "parties": [
+      "NexoCorp S.A.",
+      "Aetherium LLC",
+      "Hermandad de Investigadores de Anomalías Temporales"
+    ],
+    "total_clauses": 4,
+    "governing_law_jurisdiction": "Estado de Nevada (EE.UU.) para facturación y ejecución monetaria; Principado de Andorra para manipulación de materia oscura o alteraciones en el continuo espacio-tiempo",
+    "has_nda_clause": true,
+    "has_liability_limitation": true,
+    "monetary_amount": null
+  },
+  "metadata": {
+    "source": "synthetic_20260414_002.md",
+    "domain": "legal",
+    "subdomain": "contracts"
+  }
+}

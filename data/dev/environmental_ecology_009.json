@@ -1,0 +1,158 @@
+{
+  "id": "environmental_ecology_009",
+  "input_text": "# Alcaldesa de Bogotá impulsará coches eléctricos para la renovación ambiental de la Carrera Séptima\n\nLa alcaldesa saliente de Bogotá, Clara López Obregón, durante el foro en el que hizo su presentación para el plan de desarrollo del Corredor Verde Integral Carrera Séptima del día 20 de diciembre, un anuncio por el cual se permitirá la construcción y circulación de los coches eléctricos en la capital colombiana para la reconstrucción de la avenida citada con parámetros ambientales.\n\nEl proyecto, se realizará en tres fases que se desarrollarán a partir de 2012 y concluirán en 2025, cuya inversión será de 750 mil millones de pesos, en el cual se implementará un plan piloto que contará con el apoyo decidido de la Alcaldía mayor, de Codensa y las empresas emsambladoras e importadoras de los coches. Además, López Obregón si bien anunció que el Sistema TransMilenio podría operar ahí, no descartaría la propuesta de su sucesor Gustavo Petro en reimplementar una vía troncal de tranvía por la avenida citada entre las calles 34 a 170.\nEl corredor ya cuenta con el apoyo del presidente Juan Manuel Santos y de los bancos Mundial e Interamericano de Desarrollo y se espera que su implementación y beneficios sean superiores a los que en su momento hizo TransMienio en su estreno de 2000.",
+  "instruction": "Extrae la información estructurada de este artículo de noticias sobre un proyecto de coches eléctricos y renovación ambiental en Bogotá, siguiendo el esquema proporcionado. Devuelve null en los campos que no se puedan determinar a partir del texto.",
+  "target_schema": {
+    "$defs": {
+      "NewsCategory": {
+        "enum": [
+          "JUDICIAL",
+          "DISASTER",
+          "HEALTH",
+          "ENVIRONMENT",
+          "POLITICS",
+          "ECONOMY",
+          "SCIENCE",
+          "CULTURE",
+          "SPORTS",
+          "OTHER"
+        ],
+        "title": "NewsCategory",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Extracts structured information from general news articles.\nComplexity: L4 (Sparse Extraction) - Some fields may be null/missing.",
+    "properties": {
+      "headline": {
+        "description": "The main headline or title of the news article",
+        "title": "Headline",
+        "type": "string"
+      },
+      "summary": {
+        "description": "A brief summary of the main facts reported (1-3 sentences)",
+        "title": "Summary",
+        "type": "string"
+      },
+      "category": {
+        "$ref": "#/$defs/NewsCategory",
+        "description": "The thematic category of the news story"
+      },
+      "location": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Geographic location where the event occurred (city, country, or region)",
+        "title": "Location"
+      },
+      "date": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Date mentioned in the article (may be implicit or explicit)",
+        "title": "Date"
+      },
+      "key_people": {
+        "description": "Names of key individuals mentioned in the article",
+        "items": {
+          "type": "string"
+        },
+        "title": "Key People",
+        "type": "array"
+      },
+      "key_organizations": {
+        "description": "Names of organizations, companies, or governments mentioned",
+        "items": {
+          "type": "string"
+        },
+        "title": "Key Organizations",
+        "type": "array"
+      },
+      "casualties": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of deaths mentioned, if any",
+        "title": "Casualties"
+      },
+      "injured": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of people injured, if any",
+        "title": "Injured"
+      },
+      "affected_count": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of people affected or displaced, if applicable",
+        "title": "Affected Count"
+      }
+    },
+    "required": [
+      "headline",
+      "summary",
+      "category"
+    ],
+    "title": "NewsArticle",
+    "type": "object"
+  },
+  "output": {
+    "headline": "Alcaldesa de Bogotá impulsará coches eléctricos para la renovación ambiental de la Carrera Séptima",
+    "summary": "La alcaldesa saliente de Bogotá, Clara López Obregón, anunció un proyecto para permitir la construcción y circulación de coches eléctricos en la capital colombiana como parte de la reconstrucción ambiental de la Carrera Séptima. El proyecto se realizará en tres fases entre 2012 y 2025 con una inversión de 750 mil millones de pesos.",
+    "category": "ENVIRONMENT",
+    "location": "Bogotá, Colombia",
+    "date": "20 de diciembre",
+    "key_people": [
+      "Clara López Obregón",
+      "Gustavo Petro",
+      "Juan Manuel Santos"
+    ],
+    "key_organizations": [
+      "Alcaldía mayor",
+      "Codensa",
+      "TransMilenio",
+      "Banco Mundial",
+      "Banco Interamericano de Desarrollo"
+    ],
+    "casualties": null,
+    "injured": null,
+    "affected_count": null
+  },
+  "metadata": {
+    "source": "wikinews_ecologia_20260415_009_alcaldesa_de_bogotá_impulsará_coches_eléctricos_pa.md",
+    "domain": "environmental",
+    "subdomain": "ecology"
+  }
+}

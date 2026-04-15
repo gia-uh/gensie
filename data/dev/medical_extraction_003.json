@@ -1,0 +1,29 @@
+{
+  "id": "medical_extraction_003",
+  "input_text": "# 1. NOMBRE DEL MEDICAMENTO\n\nParacetamol Normon 650 mg comprimidos EFG\n\nParacetamol Normon 500 mg comprimidos EFG\n\n# 2. COMPOSICIÓN CUALITATIVA Y CUANTITATIVA\n\nCada comprimido de Paracetamol Normon 650 mg contiene:\n\nPrincipio activo:\n\nParacetamol …… ............. 650 mg\n\nPara consultar la lista completa de excipientes, ver sección 6.1.\n\nCada comprimido de Paracetamol Normon 500 mg contiene:\n\nPrincipio activo:\n\nParacetamol …….............. 500 mg\n\nPara consultar la lista completa de excipientes, ver sección 6.1",
+  "instruction": "¿Qué frase inicia la composición del comprimido de Normon 500 mg?",
+  "target_schema": {
+    "additionalProperties": false,
+    "description": "Extracts a single verbatim fragment that answers the provided instruction.\nComplexity: L1 (Literal Extraction).",
+    "properties": {
+      "answer": {
+        "description": "The verbatim fragment from the source text that answers the question",
+        "title": "Answer",
+        "type": "string"
+      }
+    },
+    "required": [
+      "answer"
+    ],
+    "title": "TextAnswer",
+    "type": "object"
+  },
+  "output": {
+    "answer": "Cada comprimido de Paracetamol Normon 500 mg contiene:"
+  },
+  "metadata": {
+    "source": "CIMA_68330.md",
+    "domain": "medical",
+    "subdomain": "drug_safety"
+  }
+}

@@ -1,0 +1,148 @@
+{
+  "id": "stem_astronomy_detailed_018",
+  "input_text": "# Calisto\n\nCalisto (del griego Καλλιστώ) es un satélite del planeta Júpiter descubierto en 1610 por Galileo Galilei.​ Es el tercer satélite más grande del sistema solar y el segundo del sistema joviano, después de Ganimedes. Calisto tiene aproximadamente el 99 % del diámetro del planeta Mercurio, pero solo un tercio de su masa. Es el cuarto satélite galileano en cuanto a distancia a Júpiter, con un radio orbital de 1 880 000 kilómetros.​ No está influido por la resonancia orbital que afecta a los tres satélites galileanos interiores —Ío, Europa y Ganimedes—, por lo que no sufre un calentamiento apreciable por fuerzas de marea, como sí ocurre en los otros tres.​ Calisto tiene una rotación síncrona, es decir, su período de rotación concuerda con su período orbital, de manera que, igual que la Luna con la Tierra, siempre «muestra» la misma cara a Júpiter. La superficie de Calisto no está tan influida por la magnetosfera de Júpiter como la de los otros satélites interiores ya que su órbita es más alejada.​\nEste satélite está compuesto aproximadamente por partes iguales de roca y hielo, con una densidad media de unos 1.83 g/cm³. Los componentes detectados mediante la firma espectral de la superficie incluyen hielo, dióxido de carbono, silicatos y compuestos orgánicos. La investigación de la sonda espacial Galileo reveló que Calisto tiene un núcleo, compuesto principalmente de silicatos, y además, la posibilidad de la existencia de un océano interno de agua a una profundidad superior a 100 kilómetros.​​\nLa superficie de Calisto está repleta de cráteres y es muy antigua. No presenta señales de actividad tectónica y se piensa que su evolución se ha producido predominantemente bajo la influencia de los impactos de numerosos meteoritos a lo largo de su existencia.​ Los principales accidentes geográficos incluyen múltiples estructuras, como cráteres de impacto, grandes cuencas de impacto con múltiples anillos concéntricos (con los escarpes, crestas y depósitos a ellas asociados) y cadenas de cráteres (catenae).​ A pequeña escala, la superficie es variada y consiste en pequeños y brillantes depósitos congelados en las cimas de las alturas, rodeadas por un litoral bajo, compuesto de material oscuro.​ La edad absoluta de los accidentes geográficos se desconoce.\nCalisto está rodeado por una atmósfera extremadamente fina, compuesta de dióxido de carbono y probablemente de oxígeno molecular,​​ además de una ionosfera relativamente fuerte.​ Se piensa que el segundo satélite mayor de Júpiter se formó por una «lenta» acreción del remolino de materia que rodeó Júpiter después de su formación.​ Esta lentitud y la falta de fuerzas de marea evitaron una rápida diferenciación química. La también lenta convección en el interior de Calisto, que empezó poco después de su formación, ha producido una diferenciación química parcial y aporta la posibilidad de un océano interior a una profundidad de 100 a 150 kilómetros, así como un pequeño núcleo rocoso.​\nLa probable presencia de un océano líquido bajo la superficie de Calisto indica que puede o podría haber albergado vida.​ Sin embargo, esto es menos probable que en Europa.​ Diversas sondas espaciales, como la Pioneer 10 y 11 o la Galileo y la Cassini, han estudiado el satélite. Calisto está considerado el lugar más «acogedor» para una base humana en una futura exploración del sistema joviano.​",
+  "instruction": "Extrae las propiedades físicas y orbitales del cuerpo celeste descrito en el texto, incluyendo su nombre oficial, tipo de cuerpo, masa, diámetro y datos de su descubrimiento.",
+  "target_schema": {
+    "$defs": {
+      "CelestialBodyType": {
+        "enum": [
+          "ASTEROIDE",
+          "COMETA",
+          "PLANETA",
+          "LUNA",
+          "PLANETA ENANO",
+          "OBJETO INTERESTELAR",
+          "OTRO"
+        ],
+        "title": "CelestialBodyType",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Extracts physical and orbital parameters of celestial bodies.\nComplexity: L5 (Precision Extraction & Normalization).",
+    "properties": {
+      "official_name": {
+        "description": "The primary scientific designation or name",
+        "title": "Official Name",
+        "type": "string"
+      },
+      "body_type": {
+        "$ref": "#/$defs/CelestialBodyType",
+        "description": "The classification of the celestial object"
+      },
+      "mass_kg": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Mass in kilograms (scientific notation or float)",
+        "title": "Mass Kg"
+      },
+      "diameter_km": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Mean diameter in kilometers",
+        "title": "Diameter Km"
+      },
+      "eccentricity": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Orbital eccentricity (e.g., 1.199)",
+        "title": "Eccentricity"
+      },
+      "orbital_period_days": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Time to complete one orbit in Earth days",
+        "title": "Orbital Period Days"
+      },
+      "semi_major_axis_au": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Average distance from the sun in AU",
+        "title": "Semi Major Axis Au"
+      },
+      "discovery_date": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Date of discovery in YYYY-MM-DD format",
+        "title": "Discovery Date"
+      },
+      "discoverer": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Name of the person or observatory that found the object",
+        "title": "Discoverer"
+      }
+    },
+    "required": [
+      "official_name",
+      "body_type"
+    ],
+    "title": "CelestialObjectProperties",
+    "type": "object"
+  },
+  "output": {
+    "official_name": "Calisto",
+    "body_type": "LUNA",
+    "mass_kg": null,
+    "diameter_km": null,
+    "eccentricity": null,
+    "orbital_period_days": null,
+    "semi_major_axis_au": null,
+    "discovery_date": null,
+    "discoverer": "Galileo Galilei"
+  },
+  "metadata": {
+    "source": "solar_system_18_calisto.md",
+    "domain": "stem",
+    "subdomain": "astronomy_detailed"
+  }
+}

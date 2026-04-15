@@ -1,0 +1,125 @@
+{
+  "id": "legal_contracts_001",
+  "input_text": "# CONTRATO DE PRESTACIÓN DE SERVICIOS DE CONSULTORÍA TECNOLÓGICA\n\nEn Madrid, a 14 de abril de 2026.\n\nREUNIDOS\n\nDe una parte, TechSoluciones S.L., con NIF B12345678 y domicilio social en la Calle Mayor 1, Madrid, representada por D. Juan Pérez.\n\nDe otra parte, InnovaCorp S.A., con NIF A87654321 y domicilio social en la Avenida de la Castellana 100, Madrid, representada por Dña. María García.\n\nLas partes se reconocen mutuamente capacidad legal para contratar y obligarse, y a tal efecto,\n\nEXPONEN\n\nQue InnovaCorp S.A. está interesada en la contratación de servicios de consultoría estratégica en inteligencia artificial, y que TechSoluciones S.L. posee la experiencia y medios necesarios para su prestación.\n\nCLÁUSULAS\n\nPRIMERA. OBJETO DEL CONTRATO.\nEl presente contrato tiene por objeto la prestación de servicios de asesoramiento técnico por parte de TechSoluciones S.L. a favor de InnovaCorp S.A.\n\nSEGUNDA. ENTRADA EN VIGOR.\nEste acuerdo entrará en vigor el mismo día de su firma, el 14 de abril de 2026, y tendrá una duración de doce meses.\n\nTERCERA. HONORARIOS.\nSe establece un presupuesto total de 50.000 euros más IVA.\n\nCUARTA. LEY APLICABLE Y JURISDICCIÓN.\nEl contrato se regirá por las leyes de España. Para cualquier controversia, las partes se someten a los juzgados y tribunales de la ciudad de Madrid.\n\nQUINTA. CONFIDENCIALIDAD (NDA).\nToda la información intercambiada entre las partes durante la ejecución del contrato tendrá carácter estrictamente confidencial. Las partes se obligan a no divulgar ningún dato técnico o comercial, actuando este apartado como un acuerdo de no divulgación (NDA) vinculante.",
+  "instruction": "Extrae el resumen del contrato o acto legislativo",
+  "target_schema": {
+    "$defs": {
+      "ContractType": {
+        "enum": [
+          "PRESTACIÓN DE SERVICIOS",
+          "COMPRAVENTA",
+          "LABORAL",
+          "CONFIDENCIALIDAD",
+          "ACUERDO MARCO",
+          "OTRO"
+        ],
+        "title": "ContractType",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Identifies the core parameters and semantic structure of an agreement.\nComplexity: L5 (Hierarchical & Semantic Extraction).",
+    "properties": {
+      "contract_title": {
+        "description": "The formal title or heading of the contract",
+        "title": "Contract Title",
+        "type": "string"
+      },
+      "contract_type": {
+        "$ref": "#/$defs/ContractType",
+        "description": "The broad legal category of the agreement"
+      },
+      "effective_date": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "The date the contract goes into effect (YYYY-MM-DD or verbatim)",
+        "title": "Effective Date"
+      },
+      "parties": {
+        "description": "The names of the individuals or organizations entering into the agreement",
+        "items": {
+          "type": "string"
+        },
+        "title": "Parties",
+        "type": "array"
+      },
+      "total_clauses": {
+        "description": "Total number of numbered or named sections (e.g., PRIMERO, SEGUNDO...)",
+        "title": "Total Clauses",
+        "type": "integer"
+      },
+      "governing_law_jurisdiction": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "The state, country, or jurisdiction whose laws govern the contract",
+        "title": "Governing Law Jurisdiction"
+      },
+      "has_nda_clause": {
+        "default": false,
+        "description": "True if the text explicitly mentions confidentiality or non-disclosure",
+        "title": "Has Nda Clause",
+        "type": "boolean"
+      },
+      "has_liability_limitation": {
+        "default": false,
+        "description": "True if there is an explicit clause limiting or exempting liability",
+        "title": "Has Liability Limitation",
+        "type": "boolean"
+      },
+      "monetary_amount": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Total amount of the contract if specified numerically",
+        "title": "Monetary Amount"
+      }
+    },
+    "required": [
+      "contract_title",
+      "contract_type",
+      "parties",
+      "total_clauses"
+    ],
+    "title": "ContractSummary",
+    "type": "object"
+  },
+  "output": {
+    "contract_title": "CONTRATO DE PRESTACIÓN DE SERVICIOS DE CONSULTORÍA TECNOLÓGICA",
+    "contract_type": "PRESTACIÓN DE SERVICIOS",
+    "effective_date": "2026-04-14",
+    "parties": [
+      "TechSoluciones S.L.",
+      "InnovaCorp S.A."
+    ],
+    "total_clauses": 5,
+    "governing_law_jurisdiction": "España; Juzgados y tribunales de Madrid",
+    "has_nda_clause": true,
+    "has_liability_limitation": false,
+    "monetary_amount": 50000
+  },
+  "metadata": {
+    "source": "synthetic_20260414_001.md",
+    "domain": "legal",
+    "subdomain": "contracts"
+  }
+}

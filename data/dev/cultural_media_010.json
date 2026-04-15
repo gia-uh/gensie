@@ -1,0 +1,148 @@
+{
+  "id": "cultural_media_010",
+  "input_text": "# La adaptación de 'Boulevard' perpetúa todos los tópicos posibles y no está hecha para mí, pero su banda sonora hace más amena la experiencia\n\nSource: https://www.espinof.com/criticas/boulevard-cliche-patas-su-banda-sonora-me-ha-hecho-experiencia-llevadera-fenomeno-wattpad-no-para-mi-que-disfrutable\n\n'\nBoulevard\n' es exactamente la película que parece y quien vaya buscando otra cosa pues se llevará un chasco. Como el que me he llevado yo que, sin esperarlo, he conectado con ella por culpa de su banda sonora.\nLa adaptación del\nfenómeno juvenil nacido en Wattpad\ny dirigida por\nSonia Méndez\nentiende muy bien a su público y aunque no sea de una altísima calidad cinematográfica -ni tampoco lo pretende-, la música puede hacer que sea más liviano el visionado para los que no solemos ver estas películas por gusto. Quizá se deba a que en mi adolescencia sonaban de fondo las mismas canciones de Green Day o Hoobastank -que incluso algunos podrían descubrir gracias a esta película- y que la nostalgia me nuble la visión crítica. Pero\nelijo quedarme con lo positivo, por poco que sea\n.\nFormuleo que te veo\nLa historia de Hasley y Luke -interpretados por Eve Ryan y Mikel Niso- no sorprende para nada. De hecho, responde a un esquema que hemos visto hasta la saciedad, con\nla chica aparentemente corre y recién llegada que se cruza con un chico problemático y triste\n.\nAlrededor de ellos se construye un universo reconocible que incluye el instituto, amistades arquetípicas, familias complicadas, fiestas y ese intento constante de definirse a uno mismo. Todo encaja dentro de una fórmula muy clara, incluso predecible, pero que\nno deja de ser efectiva para el público objetivo\n.\nEn Espinof\nSi te ha gustado 'Culpa tuya', aquí tienes otras adaptaciones de libros que causaron furor en Wattpad antes de convertirse en películas y series\nY aquí es donde entra la nostalgia, que es lo que a mí me ha hecho no tirarme de los pelos ante tanto cliché y diálogos sin sentido. No tanto por lo que cuenta, sino por cómo lo hace, valiéndose de\nunas canciones que parecen elegidas para que conectemos con una etapa muy concreta de nuestra vida\n. Incluso cuando uno ya no está pasando por la adolescencia, es fácil dejarse llevar y ponerse los auriculares con cancelación de ruido, omitiendo por un rato lo que dicen los personajes.\nUn romance imperfecto\nPor otro lado, a nivel narrativo, la película tiene\naltibajos importantes\n. Su desarrollo es irregular y en muchos momentos se esfuerza en estirar las situaciones o recurrir a clichés sin demasiada profundidad. Desde un punto de vista estrictamente cinematográfico,\ncuesta defenderla como una propuesta sólida\n.\nSin embargo, no es una película que busque conquistarnos por su calidad ni tampoco inventar nada nuevo, sino que\nsu intención es tocar una tecla muy concreta\n. Puede que no sea especialmente brillante ni esté pensada para todos los públicos, pero conmigo ha conseguido que la experiencia sea más o menos soportable.\nEn Espinof |\nLas películas más esperadas de 2026\nEn Espinof |\nLas 18 mejores películas basadas en libros",
+  "instruction": "Extrae la información técnica de la película, el reparto mencionado y los puntos positivos y negativos destacados en la crítica.",
+  "target_schema": {
+    "$defs": {
+      "MediumType": {
+        "enum": [
+          "MOVIE",
+          "BOOK",
+          "TV_SERIES",
+          "VIDEO_GAME"
+        ],
+        "title": "MediumType",
+        "type": "string"
+      },
+      "Sentiment": {
+        "enum": [
+          "POSITIVE",
+          "NEUTRAL",
+          "NEGATIVE"
+        ],
+        "title": "Sentiment",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Extracts comprehensive metadata and subjective critique from a cultural review.\nComplexity: L5 (Opinion Distillation & Fact Aggregation).",
+    "properties": {
+      "work_title": {
+        "description": "The name of the movie, book, or series",
+        "title": "Work Title",
+        "type": "string"
+      },
+      "medium": {
+        "$ref": "#/$defs/MediumType",
+        "description": "The type of media being reviewed"
+      },
+      "director": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "The person who directed the film or series",
+        "title": "Director"
+      },
+      "main_cast": {
+        "description": "Key actors or performers mentioned in the review",
+        "items": {
+          "type": "string"
+        },
+        "title": "Main Cast",
+        "type": "array"
+      },
+      "release_year": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "The year the work was released",
+        "title": "Release Year"
+      },
+      "rating": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "The score given by the reviewer, normalized to a 0-10 scale",
+        "title": "Rating"
+      },
+      "sentiment": {
+        "$ref": "#/$defs/Sentiment",
+        "description": "Overall tone of the review"
+      },
+      "pros": {
+        "description": "Specific positive aspects highlighted by the critic",
+        "items": {
+          "type": "string"
+        },
+        "title": "Pros",
+        "type": "array"
+      },
+      "cons": {
+        "description": "Specific negative aspects or flaws mentioned",
+        "items": {
+          "type": "string"
+        },
+        "title": "Cons",
+        "type": "array"
+      },
+      "key_verdict": {
+        "description": "A concise summary of the final judgment (e.g., 'Una copia barata', 'Fascinante rareza')",
+        "title": "Key Verdict",
+        "type": "string"
+      }
+    },
+    "required": [
+      "work_title",
+      "medium",
+      "sentiment",
+      "key_verdict"
+    ],
+    "title": "MediaReview",
+    "type": "object"
+  },
+  "output": {
+    "work_title": "Boulevard",
+    "medium": "MOVIE",
+    "director": "Sonia Méndez",
+    "main_cast": [
+      "Eve Ryan",
+      "Mikel Niso"
+    ],
+    "release_year": null,
+    "rating": null,
+    "sentiment": "NEUTRAL",
+    "pros": [
+      "Banda sonora nostálgica que conecta con el espectador",
+      "Efectiva para su público objetivo"
+    ],
+    "cons": [
+      "Altibajos narrativos importantes",
+      "Recurre a clichés sin profundidad",
+      "Diálogos sin sentido"
+    ],
+    "key_verdict": "No está hecha para mí, pero su banda sonora hace más amena la experiencia"
+  },
+  "metadata": {
+    "source": "espinof_boulevard-cliche-patas-su-banda-sonora-me-ha-hecho-experiencia-llevadera-fenomeno-wattpad-no-para-mi-que-disfrutable.md",
+    "domain": "cultural",
+    "subdomain": "movie_reviews"
+  }
+}

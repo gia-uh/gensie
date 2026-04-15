@@ -1,0 +1,146 @@
+{
+  "id": "cultural_media_008",
+  "input_text": "# 'Mi robot favorito' nos lleva al espacio con un tierno cuento sobre el amor y la soledad. Una montaña rusa de emociones que acribilla sin piedad a pesar de su sencillez\n\nSource: https://www.espinof.com/criticas/mi-robot-favorito-nos-lleva-al-espacio-tierno-cuento-amor-soledad-montana-rusa-emociones-que-acribilla-piedad-a-pesar-su-sencillez\n\nEste 10 de abril llega a nuestras salas de cine\n'Mi robot favorito' ('Space Cadet')\n, una película de animación canadiense dirigida por Kid Koala y que sigue a un robot que busca su lugar en el universo. Y aunque de entrada puede parecer una historia bien simple, 'Mi robot favorito' es una fábula encantadora que te atrapa con su sencillez.\n¿Y ahora qué?\nCeleste\nsiempre ha vivido sola acompañada por un robot que la ha cuidado en cada etapa de su vida. Entonces le llega la gran oportunidad de viajar al espacio para cumplir sus sueños, pero\nsu robot guardián\npierde la razón de su existencia y se queda más solo que la una.\nDividido entre dejarla volar y aferrarse a los recuerdos de Celeste, ahora el robot trata de seguir adelante con su día a día, pegándote unos cuantos bandazos por el camino.\nEn Espinof\nEs una de las películas de animación más especiales y emotivas del año: una encantadora historia en stop-motion nominada al Oscar que se puede ver en streaming\nAunque las comparaciones son odiosas, es difícil no pensar en las fantásticas '\nRobot salvaje\n' y '\nRobot Dreams\n' al meterse en 'Mi robot favorito'. Porque por un lado tenemos a\nun robot que se encariña demasiado de su \"hijo adoptivo\"\ny las emociones se le van de las manos, y por otro tenemos una película protagonizada por otro androide y que no necesita ningún diálogo para transmitirte un torbellino de emociones. 'Mi robot favorito' juega de miedo entre los dos campos.\nUn cuento que explora los sentimientos de soledad a través del paso del tiempo, cargado de nostalgia y de amor. Es una película tierna, que a menudo te deja con una sonrisa y que también te acribilla para sacarte la lágrima cayendo en los recursos facilones justos.\nEs el debut como director del músico y dibujante\nKid Koala\n, que sabe aprovechar los recursos limitados con los que cuentan y lucir la sencillez de la historia. Con\nun estilo visual muy personal\ny que puede resultar muy elemental, pero que se presta perfectamente a la historia que nos quieren contar. Con pocos recursos, 'Mi robot favorito' construye la biografía de Celeste a través de los recuerdos de su infancia, y no necesita grandes secuencias ni un gran despliegue para emocionar.\nEn Espinof\n'Little Amélie' me ha dejado el corazón muy calentito. La mejor película de animación de los últimos años es mucho más que una gozada visual\nAhora bien, también es cierto que\nquizás 'Mi robot favorito' no sea para todo el mundo\n. Sobre todo si estamos más acostumbrados a la animación mainstream y las grandes superproducciones estadounidenses, con mucho slapstick y one-liners ingeniosos con personajes enarcando una ceja para demostrar que son molones. Que ojo, esta animación más comercial no tiene nada de malo, pero también nos ha acostumbrado a unos ritmos y un tipo de acabado que hace que películas más pequeñas como 'Mi robot favorito' puedan resultar sositas, dependiendo del público, especialmente al estirar demasiado su tramo final.\nAún así, nos deja un cuento encantador y minimalista, ideal para todos los públicos, en la que además destaca la banda sonora del propio director.\n'Mi robot favorito\n' es sencilla y tierna con lecciones necesarias para los más pequeños de la casa, pero que al verla con ojos de adulto te remueve el corazón con muchísima nostalgia y punzaditas de amor. Porque los sentimientos que transmite son los mismos, aquí que en el espacio exterior.\nEn Espinof |\nLas mejores películas de 2026\nEn Espinof |\nLas mejores películas de animación de la historia",
+  "instruction": "Extrae la información técnica de la película, el reparto mencionado y los puntos positivos y negativos destacados en la crítica.",
+  "target_schema": {
+    "$defs": {
+      "MediumType": {
+        "enum": [
+          "MOVIE",
+          "BOOK",
+          "TV_SERIES",
+          "VIDEO_GAME"
+        ],
+        "title": "MediumType",
+        "type": "string"
+      },
+      "Sentiment": {
+        "enum": [
+          "POSITIVE",
+          "NEUTRAL",
+          "NEGATIVE"
+        ],
+        "title": "Sentiment",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Extracts comprehensive metadata and subjective critique from a cultural review.\nComplexity: L5 (Opinion Distillation & Fact Aggregation).",
+    "properties": {
+      "work_title": {
+        "description": "The name of the movie, book, or series",
+        "title": "Work Title",
+        "type": "string"
+      },
+      "medium": {
+        "$ref": "#/$defs/MediumType",
+        "description": "The type of media being reviewed"
+      },
+      "director": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "The person who directed the film or series",
+        "title": "Director"
+      },
+      "main_cast": {
+        "description": "Key actors or performers mentioned in the review",
+        "items": {
+          "type": "string"
+        },
+        "title": "Main Cast",
+        "type": "array"
+      },
+      "release_year": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "The year the work was released",
+        "title": "Release Year"
+      },
+      "rating": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "The score given by the reviewer, normalized to a 0-10 scale",
+        "title": "Rating"
+      },
+      "sentiment": {
+        "$ref": "#/$defs/Sentiment",
+        "description": "Overall tone of the review"
+      },
+      "pros": {
+        "description": "Specific positive aspects highlighted by the critic",
+        "items": {
+          "type": "string"
+        },
+        "title": "Pros",
+        "type": "array"
+      },
+      "cons": {
+        "description": "Specific negative aspects or flaws mentioned",
+        "items": {
+          "type": "string"
+        },
+        "title": "Cons",
+        "type": "array"
+      },
+      "key_verdict": {
+        "description": "A concise summary of the final judgment (e.g., 'Una copia barata', 'Fascinante rareza')",
+        "title": "Key Verdict",
+        "type": "string"
+      }
+    },
+    "required": [
+      "work_title",
+      "medium",
+      "sentiment",
+      "key_verdict"
+    ],
+    "title": "MediaReview",
+    "type": "object"
+  },
+  "output": {
+    "work_title": "Mi robot favorito",
+    "medium": "MOVIE",
+    "director": "Kid Koala",
+    "main_cast": [],
+    "release_year": null,
+    "rating": null,
+    "sentiment": "POSITIVE",
+    "pros": [
+      "Sencillez encantadora",
+      "Montaña rusa de emociones",
+      "Banda sonora",
+      "Estilo visual muy personal"
+    ],
+    "cons": [
+      "Estirar demasiado su tramo final",
+      "No es para todo el mundo"
+    ],
+    "key_verdict": "Fábula encantadora que te atrapa con su sencillez"
+  },
+  "metadata": {
+    "source": "espinof_mi-robot-favorito-nos-lleva-al-espacio-tierno-cuento-amor-soledad-montana-rusa-emociones-que-acribilla-piedad-a-pesar-su-sencillez.md",
+    "domain": "cultural",
+    "subdomain": "movie_reviews"
+  }
+}

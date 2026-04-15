@@ -1,0 +1,154 @@
+{
+  "id": "general_disasters_006",
+  "input_text": "# 100 desaparecidos tras naufragio en Papúa Nueva Guinea\n\nLas autoridades estiman que más de 100 personas permanecen desaparecidas tras el naufragio de un ferry de pasajeros en las aguas del Océano Pacífico frente a las costas de Papúa Nueva Guinea, lo que podrían haber quedado atrapadas dentro del buque hundido.\nUn portavoz de la agencia para la seguridad marítima de la nación del Pacífico, dijo que el ferry Rabaul Queen se hundió rápidamente tras ser golpeado por tres fuertes olas mientras navegaba entre las islas de New Britain y el poblado de Lae.\nSe cree que unas 350 personas se encontraban a bordo del ferry en el momento de naufragio, la mayoría de ellos estudiantes. Cerca de 250 pasajeros fueron rescatados en una operación coordinada entre tripulaciones de la marina de Australia y Papúa, a pesar de los fuertes vientos y el oleaje.\nLos sobrevivientes fueron transportados al poblado de Lae. Las búsquedas fueron reiniciadas este viernes 3 de febrero de 2012 con tres buques mercantes respaldados por tres aviones de rescate de Australia.\nLos familiares han expresado su enfado por la falta de información por parte de la empresa operadora del ferry y arrojaron piedras contra las oficinas de la compañía en el poblado de Kimbe.\nEl primer ministro de Nueva Guinea, Peter O’Neill, ordenó una investigación inmediata del desastre.",
+  "instruction": "Extrae la información estructurada de este artículo de noticias sobre un desastre marítimo, incluyendo el titular, resumen, categoría, ubicación, fecha, personas y organizaciones clave, y cualquier cifra de víctimas o afectados mencionada.",
+  "target_schema": {
+    "$defs": {
+      "NewsCategory": {
+        "enum": [
+          "JUDICIAL",
+          "DISASTER",
+          "HEALTH",
+          "ENVIRONMENT",
+          "POLITICS",
+          "ECONOMY",
+          "SCIENCE",
+          "CULTURE",
+          "SPORTS",
+          "OTHER"
+        ],
+        "title": "NewsCategory",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Extracts structured information from general news articles.\nComplexity: L4 (Sparse Extraction) - Some fields may be null/missing.",
+    "properties": {
+      "headline": {
+        "description": "The main headline or title of the news article",
+        "title": "Headline",
+        "type": "string"
+      },
+      "summary": {
+        "description": "A brief summary of the main facts reported (1-3 sentences)",
+        "title": "Summary",
+        "type": "string"
+      },
+      "category": {
+        "$ref": "#/$defs/NewsCategory",
+        "description": "The thematic category of the news story"
+      },
+      "location": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Geographic location where the event occurred (city, country, or region)",
+        "title": "Location"
+      },
+      "date": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Date mentioned in the article (may be implicit or explicit)",
+        "title": "Date"
+      },
+      "key_people": {
+        "description": "Names of key individuals mentioned in the article",
+        "items": {
+          "type": "string"
+        },
+        "title": "Key People",
+        "type": "array"
+      },
+      "key_organizations": {
+        "description": "Names of organizations, companies, or governments mentioned",
+        "items": {
+          "type": "string"
+        },
+        "title": "Key Organizations",
+        "type": "array"
+      },
+      "casualties": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of deaths mentioned, if any",
+        "title": "Casualties"
+      },
+      "injured": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of people injured, if any",
+        "title": "Injured"
+      },
+      "affected_count": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of people affected or displaced, if applicable",
+        "title": "Affected Count"
+      }
+    },
+    "required": [
+      "headline",
+      "summary",
+      "category"
+    ],
+    "title": "NewsArticle",
+    "type": "object"
+  },
+  "output": {
+    "headline": "100 desaparecidos tras naufragio en Papúa Nueva Guinea",
+    "summary": "Más de 100 personas permanecen desaparecidas tras el hundimiento del ferry Rabaul Queen en aguas del Océano Pacífico frente a Papúa Nueva Guinea, tras ser golpeado por tres fuertes olas. De las aproximadamente 350 personas a bordo, cerca de 250 fueron rescatadas, y el primer ministro Peter O'Neill ordenó una investigación inmediata.",
+    "category": "DISASTER",
+    "location": "Papúa Nueva Guinea",
+    "date": "3 de febrero de 2012",
+    "key_people": [
+      "Peter O'Neill"
+    ],
+    "key_organizations": [
+      "Rabaul Queen",
+      "marina de Australia",
+      "marina de Papúa"
+    ],
+    "casualties": null,
+    "injured": null,
+    "affected_count": 100
+  },
+  "metadata": {
+    "source": "wikinews_desastres_y_accidentes_20260415_006_100_desaparecidos_tras_naufragio_en_papúa_nueva_gu.md",
+    "domain": "general",
+    "subdomain": "disasters"
+  }
+}

@@ -1,0 +1,180 @@
+{
+  "id": "medical_diseases_01",
+  "input_text": "# Enfermedad del suero\n\nSource: https://es.wikipedia.org/wiki/Enfermedad_del_suero\n\nLa enfermedad del suero aguda, prototipo de una enfermedad por inmunocomplejos sistémica o generalizada, es una reacción producida en contra de las proteínas (que actúan como antígenos) circulantes del suero. Fue descrita por primera vez por Clemens Von Pirquet y Béla Schick en 1906.​\n\nEtiopatogenia\nSe produce por un exceso relativo de antígenos circulantes, que forman inmunocomplejos pequeños que persisten en la circulación. Ocurre al administrar sueros heterólogos en cantidades suficientes que son reconocidos como extraños y por tanto se comportan como xenoantígenos, dando lugar a la formación de anticuerpos contra ellos, provocando que aparezcan en el organismo inmunocomplejos que se depositan y producen el daño.\n\nSíntomas\nLos síntomas pueden tardar hasta 40 días en aparecer tras la exposición, y pueden incluir signos y síntomas comúnmente asociados a reacciones alérgicas o infecciones, tales como eflorescencia, artralgia, fiebre,  linfadenopatías y afectación del estado general.\nOtros signos incluyen disminución de la presión arterial o incluso shock, coma, glomerulonefritis y proteinuria. Puede imitar a una reacción alérgica inmediata como también una reacción alérgica tardía.\n\nTratamiento\nDescontinuación del agente que produjo la reacción, lo que lleva a que los síntomas desaparezcan en 1-2 días.\nCorticoides: pueden ser prescritos en las formas más graves.\nAntihistamínicos\nEl uso de plasmaféresis también ha sido descrito, aunque solo para los casos más graves.​\n\n\n== Referencias ==",
+  "instruction": "Extrae el perfil de la enfermedad",
+  "target_schema": {
+    "$defs": {
+      "EtiologyType": {
+        "enum": [
+          "INFECTIOUS",
+          "GENETIC",
+          "AUTOIMMUNE",
+          "DEGENERATIVE",
+          "UNKNOWN",
+          "OTHER"
+        ],
+        "title": "EtiologyType",
+        "type": "string"
+      },
+      "Symptom": {
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "description": "Verbatim name of the symptom",
+            "title": "Name",
+            "type": "string"
+          },
+          "severity_level": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Inferred severity if mentioned (Mild, Moderate, Severe)",
+            "title": "Severity Level"
+          },
+          "is_primary": {
+            "default": true,
+            "description": "True if this is a defining symptom of the disease",
+            "title": "Is Primary",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "name"
+        ],
+        "title": "Symptom",
+        "type": "object"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Hierarchical extraction of pathology details from medical summaries.\nComplexity: L5 (Hierarchical Grouping).",
+    "properties": {
+      "pathology_name": {
+        "description": "The medical name of the disease or disorder",
+        "title": "Pathology Name",
+        "type": "string"
+      },
+      "etiology_type": {
+        "$ref": "#/$defs/EtiologyType",
+        "description": "The primary origin or cause of the disease"
+      },
+      "etiology_description": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "A brief summary of how the disease is caused",
+        "title": "Etiology Description"
+      },
+      "symptoms": {
+        "description": "Structured list of reported symptoms",
+        "items": {
+          "$ref": "#/$defs/Symptom"
+        },
+        "title": "Symptoms",
+        "type": "array"
+      },
+      "diagnosis_methods": {
+        "description": "Clinical tests or methods mentioned for identifying the pathology",
+        "items": {
+          "type": "string"
+        },
+        "title": "Diagnosis Methods",
+        "type": "array"
+      },
+      "is_chronic": {
+        "anyOf": [
+          {
+            "type": "boolean"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "True if the text explicitly defines the disease as chronic or long-term",
+        "title": "Is Chronic"
+      }
+    },
+    "required": [
+      "pathology_name",
+      "etiology_type"
+    ],
+    "title": "DiseaseProfile",
+    "type": "object"
+  },
+  "output": {
+    "pathology_name": "Enfermedad del suero",
+    "etiology_type": "OTHER",
+    "etiology_description": "Reacción producida en contra de las proteínas circulantes del suero por un exceso relativo de antígenos que forman inmunocomplejos.",
+    "symptoms": [
+      {
+        "name": "eflorescencia",
+        "severity_level": null,
+        "is_primary": true
+      },
+      {
+        "name": "artralgia",
+        "severity_level": null,
+        "is_primary": true
+      },
+      {
+        "name": "fiebre",
+        "severity_level": null,
+        "is_primary": true
+      },
+      {
+        "name": "linfadenopatías",
+        "severity_level": null,
+        "is_primary": true
+      },
+      {
+        "name": "afectación del estado general",
+        "severity_level": null,
+        "is_primary": true
+      },
+      {
+        "name": "disminución de la presión arterial",
+        "severity_level": null,
+        "is_primary": false
+      },
+      {
+        "name": "shock",
+        "severity_level": null,
+        "is_primary": false
+      },
+      {
+        "name": "coma",
+        "severity_level": null,
+        "is_primary": false
+      },
+      {
+        "name": "glomerulonefritis",
+        "severity_level": null,
+        "is_primary": false
+      },
+      {
+        "name": "proteinuria",
+        "severity_level": null,
+        "is_primary": false
+      }
+    ],
+    "diagnosis_methods": [],
+    "is_chronic": null
+  },
+  "metadata": {
+    "source": "wiki_diseases_20260414_enfermedad_del_suero.md",
+    "domain": "medical",
+    "subdomain": "diseases"
+  }
+}

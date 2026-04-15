@@ -1,0 +1,97 @@
+{
+  "id": "legal_entities_001",
+  "input_text": "DON JUAN CARLOS I, REY DE ESPAÑA, A TODOS LOS QUE LA PRESENTE VIEREN Y ENTENDIEREN,\n\nSABED: QUE LAS CORTES HAN APROBADO Y EL PUEBLO ESPAÑOL RATIFICADO LA SIGUIENTE CONSTITUCIÓN:\n\n**PREÁMBULO**\n\nLa Nación española, deseando establecer la justicia, la libertad y la seguridad y promover el bien de cuantos la integran, en uso de su soberanía, proclama su voluntad de:\n\nGarantizar la convivencia democrática dentro de la Constitución y de las leyes conforme a un orden económico y social justo.\n\nConsolidar un Estado de Derecho que asegure el imperio de la ley como expresión de la voluntad popular.\n\nProteger a todos los españoles y pueblos de España en el ejercicio de los derechos humanos, sus culturas y tradiciones, lenguas e instituciones.\n\nPromover el progreso de la cultura y de la economía para asegurar a todos una digna calidad de vida.\n\nEstablecer una sociedad democrática avanzada, y\n\nColaborar en el fortalecimiento de unas relaciones pacíficas y de eficaz cooperación entre todos los pueblos de la Tierra.",
+  "instruction": "Extrae las entidades nombradas (personas, organizaciones, lugares) mencionadas en el encabezado y preámbulo de la Constitución.",
+  "target_schema": {
+    "$defs": {
+      "Entity": {
+        "additionalProperties": false,
+        "description": "A single named entity mention.",
+        "properties": {
+          "text": {
+            "description": "The verbatim text mention from the source",
+            "title": "Text",
+            "type": "string"
+          },
+          "label": {
+            "$ref": "#/$defs/EntityType",
+            "description": "The category of the entity"
+          }
+        },
+        "required": [
+          "text",
+          "label"
+        ],
+        "title": "Entity",
+        "type": "object"
+      },
+      "EntityType": {
+        "enum": [
+          "PERSON",
+          "ORGANIZATION",
+          "LOCATION",
+          "DATE",
+          "EVENT",
+          "MISCELLANEOUS"
+        ],
+        "title": "EntityType",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Extracts named entity mentions categorized by type in a single list.\nComplexity: L5 (Hierarchical Grouping).",
+    "properties": {
+      "entities": {
+        "description": "List of all recognized named entities",
+        "items": {
+          "$ref": "#/$defs/Entity"
+        },
+        "title": "Entities",
+        "type": "array"
+      }
+    },
+    "title": "NamedEntities",
+    "type": "object"
+  },
+  "output": {
+    "entities": [
+      {
+        "text": "DON JUAN CARLOS I",
+        "label": "PERSON"
+      },
+      {
+        "text": "ESPAÑA",
+        "label": "LOCATION"
+      },
+      {
+        "text": "LAS CORTES",
+        "label": "ORGANIZATION"
+      },
+      {
+        "text": "EL PUEBLO ESPAÑOL",
+        "label": "MISCELLANEOUS"
+      },
+      {
+        "text": "CONSTITUCIÓN",
+        "label": "MISCELLANEOUS"
+      },
+      {
+        "text": "La Nación española",
+        "label": "MISCELLANEOUS"
+      },
+      {
+        "text": "España",
+        "label": "LOCATION"
+      },
+      {
+        "text": "la Tierra",
+        "label": "LOCATION"
+      }
+    ]
+  },
+  "metadata": {
+    "source": "BOE-A-1978-31229.md",
+    "domain": "legal",
+    "subdomain": "legislation"
+  }
+}

@@ -1,0 +1,127 @@
+{
+  "id": "legal_contracts_003",
+  "input_text": "# CONTRATO DE ARRENDAMIENTO Y EXPLOTACIÓN DE ENTIDADES ESPECTRALES\n\nReunidos en la antigua abadía de San Galo, el primer día hábil de la semana posterior al eclipse lunar del 14 de marzo de 2026. A todos los efectos legales, este contrato entrará en vigor a la medianoche del tercer día tras su ratificación final por ambas partes, efectuada el 18 de marzo de 2026.\n\n**COMPARECEN**\n\nPor un lado, \"Ecto-Rentals España\", operando como marca secundaria de *Spectral Holdings Ltd.*, empresa constituida bajo las leyes de la Isla de Man, representada por Doña Beatriz Montero (en adelante, \"El Arrendador\").\n\nPor otro lado, *Inversiones Inmobiliarias El Susto S.L.*, actuando en beneficio propio y de su filial *Atracciones del Más Allá S.A.*, representada por Don Carlos Fernández (en adelante, \"El Arrendatario\").\n\n**CLÁUSULAS**\n\n**PRIMERA - Objeto:**\nEl Arrendador cede el uso temporal de tres (3) entidades espectrales de Clase IV (Poltergeist) para su explotación en las casas embrujadas propiedad del Arrendatario, según el catálogo anexo.\n\n**SEGUNDA - Confidencialidad y Silencio Obligado:**\nNinguna de las partes podrá divulgar las técnicas de anclaje ectoplásmico ni los verdaderos nombres en vida de los espectros arrendados. Todo el material técnico y los procedimientos de invocación son secreto comercial. La infracción de esta reserva de información acarreará multas de 50.000 euros por evento y el retorno inmediato de las entidades.\n\n**TERCERA - Legislación Aplicable:**\nEl presente contrato se interpretará según la legislación mercantil de España. Sin embargo, en caso de disputa por exorcismo no autorizado o liberación accidental de las entidades, las partes se someterán a la jurisdicción exclusiva de los tribunales de la Ciudad del Vaticano.",
+  "instruction": "Extrae el resumen del contrato o acto legislativo",
+  "target_schema": {
+    "$defs": {
+      "ContractType": {
+        "enum": [
+          "PRESTACIÓN DE SERVICIOS",
+          "COMPRAVENTA",
+          "LABORAL",
+          "CONFIDENCIALIDAD",
+          "ACUERDO MARCO",
+          "OTRO"
+        ],
+        "title": "ContractType",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Identifies the core parameters and semantic structure of an agreement.\nComplexity: L5 (Hierarchical & Semantic Extraction).",
+    "properties": {
+      "contract_title": {
+        "description": "The formal title or heading of the contract",
+        "title": "Contract Title",
+        "type": "string"
+      },
+      "contract_type": {
+        "$ref": "#/$defs/ContractType",
+        "description": "The broad legal category of the agreement"
+      },
+      "effective_date": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "The date the contract goes into effect (YYYY-MM-DD or verbatim)",
+        "title": "Effective Date"
+      },
+      "parties": {
+        "description": "The names of the individuals or organizations entering into the agreement",
+        "items": {
+          "type": "string"
+        },
+        "title": "Parties",
+        "type": "array"
+      },
+      "total_clauses": {
+        "description": "Total number of numbered or named sections (e.g., PRIMERO, SEGUNDO...)",
+        "title": "Total Clauses",
+        "type": "integer"
+      },
+      "governing_law_jurisdiction": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "The state, country, or jurisdiction whose laws govern the contract",
+        "title": "Governing Law Jurisdiction"
+      },
+      "has_nda_clause": {
+        "default": false,
+        "description": "True if the text explicitly mentions confidentiality or non-disclosure",
+        "title": "Has Nda Clause",
+        "type": "boolean"
+      },
+      "has_liability_limitation": {
+        "default": false,
+        "description": "True if there is an explicit clause limiting or exempting liability",
+        "title": "Has Liability Limitation",
+        "type": "boolean"
+      },
+      "monetary_amount": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Total amount of the contract if specified numerically",
+        "title": "Monetary Amount"
+      }
+    },
+    "required": [
+      "contract_title",
+      "contract_type",
+      "parties",
+      "total_clauses"
+    ],
+    "title": "ContractSummary",
+    "type": "object"
+  },
+  "output": {
+    "contract_title": "CONTRATO DE ARRENDAMIENTO Y EXPLOTACIÓN DE ENTIDADES ESPECTRALES",
+    "contract_type": "OTRO",
+    "effective_date": "medianoche del tercer día tras su ratificación final por ambas partes, efectuada el 18 de marzo de 2026",
+    "parties": [
+      "Ecto-Rentals España",
+      "Spectral Holdings Ltd.",
+      "Inversiones Inmobiliarias El Susto S.L.",
+      "Atracciones del Más Allá S.A."
+    ],
+    "total_clauses": 3,
+    "governing_law_jurisdiction": "España; Ciudad del Vaticano (jurisdicción exclusiva para disputas por exorcismo no autorizado o liberación accidental)",
+    "has_nda_clause": true,
+    "has_liability_limitation": false,
+    "monetary_amount": null
+  },
+  "metadata": {
+    "source": "synthetic_20260414_003.md",
+    "domain": "legal",
+    "subdomain": "contracts"
+  }
+}

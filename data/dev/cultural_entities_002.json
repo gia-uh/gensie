@@ -1,0 +1,105 @@
+{
+  "id": "cultural_entities_002",
+  "input_text": "# Un espectáculo atrevido y extravagante. '¡La novia!' es una fascinante rareza de Hollywood, pero le falta desatarse aún más [...] Cada vez es más raro que en Hollywood confíen grandes presupuestos a películas que se salgan de la norma, pero también es verdad que Warner lleva ya un tiempo sorprendiéndonos. Ya el año pasado llegaron tanto la fallida 'Mickey 17' como la excelente 'Una batalla tras otra', pero se ve que con '¡La novia!' no lo vieron claro y decidieron retrasar su lanzamiento hasta este 6 de marzo de 2026. [...] Mitad secuela apócrifa de 'Frankenstein', mitad reimaginación de 'La novia de Frankenstein', el segundo largometraje como directora de Maggie Gyllenhaal ha contado con 90 millones de presupuesto -inicialmente se dijo que 80, pero Variety ha elevado esa cifra- para dar forma a un espectáculo atrevido y extravagante. El problema es que la actitud excesiva está ahí, pero le falta desatar aún más su locura y eso acaba condenándola a quedarse en una extraña tierra de nadie.",
+  "instruction": "Identifica las películas, estudios, personas y fechas mencionadas en el análisis de la obra.",
+  "target_schema": {
+    "$defs": {
+      "Entity": {
+        "additionalProperties": false,
+        "description": "A single named entity mention.",
+        "properties": {
+          "text": {
+            "description": "The verbatim text mention from the source",
+            "title": "Text",
+            "type": "string"
+          },
+          "label": {
+            "$ref": "#/$defs/EntityType",
+            "description": "The category of the entity"
+          }
+        },
+        "required": [
+          "text",
+          "label"
+        ],
+        "title": "Entity",
+        "type": "object"
+      },
+      "EntityType": {
+        "enum": [
+          "PERSON",
+          "ORGANIZATION",
+          "LOCATION",
+          "DATE",
+          "EVENT",
+          "MISCELLANEOUS"
+        ],
+        "title": "EntityType",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Extracts named entity mentions categorized by type in a single list.\nComplexity: L5 (Hierarchical Grouping).",
+    "properties": {
+      "entities": {
+        "description": "List of all recognized named entities",
+        "items": {
+          "$ref": "#/$defs/Entity"
+        },
+        "title": "Entities",
+        "type": "array"
+      }
+    },
+    "title": "NamedEntities",
+    "type": "object"
+  },
+  "output": {
+    "entities": [
+      {
+        "text": "Maggie Gyllenhaal",
+        "label": "PERSON"
+      },
+      {
+        "text": "Variety",
+        "label": "ORGANIZATION"
+      },
+      {
+        "text": "Warner",
+        "label": "ORGANIZATION"
+      },
+      {
+        "text": "Hollywood",
+        "label": "ORGANIZATION"
+      },
+      {
+        "text": "6 de marzo de 2026",
+        "label": "DATE"
+      },
+      {
+        "text": "¡La novia!",
+        "label": "MISCELLANEOUS"
+      },
+      {
+        "text": "Mickey 17",
+        "label": "MISCELLANEOUS"
+      },
+      {
+        "text": "Una batalla tras otra",
+        "label": "MISCELLANEOUS"
+      },
+      {
+        "text": "Frankenstein",
+        "label": "MISCELLANEOUS"
+      },
+      {
+        "text": "La novia de Frankenstein",
+        "label": "MISCELLANEOUS"
+      }
+    ]
+  },
+  "metadata": {
+    "source": "espinof_espectaculo-atrevido-extravagante-novia-fascinante-rareza-hollywood-le-falta-desatarse.md",
+    "domain": "cultural",
+    "subdomain": "movie_reviews"
+  }
+}

@@ -1,0 +1,156 @@
+{
+  "id": "general_disasters_004",
+  "input_text": "# \"Irene\" continúa avanzando hacia Estados Unidos; ordenan evacuar Nueva York\n\nYa comienzan a sentirse los efectos del huracán Irene en la costa este de Estados Unidos, con vientos y lluvias que podrían llegar a afectar a 65 millones de personas.\n\"Irene es un huracán categoría 2\", dijo el Centro Nacional de Huracanes. \"Se espera poco cambio en intensidad antes de que alcance la costa de Carolina del Norte. Se espera algún debilitamiento después de eso, pero se espera que permanezca como huracán mientras se mueva a lo largo de la costa del Atlántico medio el domingo\", advirtió\nEl presidente Barack Obama aseguró que todos los servicios de emergencia están coordinados y se están preparando para la llegada del huracán. Además, instó a la población que se encuentre en la senda prevista de Irene que tome precauciones.\n\"Cuanto más puedan hacer para preparase ahora, más rápido podremos concentrarnos en la atención en el momento dado. Si no sabe cómo prepararse visite nuestra página www.listo.gov\".\nEl mandatario estadounidense acortó en un día sus vacaciones para llegar a la Casa Blanca antes de que el huracán golpee Washington.\n\"El presidente decidió que era prudente regresar a la Casa Blanca esta noche\", dijo Josh Earnest, portavoz de la Casa Blanca.\nPor su parte, la secretaria de Seguridad Nacional de Estados Unidos, Janet Napolitano, dijo a los periodistas que el Estado está \"tomando esta tormenta muy seriamente\". \"Anticipamos una cantidad significativa de cortes de electricidad con esta particular tormenta\", agregó.",
+  "instruction": "Extrae la información estructurada de este artículo de noticias sobre un desastre natural, incluyendo el titular, resumen, categoría, ubicación, personas y organizaciones clave, y cualquier cifra de víctimas o afectados mencionada.",
+  "target_schema": {
+    "$defs": {
+      "NewsCategory": {
+        "enum": [
+          "JUDICIAL",
+          "DISASTER",
+          "HEALTH",
+          "ENVIRONMENT",
+          "POLITICS",
+          "ECONOMY",
+          "SCIENCE",
+          "CULTURE",
+          "SPORTS",
+          "OTHER"
+        ],
+        "title": "NewsCategory",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Extracts structured information from general news articles.\nComplexity: L4 (Sparse Extraction) - Some fields may be null/missing.",
+    "properties": {
+      "headline": {
+        "description": "The main headline or title of the news article",
+        "title": "Headline",
+        "type": "string"
+      },
+      "summary": {
+        "description": "A brief summary of the main facts reported (1-3 sentences)",
+        "title": "Summary",
+        "type": "string"
+      },
+      "category": {
+        "$ref": "#/$defs/NewsCategory",
+        "description": "The thematic category of the news story"
+      },
+      "location": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Geographic location where the event occurred (city, country, or region)",
+        "title": "Location"
+      },
+      "date": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Date mentioned in the article (may be implicit or explicit)",
+        "title": "Date"
+      },
+      "key_people": {
+        "description": "Names of key individuals mentioned in the article",
+        "items": {
+          "type": "string"
+        },
+        "title": "Key People",
+        "type": "array"
+      },
+      "key_organizations": {
+        "description": "Names of organizations, companies, or governments mentioned",
+        "items": {
+          "type": "string"
+        },
+        "title": "Key Organizations",
+        "type": "array"
+      },
+      "casualties": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of deaths mentioned, if any",
+        "title": "Casualties"
+      },
+      "injured": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of people injured, if any",
+        "title": "Injured"
+      },
+      "affected_count": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of people affected or displaced, if applicable",
+        "title": "Affected Count"
+      }
+    },
+    "required": [
+      "headline",
+      "summary",
+      "category"
+    ],
+    "title": "NewsArticle",
+    "type": "object"
+  },
+  "output": {
+    "headline": "\"Irene\" continúa avanzando hacia Estados Unidos; ordenan evacuar Nueva York",
+    "summary": "El huracán Irene, de categoría 2, avanza hacia la costa este de Estados Unidos con vientos y lluvias que podrían afectar a 65 millones de personas. El presidente Barack Obama coordinó los servicios de emergencia e instó a la población a tomar precauciones, acortando sus vacaciones para regresar a la Casa Blanca.",
+    "category": "DISASTER",
+    "location": "Costa este de Estados Unidos",
+    "date": null,
+    "key_people": [
+      "Barack Obama",
+      "Josh Earnest",
+      "Janet Napolitano"
+    ],
+    "key_organizations": [
+      "Centro Nacional de Huracanes",
+      "Casa Blanca",
+      "Seguridad Nacional de Estados Unidos"
+    ],
+    "casualties": null,
+    "injured": null,
+    "affected_count": 65000000
+  },
+  "metadata": {
+    "source": "wikinews_desastres_y_accidentes_20260415_004_irene_continúa_avanzando_hacia_estados_unidos_orde.md",
+    "domain": "general",
+    "subdomain": "disasters"
+  }
+}

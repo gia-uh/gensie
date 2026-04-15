@@ -1,0 +1,157 @@
+{
+  "id": "general_disasters_010",
+  "input_text": "# 13 días de temporal en Centroamérica dejan unos 100 muertos y 30 mil damnificados\n\nEn distintos países de Centroamérica, el temporal que cumplió 13 días dio tregua dejando a su paso una estela de dolor y destrucción. 93 personas fallecieron y aproximadamente 30 mil quedaron damnificadas tras los fuertes aguaceros que causaron derrumbes, bajas temperaturas e inundaciones.\nEl país más afectados es Guatemala, donde se contabilizan 35 personas fallecidas, El Salvador con 32, Honduras con 13, ocho en Nicaragua y cinco en Costa Rica, para un total de 93 víctimas; y se reporta que centenares de personas se encuentran desaparecidas.\nPanamá es el país menos afectado, sin embargo contabiliza 3 mil personas afectadas tras el temporal.\nEl director del Programa de Investigación del Clima Mundial (WCPR por sus siglas en inglés), Ghassem Asrar, declaró que lo ocurrido en Centroamérica es un evento extremo como consecuencia del calentamiento global, y situaciones como estas se verán con mayor frecuencia e inclusive en otros países.\nSegún datos recopilados, 300 mil personas han sido desplazadas en toda la región, los daños a la infraestructura y los cultivos agrícolas son millonarios. La situación humanitaria podría agravarse debido a un nuevo fenómeno climatológico, esta vez se trata de uno de alta presión; impactará en Costa Rica la madrugada de este jueves y se desplazará hacia otras regiones centroamericanas según pronósticos.\nDebido a la gravedad de la situación y gracias a la transmisión del desastre en los medios de comunicación internacionales, países como Estados Unidos, Taiwán y Venezuela entre otros, han enviado cerca de mil millones de dólares para ayudar a los países centroamericanos.\nEl Sistema de Naciones Unidas otorgó 900 mil dólares en ayuda humanitaria a El Salvador, mientras que la embajada de Taiwán donó 300 mil dólares y la delegación de Estados Unidos unos 50 mil dólares, de acuerdo a datos oficiales. Además, España envió vía aérea 23 toneladas de comida y artículos de higiene y cobijas impermeables para unas 1.300 familias.\nEn Guatemala 4 mil 528 casas han sufrido daños y el 52 por ciento de la red vial nacional se encuentra afectada, parcial o totalmente. El presidente Álvaro Colóm declaró el \"estado de calamidad pública\", lo cual le permite al gobierno tomar los fondos necesarios para enfrentar la emergencia. Situación similar fue declarada en El Salvador y Nicaragua.\nLuis Madrigal, colaborador de Wikinoticias en Costa Rica, declaró que la cifra de muertos oficial es de cinco personas y una docena de desaparecidos. Los desplazados ascienden a 900; la región más afectada es la del Pacífico, seguida del Valle Central donde se sitúa la Gran Área Metropolitana.\nLa Comisión Nacional de Emergencias (CNE) costarricense informó a la prensa que se encuentran habilitados 19 albergues temporales, 16 de los cuales se encuentran ubicados en la provincia de Guanacaste: cinco en la localidad de Carrillo con 426 personas y 7 en Santa Cruz con 112 personas.\nEl Ministerio de Obras Públicas y Transportes (MOPT) de Costa Rica, reportó que más de 1.500 kilómetros de carreteras se encuentran afectados gravemente y otros se encuentran casi destruidos por las inundaciones y derrumbes, que tienen a 10 rutas con cierres totales, 151 tienen su paso habilitado de forma normal, mientras que otras 65 tienen tránsito regulado.\nLos daños en carretera ascienden a 2 mil 300 millones de colones, mientras que la CNE ha invertido más de de mil millones de colones en la contratación de maquinaria, compra de suministros y alimentos para la emergencia.",
+  "instruction": "Extrae la información estructurada de este artículo de noticias sobre un desastre natural en Centroamérica, incluyendo el titular, resumen, categoría, ubicación, personas y organizaciones clave, y las cifras de víctimas mortales y personas afectadas mencionadas.",
+  "target_schema": {
+    "$defs": {
+      "NewsCategory": {
+        "enum": [
+          "JUDICIAL",
+          "DISASTER",
+          "HEALTH",
+          "ENVIRONMENT",
+          "POLITICS",
+          "ECONOMY",
+          "SCIENCE",
+          "CULTURE",
+          "SPORTS",
+          "OTHER"
+        ],
+        "title": "NewsCategory",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Extracts structured information from general news articles.\nComplexity: L4 (Sparse Extraction) - Some fields may be null/missing.",
+    "properties": {
+      "headline": {
+        "description": "The main headline or title of the news article",
+        "title": "Headline",
+        "type": "string"
+      },
+      "summary": {
+        "description": "A brief summary of the main facts reported (1-3 sentences)",
+        "title": "Summary",
+        "type": "string"
+      },
+      "category": {
+        "$ref": "#/$defs/NewsCategory",
+        "description": "The thematic category of the news story"
+      },
+      "location": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Geographic location where the event occurred (city, country, or region)",
+        "title": "Location"
+      },
+      "date": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Date mentioned in the article (may be implicit or explicit)",
+        "title": "Date"
+      },
+      "key_people": {
+        "description": "Names of key individuals mentioned in the article",
+        "items": {
+          "type": "string"
+        },
+        "title": "Key People",
+        "type": "array"
+      },
+      "key_organizations": {
+        "description": "Names of organizations, companies, or governments mentioned",
+        "items": {
+          "type": "string"
+        },
+        "title": "Key Organizations",
+        "type": "array"
+      },
+      "casualties": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of deaths mentioned, if any",
+        "title": "Casualties"
+      },
+      "injured": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of people injured, if any",
+        "title": "Injured"
+      },
+      "affected_count": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of people affected or displaced, if applicable",
+        "title": "Affected Count"
+      }
+    },
+    "required": [
+      "headline",
+      "summary",
+      "category"
+    ],
+    "title": "NewsArticle",
+    "type": "object"
+  },
+  "output": {
+    "headline": "13 días de temporal en Centroamérica dejan unos 100 muertos y 30 mil damnificados",
+    "summary": "Un temporal de 13 días en Centroamérica dejó 93 personas fallecidas y aproximadamente 30 mil damnificados, con Guatemala como el país más afectado. Los aguaceros causaron derrumbes, inundaciones y daños millonarios a infraestructura y cultivos, mientras países como Estados Unidos, Taiwán y Venezuela enviaron ayuda humanitaria.",
+    "category": "DISASTER",
+    "location": "Centroamérica",
+    "date": null,
+    "key_people": [
+      "Ghassem Asrar",
+      "Álvaro Colóm",
+      "Luis Madrigal"
+    ],
+    "key_organizations": [
+      "Programa de Investigación del Clima Mundial (WCPR)",
+      "Sistema de Naciones Unidas",
+      "Comisión Nacional de Emergencias (CNE)",
+      "Ministerio de Obras Públicas y Transportes (MOPT)"
+    ],
+    "casualties": 93,
+    "injured": null,
+    "affected_count": 300000
+  },
+  "metadata": {
+    "source": "wikinews_desastres_y_accidentes_20260415_010_13_días_de_temporal_en_centroamérica_dejan_unos_10.md",
+    "domain": "general",
+    "subdomain": "disasters"
+  }
+}

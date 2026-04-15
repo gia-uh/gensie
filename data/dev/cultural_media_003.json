@@ -1,0 +1,148 @@
+{
+  "id": "cultural_media_003",
+  "input_text": "# Hoy en Netflix, una fabulosa serie periodística con tres temporadas que merecieron más atención\n\nDe cuando en cuando el tema del periodismo acaba siendo el eje de varias historias que se cuentan en formato cinematográfico. En las series se dan incluso más frecuentemente dado el marco de una cadena televisiva, sobre todo en un periodo donde las cuestiones sobre la profesión son más candentes y su papel más necesario, dejando interesantes obras como ‘The Newsreader’.\n\n## Leer el teleprompter\n\nEsta notable serie australiana está protagonizada por Anna Torv y Sam Reid, elaborando un cuidado retrato de época y del contexto de un programa de noticias. No cuenta hechos reales, aunque algunos momentos clave de la historia del país y cómo son relatados tienen su importancia. Una serie especial que ya se puede ver en streaming a través de Netflix.\n\nEn 1986, el mundo de las noticias televisadas se encuentra en un punto crucial de lucha de audiencias, y de crisis existencial sobre caer o no en el sensacionalismo. En este contexto dos presentadores, la estrella Helen Norville y el emergente reportero Dale Jennings, se colocan como una pareja formidable que relata eventos importantes, desde desastres naturales hasta la epidemia del SIDA.\n\nSin ser estrictamente un biopic o equivalente, las historias del pasado marcan mucho lo que ‘The Newsreader’ termina contando. El creador Michael Lucas toma una posición casi revisionista a lo ‘The Newsroom’, pero sin caer en una petulancia que la lleve a darse importancia a sí misma, permitiéndose relatar problemas de la época con crítica pero también cierto rigor.\n\nEsta autenticidad bien llevada evoca más al saber hacer de series como ‘Halt & Catch Fire’, sacando buen drama de personajes conectado por una situación y labor concretos. Sus personajes dan para relatar mucho, y son defendidos increíblemente desde el guion y luego desde actores bien notables y consolidados que exhiben oficio.\n\nSiendo una serie australiana, que hasta ahora habíamos podido ver en plataformas de streaming más pequeñas o donde se consumen menos series que cine, ha tenido un alcance limitado. Pero estando ahora en una plataforma de gran alcance no sería una sorpresa que de repente empiece a recibir más ojos. Sería un buen premio a un buen hacer que se merece atención.",
+  "instruction": "Identifica si es una película o serie, su creador, protagonistas y valoración general del crítico.",
+  "target_schema": {
+    "$defs": {
+      "MediumType": {
+        "enum": [
+          "MOVIE",
+          "BOOK",
+          "TV_SERIES",
+          "VIDEO_GAME"
+        ],
+        "title": "MediumType",
+        "type": "string"
+      },
+      "Sentiment": {
+        "enum": [
+          "POSITIVE",
+          "NEUTRAL",
+          "NEGATIVE"
+        ],
+        "title": "Sentiment",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Extracts comprehensive metadata and subjective critique from a cultural review.\nComplexity: L5 (Opinion Distillation & Fact Aggregation).",
+    "properties": {
+      "work_title": {
+        "description": "The name of the movie, book, or series",
+        "title": "Work Title",
+        "type": "string"
+      },
+      "medium": {
+        "$ref": "#/$defs/MediumType",
+        "description": "The type of media being reviewed"
+      },
+      "director": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "The person who directed the film or series",
+        "title": "Director"
+      },
+      "main_cast": {
+        "description": "Key actors or performers mentioned in the review",
+        "items": {
+          "type": "string"
+        },
+        "title": "Main Cast",
+        "type": "array"
+      },
+      "release_year": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "The year the work was released",
+        "title": "Release Year"
+      },
+      "rating": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "The score given by the reviewer, normalized to a 0-10 scale",
+        "title": "Rating"
+      },
+      "sentiment": {
+        "$ref": "#/$defs/Sentiment",
+        "description": "Overall tone of the review"
+      },
+      "pros": {
+        "description": "Specific positive aspects highlighted by the critic",
+        "items": {
+          "type": "string"
+        },
+        "title": "Pros",
+        "type": "array"
+      },
+      "cons": {
+        "description": "Specific negative aspects or flaws mentioned",
+        "items": {
+          "type": "string"
+        },
+        "title": "Cons",
+        "type": "array"
+      },
+      "key_verdict": {
+        "description": "A concise summary of the final judgment (e.g., 'Una copia barata', 'Fascinante rareza')",
+        "title": "Key Verdict",
+        "type": "string"
+      }
+    },
+    "required": [
+      "work_title",
+      "medium",
+      "sentiment",
+      "key_verdict"
+    ],
+    "title": "MediaReview",
+    "type": "object"
+  },
+  "output": {
+    "work_title": "The Newsreader",
+    "medium": "TV_SERIES",
+    "director": null,
+    "main_cast": [
+      "Anna Torv",
+      "Sam Reid"
+    ],
+    "release_year": null,
+    "rating": null,
+    "sentiment": "POSITIVE",
+    "pros": [
+      "Notable serie australiana",
+      "Cuidado retrato de época",
+      "Buen drama de personajes",
+      "Autenticidad bien llevada"
+    ],
+    "cons": [
+      "Alcance limitado hasta ahora"
+    ],
+    "key_verdict": "fabulosa serie periodística que merece atención"
+  },
+  "metadata": {
+    "source": "espinof_hoy-netflix-fabulosa-serie-periodistica-tres-temporadas-que-merecieron-atencion.md",
+    "domain": "cultural",
+    "subdomain": "movie_reviews"
+  }
+}

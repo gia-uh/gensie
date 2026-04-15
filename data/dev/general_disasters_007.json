@@ -1,0 +1,148 @@
+{
+  "id": "general_disasters_007",
+  "input_text": "# 11 muertos y 39 heridos en uno de los peores accidentes de bus en la historia de España\n\nOnce personas han muerto y otras 39 resultaron heridas en lo que se considera el tercer peor accidente de autobús registrado en la historia de España desde el año 2000.\nEl accidente se registró a las 23:20 horas del sábado en la Venta del Olivo en Cieza, Murcia. El vehículo en el que viajaban turistas de la localidad de Bullas se volcó en un barranco.\nLas causas del accidente están bajo investigación, mientras que los cuerpos de rescate declararon que los once fallecidos perecieron en el accidente de manera instantánea.\nLas autoridades catalogaron este accidente como el tercer peor de la historia de España desde el año 2000. Ese año murieron 28 personas en su mayoría adolescentes luego de que el bus en el que viajaban chocó contra un camión que transportaba ganado en Soria.",
+  "instruction": "Extrae la información estructurada de este artículo de noticias sobre un accidente de autobús, incluyendo el titular, resumen, categoría, ubicación, fecha, personas y organizaciones clave, y las cifras de víctimas mortales y heridos mencionadas.",
+  "target_schema": {
+    "$defs": {
+      "NewsCategory": {
+        "enum": [
+          "JUDICIAL",
+          "DISASTER",
+          "HEALTH",
+          "ENVIRONMENT",
+          "POLITICS",
+          "ECONOMY",
+          "SCIENCE",
+          "CULTURE",
+          "SPORTS",
+          "OTHER"
+        ],
+        "title": "NewsCategory",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Extracts structured information from general news articles.\nComplexity: L4 (Sparse Extraction) - Some fields may be null/missing.",
+    "properties": {
+      "headline": {
+        "description": "The main headline or title of the news article",
+        "title": "Headline",
+        "type": "string"
+      },
+      "summary": {
+        "description": "A brief summary of the main facts reported (1-3 sentences)",
+        "title": "Summary",
+        "type": "string"
+      },
+      "category": {
+        "$ref": "#/$defs/NewsCategory",
+        "description": "The thematic category of the news story"
+      },
+      "location": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Geographic location where the event occurred (city, country, or region)",
+        "title": "Location"
+      },
+      "date": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Date mentioned in the article (may be implicit or explicit)",
+        "title": "Date"
+      },
+      "key_people": {
+        "description": "Names of key individuals mentioned in the article",
+        "items": {
+          "type": "string"
+        },
+        "title": "Key People",
+        "type": "array"
+      },
+      "key_organizations": {
+        "description": "Names of organizations, companies, or governments mentioned",
+        "items": {
+          "type": "string"
+        },
+        "title": "Key Organizations",
+        "type": "array"
+      },
+      "casualties": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of deaths mentioned, if any",
+        "title": "Casualties"
+      },
+      "injured": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of people injured, if any",
+        "title": "Injured"
+      },
+      "affected_count": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of people affected or displaced, if applicable",
+        "title": "Affected Count"
+      }
+    },
+    "required": [
+      "headline",
+      "summary",
+      "category"
+    ],
+    "title": "NewsArticle",
+    "type": "object"
+  },
+  "output": {
+    "headline": "11 muertos y 39 heridos en uno de los peores accidentes de bus en la historia de España",
+    "summary": "Once personas murieron y 39 resultaron heridas cuando un autobús que transportaba turistas de Bullas se volcó en un barranco en la Venta del Olivo en Cieza, Murcia. Las autoridades lo catalogaron como el tercer peor accidente de autobús en España desde el año 2000.",
+    "category": "DISASTER",
+    "location": "Venta del Olivo, Cieza, Murcia, España",
+    "date": "sábado a las 23:20 horas",
+    "key_people": [],
+    "key_organizations": [],
+    "casualties": 11,
+    "injured": 39,
+    "affected_count": null
+  },
+  "metadata": {
+    "source": "wikinews_desastres_y_accidentes_20260415_007_11_muertos_y_39_heridos_en_uno_de_los_peores_accid.md",
+    "domain": "general",
+    "subdomain": "disasters"
+  }
+}

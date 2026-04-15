@@ -1,0 +1,149 @@
+{
+  "id": "cultural_media_001",
+  "input_text": "# 'Cleaner: Rescate Vertical' logra que Daisy Ridley brille como heroína de acción en un plagio desvergonzado de 'Jungla de cristal' [...] John McClane arrastrándose por el túnel de ventilación, en camiseta de tirantes, es pura historia del cine. A todos nos gusta 'Jungla de cristal', y los homenajes constantes no son sino una muestra de admiración absoluta. Eso sí, hasta para homenajear hay que tener clase: no es lo mismo tomar un par de escenas como base que, básicamente, fusilar el guion entero. Eso es lo que hace 'Cleaner: Rescate Vertical', una película que solo impresionará a los que nunca entraron en el Nakatomi. [...] Lo siento mucho por Daisy Ridley, a la que después de 'Star Wars' le está costando encontrar el sentido a su carrera, porque se nota que confía en 'Cleaner' como su pasaporte a convertirse en heroína de acción. Ojalá la película confiara tanto en ella. Las peleas están bien coreografiadas y su actuación es más o menos cumplidora y carismática, pero ella, por más ganas que le ponga, no es la elección apropiada. Tampoco puede hacer mucho más, eso es cierto, con el guion que le ha caído, un libreto que se centra en convertir a un grupo de activistas en los villanos de la función y a los ricachones millonarios en las víctimas. Podría haber sido una fábula moral o jugar mejor con los grises de sus personajes, pero, más allá de algunas escenas (incluyendo el final), los matices brillan por su ausencia. [...] Y es una pena, porque tras las cámaras de 'Cleaner' está uno de los mejores directores de acción de los 90 y los 00: Martin Campbell. Pero aquí no hay ni rastro de 'Goldeneye', 'Casino Royale', 'La máscara del zorro' o, más allá del título, 'Límite Vertical'. La mano de Campbell no es que esté aquí diluída: se muestra absolutamente inexistente, con unas escenas de acción, en su mayoría, funcionales, muy básicas, poco arriesgadas y menos creíbles aún, que sirven como entretenimiento tan solo para aquellos que se conforman con una sinfonía de explosiones, tiros, cristales rotos y porrazos en la nuca que podría estar sacada de cualquier cinta de acción de los últimos veinte años. [...] Al final, la película no consigue ninguno de sus objetivos. No consigue dar sensación de vértigo ni teniendo a su protagonista colgada en un piso 38, ni tampoco que estemos nunca del todo de su lado (especialmente en las insufribles escenas donde aparece su hermano, un deus ex machina doloroso), o que nos creamos del todo la supuesta amistad repentina entre ella y la policía que copia vilmente la de John McClane y Al Powell, solo que dejando a un lado la garra y la personalidad propia. Es como si hubieran copiado el guion de 'Jungla de cristal', pero dejándose por el medio todo lo que la hacía especial, quedando tan solo un triste imitador de marca blanca. [...] Quizá en otras manos que no dependieran tanto de su propio éxito hace dos décadas, 'Cleaner' hubiera resultado mejor. Sin embargo, cae continuamente en tópicos ya pasados de moda, desde la hacker que es capaz de entrar en todos los accesos tecleando un par de códigos hasta un terrorista que coge el teléfono a la policía haciendo bromitas repletas de confianza. Es como un viaje a los años 90, pero no a la parte divertida, sino a las películas a las que ibas por descarte y de las que salías habiendo echado la tarde, sin volver a pensar en ellas el resto de tu vida. Esta tiene algunos momentos logrados de acción descerebrada, pero empañados por una continua sensación insípida: no sabe a nada, porque tampoco intenta siquiera hacerlo.",
+  "instruction": "Extrae la información de la crítica de cine, identificando el título, director, reparto principal, valoración y veredicto final.",
+  "target_schema": {
+    "$defs": {
+      "MediumType": {
+        "enum": [
+          "MOVIE",
+          "BOOK",
+          "TV_SERIES",
+          "VIDEO_GAME"
+        ],
+        "title": "MediumType",
+        "type": "string"
+      },
+      "Sentiment": {
+        "enum": [
+          "POSITIVE",
+          "NEUTRAL",
+          "NEGATIVE"
+        ],
+        "title": "Sentiment",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Extracts comprehensive metadata and subjective critique from a cultural review.\nComplexity: L5 (Opinion Distillation & Fact Aggregation).",
+    "properties": {
+      "work_title": {
+        "description": "The name of the movie, book, or series",
+        "title": "Work Title",
+        "type": "string"
+      },
+      "medium": {
+        "$ref": "#/$defs/MediumType",
+        "description": "The type of media being reviewed"
+      },
+      "director": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "The person who directed the film or series",
+        "title": "Director"
+      },
+      "main_cast": {
+        "description": "Key actors or performers mentioned in the review",
+        "items": {
+          "type": "string"
+        },
+        "title": "Main Cast",
+        "type": "array"
+      },
+      "release_year": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "The year the work was released",
+        "title": "Release Year"
+      },
+      "rating": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "The score given by the reviewer, normalized to a 0-10 scale",
+        "title": "Rating"
+      },
+      "sentiment": {
+        "$ref": "#/$defs/Sentiment",
+        "description": "Overall tone of the review"
+      },
+      "pros": {
+        "description": "Specific positive aspects highlighted by the critic",
+        "items": {
+          "type": "string"
+        },
+        "title": "Pros",
+        "type": "array"
+      },
+      "cons": {
+        "description": "Specific negative aspects or flaws mentioned",
+        "items": {
+          "type": "string"
+        },
+        "title": "Cons",
+        "type": "array"
+      },
+      "key_verdict": {
+        "description": "A concise summary of the final judgment (e.g., 'Una copia barata', 'Fascinante rareza')",
+        "title": "Key Verdict",
+        "type": "string"
+      }
+    },
+    "required": [
+      "work_title",
+      "medium",
+      "sentiment",
+      "key_verdict"
+    ],
+    "title": "MediaReview",
+    "type": "object"
+  },
+  "output": {
+    "work_title": "Cleaner: Rescate Vertical",
+    "medium": "MOVIE",
+    "director": "Martin Campbell",
+    "main_cast": [
+      "Daisy Ridley"
+    ],
+    "release_year": null,
+    "rating": null,
+    "sentiment": "NEGATIVE",
+    "pros": [
+      "Peleas bien coreografiadas",
+      "Actuación carismática de Daisy Ridley",
+      "Momentos logrados de acción descerebrada"
+    ],
+    "cons": [
+      "Plagio desvergonzado de Jungla de cristal",
+      "Los matices brillan por su ausencia",
+      "Dirección de Martin Campbell inexistente",
+      "Sensación insípida"
+    ],
+    "key_verdict": "triste imitador de marca blanca"
+  },
+  "metadata": {
+    "source": "espinof_cleaner-rescate-vertical-logra-que-daisy-ridley-brille-como-heroina-accion-plagio-desvergonzado-jungla-cristal.md",
+    "domain": "cultural",
+    "subdomain": "movie_reviews"
+  }
+}

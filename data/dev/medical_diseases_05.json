@@ -1,0 +1,187 @@
+{
+  "id": "medical_diseases_05",
+  "input_text": "# Abstinencia de opioides\n\nSource: https://es.wikipedia.org/wiki/Abstinencia_de_opioides\n\nLa abstinencia de opioides es un conjunto de síntomas que surgen de la reducción repentina de opioides o de un antagonista opioide después de un período de consumo de opioides.​ Los síntomas pueden incluir secreción nasal, pupilas dilatadas, piel de gallina, dolores musculares, náuseas, diarrea, sudoración, ritmo cardíaco acelerado y bostezos.​ Los síntomas pueden durar unos días.​ Aunque rara vez ponen en peligro la vida, las complicaciones pueden incluir deshidratación y anomalías electrolíticas.​​\nTodos los opioides pueden causar abstinencia, independientemente de si se utilizaron con fines recreativos o con receta médica.​​ El inicio puede ocurrir tan pronto como 6 horas después del uso de opioides de acción corta como la heroína o tan tarde como 4 días después del uso de agentes de acción prolongada como la metadona.​ La gravedad de la abstinencia a menudo se basa en una Escala Clínica de Abstinencia de Opiáceos (COWS).​\nLa abstinencia de opioides se puede tratar con terapia de reemplazo de opioides ( buprenorfina o metadona ).​​ Los síntomas pueden mejorar con clonidina o lofexidina.​ Sin tratamiento, los peores síntomas duran aproximadamente una semana, aunque los síntomas menores pueden permanecer durante más tiempo.​\nAproximadamente 16 millones de personas consumen opioides ilegalmente en todo el mundo.​ Entre quienes habían consumido heroína durante el año anterior, aproximadamente el 60% de ellos había presentado síntomas de abstinencia.​ Muchas personas que continúan consumiendo opioides lo hacen en un esfuerzo por prevenir la abstinencia.​ La abstinencia de opioides puede haber sido descrita ya en el siglo V a. C. por Hipócrates.​ Las descripciones en la literatura médica datan al menos de 1701.​\n\nReferencias\n\n\n== Enlaces externos ==",
+  "instruction": "Extrae el perfil de la enfermedad",
+  "target_schema": {
+    "$defs": {
+      "EtiologyType": {
+        "enum": [
+          "INFECTIOUS",
+          "GENETIC",
+          "AUTOIMMUNE",
+          "DEGENERATIVE",
+          "UNKNOWN",
+          "OTHER"
+        ],
+        "title": "EtiologyType",
+        "type": "string"
+      },
+      "Symptom": {
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "description": "Verbatim name of the symptom",
+            "title": "Name",
+            "type": "string"
+          },
+          "severity_level": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Inferred severity if mentioned (Mild, Moderate, Severe)",
+            "title": "Severity Level"
+          },
+          "is_primary": {
+            "default": true,
+            "description": "True if this is a defining symptom of the disease",
+            "title": "Is Primary",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "name"
+        ],
+        "title": "Symptom",
+        "type": "object"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Hierarchical extraction of pathology details from medical summaries.\nComplexity: L5 (Hierarchical Grouping).",
+    "properties": {
+      "pathology_name": {
+        "description": "The medical name of the disease or disorder",
+        "title": "Pathology Name",
+        "type": "string"
+      },
+      "etiology_type": {
+        "$ref": "#/$defs/EtiologyType",
+        "description": "The primary origin or cause of the disease"
+      },
+      "etiology_description": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "A brief summary of how the disease is caused",
+        "title": "Etiology Description"
+      },
+      "symptoms": {
+        "description": "Structured list of reported symptoms",
+        "items": {
+          "$ref": "#/$defs/Symptom"
+        },
+        "title": "Symptoms",
+        "type": "array"
+      },
+      "diagnosis_methods": {
+        "description": "Clinical tests or methods mentioned for identifying the pathology",
+        "items": {
+          "type": "string"
+        },
+        "title": "Diagnosis Methods",
+        "type": "array"
+      },
+      "is_chronic": {
+        "anyOf": [
+          {
+            "type": "boolean"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "True if the text explicitly defines the disease as chronic or long-term",
+        "title": "Is Chronic"
+      }
+    },
+    "required": [
+      "pathology_name",
+      "etiology_type"
+    ],
+    "title": "DiseaseProfile",
+    "type": "object"
+  },
+  "output": {
+    "pathology_name": "Abstinencia de opioides",
+    "etiology_type": "OTHER",
+    "etiology_description": "Surge de la reducción repentina de opioides o de un antagonista opioide después de un período de consumo de opioides.",
+    "symptoms": [
+      {
+        "name": "secreción nasal",
+        "severity_level": null,
+        "is_primary": true
+      },
+      {
+        "name": "pupilas dilatadas",
+        "severity_level": null,
+        "is_primary": true
+      },
+      {
+        "name": "piel de gallina",
+        "severity_level": null,
+        "is_primary": true
+      },
+      {
+        "name": "dolores musculares",
+        "severity_level": null,
+        "is_primary": true
+      },
+      {
+        "name": "náuseas",
+        "severity_level": null,
+        "is_primary": true
+      },
+      {
+        "name": "diarrea",
+        "severity_level": null,
+        "is_primary": true
+      },
+      {
+        "name": "sudoración",
+        "severity_level": null,
+        "is_primary": true
+      },
+      {
+        "name": "ritmo cardíaco acelerado",
+        "severity_level": null,
+        "is_primary": true
+      },
+      {
+        "name": "bostezos",
+        "severity_level": null,
+        "is_primary": true
+      },
+      {
+        "name": "deshidratación",
+        "severity_level": null,
+        "is_primary": false
+      },
+      {
+        "name": "anomalías electrolíticas",
+        "severity_level": null,
+        "is_primary": false
+      }
+    ],
+    "diagnosis_methods": [
+      "Escala Clínica de Abstinencia de Opiáceos (COWS)"
+    ],
+    "is_chronic": false
+  },
+  "metadata": {
+    "source": "wiki_diseases_20260414_abstinencia_de_opioides.md",
+    "domain": "medical",
+    "subdomain": "diseases"
+  }
+}

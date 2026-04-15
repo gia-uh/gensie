@@ -1,0 +1,216 @@
+{
+  "id": "lifestyle_recipes_04",
+  "input_text": "# Arrop i tallaetes\n\nSource: https://es.wikipedia.org/wiki/Arrop_i_tallaetes\n\nEl Arrop i Tallaetes (pronunciación: [aˈrop i taʎaˈetes]; también llamado arrop con tallaetes) es un dulce tradicional de la Comunidad Valenciana, caracterizado por un almíbar concentrado de mosto de uva, denominado arrop, al que se incorporan pequeñas rodajas de fruta, llamadas tallaetes, que pueden ser de calabaza, melocotón, ciruela o la parte blanca de la sandía, previamente maceradas en agua con cal.\n\nEtimología\nEl nombre del Arrop i Tallaetes proviene de dos términos del valenciano. Arrop deriva del árabe hispano arrúbb, y este a su vez del árabe clásico rubb, que significa “jarabe” o “sirope”. Tallaetes es el diminutivo de talles, que significa “cortes” o “rodajas”, haciendo referencia a las piezas de fruta que se incorporan al sirope.​​\n\nHistoria\nEl Arrop i Tallaetes es un dulce tradicional de la Comunidad Valenciana, cuya presencia documentada se remonta a la época medieval. Su origen se vincula con técnicas de conservación de frutas introducidas durante la dominación árabe, que incluían la cocción de frutas en mosto de uva reducido para prolongar su durabilidad.​\nDurante los siglos posteriores, el dulce se consolidó en las comarcas centrales valencianas, especialmente en la del Valle del Albaida, donde se incorporaban frutas locales cortadas en rodajas pequeñas, conocidas como tallaetes, al jarabe de mosto, denominado arrop. Este procedimiento se transmitió de manera oral y artesanal entre generaciones, formando parte de la dieta de los habitantes rurales y de los períodos de cosecha de uva.​\n\nPreparación\nEl Arrop i Tallaetes se elabora a partir de mosto de uva, que se reduce a fuego lento hasta obtener un sirope espeso denominado arrop. Durante la reducción, el mosto se puede tratar con cal para neutralizar su acidez.\nParalelamente, se preparan las tallaetes, que son rodajas de frutas como calabaza, melocotón o sandía, que se han macerado previamente en agua con cal para mejorar su textura. Una vez reducido el mosto, se incorporan las tallaetes al jarabe, mezclándolas para que se impregnen de arrop.\nEl dulce resultante puede consumirse tras enfriarse, y tradicionalmente se almacenaba para su conservación prolongada, lo que permitía su consumo en diferentes épocas del año.\n\nVéase también\nArrope y calabazate\n\nReferencias\nEnlaces externos\nReceta del arrop i tallaetes (en valenciano)",
+  "instruction": "Extrae la receta",
+  "target_schema": {
+    "$defs": {
+      "CookingTechnique": {
+        "enum": [
+          "SOFREÍR",
+          "HERVIR",
+          "HORNEAR",
+          "FREÍR",
+          "VAPOR",
+          "COCCIÓN LENTA"
+        ],
+        "title": "CookingTechnique",
+        "type": "string"
+      },
+      "DietaryTag": {
+        "enum": [
+          "VEGANO",
+          "VEGETARIANO",
+          "SIN GLUTEN",
+          "SIN LÁCTEOS",
+          "BAJO EN CARBOHIDRATOS"
+        ],
+        "title": "DietaryTag",
+        "type": "string"
+      },
+      "RecipeIngredient": {
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "description": "Verbatim name of the ingredient",
+            "title": "Name",
+            "type": "string"
+          },
+          "amount": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Numerical quantity",
+            "title": "Amount"
+          },
+          "unit": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/UnitType"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Unit of measurement"
+          }
+        },
+        "required": [
+          "name"
+        ],
+        "title": "RecipeIngredient",
+        "type": "object"
+      },
+      "UnitType": {
+        "enum": [
+          "g",
+          "ml",
+          "kg",
+          "unidad",
+          "pizca",
+          "cucharada",
+          "otro"
+        ],
+        "title": "UnitType",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Holistic reasoning over a traditional recipe.\nRequires inferring dietary suitability and complexity from steps.\nComplexity: L10 (Holistic Reasoning).",
+    "properties": {
+      "dish_name": {
+        "description": "The name of the recipe",
+        "title": "Dish Name",
+        "type": "string"
+      },
+      "servings": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of portions generated",
+        "title": "Servings"
+      },
+      "ingredients": {
+        "description": "Structured list of ingredients",
+        "items": {
+          "$ref": "#/$defs/RecipeIngredient"
+        },
+        "title": "Ingredients",
+        "type": "array"
+      },
+      "complexity_score": {
+        "description": "Inferred difficulty from 1 (easy) to 10 (pro chef) based on steps and time",
+        "maximum": 10,
+        "minimum": 1,
+        "title": "Complexity Score",
+        "type": "integer"
+      },
+      "dietary_tags": {
+        "description": "Reasoned tags based on the absence of certain ingredient types (e.g., meat, gluten)",
+        "items": {
+          "$ref": "#/$defs/DietaryTag"
+        },
+        "title": "Dietary Tags",
+        "type": "array"
+      },
+      "technique_sequence": {
+        "description": "The chronological sequence of main cooking techniques applied",
+        "items": {
+          "$ref": "#/$defs/CookingTechnique"
+        },
+        "title": "Technique Sequence",
+        "type": "array"
+      },
+      "total_time_minutes": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Normalized total duration in minutes",
+        "title": "Total Time Minutes"
+      }
+    },
+    "required": [
+      "dish_name",
+      "ingredients",
+      "complexity_score",
+      "technique_sequence"
+    ],
+    "title": "RecipeProcedural",
+    "type": "object"
+  },
+  "output": {
+    "dish_name": "Arrop i Tallaetes",
+    "servings": null,
+    "ingredients": [
+      {
+        "name": "mosto de uva",
+        "amount": null,
+        "unit": null
+      },
+      {
+        "name": "calabaza",
+        "amount": null,
+        "unit": null
+      },
+      {
+        "name": "melocotón",
+        "amount": null,
+        "unit": null
+      },
+      {
+        "name": "ciruela",
+        "amount": null,
+        "unit": null
+      },
+      {
+        "name": "sandía",
+        "amount": null,
+        "unit": null
+      },
+      {
+        "name": "cal",
+        "amount": null,
+        "unit": null
+      },
+      {
+        "name": "agua",
+        "amount": null,
+        "unit": null
+      }
+    ],
+    "complexity_score": 7,
+    "dietary_tags": [
+      "VEGANO",
+      "VEGETARIANO",
+      "SIN GLUTEN",
+      "SIN LÁCTEOS"
+    ],
+    "technique_sequence": [
+      "COCCIÓN LENTA"
+    ],
+    "total_time_minutes": null
+  },
+  "metadata": {
+    "source": "wiki_recipe_20260414_arrop_i_tallaetes.md",
+    "domain": "lifestyle",
+    "subdomain": "recipes"
+  }
+}
