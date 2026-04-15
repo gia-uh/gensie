@@ -79,8 +79,8 @@ Explore our technical documentation to get started:
 
 * **April 15, 2026:** Dev set released! 150 silver instances across 8 domains available in `data/dev/dev.jsonl`. Generated with Claude Opus 4.6, audit-passed, for development use. See [Starter Kit](./starter-kit.md) for details.
 * **April 15, 2026:** Evaluation metrics updated with null hallucination penalty and list matching documentation. See [Task Description](./description.md).
-* **Jan 26, 2026:** Website launched.
 * **March 01, 2026:** We've had some delays with the preparation of the _starter-kit_ which forced to push the date back to **March 09** at the latest.
+* **Jan 26, 2026:** Website launched.
 
 ## Motivation
 
