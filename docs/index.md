@@ -67,18 +67,20 @@ Explore our technical documentation to get started:
 | Date | Event |
 | :--- | :--- |
 | ✅ **March 06, 2026** | 🚀 **Starter Kit Released** ([View Guide](./starter-kit.md)) |
-| **April 15, 2026** | 📂 **Dev Set Release** (150 silver instances) |
-| **May 08, 2026** | 🛑 **Submission Deadline** (Docker containers) |
-| **May 15, 2026** | 🔓 **Test Set Release** (For local error analysis) |
-| **May 16–June 06, 2026** | ⚙️ **Evaluation Period** (Hosted execution) |
-| **June 07, 2026** | 🏆 **Results Announcement** |
-| **June 07, 2026** | 📝 **Paper Submission Deadline** |
+| **April 15, 2026** | 📂 **Dev Set Release** (150 silver instances, for development) |
+| **May 08, 2026** | 🛑 **Submission Deadline** (blind - before test set) |
+| **May 15, 2026** | 🔓 **Test Set Release** (organizers only - kept private) |
+| **May 16–31, 2026** | ⚙️ **Evaluation Period** (against blind test set) |
+| **June 01, 2026** | 🏆 **Results Announcement** |
+| **June 15, 2026** | 📝 **Camera-Ready Paper Deadline** |
 | **Sept 22, 2026** | 🎤 **IberLEF Workshop** (León, Spain) |
 
 ## News & Updates
 
-* **April 15, 2026:** Dev set released! 150 silver instances across 8 domains available in `data/dev/dev.jsonl`. Generated with Claude Opus 4.6, audit-passed, for development use. See [Starter Kit](./starter-kit.md) for details.
+* **April 15, 2026:** Dev set released! 150 silver instances across 8 domains available in `data/dev/dev.jsonl`. Generated with Claude Opus 4.6, audit-passed, for development use. Baseline scores coming soon. See [Starter Kit](./starter-kit.md).
+* **April 15, 2026:** Schedule updated - submission blind (May 8), test set private (May 15), evaluation May 16-31, results June 1, camera-ready June 15.
 * **April 15, 2026:** Evaluation metrics updated with null hallucination penalty and list matching documentation. See [Task Description](./description.md).
+* **April 15, 2026:** We apologize for the delay in releasing the dev set. Thank you for your patience!
 * **March 01, 2026:** We've had some delays with the preparation of the _starter-kit_ which forced to push the date back to **March 09** at the latest.
 * **Jan 26, 2026:** Website launched.
 
