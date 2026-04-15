@@ -68,11 +68,13 @@ Explore our technical documentation to get started:
 | :--- | :--- |
 | ✅ **March 06, 2026** | 🚀 **Starter Kit Released** ([View Guide](./starter-kit.md)) |
 | **April 15, 2026** | 📂 **Dev Set Release** (150 silver instances, for development) |
-| **May 08, 2026** | 🛑 **Submission Deadline** (blind - before test set) |
-| **May 15, 2026** | 🔓 **Test Set Release** (organizers only - kept private) |
-| **May 16–31, 2026** | ⚙️ **Evaluation Period** (against blind test set) |
+| **May 15, 2026** | 🛑 **Submission Deadline** |
+| **May 16, 2026** | 🔓 **Test Set Release** |
+| **May 16–31, 2026** | ⚙️ **Evaluation Period**  |
 | **June 01, 2026** | 🏆 **Results Announcement** |
-| **June 15, 2026** | 📝 **Camera-Ready Paper Deadline** |
+| **June 07, 2026** | 📝 **First Round of Papers** (for those who want early feedback) |
+| **June 12, 2026** | 📝 **Paper Feedback** |
+| **June 19, 2026** | 📝 **Camera-Ready Paper Deadline** |
 | **Sept 22, 2026** | 🎤 **IberLEF Workshop** (León, Spain) |
 
 ## News & Updates
