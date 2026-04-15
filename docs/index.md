@@ -67,16 +67,18 @@ Explore our technical documentation to get started:
 | Date | Event |
 | :--- | :--- |
 | ✅ **March 06, 2026** | 🚀 **Starter Kit Released** ([View Guide](./starter-kit.md)) |
-| **April 01, 2026** | 📂 **Full Development Set** (Remaining 170 examples) |
+| **April 15, 2026** | 📂 **Dev Set Release** (150 silver instances) |
 | **May 08, 2026** | 🛑 **Submission Deadline** (Docker containers) |
-| **May 09, 2026** | 🔓 **Test Set Release** (For local error analysis) |
-| **May 09–30, 2026** | ⚙️ **Evaluation Period** (Hosted execution) |
-| **May 31, 2026** | 🏆 **Results Announcement** |
+| **May 15, 2026** | 🔓 **Test Set Release** (For local error analysis) |
+| **May 16–June 06, 2026** | ⚙️ **Evaluation Period** (Hosted execution) |
+| **June 07, 2026** | 🏆 **Results Announcement** |
 | **June 07, 2026** | 📝 **Paper Submission Deadline** |
 | **Sept 22, 2026** | 🎤 **IberLEF Workshop** (León, Spain) |
 
 ## News & Updates
 
+* **April 15, 2026:** Dev set released! 150 silver instances across 8 domains available in `data/dev/dev.jsonl`. Generated with Claude Opus 4.6, audit-passed, for development use. See [Starter Kit](./starter-kit.md) for details.
+* **April 15, 2026:** Evaluation metrics updated with null hallucination penalty and list matching documentation. See [Task Description](./description.md).
 * **Jan 26, 2026:** Website launched.
 * **March 01, 2026:** We've had some delays with the preparation of the _starter-kit_ which forced to push the date back to **March 09** at the latest.
 
