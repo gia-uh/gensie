@@ -129,8 +129,7 @@ class Evaluator:
                     g_item,
                     s_item,
                     item_schema,
-                    root_schema=root_schema,
-                    input_text=input_text,
+                    root_schema=root_schema
                 )
                 row.append(sim)
             matrix.append(row)
