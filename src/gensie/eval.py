@@ -1,6 +1,7 @@
 import math
 import re
-from typing import Any, Dict, List
+from dataclasses import dataclass, field
+from typing import Any, Dict, List, Optional, Tuple
 
 
 def flatten_json(
@@ -39,6 +40,17 @@ def cosine_similarity(v1: List[float], v2: List[float]) -> float:
         return 0.0
     return dot_product(v1, v2) / (m1 * m2)
 
+
+
+@dataclass
+class GreedyMatchResult:
+    """Result of greedy bipartite matching between two lists."""
+
+    pairs: List[Tuple[int, int, float]] = field(default_factory=list)
+    unmatched_gold: List[int] = field(default_factory=list)
+    unmatched_system: List[int] = field(default_factory=list)
+    total: float = 0.0
+    
 
 class Evaluator:
     """
@@ -90,34 +102,40 @@ class Evaluator:
             curr = curr.get(p, {})
         return curr
 
-    def _greedy_match(
+    def _greedy_match_pairs(
         self,
         gold_list: List[Any],
         system_list: List[Any],
         item_schema: Dict[str, Any],
         root_schema: Dict[str, Any],
-    ) -> float:
+        input_text: Optional[str] = None,
+    ) -> GreedyMatchResult:
         """
-        Calculates similarity sum between two lists using Greedy Bipartite Matching.
+        Greedy Bipartite Matching returning matched pairs and unmatched indices.
         """
+        result = GreedyMatchResult()
+
         if not gold_list or not system_list:
-            return 0.0
+            result.unmatched_gold = list(range(len(gold_list)))
+            result.unmatched_system = list(range(len(system_list)))
+            return result
 
         # Precompute similarity matrix
         matrix = []
         for g_item in gold_list:
             row = []
             for s_item in system_list:
-                # Recursive score for nested items
                 sim = self.score_instance(
-                    g_item, s_item, item_schema, root_schema=root_schema
+                    g_item,
+                    s_item,
+                    item_schema,
+                    root_schema=root_schema
                 )
                 row.append(sim)
             matrix.append(row)
 
-        matches = 0.0
-        used_g = set()
-        used_s = set()
+        used_g: set = set()
+        used_s: set = set()
 
         # Find best matches greedily
         while len(used_g) < len(gold_list) and len(used_s) < len(system_list):
@@ -135,13 +153,38 @@ class Evaluator:
                         best_pair = (i, j)
 
             if best_sim >= 0:
-                matches += best_sim
+                result.pairs.append((best_pair[0], best_pair[1], best_sim))
+                result.total += best_sim
                 used_g.add(best_pair[0])
                 used_s.add(best_pair[1])
             else:
                 break
 
-        return matches
+        result.unmatched_gold = [i for i in range(len(gold_list)) if i not in used_g]
+        result.unmatched_system = [
+            j for j in range(len(system_list)) if j not in used_s
+        ]
+        return result
+
+    def _greedy_match(
+        self,
+        gold_list: List[Any],
+        system_list: List[Any],
+        item_schema: Dict[str, Any],
+        root_schema: Dict[str, Any],
+        input_text: Optional[str] = None,
+    ) -> float:
+        """
+        Calculates similarity sum between two lists using Greedy Bipartite Matching.
+        """
+        return self._greedy_match_pairs(
+            gold_list,
+            system_list,
+            item_schema,
+            root_schema,
+            input_text=input_text,
+        ).total
+
 
     def compute_value_similarity(self, g_val: Any, s_val: Any, is_rigid: bool) -> float:
         """
@@ -239,8 +282,8 @@ class Evaluator:
                 if "$ref" in field_schema:
                     field_schema = self.resolve_ref(root_schema, field_schema["$ref"])
 
-                s_val = s_flat.get(k)
-                if s_val is not None:
+                if k in s_flat:
+                    s_val = s_flat[k]
                     total_similarity += self.score_instance(
                         g_val, s_val, field_schema, root_schema=root_schema
                     )
