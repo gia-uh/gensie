@@ -1,5 +1,9 @@
+from pathlib import Path
+
 import pytest
-from gensie.eval import Evaluator
+
+from gensie.eval import Evaluator, flatten_json
+from gensie.task import Task
 
 
 @pytest.fixture
@@ -74,11 +78,11 @@ def test_rigid_enum_matching(evaluator, entities_schema):
 
     # Label is enum, should be rigid (score 0.0)
     # Text is string, should be semantic (score 1.0)
-    # Total score = (0.0 + 1.0) / 2 = 0.5
+    # TPS = 0.0 + 1.0 = 1.0
 
     schema = entities_schema["$defs"]["Entity"]
     score = evaluator.score_instance(gold, system, schema, root_schema=entities_schema)
-    assert score == 0.5
+    assert score == 1.0
 
 
 def test_free_text_semantic_scoring(evaluator):
@@ -114,3 +118,36 @@ def test_nested_complex_matching(evaluator):
     # Strings in list should use semantic matching
     score = evaluator.score_instance(gold, system, schema)
     assert score > 0.4  # Better than 0.0
+
+
+def test_null_values_count_when_key_is_present(evaluator):
+    schema = {
+        "type": "object",
+        "properties": {
+            "name": {"type": "string"},
+            "release_date": {
+                "anyOf": [{"type": "string"}, {"type": "null"}],
+                "default": None,
+            },
+        },
+    }
+    gold = {"name": "GIMP", "release_date": None}
+
+    assert evaluator.score_instance(gold, gold, schema) == 2.0
+
+
+def test_perfect_starter_data_scores_one(evaluator):
+    tps_list = []
+    gold_counts = []
+    system_counts = []
+
+    for task_path in Path("data/starter").rglob("*.json"):
+        task = Task.load(task_path)
+        tps_list.append(
+            evaluator.score_instance(task.output, task.output, task.target_schema)
+        )
+        gold_counts.append(len(flatten_json(task.output, expand_lists=False)))
+        system_counts.append(len(flatten_json(task.output, expand_lists=False)))
+
+    metrics = evaluator.calculate_metrics(tps_list, gold_counts, system_counts)
+    assert metrics == {"precision": 1.0, "recall": 1.0, "f1": 1.0}

@@ -110,7 +110,11 @@ class Evaluator:
             for s_item in system_list:
                 # Recursive score for nested items
                 sim = self.score_instance(
-                    g_item, s_item, item_schema, root_schema=root_schema
+                    g_item,
+                    s_item,
+                    item_schema,
+                    root_schema=root_schema,
+                    _normalize=True,
                 )
                 row.append(sim)
             matrix.append(row)
@@ -205,10 +209,11 @@ class Evaluator:
         system: Any,
         schema: Dict[str, Any],
         root_schema: Dict[str, Any] = None,
+        _normalize: bool = False,
     ) -> float:
         """
         Calculates Total Match Score (TMS) for a single instance or object.
-        Supports Jaccard Similarity for lists. Returns normalized 0-1 score.
+        Supports Jaccard Similarity for lists. Returns TPS unless _normalize=True.
         """
         if root_schema is None:
             root_schema = schema
@@ -239,14 +244,18 @@ class Evaluator:
                 if "$ref" in field_schema:
                     field_schema = self.resolve_ref(root_schema, field_schema["$ref"])
 
-                s_val = s_flat.get(k)
-                if s_val is not None:
+                if k in s_flat:
                     total_similarity += self.score_instance(
-                        g_val, s_val, field_schema, root_schema=root_schema
+                        g_val,
+                        s_flat[k],
+                        field_schema,
+                        root_schema=root_schema,
+                        _normalize=_normalize,
                     )
 
-            # Normalize by max possible keys (Precision/Recall blend at instance level)
-            return total_similarity / max(len(g_flat), len(s_flat))
+            if _normalize:
+                return total_similarity / max(len(g_flat), len(s_flat))
+            return total_similarity
 
         # Handle Lists (Bipartite Matching)
         if isinstance(gold, list):
