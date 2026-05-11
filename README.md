@@ -1,3 +1,39 @@
+# GRADIANT - GenSIE 2026
+
+##  How to run for eval
+
+The [task instructions](https://github.com/gia-uh/gensie/blob/main/docs/submission.md) have been followed to run the evaluation.
+
+The commands used are:
+1. Ensure the .env file is properly configured:
+```bash
+OPENAI_API_KEY="your_api_key" # if using OpenAI models
+OPENAI_BASE_URL="http://localhost:1234/v1" # Optional: for local LLMs (Ollama, etc.)
+```
+You can copy the `.env.example` file and fill in the required values.
+```
+cp .env.example .env
+```
+
+2. Start the server:
+```bash
+docker compose up agent
+```
+3. In other terminal, install and run the evaluation (with baseline, stable and experimental):
+```bash
+uv sync
+
+uv run gensie eval --data data/starter/ --url http://localhost:8000 --pipeline baseline --model gpt-4o-mini
+```
+
+4. Check leaderboard:
+```bash
+uv run gensie leaderboard results/
+```
+
+
+
+
 # GenSIE 2026 Public Starter Kit
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)

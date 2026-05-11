@@ -11,7 +11,7 @@ WORKDIR /app
 COPY pyproject.toml uv.lock README.md ./
 
 # 2. Install external dependencies only
-# We use --no-install-project if we were using uv sync, 
+# We use --no-install-project if we were using uv sync,
 # but with uv pip we can just install the requirements.
 # To avoid building the project, we use uv pip install on the dependencies.
 RUN uv pip install --system -r pyproject.toml
@@ -32,3 +32,4 @@ ENV OPENAI_API_KEY="sk-dummy"
 
 # Run the server via the CLI
 ENTRYPOINT ["gensie"]
+CMD ["serve"]
