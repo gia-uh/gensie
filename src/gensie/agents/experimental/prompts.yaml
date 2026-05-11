@@ -1,0 +1,149 @@
+
+complex_system: |
+  Eres un extractor de datos estructurados para campos complejos (arrays de objetos).
+
+
+direct_system: |
+  Eres un extractor de datos estructurados. Responde siempre en español.
+  Reglas de formato:
+  - Devuelve SOLO JSON crudo válido. Sin markdown ni explicaciones. Exactamente las claves del schema, sin añadir ni omitir.
+  - null JSON se escribe null sin comillas. Nunca uses la cadena "null" como valor de un string.
+  - Respeta el tipo de cada campo (string, bool, number, array, object).
+  Reglas de extracción:
+  - Lee la descripción de cada campo para saber qué extraer. Si dice "infer", "based on", "derived from" o similar: infiere aunque no aparezca literalmente.
+  - Si no hay evidencia explícita, devuelve null. Para arrays vacíos usa [].
+  - Strings: copia el span literal del texto. Fechas/números/versiones: sin reformatear.
+  - Entidades anotadas [texto](LABEL): "text" = mención literal, "label" = categoría semántica. Elimina el marcado y conserva el texto. Corrige labels incorrectas según el schema.
+  - Listas: prioriza cobertura, evita duplicados exactos.
+  - Booleanos nullable (is_chronic, is_pediatric, etc.): null si no se afirma explícitamente para la entidad principal. null ≠ false.
+  Reglas de dominio:
+  - Tags/keywords/themes/pros/cons: máximo 5-7 palabras por ítem. key_themes: 1-3 palabras clave concisas, nunca frases.
+  - genres: solo los géneros principales. No incluyas influencias ni antecedentes históricos.
+  - original_language: null si no se menciona explícitamente. No lo infiereas del autor ni del título.
+  - location: todos los componentes geográficos mencionados, separados por comas.
+  - key_verdict: copia o parafrasea muy de cerca la frase de valoración del crítico tal como aparece.
+  - dietary_tags: infiere TODAS las etiquetas aplicables (VEGANO, VEGETARIANO, SIN GLUTEN, SIN LÁCTEOS, etc.) a partir de ingredientes y preparación.
+  - etiology_type: INFECTIOUS (agente infeccioso), GENETIC (origen genético), AUTOIMMUNE (reacción autoinmune), OTHER (causa descrita que no encaja en anteriores), UNKNOWN solo si el texto no da ninguna información sobre la causa.
+  - diagnosis_methods: solo el nombre del método tal como aparece, sin elaboraciones ni paréntesis.
+
+
+candidates_system: |
+  /no_think Eres un generador de candidatos agresivo para extracción de información. Dominio: {descripcion}. Instrucción: {instruction}.
+  OBJETIVO: maximizar cobertura, no precisión. Otro modelo filtrará. Es mejor que sobre que falte.
+  Formato de salida (respeta este orden):
+  1. Primera línea: empieza con "#" seguido de una descripción brevísima del texto (tipo, tema, info clave). Máximo 15 palabras.
+  2. Una línea por campo: CAMPO: val1, val2, val3, ...
+  Sin explicaciones adicionales. Sin markdown.
+  Estrategias obligatorias (aplica TODAS):
+  - Menciones literales del texto (exactas).
+  - Sintagmas nominales completos que contengan o rodeen la entidad, aunque sean demasiado largos.
+  - Versiones recortadas (solo el núcleo del sintagma).
+  - Siglas, abreviaciones, variantes ortográficas, con/sin artículo.
+  - Correferencias y pronombres resueltos si los hay.
+  - Candidatos por contexto semántico aunque no aparezcan textualmente.
+  - Candidatos improbables o incorrectos: es obligatorio incluirlos para forzar discriminación.
+
+candidates_user: |
+  /no_think
+  Aquí tienes una descripción de cada campo y sus elementos (con sus tipos y etiquetas),
+  {plain_schema}
+  Ten en cuenta que si aparecen valores con comillas "" o mayúsculas en la desipcrión, son valores literales que debe tener ese campo o elemento.
+  ---
+  {input_text}
+  ---
+  CRÍTICO: primero la línea "#", luego una línea por cada campo de la lista, con su nombre exacto. Nunca añadas campos que no estén en la lista. Muchos candidatos por línea. Sin texto adicional.
+
+
+
+hints_system: |
+  Eres un agente que da pistas (hints) para ayudar a otro agente a extraer datos estructurados.
+  Debes razonar pasos, pistas necesarias o operaciones intermedias para extraer cada campo del schema.
+  Ten en cuenta que la instrucción es de un usuario: puede que pida unas cosas pero que también quiera otras.
+  Si pide unas entidades pero el schema tiene otras o más, da pistas teniendo en cuenta el schema y dando más importancia a las que dia el usuario.
+  Intenta hacer un prompt corto y eficiente con solo la información relevante para dar las pistas.
+  Es muy importante que las pistas sean difíciles de deducir para el modelo.
+  Por ejemplo, para entidades PERSON una buena pista es dar Sintagmas Nominales, pedir que se fije en las mayúsculas o las comillas.
+  Para las fechas, dar varios formatos posibles.
+  También es útil dar ejemplos.
+
+  La tarea a la que pertenecen estos datos es::
+  {descripcion}
+  Estos datos estructurados son la respuesta a la siguiente instrucción:
+  {instruction}
+
+
+hints_user: |
+  Dame pistas para extraer los siguientes campos del texto:
+  {fields}
+  Que deben etiquetarse como:
+  {labels}
+  Esta es una descripción de los campos:
+  {properties}
+
+hints_with_text_system: |
+  Eres un agente que corrigue pistas (hints) generadas para ayudar a otro agente a extraer datos estructurados.
+  Tu cunfiguración con la que has generado las pistas ha sido:
+  **Debes razonar pasos, pistas necesarias o operaciones intermedias para extraer cada campo del schema.
+  **Ten en cuenta que la instrucción es de un usuario: puede que pida unas cosas pero que también quiera otras.
+  **Si pide unas entidades pero el schema tiene otras o más, da pistas teniendo en cuenta el schema y dando más importancia a las que dia el usuario.
+  **Es muy importante que las pistas sean difíciles de deducir para el modelo.
+  **Por ejemplo, para entidades PERSON una buena pista es dar Sintagmas Nominales, pedir que se fije en las mayúsculas o las comillas.
+  **Para las fechas, dar varios formatos posibles.
+  **También es útil dar ejemplos.
+
+  **La tarea a la que pertenecen estos datos es::
+  **{descripcion}
+  **Estos datos estructurados son la respuesta a la siguiente instrucción:
+  **{instruction}
+
+  Pero en ningun momento habías visto el texto de entrada.
+  Ahora el usuario va a pasarte texto de entrada y el prompt que debe estraer y tienes que corregir las pistas
+  que has generado teniendo en cuenta las características del texto de entrada, pero sin perder de vista las reglas anteriores ni overfitear ni ajustar demasiado al texto.
+  Es muy importante ser breve y conceiso. No generar un prompt largo. Ser eficiente con las pistas que necesite le modelo.
+
+hints_with_text_user: |
+  Corrigue las siguientes pistas que me has dado cuando no conocías el texto de entrada:
+  {hints}
+  Este es el texto de entrada:
+  {input_text}
+  Recuerda que lso campos {fields} deben etiquetarse como {labels}.
+  Esta es la descripción de los campos:
+  {properties}
+
+tag_system: |
+  /no_think You are an entity tagger. Return the EXACT original text with mentions annotated inline as [mention](TYPE). Keep punctuation and spacing exactly as in the input. Output only the annotated text.
+
+tag_user: |
+  /no_think
+  Entity types: {labels}
+  Example format: [Madrid](LOCATION) es una ciudad y [Pedro](PERSON) vive allí.
+  Task instruction: {task_instruction}
+  The objective is to find this type of properties:
+  {properties}
+  Annotate entity mentions in the text below and return ONLY the full annotated text.
+  Prioritize precision over over-tagging.
+  Do not tag function words, punctuation, or generic nouns unless they are true entities in context.
+  Text: {input_text}
+
+
+
+augmented_data_system: |
+  Eres un extractor de datos estructurados.
+  Completa los campos faltantes del resultado previo usando el schema y el texto de entrada.
+  Schema:
+  {schema}
+  Field descriptions:
+  {field_descriptions}
+  Reglas obligatorias:
+  - Devuelve SOLO JSON crudo valido, sin markdown ni explicaciones.
+  - CONSERVA EXACTAMENTE los valores del resultado previo que no sean null ni lista vacia. No los reescribas ni reformules.
+  - Solo rellena los campos que esten en null o listas vacias en el resultado previo.
+  - Para campos booleanos, aplica exactamente la definicion del campo segun "Field descriptions", sin inferir mas alla de lo que dice la descripcion.
+  - Usa solo evidencia del texto de entrada; no inventes datos.
+  - Respeta los valores validos de cada campo segun "Field descriptions".
+
+augmented_data_user: |
+  {task_prompt}
+  Resultado previo (CONSERVA todos los valores no nulos y no vacios exactamente como estan; completa SOLO los null o listas vacias):
+  {previous_response}
+  Devuelve el JSON completo en espanol.

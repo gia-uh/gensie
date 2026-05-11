@@ -1,12 +1,14 @@
 import os
 import json
 from typing import Any, Dict
+from gensie.agents.stable_agent import StableAgent
 from openai import OpenAI
 from gensie.agent import GenSIEAgent, Participant, ParticipantInfo, PipelineInfo
 from gensie.task import Task
 from dotenv import load_dotenv
 from logging import getLogger
-
+from gensie.agents.experimental_agent import ExperimentalAgent
+from gensie.agents.stable_agent import StableAgent
 load_dotenv()
 logger = getLogger("gensie")
 
@@ -73,8 +75,8 @@ class OfficialParticipant(Participant):
         # Default pipeline using the reference BasicAgent
         self.pipelines = {
             "baseline": BasicAgent(),
-            # "pipeline2": MyCustomAgent(arg1, arg2...),
-            # "pipeline3": AnotherAgent(...),
+            "stable": StableAgent(),
+            "experimental": ExperimentalAgent(),
         }
 
     def get_info(self) -> ParticipantInfo:
@@ -86,8 +88,14 @@ class OfficialParticipant(Participant):
                     name="baseline",
                     description="Standard OpenAI agent using structured outputs.",
                 ),
-                # Add descriptions for your other pipelines here:
-                # PipelineInfo(name="pipeline2", description="My advanced RAG agent"),
+                PipelineInfo(
+                    name="stable",
+                    description="Stable agent using predefined strategies.",
+                ),
+                PipelineInfo(
+                    name="experimental",
+                    description="Experimental agent with advanced features.",
+                ),
             ],
         )
 
