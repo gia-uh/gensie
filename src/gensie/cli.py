@@ -2,6 +2,7 @@ import typer
 import uvicorn
 import httpx
 import json
+import os
 import time
 from pathlib import Path
 from typing import Optional, Dict, Any, List
@@ -10,8 +11,14 @@ from rich.table import Table
 from rich.progress import track
 from collections import defaultdict
 from gensie.task import Task
-from gensie.eval import Evaluator, flatten_json, summarize_timing
+from gensie.eval import (
+    Evaluator,
+    flatten_json,
+    summarize_timing,
+    summarize_token_usage,
+)
 from gensie.ranking import compute_ranking, load_reports
+from gensie.usage import aggregate_rows, parse_usage_header, usage_disagrees, usage_rows
 
 app = typer.Typer(help="GenSIE Developer Tools")
 console = Console()
@@ -46,12 +53,21 @@ def eval(
         300.0,
         help="Hard safety cap per /run request — generous so the run is not stopped at the soft budget",
     ),
+    usage_log: Optional[Path] = typer.Option(
+        None,
+        help="Path to the inference server's JSONL token-usage log (authoritative token source)",
+    ),
+    usage_log_api_key: Optional[str] = typer.Option(
+        None,
+        help="API key to filter the usage log by (default: $OPENAI_API_KEY; unset -> all rows)",
+    ),
 ):
     """Evaluates the agent against a local dataset and generates a report.
 
-    Per-instance wall time is recorded but never hard-stopped at ``--time-budget-s``;
-    the report includes a timing summary (average, max, instances over budget) so the
-    soft, averaged budget from the submission spec can be reviewed afterwards.
+    Per-instance wall time and token usage are recorded but never hard-stopped at
+    their soft budgets; the report includes a timing summary and (when a usage log
+    or the ``X-GenSIE-Token-Usage`` header is available) a token-usage summary, so
+    the soft, averaged budgets from the submission spec can be reviewed afterwards.
     """
     evaluator = Evaluator()
 
@@ -63,10 +79,14 @@ def eval(
     if limit:
         json_files = json_files[:limit]
 
+    log_key = usage_log_api_key or os.getenv("OPENAI_API_KEY")
+
     tps_list = []
     gold_counts = []
     system_counts = []
     elapsed_list: List[float] = []
+    usage_warnings: List[str] = []
+    sources_seen: set = set()
     individual_results: List[Dict[str, Any]] = []
 
     results_table = Table(title=f"Evaluation Results (Pipeline: {pipeline})")
@@ -75,6 +95,7 @@ def eval(
     results_table.add_column("Gold Keys", justify="right")
     results_table.add_column("System Keys", justify="right")
     results_table.add_column("Time (s)", justify="right")
+    results_table.add_column("Tokens", justify="right")
     results_table.add_column("Status", justify="center")
 
     params = {"pipeline": pipeline}
@@ -98,6 +119,8 @@ def eval(
         # 2. Process Tasks
         for file_path in track(json_files, description="Processing tasks..."):
             task = None
+            header_usage = None
+            n0 = len(usage_rows(usage_log, log_key)) if usage_log else None
             t0 = time.perf_counter()
             try:
                 task = Task.load(file_path)
@@ -107,6 +130,9 @@ def eval(
                 )
                 resp.raise_for_status()
                 system_output = resp.json()
+                header_usage = parse_usage_header(
+                    resp.headers.get("X-GenSIE-Token-Usage")
+                )
 
                 # Score
                 tps = evaluator.score_instance(
@@ -130,6 +156,29 @@ def eval(
             finally:
                 elapsed = time.perf_counter() - t0
 
+            # Attribute token usage to this instance.
+            log_usage = None
+            if usage_log is not None and n0 is not None:
+                log_usage = aggregate_rows(usage_rows(usage_log, log_key)[n0:])
+            label = task.id if task else file_path.name
+            if log_usage is not None:
+                tokens = log_usage
+                source = "usage_log"
+                if header_usage is not None and usage_disagrees(
+                    log_usage["total"], header_usage["total"]
+                ):
+                    usage_warnings.append(
+                        f"{label}: usage log {log_usage['total']} vs agent header "
+                        f"{header_usage['total']} tokens — flagged for review"
+                    )
+            elif header_usage is not None:
+                tokens = header_usage
+                source = "header"
+            else:
+                tokens = None
+                source = "unavailable"
+            sources_seen.add(source)
+
             tps_list.append(tps)
             gold_counts.append(g_count)
             system_counts.append(s_count)
@@ -143,6 +192,7 @@ def eval(
                     str(g_count),
                     str(s_count),
                     f"[yellow]{elapsed:.1f}[/yellow]" if over else f"{elapsed:.1f}",
+                    f"{tokens['total']}" if tokens else "—",
                     f"[green]{status}[/green]"
                     if status == "PASS"
                     else f"[red]{status}[/red]",
@@ -154,6 +204,7 @@ def eval(
                         "gold_keys": g_count,
                         "system_keys": s_count,
                         "elapsed_s": elapsed,
+                        "tokens": tokens,
                         "status": status,
                     }
                 )
@@ -161,6 +212,12 @@ def eval(
     # 3. Calculate final metrics
     metrics = evaluator.calculate_metrics(tps_list, gold_counts, system_counts)
     timing = summarize_timing(elapsed_list, budget_s=time_budget_s)
+    token_usage = summarize_token_usage([r.get("tokens") for r in individual_results])
+    token_usage["source"] = (
+        sources_seen.pop()
+        if len(sources_seen) == 1
+        else ("mixed" if sources_seen else "unavailable")
+    )
 
     console.print(results_table)
 
@@ -190,6 +247,38 @@ def eval(
             "reviewed case by case, not auto-penalized."
         )
 
+    tok_table = Table(
+        title=f"Token usage (soft target: {token_usage['target']}/instance, averaged)",
+        show_header=False,
+    )
+    tok_table.add_row(
+        "Avg tokens / instance", f"{token_usage['avg_total_per_instance']:.0f}"
+    )
+    tok_table.add_row("Max tokens / instance", f"{token_usage['max_total']}")
+    tok_table.add_row(
+        "Over target (>32K)", f"{token_usage['over_target_count']} / {token_usage['n']}"
+    )
+    tok_table.add_row(
+        "Over soft cap (>64K)", f"{token_usage['over_soft_count']} / {token_usage['n']}"
+    )
+    tok_table.add_row(
+        "Total tokens / calls",
+        f"{token_usage['total_tokens']} / {token_usage['calls_total']}",
+    )
+    tok_table.add_row("Source", token_usage["source"])
+    tok_table.add_row(
+        "Average within target?",
+        "[green]yes[/green]" if token_usage["avg_within_target"] else "[red]no[/red]",
+    )
+    console.print(tok_table)
+    if not token_usage["avg_within_target"]:
+        console.print(
+            "[yellow]Note:[/yellow] average token usage exceeds the soft target — "
+            "reviewed case by case, not auto-penalized."
+        )
+    for w in usage_warnings:
+        console.print(f"[yellow]warning:[/yellow] {w}")
+
     # 4. Export JSON Report
     if output:
         report = {
@@ -201,6 +290,7 @@ def eval(
             },
             "metrics": metrics,
             "timing": timing,
+            "token_usage": token_usage,
             "tasks": individual_results,
         }
         with open(output, "w", encoding="utf-8") as f:
