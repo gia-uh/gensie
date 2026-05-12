@@ -67,10 +67,10 @@ Explore our technical documentation to get started:
 | Date | Event |
 | :--- | :--- |
 | ✅ **March 06, 2026** | 🚀 **Starter Kit Released** ([View Guide](./starter-kit.md)) |
-| **April 15, 2026** | 📂 **Dev Set Release** (150 silver instances, for development) |
-| **May 15, 2026** | 🛑 **Submission Deadline** |
-| **May 16, 2026** | 🔓 **Test Set Release** |
-| **May 16–31, 2026** | ⚙️ **Evaluation Period**  |
+| ✅ **April 15, 2026** | 📂 **Dev Set Released** (150 silver instances, for development) |
+| **May 22, 2026** | 🛑 **Submission Deadline** *(extended from May 15)* |
+| **May 22, 2026** | 🔓 **Test Set Release** (100 instances, immediately after submissions close) |
+| **May 22–31, 2026** | ⚙️ **Evaluation Period** (fast turnaround) |
 | **June 01, 2026** | 🏆 **Results Announcement** |
 | **June 07, 2026** | 📝 **First Round of Papers** (for those who want early feedback) |
 | **June 12, 2026** | 📝 **Paper Feedback** |
@@ -79,6 +79,7 @@ Explore our technical documentation to get started:
 
 ## News & Updates
 
+* **May 12, 2026:** **Submission deadline extended to May 22, 2026** (one extra week, by participant request). The test set (100 instances) will be released the same day, immediately after submissions close, and evaluation will run with a fast turnaround toward the June 1 results date. We have also finalized the evaluation protocol: a new **primary leaderboard based on the fraction of the baseline-to-perfect gap each system closes**, averaged over **several evaluation models** (some published/recommended, some held out); and **token/time limits are now soft averages over the test set** rather than hard per-instance caps. See the updated [Task Description](./description.md) and [Submission Guidelines](./submission.md).
 * **April 15, 2026:** Dev set released! 150 silver instances across 8 domains available in `data/dev/dev.jsonl`. Generated with Claude Opus 4.6, audit-passed, for development use. Baseline scores coming soon. See [Starter Kit](./starter-kit.md).
 * **April 15, 2026:** Schedule updated - submission blind (May 8), test set private (May 15), evaluation May 16-31, results June 1, camera-ready June 15.
 * **April 15, 2026:** Evaluation metrics updated with null hallucination penalty and list matching documentation. See [Task Description](./description.md).

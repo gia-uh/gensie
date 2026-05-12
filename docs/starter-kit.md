@@ -52,9 +52,11 @@ The kit provides a high-quality Python baseline in `src/gensie/baseline.py` that
 *   **`BasicAgent`**: A reference agent that uses the OpenAI client. It is **model-agnostic**, meaning it respects the `model` parameter passed by the evaluator instead of hardcoding a specific model.
 *   **`OfficialParticipant`**: The entry point for your submission. It acts as a factory that can host up to **three distinct pipelines**.
 
-### Public Baselines
+### Evaluation Models & Public Baselines
 
-During the evaluation period, the organizers will provide three open-source baselines executed via standard zero-shot prompting with grammar-constrained decoding. These target different compute tiers:
+Your system will be evaluated against **several models**, not one. Some are the published/recommended models below; others are **held out and not disclosed before the results** — all of them are small (<~14B) open-source models from different families, the kind you could run on your own hardware. For each model the organizers also run an official zero-shot baseline (standard prompting with grammar-constrained decoding), and your ranking is based on how much of the baseline-to-perfect gap you close, averaged over all models — see the [Task Description → Evaluation Metrics](./description.md#evaluation-metrics). **Do not tune to any single model.**
+
+Published/recommended models, spanning different compute tiers:
 
 *   **Tiny:** Llama 3.2 3B Instruct
 *   **Small:** Salamandra 7b Instruct (native Spanish language model)

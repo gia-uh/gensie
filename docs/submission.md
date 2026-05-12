@@ -37,13 +37,15 @@ The evaluation environment is **completely isolated from the internet**.
 *   **Inference Server:** Organizers will host the inference engine (OpenAI-compatible server) on high-end hardware (8x NVIDIA A100 GPUs).
 *   **Single Endpoint:** Your agent is **forbidden** from making any network calls other than to the provided inference server.
 *   **Model Selection:** The exact model to use will be decided by the evaluator at runtime. Your system must be model-agnostic and respect the `model` parameter passed during the evaluation.
+*   **Multiple Evaluation Models:** Your system will be run against **several models**, not one. Some are the **published / recommended** models listed in the starter kit; others are **held-out models that we will not disclose** before the results. All of them are small open-source models (under ~14B) drawn from different model families — the kind of model a participant could realistically run on their own hardware. **Do not tune your pipeline to any single model**; the held-out models exist specifically to reward systems that generalize. Your final ranking aggregates performance across all evaluation models (see [Task Description → Evaluation Metrics](./description.md#evaluation-metrics)).
 
 ## 4. Resource Quotas & Qualification
 
-To ensure fair access and stability:
+We enforce token and time budgets to keep the playing field level and the evaluation tractable — **not** to penalize good systems. The budgets are **soft averages over the whole test set**, not hard per-instance caps:
 
-*   **Token Quota:** A strict maximum budget of **32K total tokens** (input + output) across all inference calls for each specific input example.
-*   **Timeout:** A strict wall-clock timeout of **60 seconds** per test instance.
+*   **Token Budget:** A target of **32K total tokens** (input + output, including reasoning, retries and self-corrections) **averaged over the 100 test instances**. An individual instance may go up to **2× that budget (64K tokens)** as long as the rest of your run compensates so your average stays at or below 32K. Aim for 32K per instance; the slack exists because a held-out model may emit somewhat longer outputs than you expect, and you cannot tune against it.
+*   **Timeout:** A target of **60 seconds of wall-clock time per instance, averaged over the 100 test instances** — i.e. roughly 100 minutes total. An individual instance may run longer if others run faster and your average stays at or below 60 s. Only **user-code time** counts toward this budget — time spent waiting on the inference server for token generation is **not** counted, so slow inference on our side never penalizes you.
+*   **No hard stops:** We do not abort a run when it momentarily exceeds these budgets. We let the system finish and review the totals afterwards, case by case. A system that randomly overshoots ~5–10% on a handful of instances while producing strong results **will not be penalized** if the overshoot is statistical, has no material consequence, and our hardware can still run it. Systematic, sustained overshoot **will** be penalized — and only on the instances where it occurred.
 *   **Qualification Phase:** All submissions must pass a sanity check on a subset of the Dev Set before entering final evaluation. The container must execute without hanging/crashing and must demonstrate performance superior to the provided zero-shot baseline.
 
 ## 5. Configuration & Environment Variables
@@ -98,7 +100,7 @@ A valid JSON object that strictly adheres to the provided `target_schema`.
 
 ## 7. Multi-Pipeline Limit
 
-To stimulate innovation, each team is permitted to submit **up to three distinct pipelines** within the same repository/container. We will evaluate each pipeline separately. The final Team Ranking will be based on the highest score obtained by any of their submitted pipelines.
+To stimulate innovation, each team is permitted to submit **up to three distinct pipelines** within the same repository/container. We will evaluate each pipeline separately, against every evaluation model. The final Team Ranking will be based on the best result obtained by any of their submitted pipelines under the primary metric (see [Task Description → Evaluation Metrics](./description.md#evaluation-metrics)).
 
 ## 8. Reference Implementation
 
