@@ -179,7 +179,7 @@ Your **primary score is the average of `GapClosed` over all evaluation models**,
 
     $$ \text{Ratio} = \frac{\text{Average F1}}{\text{Total Token Consumption}} $$
 
-    * **Total Token Consumption:** the sum of all input and output tokens generated across all API calls required to solve a single instance (including reasoning steps, retries, and self-corrections).
+    * **Total Token Consumption:** the sum of all input and output tokens generated across every model call required to solve an instance (including reasoning steps, retries and self-corrections), as recorded by the inference server's usage log — the same numbers `gensie eval` reports in its `token_usage` block.
 
 ## Rules & Submission
 

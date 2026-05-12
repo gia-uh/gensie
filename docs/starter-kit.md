@@ -126,6 +126,9 @@ gensie eval
 !!! note "Timing in the report"
     `gensie eval` records the wall-clock time per instance and adds a `timing` block to the report (`avg_elapsed_s`, `max_elapsed_s`, `over_budget_count`, `avg_within_budget`). It does **not** hard-stop a run at the 60s target — the budget is a soft average over the test set (see [Submission Guidelines §4](./submission.md#4-resource-quotas--qualification)). Tune `--time-budget-s` / `--request-timeout-s` if needed.
 
+!!! note "Token usage in the report"
+    `gensie eval --usage-log <path>` attributes per-instance token usage from the inference server's JSONL usage log; without it, the evaluator falls back to the `X-GenSIE-Token-Usage` response header your agent emits. Either way the report gains a `token_usage` block (`avg_total_per_instance`, `max_total`, `over_target_count`, `over_soft_count`, `avg_within_target`, `source`). The 32K target is a soft average over the test set — same spirit as the time budget. The reference agent reports the header automatically via `gensie.usage.UsageTracker`; reuse it in your own agent: `self.usage = UsageTracker()` in `__init__`, `self.usage.reset()` at the top of `run()`, `self.usage.add(response.usage)` after each model call. (Completion requests must be non-streaming — `stream: false`.)
+
 ### Ranking against a baseline
 
 Once you have one or more reports (and a baseline report with `--pipeline baseline`), `gensie rank` reproduces the official primary leaderboard — the fraction of the baseline→perfect F1 gap closed, averaged over models:
