@@ -4,6 +4,7 @@ from typing import Any, Dict
 from openai import OpenAI
 from gensie.agent import GenSIEAgent, Participant, ParticipantInfo, PipelineInfo
 from gensie.task import Task
+from gensie.usage import UsageTracker
 from dotenv import load_dotenv
 from logging import getLogger
 
@@ -24,11 +25,15 @@ class BasicAgent(GenSIEAgent):
             base_url=os.getenv("OPENAI_BASE_URL"),
             api_key=os.getenv("OPENAI_API_KEY", "sk-dummy"),
         )
+        # Tallies token usage for the current task; the server reads it to set
+        # the X-GenSIE-Token-Usage response header. Reuse this in your own agent.
+        self.usage = UsageTracker()
 
     def run(self, task: Task, model: str) -> Dict[str, Any]:
         """
         Executes the extraction using OpenAI's response_format for strict schema compliance.
         """
+        self.usage.reset()
         prompt = task.get_input_prompt()
 
         # Call OpenAI with the task's JSON schema
@@ -50,6 +55,7 @@ class BasicAgent(GenSIEAgent):
                 },
             },
         )
+        self.usage.add(getattr(response, "usage", None))
 
         # Parse the structured JSON response
         try:
