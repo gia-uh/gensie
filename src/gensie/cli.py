@@ -1,3 +1,4 @@
+import asyncio
 import typer
 import uvicorn
 import httpx
@@ -5,10 +6,10 @@ import json
 import os
 import time
 from pathlib import Path
-from typing import Optional, Dict, Any, List
+from typing import Optional, Dict, Any, List, Tuple
 from rich.console import Console
 from rich.table import Table
-from rich.progress import track
+from rich.progress import track, Progress
 from collections import defaultdict
 from gensie.task import Task
 from gensie.eval import (
@@ -31,6 +32,160 @@ def serve(host: str = "0.0.0.0", port: int = 8000):
         f"[bold green]Starting GenSIE Agent Server on {host}:{port}...[/bold green]"
     )
     uvicorn.run("gensie.server:app", host=host, port=port, reload=True)
+
+
+async def _eval_concurrent(
+    *,
+    url: str,
+    params: Dict[str, Any],
+    json_files: List[Path],
+    evaluator: "Evaluator",
+    request_timeout_s: float,
+    time_budget_s: float,
+    concurrency: int,
+    tps_list: List[float],
+    gold_counts: List[int],
+    system_counts: List[int],
+    elapsed_list: List[float],
+    usage_warnings: List[str],
+    sources_seen: set,
+    individual_results: List[Dict[str, Any]],
+    results_table: Table,
+) -> Dict[str, Any]:
+    """Run the per-task /run calls concurrently, mutating the caller's accumulators.
+
+    Returns the participant_info dict. Token-usage attribution comes only from
+    the per-response X-GenSIE-Token-Usage header (the usage-log windowing path
+    is incompatible with concurrent requests).
+    """
+    sem = asyncio.Semaphore(concurrency)
+    participant_info: Dict[str, Any] = {
+        "team_name": "Unknown",
+        "institution": "Unknown",
+    }
+
+    async with httpx.AsyncClient(timeout=request_timeout_s) as client:
+        try:
+            info_resp = await client.get(f"{url}/info")
+            info_resp.raise_for_status()
+            participant_info = info_resp.json()
+            console.print(
+                f"Auditing Team: [bold magenta]{participant_info.get('team_name', 'Unknown')}[/bold magenta] "
+                f"[dim](concurrency={concurrency})[/dim]"
+            )
+        except Exception as e:
+            console.print(f"[yellow]Could not retrieve participant info: {e}[/yellow]")
+
+        async def _one(file_path: Path) -> Tuple[Path, Any, Optional[Any], float, str, Optional[str]]:
+            """POST one task, return (file_path, task_or_None, system_output_or_None, elapsed, status, error_msg)."""
+            async with sem:
+                task = None
+                t0 = time.perf_counter()
+                try:
+                    task = Task.load(file_path)
+                    resp = await client.post(
+                        f"{url}/run",
+                        json=task.model_dump(mode="json"),
+                        params=params,
+                    )
+                    resp.raise_for_status()
+                    system_output = resp.json()
+                    header_usage = parse_usage_header(
+                        resp.headers.get("X-GenSIE-Token-Usage")
+                    )
+                    elapsed = time.perf_counter() - t0
+                    return (file_path, task, system_output, header_usage, elapsed, "PASS", None)
+                except Exception as e:
+                    elapsed = time.perf_counter() - t0
+                    return (file_path, task, None, None, elapsed, "FAIL", str(e))
+
+        # Fan out; collect in completion order to surface failures fast and
+        # let the eventual report contain everything regardless of order.
+        coros = [asyncio.create_task(_one(fp)) for fp in json_files]
+        done_count = 0
+        total = len(coros)
+        with Progress(transient=True) as progress:
+            bar = progress.add_task(
+                f"Processing {total} tasks (concurrency={concurrency})…",
+                total=total,
+            )
+            for fut in asyncio.as_completed(coros):
+                file_path, task, system_output, header_usage, elapsed, status, err = await fut
+                done_count += 1
+                progress.update(bar, advance=1)
+
+                if status == "PASS" and system_output is not None and task is not None:
+                    try:
+                        tps = evaluator.score_instance(
+                            task.output, system_output, task.target_schema
+                        )
+                        g_count = len(flatten_json(task.output, expand_lists=False))
+                        s_count = len(flatten_json(system_output, expand_lists=False))
+                    except Exception as e:
+                        status = "FAIL"
+                        tps = 0.0
+                        s_count = 0
+                        g_count = (
+                            len(flatten_json(task.output, expand_lists=False))
+                            if task
+                            else 0
+                        )
+                        console.print(
+                            f"[bold red]Score error on {file_path.name}:[/bold red] {e}"
+                        )
+                else:
+                    tps = 0.0
+                    s_count = 0
+                    g_count = (
+                        len(flatten_json(task.output, expand_lists=False))
+                        if task
+                        else 0
+                    )
+                    if err:
+                        console.print(
+                            f"[bold red]Error processing {file_path.name}:[/bold red] {err}"
+                        )
+
+                # Header-only token attribution (usage_log windowing disabled).
+                if header_usage is not None:
+                    tokens = header_usage
+                    source = "header"
+                else:
+                    tokens = None
+                    source = "unavailable"
+                sources_seen.add(source)
+
+                tps_list.append(tps)
+                gold_counts.append(g_count)
+                system_counts.append(s_count)
+                elapsed_list.append(elapsed)
+
+                if task is not None:
+                    over = elapsed > time_budget_s
+                    results_table.add_row(
+                        task.id,
+                        f"{tps:.2f}",
+                        str(g_count),
+                        str(s_count),
+                        f"[yellow]{elapsed:.1f}[/yellow]" if over else f"{elapsed:.1f}",
+                        f"{tokens['total']}" if tokens else "—",
+                        f"[green]{status}[/green]"
+                        if status == "PASS"
+                        else f"[red]{status}[/red]",
+                    )
+                    individual_results.append(
+                        {
+                            "task_id": task.id,
+                            "tps": tps,
+                            "gold_keys": g_count,
+                            "system_keys": s_count,
+                            "elapsed_s": elapsed,
+                            "tokens": tokens,
+                            "status": status,
+                        }
+                    )
+
+    return participant_info
 
 
 @app.command()
@@ -60,6 +215,10 @@ def eval(
     usage_log_api_key: Optional[str] = typer.Option(
         None,
         help="API key to filter the usage log by (default: $OPENAI_API_KEY; unset -> all rows)",
+    ),
+    concurrency: int = typer.Option(
+        1,
+        help="Concurrent /run requests (1 = sequential). Values >1 disable --usage-log windowing; rely on the per-request X-GenSIE-Token-Usage header instead.",
     ),
 ):
     """Evaluates the agent against a local dataset and generates a report.
@@ -104,110 +263,139 @@ def eval(
 
     participant_info = {"team_name": "Unknown", "institution": "Unknown"}
 
-    with httpx.Client(timeout=request_timeout_s) as client:
-        # 1. Fetch Participant Info
-        try:
-            info_resp = client.get(f"{url}/info")
-            info_resp.raise_for_status()
-            participant_info = info_resp.json()
-            console.print(
-                f"Auditing Team: [bold magenta]{participant_info.get('team_name', 'Unknown')}[/bold magenta]"
+    if concurrency > 1 and usage_log is not None:
+        console.print(
+            "[yellow]warn:[/yellow] --concurrency > 1 disables --usage-log "
+            "windowing (per-instance attribution assumes serial requests). "
+            "Falling back to the X-GenSIE-Token-Usage header."
+        )
+        usage_log = None
+
+    if concurrency > 1:
+        participant_info = asyncio.run(
+            _eval_concurrent(
+                url=url,
+                params=params,
+                json_files=json_files,
+                evaluator=evaluator,
+                request_timeout_s=request_timeout_s,
+                time_budget_s=time_budget_s,
+                concurrency=concurrency,
+                tps_list=tps_list,
+                gold_counts=gold_counts,
+                system_counts=system_counts,
+                elapsed_list=elapsed_list,
+                usage_warnings=usage_warnings,
+                sources_seen=sources_seen,
+                individual_results=individual_results,
+                results_table=results_table,
             )
-        except Exception as e:
-            console.print(f"[yellow]Could not retrieve participant info: {e}[/yellow]")
-
-        # 2. Process Tasks
-        for file_path in track(json_files, description="Processing tasks..."):
-            task = None
-            header_usage = None
-            n0 = len(usage_rows(usage_log, log_key)) if usage_log else None
-            t0 = time.perf_counter()
+        )
+    else:
+        with httpx.Client(timeout=request_timeout_s) as client:
+            # 1. Fetch Participant Info
             try:
-                task = Task.load(file_path)
-                # Call agent
-                resp = client.post(
-                    f"{url}/run", json=task.model_dump(mode="json"), params=params
-                )
-                resp.raise_for_status()
-                system_output = resp.json()
-                header_usage = parse_usage_header(
-                    resp.headers.get("X-GenSIE-Token-Usage")
-                )
-
-                # Score
-                tps = evaluator.score_instance(
-                    task.output, system_output, task.target_schema
-                )
-                g_count = len(flatten_json(task.output, expand_lists=False))
-                s_count = len(flatten_json(system_output, expand_lists=False))
-                status = "PASS"
-
-            except Exception as e:
-                # Penalize failures with 0 score
-                status = "FAIL"
-                tps = 0.0
-                s_count = 0
-                g_count = (
-                    len(flatten_json(task.output, expand_lists=False)) if task else 0
-                )
+                info_resp = client.get(f"{url}/info")
+                info_resp.raise_for_status()
+                participant_info = info_resp.json()
                 console.print(
-                    f"[bold red]Error processing {file_path.name}:[/bold red] {e}"
+                    f"Auditing Team: [bold magenta]{participant_info.get('team_name', 'Unknown')}[/bold magenta]"
                 )
-            finally:
-                elapsed = time.perf_counter() - t0
+            except Exception as e:
+                console.print(f"[yellow]Could not retrieve participant info: {e}[/yellow]")
 
-            # Attribute token usage to this instance.
-            log_usage = None
-            if usage_log is not None and n0 is not None:
-                log_usage = aggregate_rows(usage_rows(usage_log, log_key)[n0:])
-            label = task.id if task else file_path.name
-            if log_usage is not None:
-                tokens = log_usage
-                source = "usage_log"
-                if header_usage is not None and usage_disagrees(
-                    log_usage["total"], header_usage["total"]
-                ):
-                    usage_warnings.append(
-                        f"{label}: usage log {log_usage['total']} vs agent header "
-                        f"{header_usage['total']} tokens — flagged for review"
+            # 2. Process Tasks
+            for file_path in track(json_files, description="Processing tasks..."):
+                task = None
+                header_usage = None
+                n0 = len(usage_rows(usage_log, log_key)) if usage_log else None
+                t0 = time.perf_counter()
+                try:
+                    task = Task.load(file_path)
+                    # Call agent
+                    resp = client.post(
+                        f"{url}/run", json=task.model_dump(mode="json"), params=params
                     )
-            elif header_usage is not None:
-                tokens = header_usage
-                source = "header"
-            else:
-                tokens = None
-                source = "unavailable"
-            sources_seen.add(source)
+                    resp.raise_for_status()
+                    system_output = resp.json()
+                    header_usage = parse_usage_header(
+                        resp.headers.get("X-GenSIE-Token-Usage")
+                    )
 
-            tps_list.append(tps)
-            gold_counts.append(g_count)
-            system_counts.append(s_count)
-            elapsed_list.append(elapsed)
+                    # Score
+                    tps = evaluator.score_instance(
+                        task.output, system_output, task.target_schema
+                    )
+                    g_count = len(flatten_json(task.output, expand_lists=False))
+                    s_count = len(flatten_json(system_output, expand_lists=False))
+                    status = "PASS"
 
-            if task:
-                over = elapsed > time_budget_s
-                results_table.add_row(
-                    task.id,
-                    f"{tps:.2f}",
-                    str(g_count),
-                    str(s_count),
-                    f"[yellow]{elapsed:.1f}[/yellow]" if over else f"{elapsed:.1f}",
-                    f"{tokens['total']}" if tokens else "—",
-                    f"[green]{status}[/green]"
-                    if status == "PASS"
-                    else f"[red]{status}[/red]",
-                )
-                individual_results.append(
-                    {
-                        "task_id": task.id,
-                        "tps": tps,
-                        "gold_keys": g_count,
-                        "system_keys": s_count,
-                        "elapsed_s": elapsed,
-                        "tokens": tokens,
-                        "status": status,
-                    }
-                )
+                except Exception as e:
+                    # Penalize failures with 0 score
+                    status = "FAIL"
+                    tps = 0.0
+                    s_count = 0
+                    g_count = (
+                        len(flatten_json(task.output, expand_lists=False)) if task else 0
+                    )
+                    console.print(
+                        f"[bold red]Error processing {file_path.name}:[/bold red] {e}"
+                    )
+                finally:
+                    elapsed = time.perf_counter() - t0
+
+                # Attribute token usage to this instance.
+                log_usage = None
+                if usage_log is not None and n0 is not None:
+                    log_usage = aggregate_rows(usage_rows(usage_log, log_key)[n0:])
+                label = task.id if task else file_path.name
+                if log_usage is not None:
+                    tokens = log_usage
+                    source = "usage_log"
+                    if header_usage is not None and usage_disagrees(
+                        log_usage["total"], header_usage["total"]
+                    ):
+                        usage_warnings.append(
+                            f"{label}: usage log {log_usage['total']} vs agent header "
+                            f"{header_usage['total']} tokens — flagged for review"
+                        )
+                elif header_usage is not None:
+                    tokens = header_usage
+                    source = "header"
+                else:
+                    tokens = None
+                    source = "unavailable"
+                sources_seen.add(source)
+
+                tps_list.append(tps)
+                gold_counts.append(g_count)
+                system_counts.append(s_count)
+                elapsed_list.append(elapsed)
+
+                if task:
+                    over = elapsed > time_budget_s
+                    results_table.add_row(
+                        task.id,
+                        f"{tps:.2f}",
+                        str(g_count),
+                        str(s_count),
+                        f"[yellow]{elapsed:.1f}[/yellow]" if over else f"{elapsed:.1f}",
+                        f"{tokens['total']}" if tokens else "—",
+                        f"[green]{status}[/green]"
+                        if status == "PASS"
+                        else f"[red]{status}[/red]",
+                    )
+                    individual_results.append(
+                        {
+                            "task_id": task.id,
+                            "tps": tps,
+                            "gold_keys": g_count,
+                            "system_keys": s_count,
+                            "elapsed_s": elapsed,
+                            "tokens": tokens,
+                            "status": status,
+                        }
+                    )
 
     # 3. Calculate final metrics
     metrics = evaluator.calculate_metrics(tps_list, gold_counts, system_counts)
