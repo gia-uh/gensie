@@ -20,6 +20,7 @@ from gensie.eval import (
 )
 from gensie.ranking import compute_ranking, load_reports
 from gensie.usage import aggregate_rows, parse_usage_header, usage_disagrees, usage_rows
+from gensie.formal_eval import EvalConfig, run_eval_full
 
 app = typer.Typer(help="GenSIE Developer Tools")
 console = Console()
@@ -484,6 +485,51 @@ def eval(
         with open(output, "w", encoding="utf-8") as f:
             json.dump(report, f, indent=2, ensure_ascii=False)
         console.print(f"\n[bold blue]Report saved to {output}[/bold blue]")
+
+
+@app.command("eval-full")
+def eval_full_cmd(
+    config: Path = typer.Option(
+        ..., help="YAML config describing teams + models + paths"
+    ),
+    concurrency: int = typer.Option(
+        16, help="Per-team request concurrency forwarded to `gensie eval --concurrency`"
+    ),
+    parallel_teams: int = typer.Option(
+        1, help="Number of teams to evaluate concurrently per model phase"
+    ),
+    limit: Optional[int] = typer.Option(
+        None, help="Per-team --limit (smoke testing)"
+    ),
+    only_models: Optional[str] = typer.Option(
+        None, help="Comma-separated model ids to include (default: all in config)"
+    ),
+    only_teams: Optional[str] = typer.Option(
+        None, help="Comma-separated team slugs to include (default: all in config)"
+    ),
+    dry_run: bool = typer.Option(
+        False, help="Print the plan without executing"
+    ),
+):
+    """Run the full formal evaluation: every (team, pipeline, model) combination.
+
+    The model server (vLLM, SGLang, LM Studio, …) must already be serving each
+    configured model at the URL specified in the config. This command composes
+    up each team's agent container (in parallel up to --parallel-teams), runs
+    `gensie eval --concurrency` against it, writes a report + status row, and
+    tears the container down. At the end, run `gensie rank <output_dir>/reports`
+    for the leaderboard.
+    """
+    cfg = EvalConfig.from_yaml(config)
+    run_eval_full(
+        cfg,
+        concurrency=concurrency,
+        parallel_teams=parallel_teams,
+        limit=limit,
+        only_models=[s.strip() for s in only_models.split(",")] if only_models else None,
+        only_teams=[s.strip() for s in only_teams.split(",")] if only_teams else None,
+        dry_run=dry_run,
+    )
 
 
 @app.command()
