@@ -337,13 +337,13 @@ def _run_one_team(
         if tp:
             with state.lock:
                 tp.pipelines_done.append((p, row["status"], f1))
-            state.increment_done()
 
     _compose_down(cfg, team, host_port)
     if tp:
         with state.lock:
             tp.status = "done"
             tp.current_pipeline = None
+        state.increment_done()
 
 
 # ───────────────────────── Public entry point ─────────────────────────
