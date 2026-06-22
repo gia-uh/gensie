@@ -1,5 +1,20 @@
 # Submission Guidelines
 
+!!! note "Update — 2026-06-22 (post-submission phase)"
+    The submission window has closed and the **test set is now public** (145
+    instances) — see the [Self-Evaluation](./self-evaluation.md) page. This
+    supersedes two statements below that described the original organizer-run
+    plan:
+
+    - **No held-out models.** Final results are reported on **two disclosed
+      models** — Gemma 4 E4B and Qwen 3 14B. Because the test set is public,
+      there are no undisclosed evaluation models (§3).
+    - **Test-set size is 145**, not 100. The soft token/time budgets in §4 are
+      averaged over the **145** test instances.
+
+    The text below is preserved as the guidance issued during the submission
+    phase.
+
 To participate in GenSIE 2026, you must submit a **private GitHub repository** containing your full system and its environment configuration.
 
 ## 1. Submission Process
@@ -44,8 +59,8 @@ The evaluation environment is **completely isolated from the internet**.
 
 We enforce token and time budgets to keep the playing field level and the evaluation tractable — **not** to penalize good systems. The budgets are **soft averages over the whole test set**, not hard per-instance caps:
 
-*   **Token Budget:** A target of **32K total tokens** (input + output, including reasoning, retries and self-corrections) **averaged over the 100 test instances**. An individual instance may go up to **2× that budget (64K tokens)** as long as the rest of your run compensates so your average stays at or below 32K. Aim for 32K per instance; the slack exists because a held-out model may emit somewhat longer outputs than you expect, and you cannot tune against it.
-*   **Timeout:** A target of **60 seconds of wall-clock time per instance, averaged over the 100 test instances** — i.e. roughly 100 minutes total. An individual instance may run longer if others run faster and your average stays at or below 60 s. Only **user-code time** counts toward this budget — time spent waiting on the inference server for token generation is **not** counted, so slow inference on our side never penalizes you.
+*   **Token Budget:** A target of **32K total tokens** (input + output, including reasoning, retries and self-corrections) **averaged over the 145 test instances**. An individual instance may go up to **2× that budget (64K tokens)** as long as the rest of your run compensates so your average stays at or below 32K. Aim for 32K per instance; the slack exists because a held-out model may emit somewhat longer outputs than you expect, and you cannot tune against it.
+*   **Timeout:** A target of **60 seconds of wall-clock time per instance, averaged over the 145 test instances** — i.e. roughly 145 minutes total. An individual instance may run longer if others run faster and your average stays at or below 60 s. Only **user-code time** counts toward this budget — time spent waiting on the inference server for token generation is **not** counted, so slow inference on our side never penalizes you.
 *   **No hard stops:** We do not abort a run when it momentarily exceeds these budgets. We let the system finish and review the totals afterwards, case by case. A system that randomly overshoots ~5–10% on a handful of instances while producing strong results **will not be penalized** if the overshoot is statistical, has no material consequence, and our hardware can still run it. Systematic, sustained overshoot **will** be penalized — and only on the instances where it occurred.
 *   **How tokens are counted:** the official inference server logs the prompt + completion tokens of every call your agent makes (completion tokens include any reasoning/thinking tokens), and the evaluator attributes them to the instance they occurred in — that is the authoritative number. As a transparency aid, the reference agent also reports its own tally on each `/run` response via the `X-GenSIE-Token-Usage` header (see §6); if your self-report and the server's count disagree materially, the instance is flagged for review, never auto-penalized. The server may additionally apply a high cumulative-token circuit breaker per instance purely as a cost backstop; legitimate systems never reach it.
 *   **Qualification Phase:** All submissions must pass a sanity check on a subset of the Dev Set before entering final evaluation. The container must execute without hanging/crashing and must demonstrate performance superior to the provided zero-shot baseline.
