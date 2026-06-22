@@ -1,0 +1,290 @@
+{
+  "id": "cultural_theater_004",
+  "input_text": "# La sombra del cartógrafo\n\n## Ópera en dos actos\n\n**Música de Joaquín Belmar de Aragüés**\n**Libreto en español de Marina Esquivel Pradera**\n**Basado libremente en el manuscrito apócrifo de Diego de Olalde (1612)**\n\n---\n\n## Compañía Lírica de la Cuenca Alta · Temporada 2026\n\n**Sala Mayor del Teatro Almirante Vergara — Logroño**\n\nFunciones del **viernes 12 de junio de 2026** al **domingo 5 de julio de 2026**.\nEstreno absoluto: 12 de junio de 2026, 20:00 h.\nFunciones de jueves a sábado a las 19:30 h y domingos a las 18:00 h.\n\nDuración aproximada: **185 minutos**, con un intermedio de veinte minutos al final del primer acto. [...] ### Acto primero — *El encargo*\n\nCastilla, otoño de 1611. El cartógrafo Idulfo de Sansueña recibe del corregidor Mendo de Bárcena el encargo de levantar un mapa exacto de las tierras de la comarca, incluyendo las dehesas en disputa con el monasterio de Santa Olaja. La esposa de Idulfo, Brígida, intuye que el encargo es una trampa política y le suplica que lo rechace. Idulfo, atraído por la dignidad del oficio y por la promesa de una pensión vitalicia, acepta. En la posada del pueblo, una joven cantante llamada Aldonza se cruza con el cartógrafo y le advierte, en una larga aria de tres secciones, que en estas tierras los mapas que dicen la verdad no se publican nunca. El acto se cierra con un coro de campesinos que celebran sin entender la llegada del agrimensor.\n\n### Acto segundo — *El levantamiento*\n\nTres meses después. Idulfo ha terminado el mapa y descubre que las dehesas del monasterio se extienden, en la realidad, mucho más allá de lo que los documentos eclesiásticos sostienen. El corregidor, sobornado, le exige falsificar las medidas. Idulfo se niega. Brígida es detenida bajo cargos confusos. En una escena de interrogatorio nocturno, el abad Don Fadrique, contratenor, ofrece a Idulfo el silencio a cambio del manuscrito. El cartógrafo entrega un mapa falso y guarda el verdadero entre las páginas de un libro de salmos. Una explosión en el taller — efecto pirotécnico controlado — destruye la copia falsa. Cae el telón con Idulfo sosteniendo el mapa auténtico mientras Aldonza canta, fuera de escena, el mismo aria del primer acto, ahora en tono menor. [...] ## Reparto principal\n\n| Rol | Tesitura | Intérprete | Suplente |\n|---|---|---|---|\n| Idulfo de Sansueña, cartógrafo | tenor | Esteban Macharaviaya | Rubén Casaprima |\n| Brígida, su esposa | soprano | Ariadna Folch-Quintero | Helena Brizuela |\n| Aldonza, cantante de posada | mezzosoprano | Carmela del Saz | — |\n| Mendo de Bárcena, corregidor | barítono | Hilarión Tejedor-Bravo | — |\n| Don Fadrique, abad de Santa Olaja | contratenor | Anselmo Vidaurreta | Yago Pellicer |\n| Fray Cosme, escribano del monasterio | bajo | Tomislav Krasic | — |\n| Una voz en el camino | soprano lírica | Lucía Marrodán | — |\n\n---\n\n## Equipo creativo\n\n- **Dirección musical:** Hortensia Cabezuelo\n- **Dirección escénica:** Pablo Renedo-Quirós\n- **Escenografía:** Estudio Garbanzo Negro (Mauro Iturri y Petra Solanas)\n- **Vestuario:** Casilda Verástegui\n- **Coreografía de movimiento:** Lupe Andariega\n- **Diseño de iluminación:** Néstor Cifuentes-Vilar\n- **Diseño sonoro:** Tadeo Mompou\n- **Maestra de coro:** Eufrasia Lascuráin\n- **Coro de la Compañía Lírica de la Cuenca Alta** (32 voces mixtas)\n- **Orquesta del Teatro Almirante Vergara** (44 instrumentistas)\n- **Asistente de dirección:** Inés Cabarcos\n- **Apuntadora:** Remedios Galache [...] ## Avisos al público\n\nEsta producción incluye:\n\n- Efectos pirotécnicos controlados al final del segundo acto.\n- Luces estroboscópicas breves durante la escena del interrogatorio.\n- Lenguaje fuerte en dos parlamentos del personaje del corregidor.",
+  "instruction": "Extrae los datos del programa de mano de esta producción teatral: título, sala, fechas, sinopsis, reparto, equipo creativo y avisos al público.",
+  "target_schema": {
+    "$defs": {
+      "CastMember": {
+        "additionalProperties": false,
+        "description": "Una intervención del reparto, con su rol y la persona que lo interpreta.",
+        "properties": {
+          "role": {
+            "description": "Nombre literal del personaje o función dramatúrgica (p. ej. 'Hamlet', 'Coro', 'Bailarín solista').",
+            "title": "Role",
+            "type": "string"
+          },
+          "actor": {
+            "description": "Nombre del intérprete que asume el rol, en el formato en que el programa lo presenta.",
+            "title": "Actor",
+            "type": "string"
+          },
+          "understudy": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Nombre del suplente para este rol si el programa lo nombra. Null si no aparece o si el programa no asigna suplentes.",
+            "title": "Understudy"
+          }
+        },
+        "required": [
+          "role",
+          "actor"
+        ],
+        "title": "CastMember",
+        "type": "object"
+      },
+      "ContentAdvisory": {
+        "enum": [
+          "ninguna",
+          "violencia",
+          "lenguaje_fuerte",
+          "contenido_sexual",
+          "tabaquismo",
+          "efectos_sonoros_intensos",
+          "luces_estroboscópicas"
+        ],
+        "title": "ContentAdvisory",
+        "type": "string"
+      },
+      "CreativeRole": {
+        "additionalProperties": false,
+        "description": "Una persona en el equipo creativo de la producción, con su función.",
+        "properties": {
+          "role": {
+            "description": "Función dentro del equipo creativo, tal como aparece en el programa (p. ej. 'Dirección', 'Dramaturgia', 'Escenografía', 'Música', 'Iluminación', 'Vestuario').",
+            "title": "Role",
+            "type": "string"
+          },
+          "name": {
+            "description": "Nombre de la persona o colectivo.",
+            "title": "Name",
+            "type": "string"
+          }
+        },
+        "required": [
+          "role",
+          "name"
+        ],
+        "title": "CreativeRole",
+        "type": "object"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Programa de mano (playbill) de una producción teatral, danza o lírica. La\ninformación se reparte entre cabecera (título + sala + fechas), reparto,\nequipo creativo, sinopsis y notas de aviso al público. La extracción debe\ndiferenciar entre intérpretes (CastMember) y equipo creativo (CreativeRole),\naunque ambos aparezcan en listados similares.\n\nComplejidad: L7 — síntesis de varias secciones con listas paralelas y\ndistinción de roles semánticamente cercanos.",
+    "properties": {
+      "title": {
+        "description": "Título de la obra tal como aparece en portada del programa.",
+        "title": "Title",
+        "type": "string"
+      },
+      "venue": {
+        "description": "Nombre de la sala o teatro donde se representa.",
+        "title": "Venue",
+        "type": "string"
+      },
+      "city": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Ciudad de la sala si el programa la menciona. Null si no aparece.",
+        "title": "City"
+      },
+      "opening_date": {
+        "description": "Fecha de estreno de esta producción en formato ISO 'YYYY-MM-DD' o, si el programa solo da mes y año, 'YYYY-MM'.",
+        "title": "Opening Date",
+        "type": "string"
+      },
+      "closing_date": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Fecha del último pase de la temporada en formato ISO. Null si la temporada está abierta o el programa no la cierra.",
+        "title": "Closing Date"
+      },
+      "runtime_minutes": {
+        "anyOf": [
+          {
+            "exclusiveMinimum": 0,
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Duración total del espectáculo en minutos, incluido intermedio si lo hay. Null si el programa no la indica.",
+        "title": "Runtime Minutes"
+      },
+      "synopsis": {
+        "description": "Resumen literal del argumento como aparece en la sección 'Sinopsis' o equivalente. Una o dos frases.",
+        "title": "Synopsis",
+        "type": "string"
+      },
+      "themes": {
+        "description": "Temas explícitamente nombrados en la nota de programa o la entrevista al director (p. ej. 'memoria histórica', 'feminismo', 'duelo'). Solo temas literalmente mencionados, no inferidos.",
+        "items": {
+          "type": "string"
+        },
+        "title": "Themes",
+        "type": "array"
+      },
+      "cast": {
+        "description": "Reparto en el orden en que aparece en el programa. Cada entrada asocia un rol dramatúrgico con su intérprete.",
+        "items": {
+          "$ref": "#/$defs/CastMember"
+        },
+        "title": "Cast",
+        "type": "array"
+      },
+      "creative_team": {
+        "description": "Equipo creativo (dirección, dramaturgia, diseño escenográfico, música, iluminación, etc.) en el orden de aparición.",
+        "items": {
+          "$ref": "#/$defs/CreativeRole"
+        },
+        "title": "Creative Team",
+        "type": "array"
+      },
+      "content_advisory": {
+        "description": "Avisos para el público presentes en el programa. 'ninguna' solo si el programa declara explícitamente apto para todos los públicos.",
+        "items": {
+          "$ref": "#/$defs/ContentAdvisory"
+        },
+        "title": "Content Advisory",
+        "type": "array"
+      }
+    },
+    "required": [
+      "title",
+      "venue",
+      "opening_date",
+      "synopsis",
+      "cast"
+    ],
+    "title": "TheaterPlaybill",
+    "type": "object"
+  },
+  "output": {
+    "title": "La sombra del cartógrafo",
+    "venue": "Sala Mayor del Teatro Almirante Vergara",
+    "city": "Logroño",
+    "opening_date": "2026-06-12",
+    "closing_date": "2026-07-05",
+    "runtime_minutes": 185,
+    "synopsis": "El cartógrafo Idulfo de Sansueña recibe del corregidor Mendo de Bárcena el encargo de levantar un mapa exacto de las tierras de la comarca, incluyendo las dehesas en disputa con el monasterio de Santa Olaja.",
+    "themes": [],
+    "cast": [
+      {
+        "role": "Idulfo de Sansueña, cartógrafo",
+        "actor": "Esteban Macharaviaya",
+        "understudy": "Rubén Casaprima"
+      },
+      {
+        "role": "Brígida, su esposa",
+        "actor": "Ariadna Folch-Quintero",
+        "understudy": "Helena Brizuela"
+      },
+      {
+        "role": "Aldonza, cantante de posada",
+        "actor": "Carmela del Saz",
+        "understudy": null
+      },
+      {
+        "role": "Mendo de Bárcena, corregidor",
+        "actor": "Hilarión Tejedor-Bravo",
+        "understudy": null
+      },
+      {
+        "role": "Don Fadrique, abad de Santa Olaja",
+        "actor": "Anselmo Vidaurreta",
+        "understudy": "Yago Pellicer"
+      },
+      {
+        "role": "Fray Cosme, escribano del monasterio",
+        "actor": "Tomislav Krasic",
+        "understudy": null
+      },
+      {
+        "role": "Una voz en el camino",
+        "actor": "Lucía Marrodán",
+        "understudy": null
+      }
+    ],
+    "creative_team": [
+      {
+        "role": "Dirección musical",
+        "name": "Hortensia Cabezuelo"
+      },
+      {
+        "role": "Dirección escénica",
+        "name": "Pablo Renedo-Quirós"
+      },
+      {
+        "role": "Escenografía",
+        "name": "Estudio Garbanzo Negro (Mauro Iturri y Petra Solanas)"
+      },
+      {
+        "role": "Vestuario",
+        "name": "Casilda Verástegui"
+      },
+      {
+        "role": "Coreografía de movimiento",
+        "name": "Lupe Andariega"
+      },
+      {
+        "role": "Diseño de iluminación",
+        "name": "Néstor Cifuentes-Vilar"
+      },
+      {
+        "role": "Diseño sonoro",
+        "name": "Tadeo Mompou"
+      },
+      {
+        "role": "Maestra de coro",
+        "name": "Eufrasia Lascuráin"
+      },
+      {
+        "role": "Coro de la Compañía Lírica de la Cuenca Alta",
+        "name": "32 voces mixtas"
+      },
+      {
+        "role": "Orquesta del Teatro Almirante Vergara",
+        "name": "44 instrumentistas"
+      },
+      {
+        "role": "Asistente de dirección",
+        "name": "Inés Cabarcos"
+      },
+      {
+        "role": "Apuntadora",
+        "name": "Remedios Galache"
+      }
+    ],
+    "content_advisory": [
+      "luces_estroboscópicas",
+      "lenguaje_fuerte"
+    ]
+  },
+  "metadata": {
+    "source": "synthetic_20260601_004.md",
+    "domain": "cultural",
+    "subdomain": "theater"
+  }
+}

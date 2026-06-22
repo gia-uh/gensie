@@ -1,0 +1,321 @@
+{
+  "id": "research_paper_argument_005",
+  "input_text": "# Aprendizaje basado en proyectos en matemáticas de Secundaria: un análisis cuasi-experimental sobre motivación, transferencia y rendimiento estandarizado en centros públicos de Cataluña [...] El presente trabajo examina el impacto del aprendizaje basado en proyectos (ABP) en la enseñanza de las matemáticas en 3.º de Educación Secundaria Obligatoria (ESO) en centros públicos de Cataluña, mediante un diseño cuasi-experimental con grupos no equivalentes pre-test/post-test. Participaron 8 institutos (4 experimentales, 4 control) y N=418 estudiantes durante un curso académico completo. Los resultados sugieren que el ABP, implementado como única estrategia metodológica, mejora significativamente la motivación intrínseca hacia la asignatura (d=0,52, p<0,01) y la capacidad de transferencia a problemas auténticos (d=0,41, p<0,01), pero produce un efecto negativo pequeño-moderado sobre el rendimiento en las pruebas estandarizadas de competencias básicas de la Generalitat (d=-0,28, p<0,05). Sostenemos una tesis matizada: el ABP no es ni la panacea metodológica que algunos autores defienden ni el fracaso que predicen los críticos del constructivismo radical; su valor pedagógico depende críticamente de su combinación con instrucción explícita estructurada para consolidar procedimientos algorítmicos. Este trabajo matiza posiciones polarizadas del debate previo (Boaler, 2016; Kirschner, Sweller y Clark, 2006) y propone un modelo híbrido empíricamente fundamentado. [...] Esta tensión no es nueva. Recoge, en clave local, un debate internacional de larga data entre quienes defienden enfoques constructivistas con guía mínima (Papert, 1980; Boaler, 2002, 2016; Schoenfeld, 1992) y quienes, desde la psicología cognitiva, han argumentado que la instrucción guiada explícita es necesaria — sobre todo para aprendices noveles — para evitar la sobrecarga de la memoria de trabajo y consolidar esquemas duraderos (Kirschner, Sweller y Clark, 2006; Sweller, van Merriënboer y Paas, 1998; Hattie, 2009).\n\nEn el contexto catalán, la implementación del ABP en matemáticas se ha extendido de manera desigual: mientras algunos centros lo adoptan como metodología prácticamente exclusiva, otros lo emplean de forma esporádica o lo rechazan abiertamente. La evidencia local disponible es escasa, fragmentaria y mayoritariamente cualitativa (González Galindo, 2019; Vilanou y Casassas, 2021). No conocemos ningún estudio cuasi-experimental con muestra superior a 300 estudiantes que compare sistemáticamente ambos enfoques en 3.º de ESO en centros públicos catalanes.\n\n**Tesis principal.** Este trabajo aporta evidencia cuasi-experimental para sostener que el ABP, implementado de forma exclusiva durante un curso académico en 3.º de ESO, mejora la motivación hacia las matemáticas y la capacidad de transferencia a contextos auténticos, pero perjudica el rendimiento en pruebas estandarizadas de competencias básicas si no se complementa con instrucción explícita estructurada en procedimientos algorítmicos centrales. Esta posición *matiza* tanto los relatos celebratorios del ABP (Boaler, 2016) como las críticas frontales al constructivismo (Kirschner et al., 2006), y propone un modelo híbrido empíricamente sostenible. [...] Se empleó un diseño cuasi-experimental con grupos no equivalentes, medición pre-test y post-test, sin asignación aleatoria de estudiantes a condiciones (no era éticamente ni logísticamente posible re-asignar estudiantes entre institutos). La unidad de asignación fue el centro, no el aula: 4 institutos fueron asignados a la condición experimental (ABP exclusivo) y 4 a la condición control (instrucción tradicional combinada).\n\n### 3.2 Participantes\n\nParticiparon 418 estudiantes de 3.º de ESO de 8 institutos públicos de las comarcas de Barcelonès, Vallès Occidental y Baix Llobregat. La muestra final por condición fue: experimental n=207, control n=211. La distribución por sexo fue equilibrada (51% chicas, 49% chicos). El 34% de los participantes presentaba algún indicador de vulnerabilidad socioeconómica (beca-comedor, plan individualizado), proporción similar a la media del sistema público catalán.\n\nLos centros se emparejaron en variables relevantes (tamaño, índice socioeconómico del distrito, proporción de alumnado de origen migrante, resultados históricos en Proves de Competències Bàsiques) antes de asignar la condición. No obstante, persistieron diferencias de partida en el pre-test (los centros control puntuaron 3,2 puntos más en la prueba de procedimientos algorítmicos), que se controlaron en el análisis mediante ANCOVA.\n\n### 3.3 Intervención\n\nEn la condición experimental, los 4 institutos sustituyeron durante un curso académico completo (35 semanas lectivas) la programación tradicional de matemáticas por una secuencia de 5 proyectos de duración 6-8 semanas cada uno, diseñados conjuntamente por el equipo investigador y los departamentos de matemáticas. Los proyectos incluyeron: (1) análisis de datos del barrio, (2) modelización del consumo energético del centro, (3) geometría del trazado urbano, (4) finanzas personales y, (5) estadística de redes sociales. La instrucción explícita de procedimientos algorítmicos (resolución de ecuaciones de segundo grado, operaciones con polinomios, teorema de Pitágoras, sistemas de ecuaciones) se introducía únicamente \"a demanda\" del proyecto, sin sesiones dedicadas de práctica. [...] **Motivación intrínseca**. El grupo experimental mostró una mejora significativamente mayor en motivación intrínseca que el control (d=0,52; IC 95% [0,34; 0,70]; p<0,01). El efecto fue robusto en los modelos multinivel y se mantuvo tras controlar por sexo, vulnerabilidad socioeconómica y rendimiento previo.\n\n**Transferencia a problemas auténticos**. El grupo experimental superó al control en la tarea de transferencia con d=0,41 (IC 95% [0,22; 0,60]; p<0,01). El efecto fue más pronunciado en los ítems que requerían modelización (selección de variables relevantes, formulación matemática del problema) y menos pronunciado — aunque positivo — en los ítems que dependían de procedimientos algorítmicos rutinarios.\n\n**Rendimiento en competencias básicas**. Aquí emergió el hallazgo central matizador. El grupo experimental obtuvo un rendimiento *inferior* al del control en la prueba estandarizada (d=-0,28; IC 95% [-0,46; -0,10]; p<0,05). El déficit se concentró en los bloques de álgebra (resolución sistemática de ecuaciones) y cálculo aritmético con fracciones — precisamente los contenidos que requieren práctica deliberada para su automatización. [...] (a) Los estudiantes de la condición experimental reportaron mayor implicación afectiva y sentido de la utilidad de las matemáticas (\"ahora veo para qué sirve\"), confirmando el efecto cuantitativo en motivación.\n\n(b) Los docentes experimentales señalaron dificultades crecientes a lo largo del curso para asegurar la cobertura curricular completa: \"los proyectos comen mucho tiempo y al final hay temas que no llegas a tocar con la profundidad de antes\".\n\n(c) Una proporción considerable de estudiantes experimentales (≈40% según codificación) verbalizaron sentir que \"saben menos matemáticas\" que sus pares de otros centros, pese a reportar mayor motivación — un patrón de meta-cognición que merece exploración futura.\n\n(d) Los docentes control reconocieron, por su parte, que su alumnado mostraba menos interés y peor desempeño en problemas contextualizados, pese a \"saberse\" mejor los procedimientos. [...] Los hallazgos sostienen una posición que matiza tanto los relatos celebratorios del ABP como las críticas frontales al constructivismo. El ABP, implementado como única estrategia metodológica durante un curso completo, produce efectos positivos genuinos en dimensiones que la enseñanza tradicional descuida — motivación y transferencia — pero a un coste real en el dominio procedimental que las pruebas estandarizadas evalúan. Esta lectura es coherente con la posición intermedia de Mayer (2004) y Alfieri et al. (2011), y aporta evidencia local cuasi-experimental que hasta ahora faltaba en el contexto catalán.\n\n### 5.1 Objeciones y respuestas\n\n**Objeción 1**. *Defensores acérrimos del ABP podrían argumentar que el déficit en pruebas estandarizadas no debe preocupar, dado que dichas pruebas miden un constructo desactualizado — competencias procedimentales descontextualizadas — que no refleja lo que un ciudadano necesita en el siglo XXI (Boaler, 2016; Wagner, 2008).*\n\n**Respuesta**. La objeción tiene fuerza parcial, pero ignora dos hechos. Primero, las pruebas estandarizadas no son meros instrumentos de medición: son mecanismos de selección con consecuencias materiales para los estudiantes (acceso a Bachillerato, a ciclos formativos de grado superior, a la universidad). Mientras estas pruebas existan en su forma actual, perjudicar sistemáticamente al alumnado en ellas — especialmente al de centros con menos capital cultural para compensar — es una decisión ética cuestionable. Segundo, el dominio procedimental no es opuesto al pensamiento de alto nivel: es su base. La modelización de un problema auténtico requiere, en algún momento, resolver una ecuación; quien no automatiza la resolución, no llega a la modelización.\n\n**Objeción 2**. *Críticos conductistas o cognitivistas radicales podrían argumentar lo contrario: que los efectos positivos en motivación y transferencia son artefactuales (efecto Hawthorne, novedad metodológica) y se desvanecerán en una implementación prolongada (Kirschner et al., 2006; Klahr y Nigam, 2004).*\n\n**Respuesta**. Es una posibilidad real que solo estudios longitudinales de varios años podrán dirimir. Sin embargo, los efectos observados se mantuvieron estables entre las mediciones intermedias (febrero) y finales (junio), lo que reduce — sin descartar — la hipótesis del puro efecto novedad.\n\n**Objeción 3**. *Algunos investigadores podrían cuestionar la validez ecológica de comparar grupos donde los docentes experimentales recibieron formación específica y los control no, atribuyendo los efectos al apoyo docente y no a la metodología en sí.*\n\n(Esta objeción no se responde plenamente en el estudio; se reconoce como una limitación que futuras investigaciones con diseños más controlados deberán abordar.) [...] 1. **Validez externa**. La muestra se restringe a centros públicos urbanos y semi-urbanos de tres comarcas catalanas. Los resultados podrían no generalizarse directamente a centros rurales, concertados o privados, ni a otras comunidades autónomas con configuraciones curriculares distintas.\n\n2. **Metodología**. La ausencia de asignación aleatoria — inherente a los diseños cuasi-experimentales en educación — impide descartar completamente la influencia de variables de confusión no medidas. El emparejamiento previo y los análisis de covarianza mitigan el riesgo, pero no lo eliminan.\n\n3. **Validez de constructo**. La medición de la \"transferencia a problemas auténticos\" depende críticamente de las tareas seleccionadas. Otras tareas — particularmente las que requirieran modelización de fenómenos físicos, no presentes en nuestra batería — podrían producir resultados distintos.\n\n4. **Alcance temporal**. La intervención duró un curso académico (35 semanas). Efectos diferenciales de mayor o menor magnitud podrían emerger en horizontes más largos (2-4 cursos).",
+  "instruction": "Extrae la estructura argumental completa del artículo: tesis principal, sub-afirmaciones con sus evidencias, contra-afirmaciones reconocidas (con respuesta cuando exista), limitaciones declaradas, posicionamiento respecto al estado del arte y antecedentes citados.",
+  "target_schema": {
+    "$defs": {
+      "CounterClaim": {
+        "additionalProperties": false,
+        "description": "Una objeción o contra-afirmación que el artículo reconoce y responde.",
+        "properties": {
+          "statement": {
+            "description": "Enunciado de la objeción en voz declarativa (p. ej. 'La correlación observada podría explicarse por el sesgo de selección de la muestra').",
+            "title": "Statement",
+            "type": "string"
+          },
+          "response": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Respuesta o concesión del artículo a la objeción si la incluye (p. ej. 'Los autores controlan este sesgo estratificando por edad y nivel socioeconómico'). Null si el artículo presenta la objeción sin responderla.",
+            "title": "Response"
+          }
+        },
+        "required": [
+          "statement"
+        ],
+        "title": "CounterClaim",
+        "type": "object"
+      },
+      "Evidence": {
+        "additionalProperties": false,
+        "description": "Una pieza de evidencia que apoya una afirmación del artículo.",
+        "properties": {
+          "kind": {
+            "$ref": "#/$defs/EvidenceKind",
+            "description": "Tipo de evidencia."
+          },
+          "description": {
+            "description": "Descripción literal o casi literal de la evidencia en una frase (p. ej. 'experimento controlado con N=240 hablantes nativos de español').",
+            "title": "Description",
+            "type": "string"
+          },
+          "quoted_passage": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Cita literal del artículo (sin comillas) que presenta esta evidencia, si el extractor la conserva. Null si el extractor solo parafrasea.",
+            "title": "Quoted Passage"
+          }
+        },
+        "required": [
+          "kind",
+          "description"
+        ],
+        "title": "Evidence",
+        "type": "object"
+      },
+      "EvidenceKind": {
+        "enum": [
+          "estudio_empírico",
+          "análisis_datos",
+          "demostración_teórica",
+          "literatura_citada",
+          "ejemplo_caso",
+          "simulación"
+        ],
+        "title": "EvidenceKind",
+        "type": "string"
+      },
+      "Limitation": {
+        "additionalProperties": false,
+        "description": "Una limitación del trabajo declarada por los propios autores.",
+        "properties": {
+          "kind": {
+            "$ref": "#/$defs/LimitationKind",
+            "description": "Categoría de la limitación."
+          },
+          "description": {
+            "description": "Descripción literal o casi literal de la limitación tal como la consignan los autores.",
+            "title": "Description",
+            "type": "string"
+          }
+        },
+        "required": [
+          "kind",
+          "description"
+        ],
+        "title": "Limitation",
+        "type": "object"
+      },
+      "LimitationKind": {
+        "enum": [
+          "tamaño_muestral",
+          "validez_externa",
+          "validez_de_constructo",
+          "metodología",
+          "calidad_datos",
+          "alcance"
+        ],
+        "title": "LimitationKind",
+        "type": "string"
+      },
+      "PositioningStance": {
+        "enum": [
+          "extiende",
+          "matiza",
+          "cuestiona",
+          "sintetiza",
+          "introduce_novedoso"
+        ],
+        "title": "PositioningStance",
+        "type": "string"
+      },
+      "SubClaim": {
+        "additionalProperties": false,
+        "description": "Una afirmación de apoyo subordinada a la tesis principal.",
+        "properties": {
+          "statement": {
+            "description": "Enunciado de la afirmación en una frase, en voz declarativa (p. ej. 'La frecuencia de uso del subjuntivo decrece con la edad de exposición al inglés').",
+            "title": "Statement",
+            "type": "string"
+          },
+          "supporting_evidence": {
+            "description": "Pieza(s) de evidencia que el artículo aporta para esta afirmación. Al menos una.",
+            "items": {
+              "$ref": "#/$defs/Evidence"
+            },
+            "minItems": 1,
+            "title": "Supporting Evidence",
+            "type": "array"
+          }
+        },
+        "required": [
+          "statement",
+          "supporting_evidence"
+        ],
+        "title": "SubClaim",
+        "type": "object"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Estructura argumental completa de un artículo académico (humanidades,\nciencias sociales, ciencia o medicina) en español: tesis central,\nsub-afirmaciones con sus evidencias, contra-afirmaciones reconocidas y\ncontestadas, limitaciones declaradas y posicionamiento explícito en el\nestado del arte.\n\nLa extracción debe distinguir entre la tesis principal y las sub-afirmaciones\nque la sostienen, asociar cada evidencia a la afirmación que apoya, y\ndiferenciar las contra-afirmaciones que el propio artículo plantea de las\nlimitaciones que sus autores reconocen. Requiere lectura holística del\nartículo completo, no solo del resumen.\n\nComplejidad: L10 — razonamiento argumentativo sobre el conjunto del\ndocumento con jerarquías retóricas, enlazado evidencia↔afirmación, y\ndistinciones semánticas finas (limitación vs. contra-afirmación vs.\nposicionamiento).",
+    "properties": {
+      "title": {
+        "description": "Título del artículo tal como aparece en la portada.",
+        "title": "Title",
+        "type": "string"
+      },
+      "discipline": {
+        "description": "Disciplina principal del artículo según el propio texto (p. ej. 'sociolingüística', 'bioquímica', 'historia económica').",
+        "title": "Discipline",
+        "type": "string"
+      },
+      "main_thesis": {
+        "description": "Tesis central del artículo en una o dos frases. Captura lo que el artículo afirma de novedoso o controvertido, no su objeto de estudio.",
+        "title": "Main Thesis",
+        "type": "string"
+      },
+      "sub_claims": {
+        "description": "Afirmaciones de apoyo a la tesis principal, en el orden en que el artículo las desarrolla. Cada una debe ir acompañada de su evidencia.",
+        "items": {
+          "$ref": "#/$defs/SubClaim"
+        },
+        "minItems": 1,
+        "title": "Sub Claims",
+        "type": "array"
+      },
+      "counter_claims": {
+        "description": "Objeciones o contra-afirmaciones que el artículo plantea explícitamente y a las que (idealmente) responde. Lista vacía si el artículo no reconoce contra-argumentos.",
+        "items": {
+          "$ref": "#/$defs/CounterClaim"
+        },
+        "title": "Counter Claims",
+        "type": "array"
+      },
+      "limitations": {
+        "description": "Limitaciones que los autores reconocen sobre su propio trabajo, típicamente en una sección 'Limitaciones' o 'Discusión'. Lista vacía si el artículo no las declara.",
+        "items": {
+          "$ref": "#/$defs/Limitation"
+        },
+        "title": "Limitations",
+        "type": "array"
+      },
+      "positioning": {
+        "$ref": "#/$defs/PositioningStance",
+        "description": "Cómo se posiciona el artículo respecto al estado del arte: 'extiende' un marco anterior, 'matiza' resultados previos, 'cuestiona' una tesis recibida, 'sintetiza' tradiciones distintas, o 'introduce_novedoso' un objeto/método no tratado antes."
+      },
+      "cited_predecessors": {
+        "description": "Trabajos o autores anteriores que el artículo cita como antecedentes directos de su tesis (p. ej. 'Labov (1972)', 'la escuela de Praga'). Solo los citados explícitamente como antecedentes de la tesis principal, no toda la bibliografía.",
+        "items": {
+          "type": "string"
+        },
+        "title": "Cited Predecessors",
+        "type": "array"
+      }
+    },
+    "required": [
+      "title",
+      "discipline",
+      "main_thesis",
+      "sub_claims",
+      "positioning"
+    ],
+    "title": "PaperArgument",
+    "type": "object"
+  },
+  "output": {
+    "title": "Aprendizaje basado en proyectos en matemáticas de Secundaria: un análisis cuasi-experimental sobre motivación, transferencia y rendimiento estandarizado en centros públicos de Cataluña",
+    "discipline": "didáctica de las matemáticas",
+    "main_thesis": "El ABP, implementado de forma exclusiva durante un curso académico en 3.º de ESO, mejora la motivación hacia las matemáticas y la capacidad de transferencia a contextos auténticos, pero perjudica el rendimiento en pruebas estandarizadas de competencias básicas si no se complementa con instrucción explícita estructurada en procedimientos algorítmicos centrales.",
+    "sub_claims": [
+      {
+        "statement": "El ABP mejora significativamente la motivación intrínseca del alumnado de 3.º de ESO hacia las matemáticas.",
+        "supporting_evidence": [
+          {
+            "kind": "estudio_empírico",
+            "description": "El grupo experimental mostró una mejora significativamente mayor en motivación intrínseca que el control (d=0,52; p<0,01) en un diseño cuasi-experimental con N=418.",
+            "quoted_passage": "El grupo experimental mostró una mejora significativamente mayor en motivación intrínseca que el control (d=0,52; IC 95% [0,34; 0,70]; p<0,01)."
+          },
+          {
+            "kind": "ejemplo_caso",
+            "description": "Los estudiantes de la condición experimental reportaron mayor implicación afectiva y sentido de la utilidad de las matemáticas en las entrevistas cualitativas.",
+            "quoted_passage": "Los estudiantes de la condición experimental reportaron mayor implicación afectiva y sentido de la utilidad de las matemáticas (\"ahora veo para qué sirve\")"
+          }
+        ]
+      },
+      {
+        "statement": "El ABP favorece la transferencia de aprendizajes a problemas auténticos no rutinarios.",
+        "supporting_evidence": [
+          {
+            "kind": "estudio_empírico",
+            "description": "El grupo experimental superó al control en la tarea de transferencia con d=0,41 (p<0,01), con efecto más pronunciado en modelización.",
+            "quoted_passage": "El grupo experimental superó al control en la tarea de transferencia con d=0,41 (IC 95% [0,22; 0,60]; p<0,01)."
+          }
+        ]
+      },
+      {
+        "statement": "El ABP exclusivo produce un efecto negativo pequeño-moderado sobre el rendimiento en pruebas estandarizadas de competencias básicas.",
+        "supporting_evidence": [
+          {
+            "kind": "estudio_empírico",
+            "description": "El grupo experimental obtuvo un rendimiento inferior al del control en la prueba estandarizada (d=-0,28; p<0,05), con déficit concentrado en álgebra y cálculo aritmético con fracciones.",
+            "quoted_passage": "El grupo experimental obtuvo un rendimiento *inferior* al del control en la prueba estandarizada (d=-0,28; IC 95% [-0,46; -0,10]; p<0,05)."
+          },
+          {
+            "kind": "análisis_datos",
+            "description": "El déficit en rendimiento estandarizado se concentró en los bloques de álgebra y cálculo aritmético con fracciones, contenidos que requieren práctica deliberada para su automatización.",
+            "quoted_passage": "El déficit se concentró en los bloques de álgebra (resolución sistemática de ecuaciones) y cálculo aritmético con fracciones — precisamente los contenidos que requieren práctica deliberada para su automatización."
+          }
+        ]
+      },
+      {
+        "statement": "La cobertura curricular completa se ve comprometida cuando el ABP sustituye totalmente la programación tradicional.",
+        "supporting_evidence": [
+          {
+            "kind": "ejemplo_caso",
+            "description": "Los docentes experimentales señalaron dificultades crecientes a lo largo del curso para asegurar la cobertura curricular completa.",
+            "quoted_passage": "Los docentes experimentales señalaron dificultades crecientes a lo largo del curso para asegurar la cobertura curricular completa: \"los proyectos comen mucho tiempo y al final hay temas que no llegas a tocar con la profundidad de antes\"."
+          }
+        ]
+      }
+    ],
+    "counter_claims": [
+      {
+        "statement": "Defensores acérrimos del ABP podrían argumentar que el déficit en pruebas estandarizadas no debe preocupar, dado que dichas pruebas miden un constructo desactualizado que no refleja lo que un ciudadano necesita en el siglo XXI.",
+        "response": "La objeción tiene fuerza parcial, pero ignora dos hechos: las pruebas estandarizadas son mecanismos de selección con consecuencias materiales para los estudiantes, y el dominio procedimental no es opuesto al pensamiento de alto nivel sino su base."
+      },
+      {
+        "statement": "Críticos conductistas o cognitivistas radicales podrían argumentar que los efectos positivos en motivación y transferencia son artefactuales (efecto Hawthorne, novedad metodológica) y se desvanecerán en una implementación prolongada.",
+        "response": "Es una posibilidad real que solo estudios longitudinales de varios años podrán dirimir; sin embargo, los efectos observados se mantuvieron estables entre las mediciones intermedias y finales, lo que reduce — sin descartar — la hipótesis del puro efecto novedad."
+      },
+      {
+        "statement": "Algunos investigadores podrían cuestionar la validez ecológica de comparar grupos donde los docentes experimentales recibieron formación específica y los control no, atribuyendo los efectos al apoyo docente y no a la metodología en sí.",
+        "response": null
+      }
+    ],
+    "limitations": [
+      {
+        "kind": "validez_externa",
+        "description": "La muestra se restringe a centros públicos urbanos y semi-urbanos de tres comarcas catalanas; los resultados podrían no generalizarse a centros rurales, concertados o privados, ni a otras comunidades autónomas."
+      },
+      {
+        "kind": "metodología",
+        "description": "La ausencia de asignación aleatoria, inherente a los diseños cuasi-experimentales en educación, impide descartar completamente la influencia de variables de confusión no medidas."
+      },
+      {
+        "kind": "validez_de_constructo",
+        "description": "La medición de la transferencia a problemas auténticos depende críticamente de las tareas seleccionadas; otras tareas podrían producir resultados distintos."
+      },
+      {
+        "kind": "alcance",
+        "description": "La intervención duró un curso académico (35 semanas); efectos diferenciales de mayor o menor magnitud podrían emerger en horizontes más largos."
+      }
+    ],
+    "positioning": "matiza",
+    "cited_predecessors": [
+      "Boaler (2016)",
+      "Kirschner, Sweller y Clark (2006)",
+      "Hattie (2009)",
+      "Mayer (2004)",
+      "Alfieri et al. (2011)"
+    ]
+  },
+  "metadata": {
+    "source": "synthetic_20260601_005.md",
+    "domain": "research",
+    "subdomain": "paper_argument"
+  }
+}

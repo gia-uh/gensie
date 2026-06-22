@@ -1,0 +1,131 @@
+{
+  "id": "test_legal_judicial_002",
+  "input_text": "Un juez federal sentenció a un narcotraficante mexicano a 22 años de prisión por el envío de 276 kilos de cocaína a Chicago escondido en vagones de ferrocarril. El caso puso de relieve el papel de la ciudad como centro de distribución de toneladas de cocaína en Estados Unidos desde 1998 hasta 2008.\nEl juez Rubén Castillo dijo que no había pruebas de Alfredo Vázquez Hernández, de 59 años, era un líder del Cartel de Sinaloa, como los fiscales alegaron. Pero al dictar una sentencia larga para un delincuente que se había declarado culpable, dijo tener problemas en creer que Vázquez nunca había traficado narcóticos previamente.\n\"Quiero enviar con esta sentencia un duro mensaje a los carteles que causan tanto daño a Chicago y a los Estados Unidos\", expresó el juez. “Teniendo en cuenta la cantidad, es absurdo pensar que era el primer viaje de este acusado en el tráfico de cocaína\", agregó.\nVázquez, que vivió durante décadas en el sur de California, habló brevemente en la audiencia para pedir perdón. Su abogado defensor, Paul Brayman, destacó la falta de evidencia de cualquier conexión con el Cartel de Sinaloa. Vázquez fue detenido en México en 2011 y pasó casi dos años en prisión antes de ser extraditado a Estados Unidos.\nEn la audiencia, el fiscal federal Michael Ferrara reiteró la denuncia de que Vázquez fue coordinador de logística para el Cartel de Sinaloa dirigido por Joaquín \"El Chapo\" Guzmán, actualmente detenido en México.\nLos fiscales dicen que Vázquez organizó aviones, submarinos, trenes y camiones para el transporte de cocaína desde Colombia a México y luego a EE.UU.",
+  "instruction": "Extrae la lógica de sentencia de este artículo de noticias judicial: indica si el acusado está anonimizado, el veredicto, los hechos probados aceptados por la corte, la base legal o cargos citados, y las penas finales impuestas (tipo, cantidad y unidad).",
+  "target_schema": {
+    "$defs": {
+      "Penalty": {
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "description": "e.g., 'Prison', 'Fine', 'Disqualification'",
+            "title": "Type",
+            "type": "string"
+          },
+          "quantity": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Numeric value (years, euros)",
+            "title": "Quantity"
+          },
+          "unit": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Unit for the quantity (e.g., 'months', 'EUR')",
+            "title": "Unit"
+          }
+        },
+        "required": [
+          "type"
+        ],
+        "title": "Penalty",
+        "type": "object"
+      },
+      "VerdictCategory": {
+        "enum": [
+          "GUILTY",
+          "NOT_GUILTY",
+          "PARTIALLY_GUILTY",
+          "DISMISSED",
+          "REMANDED"
+        ],
+        "title": "VerdictCategory",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Extracts the reasoning and outcome. Requires aggregating scattered facts.",
+    "properties": {
+      "defendant_anonymized": {
+        "description": "True if the name is hidden (e.g., 'J.D.S.')",
+        "title": "Defendant Anonymized",
+        "type": "boolean"
+      },
+      "verdict": {
+        "$ref": "#/$defs/VerdictCategory"
+      },
+      "proven_facts": {
+        "description": "List of key facts accepted as true by the court",
+        "items": {
+          "type": "string"
+        },
+        "title": "Proven Facts",
+        "type": "array"
+      },
+      "legal_basis": {
+        "description": "List of laws or articles cited as justification",
+        "items": {
+          "type": "string"
+        },
+        "title": "Legal Basis",
+        "type": "array"
+      },
+      "final_penalties": {
+        "description": "Structured list of imposed sanctions",
+        "items": {
+          "$ref": "#/$defs/Penalty"
+        },
+        "title": "Final Penalties",
+        "type": "array"
+      }
+    },
+    "required": [
+      "defendant_anonymized",
+      "verdict",
+      "proven_facts",
+      "legal_basis"
+    ],
+    "title": "SentencingLogic",
+    "type": "object"
+  },
+  "output": {
+    "defendant_anonymized": false,
+    "verdict": "GUILTY",
+    "proven_facts": [
+      "Alfredo Vázquez Hernández envió 276 kilos de cocaína a Chicago escondidos en vagones de ferrocarril.",
+      "Vázquez se declaró culpable ante la corte federal.",
+      "Vázquez fue detenido en México en 2011 y pasó casi dos años en prisión antes de ser extraditado a Estados Unidos.",
+      "Los fiscales alegaron que Vázquez organizó aviones, submarinos, trenes y camiones para el transporte de cocaína desde Colombia a México y luego a EE.UU.",
+      "El juez Rubén Castillo determinó que no había pruebas de que Vázquez fuera líder del Cartel de Sinaloa."
+    ],
+    "legal_basis": [
+      "Tráfico de cocaína (delito federal de narcotráfico en EE.UU.)"
+    ],
+    "final_penalties": [
+      {
+        "type": "Prison",
+        "quantity": 22.0,
+        "unit": "years"
+      }
+    ]
+  },
+  "metadata": {
+    "source": "fresh_testset_alfredo_vázquez_hernández_condenado_a_22_años_de_c.md",
+    "domain": "legal",
+    "subdomain": "judicial"
+  }
+}

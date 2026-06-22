@@ -1,0 +1,150 @@
+{
+  "id": "test_general_disasters_002",
+  "input_text": "# Accidente aéreo de Air India deja 241 víctimas [...] Un avión de Air India con 242 pasajeros sufrió un accidente poco después de despegar del Aeropuerto Internacional Sardar Vallabhbhai Patel. Los primeros reportes indican que sólo hubo una persona sobreviviente en la aeronave, en tanto habría más víctimas y heridos en el sitio del impacto.\nVideos en redes sociales muestran que la aeronave -Vuelo 171 de la aerolínea de la India con destino a Londres- se desplomó luego de despegar, cayendo sobre una zona habitacional a una milla del fin de la pista. Circulan grabaciones aficionadas del audio público de la torre de control en donde los pilotos indican la señal de socorro mayday. El avión, un Dreamliner 787-8, impactó una residencia de médicos, por lo que entre el número de víctimas se cuentan personas que laboraban en este sitio.\nEl único sobreviviente en la aeronave, un ciudadano británico, indicó que todo fue muy rápido, \"treinta segundos después del despegue, se oyó un fuerte ruido y el avión se estrelló, todo sucedió muy rápido\", indicó la víctima entrevistada por The Hindustan Times. [...] ((es))  Amelia Nierenberg “Choque aéreo en India: esto es lo que sabemos del avión de pasajeros” — The New York Times, 12 de junio de 2025.\n((en))  Maulik Pathak “Passenger on seat 11A survived Air India crash, says trouble started 30 seconds into flight” — Hindustan Times, 12 de junio de 2025.",
+  "instruction": "Extrae los datos estructurados de este artículo de noticias siguiendo el esquema NewsArticle.",
+  "target_schema": {
+    "$defs": {
+      "NewsCategory": {
+        "enum": [
+          "JUDICIAL",
+          "DISASTER",
+          "HEALTH",
+          "ENVIRONMENT",
+          "POLITICS",
+          "ECONOMY",
+          "SCIENCE",
+          "CULTURE",
+          "SPORTS",
+          "OTHER"
+        ],
+        "title": "NewsCategory",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Extracts structured information from general news articles.\nComplexity: L4 (Sparse Extraction) - Some fields may be null/missing.",
+    "properties": {
+      "headline": {
+        "description": "The main headline or title of the news article",
+        "title": "Headline",
+        "type": "string"
+      },
+      "summary": {
+        "description": "A brief summary of the main facts reported (1-3 sentences)",
+        "title": "Summary",
+        "type": "string"
+      },
+      "category": {
+        "$ref": "#/$defs/NewsCategory",
+        "description": "The thematic category of the news story"
+      },
+      "location": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Geographic location where the event occurred (city, country, or region)",
+        "title": "Location"
+      },
+      "date": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Date mentioned in the article (may be implicit or explicit)",
+        "title": "Date"
+      },
+      "key_people": {
+        "description": "Names of key individuals mentioned in the article",
+        "items": {
+          "type": "string"
+        },
+        "title": "Key People",
+        "type": "array"
+      },
+      "key_organizations": {
+        "description": "Names of organizations, companies, or governments mentioned",
+        "items": {
+          "type": "string"
+        },
+        "title": "Key Organizations",
+        "type": "array"
+      },
+      "casualties": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of deaths mentioned, if any",
+        "title": "Casualties"
+      },
+      "injured": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of people injured, if any",
+        "title": "Injured"
+      },
+      "affected_count": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of people affected or displaced, if applicable",
+        "title": "Affected Count"
+      }
+    },
+    "required": [
+      "headline",
+      "summary",
+      "category"
+    ],
+    "title": "NewsArticle",
+    "type": "object"
+  },
+  "output": {
+    "headline": "Accidente aéreo de Air India deja 241 víctimas",
+    "summary": "Un avión Dreamliner 787-8 de Air India, el Vuelo 171 con destino a Londres, se desplomó poco después de despegar del Aeropuerto Internacional Sardar Vallabhbhai Patel y cayó sobre una zona habitacional, impactando una residencia de médicos. De los 242 pasajeros sólo hubo un sobreviviente, un ciudadano británico.",
+    "category": "DISASTER",
+    "location": "Aeropuerto Internacional Sardar Vallabhbhai Patel, India",
+    "date": "12 de junio de 2025",
+    "key_people": [],
+    "key_organizations": [
+      "Air India"
+    ],
+    "casualties": 241,
+    "injured": null,
+    "affected_count": null
+  },
+  "metadata": {
+    "source": "fresh_testset_accidente_aéreo_de_air_india_deja_241_víctimas.md",
+    "domain": "general",
+    "subdomain": "disasters"
+  }
+}

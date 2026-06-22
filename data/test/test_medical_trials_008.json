@@ -1,0 +1,199 @@
+{
+  "id": "test_medical_trials_008",
+  "input_text": "# El consorcio OBEMET-3 abre el reclutamiento del ensayo fase 3 sobre un nuevo agonista dual en obesidad con comorbilidad metabólica\n\nEl consorcio clínico-académico **OBEMET-3**, liderado por el Servicio de Endocrinología y Nutrición del Hospital Clínic de Barcelona y coordinado a nivel nacional desde el Instituto de Investigaciones Biomédicas August Pi i Sunyer (IDIBAPS), ha anunciado la apertura formal del reclutamiento del ensayo clínico de fase 3 **OBEMET-3 / METAGON-301**, registrado con el identificador EudraCT **2025-001984-22**. El ensayo evalúa la eficacia, seguridad y tolerabilidad de un nuevo agonista dual de los receptores GLP-1/GIP en pacientes adultos con obesidad y comorbilidad metabólica establecida (CIE-10: **E66.0**, obesidad debida a exceso de calorías). El estado actual del estudio es **RECLUTANDO**.\n\nEl reclutamiento se inició el 4 de mayo de 2026 y permanecerá abierto hasta alcanzar el tamaño muestral objetivo de **840 participantes**, distribuidos en quince hospitales terciarios del territorio español. Además del Hospital Clínic de Barcelona como centro coordinador, participan en la red el Hospital Universitario Ramón y Cajal (Madrid), el Hospital Universitario Marqués de Valdecilla (Santander), el Hospital Universitario Reina Sofía (Córdoba), el Hospital Universitario Donostia (San Sebastián), el Hospital Universitario Central de Asturias (Oviedo), el Hospital Universitario de Canarias (San Cristóbal de La Laguna), el Hospital Universitario Miguel Servet (Zaragoza), el Hospital Universitario Son Espases (Palma), el Hospital General Universitario Gregorio Marañón (Madrid) y otros cinco centros de apoyo distribuidos por la geografía nacional.\n\nEl investigador principal del consorcio es el **Dr. Joan Vallverdú-Mestres**, consultor sénior del Servicio de Endocrinología y Nutrición del Hospital Clínic e investigador del IDIBAPS, quien será coordinador clínico y científico del estudio. En declaraciones a la prensa especializada, el Dr. Vallverdú ha subrayado que \"la obesidad con comorbilidad metabólica representa una de las cargas asistenciales de crecimiento más rápido en el SNS, y el desarrollo de fármacos con mecanismos duales abre una vía para abordar simultáneamente el control ponderal y los marcadores cardiometabólicos en una misma intervención farmacológica.\" [...] ## Diseño del estudio\n\nEl ensayo es multicéntrico, aleatorizado, doble ciego y controlado con placebo. Se han previsto **tres brazos** de tratamiento con asignación 1:1:1:\n\n- **Brazo A (n≈280):** agonista dual GLP-1/GIP **a dosis baja**, 8 mg semanales por vía subcutánea, con escalado progresivo durante las primeras cuatro semanas según pauta de tolerabilidad.\n- **Brazo B (n≈280):** agonista dual GLP-1/GIP **a dosis alta**, 16 mg semanales por vía subcutánea, siguiendo el mismo esquema de escalado.\n- **Brazo C (n≈280):** **placebo** subcutáneo administrado con frecuencia idéntica y aspecto indistinguible.\n\nLos tres brazos recibirán como tratamiento de fondo la intervención estándar en estilo de vida (dieta hipocalórica estructurada y programa de actividad física) supervisada por las unidades de obesidad de cada centro participante. La duración del período de tratamiento ciego es de 72 semanas, seguidas de un período de extensión abierto de 28 semanas. [...] ## Endpoint primario\n\nEl endpoint primario es la **variación porcentual del peso corporal desde el inicio hasta la semana 72**, comparada entre cada brazo activo y placebo. Los endpoints secundarios clave incluyen la proporción de participantes que alcanzan reducciones ponderales ≥5 %, ≥10 %, ≥15 % y ≥20 %, la variación en HbA1c, perfil lipídico, presión arterial sistólica y diastólica, circunferencia de cintura, y medidas de calidad de vida relacionadas con la obesidad.",
+  "instruction": "Extrae el registro estructurado del ensayo clínico descrito en la nota de prensa. Incluye identificador de registro, fase, estado actual, condición clínica, código CIE-10 si se cita, tamaño muestral previsto, brazos del ensayo con sus intervenciones y número de participantes asignados a cada brazo cuando se desglose, variable principal de eficacia, fecha de finalización y resumen de resultados. Respeta la restricción: si el ensayo no está completado ni terminado, completion_date y result_summary deben ser null.",
+  "target_schema": {
+    "$defs": {
+      "TrialArm": {
+        "additionalProperties": false,
+        "description": "Un brazo del ensayo: grupo experimental o comparador.",
+        "properties": {
+          "name": {
+            "description": "Etiqueta del brazo tal como aparece en el texto (p. ej. 'brazo experimental', 'brazo comparador', 'placebo', 'control').",
+            "title": "Name",
+            "type": "string"
+          },
+          "intervention": {
+            "description": "Intervención administrada al brazo: fármaco, dosis y vía si se explicitan (p. ej. 'CLN-217 5,4 mg/kg IV cada 3 semanas').",
+            "title": "Intervention",
+            "type": "string"
+          },
+          "n": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Número de participantes asignados o reclutados a este brazo concreto. Null si el texto no lo desglosa por brazo.",
+            "title": "N"
+          }
+        },
+        "required": [
+          "name",
+          "intervention"
+        ],
+        "title": "TrialArm",
+        "type": "object"
+      },
+      "TrialPhase": {
+        "enum": [
+          "fase_1",
+          "fase_2",
+          "fase_3",
+          "fase_4",
+          "no_aplica"
+        ],
+        "title": "TrialPhase",
+        "type": "string"
+      },
+      "TrialStatus": {
+        "enum": [
+          "reclutando",
+          "activo",
+          "completado",
+          "terminado",
+          "suspendido"
+        ],
+        "title": "TrialStatus",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Registro estructurado de un ensayo clínico a partir de una nota de prensa,\ncomunicado institucional o ficha de registro en español.\n\nRestricción inter-campo crítica (trampa de null):\n- `completion_date` y `result_summary` SOLO pueden tener valor cuando\n  `status` ∈ {completado, terminado}. Si el ensayo está reclutando, activo\n  o suspendido, ambos campos deben ser null aunque el texto especule sobre\n  fechas previstas o resultados parciales.\n\nComplejidad: L7 — rigidez de restricciones inter-campo + regex de IDs.",
+    "properties": {
+      "registry_id": {
+        "description": "Identificador del ensayo en su registro. Acepta tres formatos: ClinicalTrials.gov ('NCTxxxxxxxx', 8 dígitos), EudraCT ('YYYY-NNNNNN-NN') o REec ('REec-YYYY-NNNN'). Devolver exactamente como aparece, sin prefijos descriptivos ('EudraCT', 'nº').",
+        "pattern": "^(?:NCT\\d{8}|\\d{4}-\\d{6}-\\d{2}|REec-\\d{4}-\\d{4})$",
+        "title": "Registry Id",
+        "type": "string"
+      },
+      "phase": {
+        "$ref": "#/$defs/TrialPhase",
+        "description": "Fase del ensayo. 'fase_1' a 'fase_4' para fases clásicas; 'no_aplica' para ensayos exploratorios, observacionales o sin fase declarada."
+      },
+      "status": {
+        "$ref": "#/$defs/TrialStatus",
+        "description": "Estado actual del ensayo: 'reclutando' (inclusión abierta), 'activo' (reclutamiento cerrado, seguimiento en curso), 'completado' (finalizado según protocolo), 'terminado' (finalizado prematuramente con resultados), 'suspendido' (pausa por seguridad o regulatoria)."
+      },
+      "condition": {
+        "description": "Patología, síndrome o indicación clínica que el ensayo estudia, en lenguaje del texto (p. ej. 'cáncer de mama metastásico HER2 positivo').",
+        "title": "Condition",
+        "type": "string"
+      },
+      "icd10_code": {
+        "anyOf": [
+          {
+            "pattern": "^[A-Z]\\d{2}(?:\\.\\d{1,2})?$",
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Código CIE-10 (ICD-10) de la indicación si el texto lo cita literalmente, formato 'L99' o 'L99.9'. Null si no aparece.",
+        "title": "Icd10 Code"
+      },
+      "enrollment": {
+        "anyOf": [
+          {
+            "minimum": 1,
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Tamaño muestral total previsto o reclutado, como entero. Null si el texto no lo especifica.",
+        "title": "Enrollment"
+      },
+      "arms": {
+        "description": "Lista de brazos del ensayo en el orden en que se describen. Vacía solo si el diseño es de un único brazo no etiquetado.",
+        "items": {
+          "$ref": "#/$defs/TrialArm"
+        },
+        "title": "Arms",
+        "type": "array"
+      },
+      "primary_endpoint": {
+        "description": "Variable principal de eficacia del estudio (p. ej. 'supervivencia libre de progresión', 'ACR50 a la semana 24'). Texto literal del objetivo primario.",
+        "title": "Primary Endpoint",
+        "type": "string"
+      },
+      "completion_date": {
+        "anyOf": [
+          {
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Fecha real de finalización del ensayo en formato YYYY-MM-DD. DEBE ser null salvo que status sea 'completado' o 'terminado'. Para ensayos en curso o suspendidos, ignorar fechas previstas.",
+        "title": "Completion Date"
+      },
+      "result_summary": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Resumen narrativo de los resultados del ensayo. DEBE ser null salvo que status sea 'completado' o 'terminado'. No incluir resultados intermedios ni hallazgos de seguridad parciales de ensayos en curso.",
+        "title": "Result Summary"
+      }
+    },
+    "required": [
+      "registry_id",
+      "phase",
+      "status",
+      "condition",
+      "primary_endpoint"
+    ],
+    "title": "ClinicalTrialRecord",
+    "type": "object"
+  },
+  "output": {
+    "registry_id": "2025-001984-22",
+    "phase": "fase_3",
+    "status": "reclutando",
+    "condition": "obesidad y comorbilidad metabólica establecida",
+    "icd10_code": "E66.0",
+    "enrollment": 840,
+    "arms": [
+      {
+        "name": "Brazo A",
+        "intervention": "agonista dual GLP-1/GIP a dosis baja, 8 mg semanales por vía subcutánea, con escalado progresivo durante las primeras cuatro semanas",
+        "n": 280
+      },
+      {
+        "name": "Brazo B",
+        "intervention": "agonista dual GLP-1/GIP a dosis alta, 16 mg semanales por vía subcutánea, con escalado progresivo durante las primeras cuatro semanas",
+        "n": 280
+      },
+      {
+        "name": "Brazo C",
+        "intervention": "placebo subcutáneo administrado con frecuencia idéntica y aspecto indistinguible",
+        "n": 280
+      }
+    ],
+    "primary_endpoint": "variación porcentual del peso corporal desde el inicio hasta la semana 72, comparada entre cada brazo activo y placebo",
+    "completion_date": null,
+    "result_summary": null
+  },
+  "metadata": {
+    "source": "synthetic_20260512_008.md",
+    "domain": "medical",
+    "subdomain": "trials"
+  }
+}

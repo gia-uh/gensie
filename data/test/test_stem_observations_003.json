@@ -1,0 +1,275 @@
+{
+  "id": "stem_observations_003",
+  "input_text": "# Cuaderno de campo — Monitoreo acústico de quirópteros\n\n**Sitio**: Embalse de Burguillo, orilla norte, Sierra de Gredos, Ávila\n**Fecha**: 2026-05-28\n**Observador**: Marta Quiroga Bermúdez (Grupo de Quirópteros, Universidad de Salamanca)\n**Método**: registro acústico\n**Hora de inicio**: 21:42 (crepúsculo náutico cerrado)\n**Hora de cierre**: 01:35\n\n## Condiciones meteorológicas\n\nCielo despejado, sin cobertura nubosa apreciable; la Vía Láctea visible a simple\nvista hacia el suroeste. Viento del NW flojo, prácticamente en calma a ras del\nagua. Sin luna (fase nueva el 26-V, iluminación residual <2%), condición óptima\npara emergencia de insectívoros. Temperatura ambiente al inicio: **16,4 °C**,\nmedida con termohigrómetro Kestrel 3000 a 1,5 m sobre el sustrato pedregoso de\nla orilla. Humedad relativa **62%** al inicio, ascendiendo a 71% hacia las\n00:30, coincidiendo con el descenso térmico esperado por inversión nocturna\nsobre el espejo de agua. [...] Ruido ambiente medido con sonómetro Brüel & Kjær 2240 (banda A, ponderación\nslow) en tres puntos de la estación: **34,2 dB(A)** en el extremo este (cerca\ndel arroyo de Navalonguilla), **31,8 dB(A)** en el punto central del muestreo,\n**36,5 dB(A)** en el extremo oeste (más expuesto al viento). Valores muy por\ndebajo del umbral de saturación del detector en banda ultrasónica. [...] Llegada al sitio a las 20:55. Montaje del detector, comprobación de niveles y\ncalibración hasta las 21:35. La emergencia de los primeros murciélagos se\ndetecta a las **21:48** —apenas seis minutos tras la puesta civil— con dos\npases rápidos a 45 kHz compatibles con *Pipistrellus pygmaeus*. Durante la\nprimera hora la actividad es intensa sobre la lámina de agua, con frecuentes\nmaniobras de captura (\"feeding buzzes\" claros en el sonograma, sub-banda\ndescendente desde 55 kHz hasta ~25 kHz en menos de 200 ms).\n\nA las 22:30 aparece un patrón distinto: pulsos de banda estrecha cuasi-constante\nen 27–28 kHz, intensidad alta, duración 8–10 ms, compatibles con\n*Nyctalus leisleri*. Se registran al menos tres individuos forrajeando a media\naltura sobre el monte bajo de la orilla. A las 23:10 se identifica un solo\npase, muy nítido, en banda FM entre 35 y 22 kHz, atribuible con razonable\nconfianza a *Eptesicus serotinus* en vuelo recto sobre el camino de acceso.\n\nEntre las 23:40 y las 00:20 la actividad ultrasónica desciende y se solapa con\n**cantos territoriales de Bubo bubo** (búho real) procedentes del talud\ncalcáreo situado ~400 m al norte; series de 3–4 sílabas, intervalo de 8–12 s,\nsostenidos durante unos 25 minutos. Coincide con la detección de pulsos de\necolocación de baja frecuencia (≈20 kHz, duración 14 ms) compatibles con\n*Tadarida teniotis*, especie esperable en la zona pero poco frecuente en\nregistros previos del embalse.\n\nA partir de las 00:30 la actividad de quirópteros se reactiva ligeramente,\ndominada de nuevo por pipistrélidos. No se detectan en ningún momento llamadas\nsociales del género *Myotis* sobre el agua, lo cual contrasta con muestreos\nde mayo de 2025 en el mismo punto: la ausencia podría estar ligada al nivel\nbajísimo del embalse (cota ~16 m por debajo del máximo) que aleja la lámina de\nlos refugios potenciales en el roquedo. Cierre de la sesión a la 01:35; sin\nincidencias técnicas; archivos descargados in situ a SSD de respaldo.\n\nNo se observan anfibios anuros activos en la orilla pese a la cercanía de un\npequeño cauce; tampoco se escuchan coros de *Pelophylax perezi* habituales\nen años más húmedos. Se anota como dato negativo intencional.\n\n## Especies detectadas\n\n- *Pipistrellus pygmaeus* — al menos 6 individuos, forrajeando sobre lámina de\n  agua, \"feeding buzzes\" frecuentes.\n- *Nyctalus leisleri* — 3 individuos, forrajeando a media altura sobre el\n  monte bajo.\n- *Eptesicus serotinus* — 1 individuo, en vuelo recto sobre el camino de\n  acceso.\n- *Tadarida teniotis* — 2 individuos, pulsos de baja frecuencia, sin contacto\n  visual.\n- *Bubo bubo* — 1 individuo cantando, cantos territoriales desde talud\n  calcáreo al norte. [...] ## Mediciones\n\n| Magnitud                       | Valor   | Unidad   | Instrumento                  |\n|--------------------------------|---------|----------|------------------------------|\n| Humedad relativa (inicio)      | 62      | %        | termohigrómetro Kestrel 3000 |\n| Ruido ambiente (punto central) | 31,8    | dB(A)    | sonómetro Brüel & Kjær 2240  |\n| Calibración detector @40 kHz   | 93,7    | dB SPL   | pistonófono Pettersson U30   |\n| Frecuencia de muestreo         | 384     | kHz      | Pettersson D500X             |\n\n## Conclusiones\n\n- La comunidad de quirópteros sobre el embalse mantiene el predominio de\n  pipistrélidos pequeños, con *Pipistrellus pygmaeus* claramente dominante en\n  número de pases.\n- La detección de *Tadarida teniotis* refuerza la hipótesis de presencia\n  estable de la especie en el roquedo del talud norte, pendiente de confirmar\n  con captura de armónicos en sesiones sucesivas.\n- La ausencia de *Myotis* spp. sobre la lámina podría correlacionar con la\n  bajada de cota del embalse y merece comparación cuantitativa con la serie\n  histórica 2022–2025.\n- Se recomienda repetir el muestreo a finales de junio, manteniendo el mismo\n  punto y configuración del detector, y añadir un punto secundario en la\n  desembocadura del arroyo de Navalonguilla.",
+  "instruction": "Extrae los datos de esta entrada de cuaderno de campo: sitio, fecha, observador, método y meteorología, registros de especies, mediciones cuantitativas y conclusiones.",
+  "target_schema": {
+    "$defs": {
+      "Measurement": {
+        "additionalProperties": false,
+        "description": "Una medición numérica registrada durante la observación.",
+        "properties": {
+          "name": {
+            "description": "Nombre literal de la magnitud medida (p. ej. 'temperatura del agua', 'profundidad', 'altura del árbol', 'pH del suelo').",
+            "title": "Name",
+            "type": "string"
+          },
+          "value": {
+            "description": "Valor numérico tal como aparece en el cuaderno de campo.",
+            "title": "Value",
+            "type": "number"
+          },
+          "unit": {
+            "description": "Unidad de medida tal como aparece (p. ej. '°C', 'cm', 'mg/L', 'lux').",
+            "title": "Unit",
+            "type": "string"
+          },
+          "instrument": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Instrumento o sensor con el que se tomó la medición si el texto lo menciona (p. ej. 'termómetro digital', 'GPS Garmin'). Null si no.",
+            "title": "Instrument"
+          }
+        },
+        "required": [
+          "name",
+          "value",
+          "unit"
+        ],
+        "title": "Measurement",
+        "type": "object"
+      },
+      "SpeciesObservation": {
+        "additionalProperties": false,
+        "description": "Una entrada del registro de un taxón observado en el sitio.",
+        "properties": {
+          "species_name": {
+            "description": "Nombre científico binomial o nombre común consistentemente usado en el log (p. ej. 'Quercus ilex', 'pinzón vulgar').",
+            "title": "Species Name",
+            "type": "string"
+          },
+          "count": {
+            "description": "Número de individuos observados o estimados. Para presencia/ausencia sin conteo usar 1 y aclarar en 'notes'.",
+            "minimum": 0,
+            "title": "Count",
+            "type": "integer"
+          },
+          "behavior": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Comportamiento observado si el log lo describe (p. ej. 'forrajeando', 'en reposo', 'reproduciendo'). Null si no se describe.",
+            "title": "Behavior"
+          },
+          "notes": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Observación adicional literal del cuaderno (p. ej. 'juveniles', 'plumaje invernal'). Null si no hay notas.",
+            "title": "Notes"
+          }
+        },
+        "required": [
+          "species_name",
+          "count"
+        ],
+        "title": "SpeciesObservation",
+        "type": "object"
+      },
+      "StudyMethod": {
+        "enum": [
+          "transecto",
+          "cuadrante",
+          "conteo_por_punto",
+          "marcaje_recaptura",
+          "registro_acústico",
+          "fototrampeo",
+          "muestreo_oportunista"
+        ],
+        "title": "StudyMethod",
+        "type": "string"
+      },
+      "WeatherCondition": {
+        "enum": [
+          "soleado",
+          "parcialmente_nublado",
+          "cubierto",
+          "lluvia",
+          "llovizna",
+          "niebla",
+          "nieve"
+        ],
+        "title": "WeatherCondition",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Entrada de cuaderno de campo de un estudio biológico, ecológico o\ngeológico: sitio, fecha, condiciones, registros de taxones, mediciones y\nconclusiones del observador. La extracción debe distinguir entre\nobservaciones cualitativas de taxones y mediciones cuantitativas, y debe\nenlazar las condiciones ambientales con la sesión completa.\n\nComplejidad: L8 — dispersión informativa con listas heterogéneas paralelas\n(especies + mediciones) y vocabulario técnico moderado.",
+    "properties": {
+      "site_name": {
+        "description": "Nombre del sitio de observación tal como aparece en la cabecera (p. ej. 'Estación Biológica de Doñana, Lagunas del Acebuche').",
+        "title": "Site Name",
+        "type": "string"
+      },
+      "observation_date": {
+        "description": "Fecha de la sesión en formato ISO 'YYYY-MM-DD'.",
+        "title": "Observation Date",
+        "type": "string"
+      },
+      "observer": {
+        "description": "Nombre del observador o equipo que firma la entrada del cuaderno.",
+        "title": "Observer",
+        "type": "string"
+      },
+      "method": {
+        "$ref": "#/$defs/StudyMethod",
+        "description": "Método principal de muestreo declarado para la sesión. 'muestreo_oportunista' si el texto no formaliza un método estándar."
+      },
+      "weather": {
+        "$ref": "#/$defs/WeatherCondition",
+        "description": "Condición meteorológica predominante durante la sesión, según el texto."
+      },
+      "temperature_celsius": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Temperatura ambiente registrada al iniciar la sesión, en °C. Null si el log no la registra.",
+        "title": "Temperature Celsius"
+      },
+      "species_observed": {
+        "description": "Registro de taxones observados en el orden del cuaderno. Una entrada por especie / morfotipo distinto.",
+        "items": {
+          "$ref": "#/$defs/SpeciesObservation"
+        },
+        "title": "Species Observed",
+        "type": "array"
+      },
+      "measurements": {
+        "description": "Mediciones cuantitativas tomadas durante la sesión, distintas de la temperatura general (que va en su campo dedicado). Una entrada por medición.",
+        "items": {
+          "$ref": "#/$defs/Measurement"
+        },
+        "title": "Measurements",
+        "type": "array"
+      },
+      "conclusions": {
+        "description": "Conclusiones o hipótesis explícitamente formuladas por el observador al cierre de la entrada. Una conclusión por elemento.",
+        "items": {
+          "type": "string"
+        },
+        "title": "Conclusions",
+        "type": "array"
+      }
+    },
+    "required": [
+      "site_name",
+      "observation_date",
+      "observer",
+      "method",
+      "weather"
+    ],
+    "title": "ObservationLog",
+    "type": "object"
+  },
+  "output": {
+    "site_name": "Embalse de Burguillo, orilla norte, Sierra de Gredos, Ávila",
+    "observation_date": "2026-05-28",
+    "observer": "Marta Quiroga Bermúdez",
+    "method": "registro_acústico",
+    "weather": "soleado",
+    "temperature_celsius": 16.4,
+    "species_observed": [
+      {
+        "species_name": "Pipistrellus pygmaeus",
+        "count": 6,
+        "behavior": "forrajeando sobre lámina de agua",
+        "notes": "\"feeding buzzes\" frecuentes"
+      },
+      {
+        "species_name": "Nyctalus leisleri",
+        "count": 3,
+        "behavior": "forrajeando a media altura sobre el monte bajo",
+        "notes": null
+      },
+      {
+        "species_name": "Eptesicus serotinus",
+        "count": 1,
+        "behavior": "en vuelo recto sobre el camino de acceso",
+        "notes": null
+      },
+      {
+        "species_name": "Tadarida teniotis",
+        "count": 2,
+        "behavior": "pulsos de baja frecuencia",
+        "notes": "sin contacto visual"
+      },
+      {
+        "species_name": "Bubo bubo",
+        "count": 1,
+        "behavior": "cantos territoriales desde talud calcáreo al norte",
+        "notes": null
+      }
+    ],
+    "measurements": [
+      {
+        "name": "Humedad relativa (inicio)",
+        "value": 62.0,
+        "unit": "%",
+        "instrument": "termohigrómetro Kestrel 3000"
+      },
+      {
+        "name": "Ruido ambiente (punto central)",
+        "value": 31.8,
+        "unit": "dB(A)",
+        "instrument": "sonómetro Brüel & Kjær 2240"
+      },
+      {
+        "name": "Calibración detector @40 kHz",
+        "value": 93.7,
+        "unit": "dB SPL",
+        "instrument": "pistonófono Pettersson U30"
+      },
+      {
+        "name": "Frecuencia de muestreo",
+        "value": 384.0,
+        "unit": "kHz",
+        "instrument": "Pettersson D500X"
+      }
+    ],
+    "conclusions": [
+      "La comunidad de quirópteros sobre el embalse mantiene el predominio de pipistrélidos pequeños, con Pipistrellus pygmaeus claramente dominante en número de pases.",
+      "La detección de Tadarida teniotis refuerza la hipótesis de presencia estable de la especie en el roquedo del talud norte, pendiente de confirmar con captura de armónicos en sesiones sucesivas.",
+      "La ausencia de Myotis spp. sobre la lámina podría correlacionar con la bajada de cota del embalse y merece comparación cuantitativa con la serie histórica 2022–2025.",
+      "Se recomienda repetir el muestreo a finales de junio, manteniendo el mismo punto y configuración del detector, y añadir un punto secundario en la desembocadura del arroyo de Navalonguilla."
+    ]
+  },
+  "metadata": {
+    "source": "synthetic_20260601_003.md",
+    "domain": "stem",
+    "subdomain": "observations"
+  }
+}

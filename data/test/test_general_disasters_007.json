@@ -1,0 +1,148 @@
+{
+  "id": "test_general_disasters_007",
+  "input_text": "# 300 muertos por inundaciones en India y Pakistán\n\nLas inundaciones causadas por las intensas lluvias en la India y Pakistán se han saldado con al menos 300 personas fallecidas en los últimos días. La región de Cachemira (en disputa por India y Pakistán) registra históricos acumulados desde hace cinco días.\nSetenta personas murieron al norte de la India en lo que son catalogadas como las peores inundaciones registradas en los últimos 22 años. Las lluvias imposibilitan el rescate de personas atrapadas y cadáveres. Las escuelas han sido usadas por el ejército para almacenar los cuerpos.\nLos servicios de emergencia registran grandes cantidades de llamadas y mensajes de texto pidiendo ayuda. En el distrito de Rajouri, 60 personas murieron luego de que un autobús que transportaba varias familias cayera a un arroyo.\nPakistán pidió a la población abandonar sus casas y que tomaran los objetos personales más necesarios, esto luego de que decenas de viviendas se derrumbaran.",
+  "instruction": "Extrae la información estructurada de este artículo de noticias sobre un desastre natural, siguiendo el esquema proporcionado. Devuelve null en los campos que no se puedan determinar a partir del texto.",
+  "target_schema": {
+    "$defs": {
+      "NewsCategory": {
+        "enum": [
+          "JUDICIAL",
+          "DISASTER",
+          "HEALTH",
+          "ENVIRONMENT",
+          "POLITICS",
+          "ECONOMY",
+          "SCIENCE",
+          "CULTURE",
+          "SPORTS",
+          "OTHER"
+        ],
+        "title": "NewsCategory",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Extracts structured information from general news articles.\nComplexity: L4 (Sparse Extraction) - Some fields may be null/missing.",
+    "properties": {
+      "headline": {
+        "description": "The main headline or title of the news article",
+        "title": "Headline",
+        "type": "string"
+      },
+      "summary": {
+        "description": "A brief summary of the main facts reported (1-3 sentences)",
+        "title": "Summary",
+        "type": "string"
+      },
+      "category": {
+        "$ref": "#/$defs/NewsCategory",
+        "description": "The thematic category of the news story"
+      },
+      "location": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Geographic location where the event occurred (city, country, or region)",
+        "title": "Location"
+      },
+      "date": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Date mentioned in the article (may be implicit or explicit)",
+        "title": "Date"
+      },
+      "key_people": {
+        "description": "Names of key individuals mentioned in the article",
+        "items": {
+          "type": "string"
+        },
+        "title": "Key People",
+        "type": "array"
+      },
+      "key_organizations": {
+        "description": "Names of organizations, companies, or governments mentioned",
+        "items": {
+          "type": "string"
+        },
+        "title": "Key Organizations",
+        "type": "array"
+      },
+      "casualties": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of deaths mentioned, if any",
+        "title": "Casualties"
+      },
+      "injured": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of people injured, if any",
+        "title": "Injured"
+      },
+      "affected_count": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of people affected or displaced, if applicable",
+        "title": "Affected Count"
+      }
+    },
+    "required": [
+      "headline",
+      "summary",
+      "category"
+    ],
+    "title": "NewsArticle",
+    "type": "object"
+  },
+  "output": {
+    "headline": "300 muertos por inundaciones en India y Pakistán",
+    "summary": "Las inundaciones causadas por intensas lluvias en India y Pakistán han dejado al menos 300 personas fallecidas, con la región de Cachemira como una de las más afectadas. En el distrito de Rajouri, 60 personas murieron al caer un autobús a un arroyo, y Pakistán pidió a la población abandonar sus casas tras el derrumbe de decenas de viviendas.",
+    "category": "DISASTER",
+    "location": "Cachemira, India y Pakistán",
+    "date": null,
+    "key_people": [],
+    "key_organizations": [],
+    "casualties": 300,
+    "injured": null,
+    "affected_count": null
+  },
+  "metadata": {
+    "source": "wikinews_desastres_y_accidentes_20260415_021_300_muertos_por_inundaciones_en_india_y_pakistán.md",
+    "domain": "general",
+    "subdomain": "disasters"
+  }
+}

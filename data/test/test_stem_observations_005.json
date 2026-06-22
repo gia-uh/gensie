@@ -1,0 +1,335 @@
+{
+  "id": "stem_observations_005",
+  "input_text": "# Cuaderno de campo — Estación Biológica Sierra de Hornachuelos, Parcela Norte (Arroyo del Chorrillo)\n\n**Fecha:** 2026-05-28\n**Observadora responsable:** Dra. Marta Ribeiro Fuentes (coordinadora del proyecto LIFE-LINX/Andalucía)\n**Equipo de apoyo:** Iván Casalduero (técnico de fauna) y Aitana Belmonte (becaria de máster).\n**Método de muestreo:** fototrampeo sistemático con red de 12 cámaras Bushnell Core DS-4K y 3 Browning Spec Ops Elite HP5 desplegadas en sendas, pasos bajo encinas y junto a abrevaderos.\n**Hora de inicio de revisión:** 07:42 h.\n**Hora de cierre:** 16:10 h.\n\n## Condiciones meteorológicas\n\nAmanecimos con **niebla** densa adherida al valle del Bembézar; visibilidad estimada en menos de 30 m durante la primera hora de campo. El termómetro digital Kestrel 3500 marcó **9,4 °C** al iniciar la sesión, con humedad relativa del 92 % y viento prácticamente en calma (≤ 2 km/h del noroeste). La niebla se disipó hacia las 10:30, sin precipitación significativa, aunque el suelo del sotobosque permanecía empapado por la lluvia del día anterior (registrada en la estación SAIH de Hornachuelos como 14 mm en 24 h). La condición predominante de toda la sesión, según el criterio acordado en protocolo, fue **niebla**, ya que dominó la franja horaria de trabajo activo en campo. [...] ## Registros de fauna\n\nA partir del visionado preliminar in situ (filtrado con MegaDetector + revisión rápida por la responsable) se consignan los siguientes registros del periodo del 2026-05-14 al 2026-05-28:\n\n- **Lynx pardinus** — 4 individuos distintos identificados por patrón de manchas: el macho \"Nazarí\" (CT-13, en marcha lenta hacia el este, 18 capturas en 6 noches); la hembra \"Aurora\" con dos cachorros del año (CT-09, forrajeando junto al abrevadero al amanecer); y un subadulto no catalogado en CT-06, marcando con orina la base de un alcornoque.\n- **Sus scrofa** — al menos 31 individuos diferenciables agrupados en tres piaras; comportamiento mayoritario de forrajeo nocturno en CT-07 y CT-08, con baños de barro repetidos en la charca seca de CT-10.\n- **Vulpes vulpes** — 6 individuos; uno de ellos transportando una presa (probable conejo joven) en CT-11 a las 02:14 h; el resto en tránsito.\n- **Meles meles** — 2 individuos en CT-05 y CT-14 respectivamente, ambos en actividad de forrajeo en torno a tocones podridos.\n- **Cervus elaphus** — 9 hembras y 3 crías recién nacidas (manchas blancas visibles) en CT-12 al atardecer, en reposo bajo la sombra de un acebuche.\n- **Genetta genetta** — 1 individuo en CT-03, en marcha sigilosa sobre tronco caído; pelaje muy contrastado, probable macho adulto.\n- **Herpestes ichneumon** — 3 individuos en CT-08, en grupo familiar (un adulto y dos juveniles), en forrajeo activo durante la mañana.\n- **Capreolus capreolus** — ausente en toda la red durante el periodo, lo cual es coherente con la baja densidad histórica del sector. [...] ## Mediciones cuantitativas\n\n- Temperatura ambiental al inicio de la sesión: ya consignada en cabecera (9,4 °C).\n- Humedad relativa al inicio: **92 %** (Kestrel 3500).\n- Velocidad del viento al inicio: **1,8 km/h** (Kestrel 3500, dirección NW).\n- Voltaje medio de pilas en CT-04: **5,1 V** (voltímetro Fluke 117).\n- Voltaje medio de pilas en CT-11: **5,3 V** (voltímetro Fluke 117).\n- Número total de disparos acumulados en la red durante el periodo: **9.872 capturas** (suma extraída del software Browning Buck View y Bushnell Trophy Cam).\n- Disparos atribuibles a CT-07 (abrevadero del Llano de las Adelfas): **2.314 capturas**.\n- Distancia de detección efectiva medida en CT-07: **8,3 m** (cinta métrica de fibra Stanley 30 m).\n- Distancia de detección efectiva medida en CT-13: **11,7 m** (cinta métrica de fibra Stanley 30 m), cercana al máximo nominal.\n- Altura de instalación media revisada con flexómetro: **62 cm** sobre el suelo (flexómetro Stanley 8 m).\n- Tiempo medio entre disparo y archivado de imagen: **1,2 s** (cronómetro del Kestrel).\n- Acumulado de lluvia previa a la sesión (24 h, estación SAIH Hornachuelos): **14 mm**. [...] ## Conclusiones\n\n1. La actividad del lince ibérico en la Parcela Norte se mantiene estable respecto a la campaña anterior, con confirmación de reproducción exitosa de la hembra \"Aurora\" (al menos dos cachorros del año visibles en CT-09).\n2. La saturación de capturas en CT-07 indica una concentración inusual de jabalíes en el abrevadero del Llano de las Adelfas, probablemente vinculada a la sequía persistente; se recomienda valorar el cierre temporal del abrevadero para reducir riesgo de transmisión de tuberculosis bovina al lince.\n3. La caída de la distancia de detección efectiva en CT-07 hasta 8,3 m exige desbroce inmediato del primer plano antes de la próxima visita, para no perder eventos relevantes.\n4. Se propone añadir dos cámaras adicionales en el sector del cortijo del Águila para confirmar el rango territorial del macho \"Nazarí\", cuya presencia continuada sugiere ocupación estable del territorio durante tres campañas consecutivas.",
+  "instruction": "Extrae los datos de esta entrada de cuaderno de campo: sitio, fecha, observador, método y meteorología, registros de especies, mediciones cuantitativas y conclusiones.",
+  "target_schema": {
+    "$defs": {
+      "Measurement": {
+        "additionalProperties": false,
+        "description": "Una medición numérica registrada durante la observación.",
+        "properties": {
+          "name": {
+            "description": "Nombre literal de la magnitud medida (p. ej. 'temperatura del agua', 'profundidad', 'altura del árbol', 'pH del suelo').",
+            "title": "Name",
+            "type": "string"
+          },
+          "value": {
+            "description": "Valor numérico tal como aparece en el cuaderno de campo.",
+            "title": "Value",
+            "type": "number"
+          },
+          "unit": {
+            "description": "Unidad de medida tal como aparece (p. ej. '°C', 'cm', 'mg/L', 'lux').",
+            "title": "Unit",
+            "type": "string"
+          },
+          "instrument": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Instrumento o sensor con el que se tomó la medición si el texto lo menciona (p. ej. 'termómetro digital', 'GPS Garmin'). Null si no.",
+            "title": "Instrument"
+          }
+        },
+        "required": [
+          "name",
+          "value",
+          "unit"
+        ],
+        "title": "Measurement",
+        "type": "object"
+      },
+      "SpeciesObservation": {
+        "additionalProperties": false,
+        "description": "Una entrada del registro de un taxón observado en el sitio.",
+        "properties": {
+          "species_name": {
+            "description": "Nombre científico binomial o nombre común consistentemente usado en el log (p. ej. 'Quercus ilex', 'pinzón vulgar').",
+            "title": "Species Name",
+            "type": "string"
+          },
+          "count": {
+            "description": "Número de individuos observados o estimados. Para presencia/ausencia sin conteo usar 1 y aclarar en 'notes'.",
+            "minimum": 0,
+            "title": "Count",
+            "type": "integer"
+          },
+          "behavior": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Comportamiento observado si el log lo describe (p. ej. 'forrajeando', 'en reposo', 'reproduciendo'). Null si no se describe.",
+            "title": "Behavior"
+          },
+          "notes": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Observación adicional literal del cuaderno (p. ej. 'juveniles', 'plumaje invernal'). Null si no hay notas.",
+            "title": "Notes"
+          }
+        },
+        "required": [
+          "species_name",
+          "count"
+        ],
+        "title": "SpeciesObservation",
+        "type": "object"
+      },
+      "StudyMethod": {
+        "enum": [
+          "transecto",
+          "cuadrante",
+          "conteo_por_punto",
+          "marcaje_recaptura",
+          "registro_acústico",
+          "fototrampeo",
+          "muestreo_oportunista"
+        ],
+        "title": "StudyMethod",
+        "type": "string"
+      },
+      "WeatherCondition": {
+        "enum": [
+          "soleado",
+          "parcialmente_nublado",
+          "cubierto",
+          "lluvia",
+          "llovizna",
+          "niebla",
+          "nieve"
+        ],
+        "title": "WeatherCondition",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Entrada de cuaderno de campo de un estudio biológico, ecológico o\ngeológico: sitio, fecha, condiciones, registros de taxones, mediciones y\nconclusiones del observador. La extracción debe distinguir entre\nobservaciones cualitativas de taxones y mediciones cuantitativas, y debe\nenlazar las condiciones ambientales con la sesión completa.\n\nComplejidad: L8 — dispersión informativa con listas heterogéneas paralelas\n(especies + mediciones) y vocabulario técnico moderado.",
+    "properties": {
+      "site_name": {
+        "description": "Nombre del sitio de observación tal como aparece en la cabecera (p. ej. 'Estación Biológica de Doñana, Lagunas del Acebuche').",
+        "title": "Site Name",
+        "type": "string"
+      },
+      "observation_date": {
+        "description": "Fecha de la sesión en formato ISO 'YYYY-MM-DD'.",
+        "title": "Observation Date",
+        "type": "string"
+      },
+      "observer": {
+        "description": "Nombre del observador o equipo que firma la entrada del cuaderno.",
+        "title": "Observer",
+        "type": "string"
+      },
+      "method": {
+        "$ref": "#/$defs/StudyMethod",
+        "description": "Método principal de muestreo declarado para la sesión. 'muestreo_oportunista' si el texto no formaliza un método estándar."
+      },
+      "weather": {
+        "$ref": "#/$defs/WeatherCondition",
+        "description": "Condición meteorológica predominante durante la sesión, según el texto."
+      },
+      "temperature_celsius": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Temperatura ambiente registrada al iniciar la sesión, en °C. Null si el log no la registra.",
+        "title": "Temperature Celsius"
+      },
+      "species_observed": {
+        "description": "Registro de taxones observados en el orden del cuaderno. Una entrada por especie / morfotipo distinto.",
+        "items": {
+          "$ref": "#/$defs/SpeciesObservation"
+        },
+        "title": "Species Observed",
+        "type": "array"
+      },
+      "measurements": {
+        "description": "Mediciones cuantitativas tomadas durante la sesión, distintas de la temperatura general (que va en su campo dedicado). Una entrada por medición.",
+        "items": {
+          "$ref": "#/$defs/Measurement"
+        },
+        "title": "Measurements",
+        "type": "array"
+      },
+      "conclusions": {
+        "description": "Conclusiones o hipótesis explícitamente formuladas por el observador al cierre de la entrada. Una conclusión por elemento.",
+        "items": {
+          "type": "string"
+        },
+        "title": "Conclusions",
+        "type": "array"
+      }
+    },
+    "required": [
+      "site_name",
+      "observation_date",
+      "observer",
+      "method",
+      "weather"
+    ],
+    "title": "ObservationLog",
+    "type": "object"
+  },
+  "output": {
+    "site_name": "Estación Biológica Sierra de Hornachuelos, Parcela Norte (Arroyo del Chorrillo)",
+    "observation_date": "2026-05-28",
+    "observer": "Dra. Marta Ribeiro Fuentes",
+    "method": "fototrampeo",
+    "weather": "niebla",
+    "temperature_celsius": 9.4,
+    "species_observed": [
+      {
+        "species_name": "Lynx pardinus",
+        "count": 4,
+        "behavior": "forrajeando",
+        "notes": "4 individuos distintos identificados por patrón de manchas: macho 'Nazarí' en CT-13, hembra 'Aurora' con dos cachorros del año en CT-09, y un subadulto no catalogado en CT-06 marcando con orina"
+      },
+      {
+        "species_name": "Sus scrofa",
+        "count": 31,
+        "behavior": "forrajeo nocturno",
+        "notes": "al menos 31 individuos diferenciables agrupados en tres piaras, con baños de barro en la charca seca de CT-10"
+      },
+      {
+        "species_name": "Vulpes vulpes",
+        "count": 6,
+        "behavior": "en tránsito",
+        "notes": "uno transportando una presa (probable conejo joven) en CT-11 a las 02:14 h"
+      },
+      {
+        "species_name": "Meles meles",
+        "count": 2,
+        "behavior": "forrajeo en torno a tocones podridos",
+        "notes": "en CT-05 y CT-14 respectivamente"
+      },
+      {
+        "species_name": "Cervus elaphus",
+        "count": 12,
+        "behavior": "en reposo",
+        "notes": "9 hembras y 3 crías recién nacidas (manchas blancas visibles) en CT-12 al atardecer, bajo la sombra de un acebuche"
+      },
+      {
+        "species_name": "Genetta genetta",
+        "count": 1,
+        "behavior": "en marcha sigilosa sobre tronco caído",
+        "notes": "pelaje muy contrastado, probable macho adulto, en CT-03"
+      },
+      {
+        "species_name": "Herpestes ichneumon",
+        "count": 3,
+        "behavior": "forrajeo activo durante la mañana",
+        "notes": "grupo familiar de un adulto y dos juveniles en CT-08"
+      },
+      {
+        "species_name": "Capreolus capreolus",
+        "count": 0,
+        "behavior": null,
+        "notes": "ausente en toda la red durante el periodo, coherente con la baja densidad histórica del sector"
+      }
+    ],
+    "measurements": [
+      {
+        "name": "humedad relativa al inicio",
+        "value": 92.0,
+        "unit": "%",
+        "instrument": "Kestrel 3500"
+      },
+      {
+        "name": "velocidad del viento al inicio",
+        "value": 1.8,
+        "unit": "km/h",
+        "instrument": "Kestrel 3500"
+      },
+      {
+        "name": "voltaje medio de pilas en CT-04",
+        "value": 5.1,
+        "unit": "V",
+        "instrument": "voltímetro Fluke 117"
+      },
+      {
+        "name": "voltaje medio de pilas en CT-11",
+        "value": 5.3,
+        "unit": "V",
+        "instrument": "voltímetro Fluke 117"
+      },
+      {
+        "name": "número total de disparos acumulados en la red durante el periodo",
+        "value": 9872.0,
+        "unit": "capturas",
+        "instrument": "software Browning Buck View y Bushnell Trophy Cam"
+      },
+      {
+        "name": "disparos atribuibles a CT-07",
+        "value": 2314.0,
+        "unit": "capturas",
+        "instrument": null
+      },
+      {
+        "name": "distancia de detección efectiva medida en CT-07",
+        "value": 8.3,
+        "unit": "m",
+        "instrument": "cinta métrica de fibra Stanley 30 m"
+      },
+      {
+        "name": "distancia de detección efectiva medida en CT-13",
+        "value": 11.7,
+        "unit": "m",
+        "instrument": "cinta métrica de fibra Stanley 30 m"
+      },
+      {
+        "name": "altura de instalación media",
+        "value": 62.0,
+        "unit": "cm",
+        "instrument": "flexómetro Stanley 8 m"
+      },
+      {
+        "name": "tiempo medio entre disparo y archivado de imagen",
+        "value": 1.2,
+        "unit": "s",
+        "instrument": "cronómetro del Kestrel"
+      },
+      {
+        "name": "acumulado de lluvia previa a la sesión (24 h)",
+        "value": 14.0,
+        "unit": "mm",
+        "instrument": "estación SAIH Hornachuelos"
+      }
+    ],
+    "conclusions": [
+      "La actividad del lince ibérico en la Parcela Norte se mantiene estable respecto a la campaña anterior, con confirmación de reproducción exitosa de la hembra 'Aurora' (al menos dos cachorros del año visibles en CT-09).",
+      "La saturación de capturas en CT-07 indica una concentración inusual de jabalíes en el abrevadero del Llano de las Adelfas, probablemente vinculada a la sequía persistente; se recomienda valorar el cierre temporal del abrevadero para reducir riesgo de transmisión de tuberculosis bovina al lince.",
+      "La caída de la distancia de detección efectiva en CT-07 hasta 8,3 m exige desbroce inmediato del primer plano antes de la próxima visita, para no perder eventos relevantes.",
+      "Se propone añadir dos cámaras adicionales en el sector del cortijo del Águila para confirmar el rango territorial del macho 'Nazarí', cuya presencia continuada sugiere ocupación estable del territorio durante tres campañas consecutivas."
+    ]
+  },
+  "metadata": {
+    "source": "synthetic_20260601_005.md",
+    "domain": "stem",
+    "subdomain": "observations"
+  }
+}

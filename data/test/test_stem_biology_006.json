@@ -1,0 +1,203 @@
+{
+  "id": "test_stem_biology_006",
+  "input_text": "# Panthera leo\n\n## Resumen\nEl león (Panthera leo) es un mamífero carnívoro de la familia de los félidos y una de las cinco especies del género Panthera. Los leones salvajes viven en poblaciones cada vez más dispersas y fragmentadas del África subsahariana (a excepción de las regiones selváticas de la costa del Atlántico y la cuenca del Congo) y una pequeña zona del noroeste de India (una población en peligro crítico en el parque nacional del Bosque de Gir y alrededores), habiendo desaparecido del resto de Asia del Sur, Asia Occidental, África del Norte y la península balcánica en tiempos históricos. Hasta hace aproximadamente diez mil años, a finales del Pleistoceno, el león era el más extendido de los grandes mamíferos terrestres tras los humanos. Su distribución cubría la mayor parte de África, gran parte de Eurasia, desde el oeste de Europa hasta la India, y en América, desde el río Yukón hasta el sur de México.​​​\nSi sobreviven a las dificultades de la infancia, las leonas que viven en un hábitat seguro, como por ejemplo el parque nacional Kruger, a menudo pueden llegar a la edad de doce a catorce años, mientras que los leones raramente viven más de ocho años.​ Sin embargo, se conocen casos de leonas que han vivido hasta veinte años en estado salvaje. En cautiverio, tanto los machos como las hembras pueden vivir más de veinte años. Suelen vivir en sabanas y herbazales, aun cuando pueden entrar en zonas arbustivas y boscosas. Los leones son animales especialmente sociales en comparación con otros félidos. Una manada de leones se compone de hembras que tienen una relación familiar, sus crías y un número reducido de machos adultos. Las leonas suelen cazar juntas, en grupo, atacando principalmente a grandes ungulados. El león es un superpredador y especie clave, pese a que puede tener un comportamiento carroñero si tiene la oportunidad. Aun cuando los leones normalmente no cazan humanos de manera selectiva, algunos de ellos pueden convertirse en antropófagos y buscar presas humanas.\nEl león es una especie vulnerable y en su ámbito de distribución africano, a lo largo de las dos últimas décadas ha sufrido un declive de las poblaciones, posiblemente irreversible, de entre un 30 % y un 50 %;​ las poblaciones no son viables fuera de las reservas delimitadas y los parques nacionales. Aunque la causa de este declive no es del todo comprendida, la pérdida del hábitat y los conflictos con humanos son actualmente los motivos de preocupación más importantes. Se han tenido leones en cautividad desde los tiempos de la Antigua Roma, y desde finales del siglo XVIII han sido una especie muy buscada y exhibida en zoológicos por todo el mundo. Los propios zoológicos están colaborando en programas de reproducción para proteger la amenazada subespecie asiática.\nLos machos son muy fáciles de distinguir gracias a su melena, que hace de su cabeza uno de los símbolos animales más ampliamente conocidos de la cultura humana. Aparece muy a menudo en la literatura, la escultura, la pintura, en banderas nacionales, y en películas y literatura contemporáneas.\n\n## Taxonomía (taxobox)\n\n- **Dominio**: Eukaryota\n- **Reino**: Animalia\n- **Subreino**: Eumetazoa\n- **Superfilo**: Deuterostomia\n- **Filo**: Chordata\n- **Subfilo**: Vertebrata\n- **Infrafilo**: Gnathostomata\n- **Superclase**: Tetrapoda\n- **Clase**: Mammalia\n- **Subclase**: Theria\n- **Infraclase**: Placentalia\n- **Magnorden**: Boreoeutheria\n- **Superorden**: Laurasiatheria Scrotifera\n- **Orden**: Carnivora\n- **Suborden**: Feliformia\n- **Superfamilia**: Feloidea\n- **Familia**: Felidae\n- **Subfamilia**: Pantherinae\n- **Género**: Panthera\n- **Especie**: P. leo ( Linnaeus, 1758 )",
+  "instruction": "Extrae la clasificación taxonómica jerárquica del organismo descrito en el artículo. Construye un árbol anidado partiendo del rango más alto presente en el texto (dominio) y desciende hasta la especie, encadenando cada rango como hijo del anterior. Ignora prefijos como sub-, super-, infra-, magno-: mapéalos al rango principal correspondiente. Indica el nombre común y el estado de conservación del organismo principal si aparecen explícitamente en el texto.",
+  "target_schema": {
+    "$defs": {
+      "ConservationStatus": {
+        "enum": [
+          "extinto",
+          "en_peligro_crítico",
+          "en_peligro",
+          "vulnerable",
+          "casi_amenazado",
+          "preocupación_menor",
+          "datos_insuficientes",
+          "no_evaluado"
+        ],
+        "title": "ConservationStatus",
+        "type": "string"
+      },
+      "Taxon": {
+        "additionalProperties": false,
+        "description": "A single node in a taxonomic tree. May contain nested child taxa of a\nlower rank, forming an arbitrarily deep hierarchy from dominio down to\nsubespecie.",
+        "properties": {
+          "rank": {
+            "$ref": "#/$defs/TaxonomicRank",
+            "description": "Categoría taxonómica del nodo. Usar uno de los rangos principales: dominio, reino, filo, clase, orden, familia, género, especie, subespecie. Ignorar prefijos como sub-, super-, infra-: por ejemplo 'Subfilo' se mapea a 'filo'."
+          },
+          "scientific_name": {
+            "description": "Nombre científico literal del taxón tal como aparece en el texto (p. ej. 'Mammalia', 'Carnivora', 'Panthera leo'). Sin autoría ni fechas.",
+            "title": "Scientific Name",
+            "type": "string"
+          },
+          "common_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Nombre común en español si el texto lo indica explícitamente para este taxón. Devolver null si no se menciona — la mayoría de los rangos superiores no tienen nombre común.",
+            "title": "Common Name"
+          },
+          "extinct": {
+            "default": false,
+            "description": "True solo si el texto afirma de forma explícita que el taxón está extinto (p. ej. 'extinguido', '†', 'desapareció en el Pleistoceno'). False en caso contrario.",
+            "title": "Extinct",
+            "type": "boolean"
+          },
+          "children": {
+            "description": "Lista de taxones inmediatamente subordinados a éste en la jerarquía. Vacía si el nodo es una hoja (típicamente la especie o subespecie). El orden refleja la cadena taxonómica del texto.",
+            "items": {
+              "$ref": "#/$defs/Taxon"
+            },
+            "title": "Children",
+            "type": "array"
+          }
+        },
+        "required": [
+          "rank",
+          "scientific_name"
+        ],
+        "title": "Taxon",
+        "type": "object"
+      },
+      "TaxonomicRank": {
+        "enum": [
+          "dominio",
+          "reino",
+          "filo",
+          "clase",
+          "orden",
+          "familia",
+          "género",
+          "especie",
+          "subespecie"
+        ],
+        "title": "TaxonomicRank",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Clasificación taxonómica jerárquica de un organismo a partir de su artículo\nde Wikipedia (taxobox + sección de Taxonomía). El árbol parte del rango más\nalto presente en el texto y desciende, anidando cada rango como hijo del\nanterior.\nComplejidad: L6 — profundidad estructural recursiva.",
+    "properties": {
+      "canonical_name": {
+        "description": "Nombre científico canónico del organismo objeto del artículo (la hoja del árbol o el binomio más específico citado).",
+        "title": "Canonical Name",
+        "type": "string"
+      },
+      "common_name": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Nombre común en español del organismo principal si el artículo lo indica (p. ej. 'león' para Panthera leo). Null si no se menciona.",
+        "title": "Common Name"
+      },
+      "conservation_status": {
+        "anyOf": [
+          {
+            "$ref": "#/$defs/ConservationStatus"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Estado de conservación según la UICN si el texto lo enuncia para el organismo principal. Null si no aparece o solo se menciona de forma genérica sin categoría."
+      },
+      "classification_tree": {
+        "$ref": "#/$defs/Taxon",
+        "description": "Raíz del árbol taxonómico: el rango más alto citado en el texto (típicamente 'dominio' o 'reino'). Sus descendientes encadenan recursivamente los rangos hasta la especie o subespecie del organismo."
+      }
+    },
+    "required": [
+      "canonical_name",
+      "classification_tree"
+    ],
+    "title": "TaxonomicClassification",
+    "type": "object"
+  },
+  "output": {
+    "canonical_name": "Panthera leo",
+    "common_name": "león",
+    "conservation_status": "vulnerable",
+    "classification_tree": {
+      "rank": "dominio",
+      "scientific_name": "Eukaryota",
+      "common_name": null,
+      "extinct": false,
+      "children": [
+        {
+          "rank": "reino",
+          "scientific_name": "Animalia",
+          "common_name": null,
+          "extinct": false,
+          "children": [
+            {
+              "rank": "filo",
+              "scientific_name": "Chordata",
+              "common_name": null,
+              "extinct": false,
+              "children": [
+                {
+                  "rank": "clase",
+                  "scientific_name": "Mammalia",
+                  "common_name": null,
+                  "extinct": false,
+                  "children": [
+                    {
+                      "rank": "orden",
+                      "scientific_name": "Carnivora",
+                      "common_name": null,
+                      "extinct": false,
+                      "children": [
+                        {
+                          "rank": "familia",
+                          "scientific_name": "Felidae",
+                          "common_name": null,
+                          "extinct": false,
+                          "children": [
+                            {
+                              "rank": "género",
+                              "scientific_name": "Panthera",
+                              "common_name": null,
+                              "extinct": false,
+                              "children": [
+                                {
+                                  "rank": "especie",
+                                  "scientific_name": "Panthera leo",
+                                  "common_name": "león",
+                                  "extinct": false,
+                                  "children": []
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "metadata": {
+    "source": "wiki_panthera_leo.md",
+    "domain": "stem",
+    "subdomain": "biology"
+  }
+}

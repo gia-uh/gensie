@@ -1,0 +1,84 @@
+{
+  "id": "test_cultural_literature_005",
+  "input_text": "# Tristana\n\nTristana puede referirse a:\n\nTristana (novela), (1892) novela de Benito Pérez Galdós.",
+  "instruction": "Extrae los metadatos bibliográficos básicos (título, autor, año de publicación, géneros, temas clave e idioma original) de la obra literaria descrita en el texto.",
+  "target_schema": {
+    "additionalProperties": false,
+    "description": "Extracts basic bibliographic metadata and key themes from a book description or encyclopedia entry.\nComplexity: L2 (Explicit Information Retrieval).",
+    "properties": {
+      "title": {
+        "description": "The official title of the literary work",
+        "title": "Title",
+        "type": "string"
+      },
+      "author": {
+        "description": "The primary author or creator of the work",
+        "title": "Author",
+        "type": "string"
+      },
+      "publication_year": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "The year the work was first published",
+        "title": "Publication Year"
+      },
+      "genres": {
+        "description": "Literary genres associated with the work (e.g., 'Science Fiction', 'Romance')",
+        "items": {
+          "type": "string"
+        },
+        "title": "Genres",
+        "type": "array"
+      },
+      "key_themes": {
+        "description": "Main topics or themes explored in the work",
+        "items": {
+          "type": "string"
+        },
+        "title": "Key Themes",
+        "type": "array"
+      },
+      "original_language": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "The language in which the work was originally written",
+        "title": "Original Language"
+      }
+    },
+    "required": [
+      "title",
+      "author"
+    ],
+    "title": "LiteraryWork",
+    "type": "object"
+  },
+  "output": {
+    "title": "Tristana",
+    "author": "Benito Pérez Galdós",
+    "publication_year": 1892,
+    "genres": [
+      "novela"
+    ],
+    "key_themes": [],
+    "original_language": null
+  },
+  "metadata": {
+    "source": "fresh_testset_tristana.md",
+    "domain": "cultural",
+    "subdomain": "literature"
+  }
+}

@@ -1,0 +1,325 @@
+{
+  "id": "research_paper_argument_007",
+  "input_text": "# Más allá del bloque vaciado: tres patrones de divergencia rural-urbana en el voto autonómico español, 2023-2025 [...] La narrativa de la \"España vaciada\" suele tratar al mundo rural como un\nelectorado homogéneo cuya divergencia respecto al voto urbano se explicaría\npor una combinación de despoblación, envejecimiento y descontento territorial.\nEste artículo cuestiona la premisa de homogeneidad y, a partir de un análisis\nmultinivel sobre 4.218 secciones censales rurales de seis comunidades\nautónomas (Castilla y León, Aragón, Castilla-La Mancha, Extremadura, Galicia\ny Asturias) durante el ciclo autonómico 2023-2025, identifica al menos tres\npatrones diferenciados de comportamiento electoral.\n\nCombinando datos del CIS (postelectorales 3411, 3437, 3452 y 3471), del\ncatálogo electoral del Ministerio del Interior y de variables\nsocioestructurales del INE, mostramos que la pertenencia a uno u otro patrón\nse predice mejor por la estructura económica local (agraria intensiva,\nagro-industrial diversificada o terciaria-residencial) que por el tamaño\npoblacional o el grado de despoblación. La tesis del bloque vaciado, en su\nversión fuerte, no sobrevive al desagregado: subestima la heterogeneidad\ninterna del rural y sobreestima la cohesión de su voto. Discutimos las\nimplicaciones para la representación política territorial y para el diseño [...] Desde la irrupción electoral de Teruel Existe en 2019 y la consolidación de\nplataformas provinciales en el ciclo autonómico de 2023, el cleavage\nurbano-rural ha vuelto al centro del debate politológico español (Cuerpo,\n2024; Riba y Sanz, 2025). La hipótesis dominante, a menudo etiquetada como\n\"tesis del bloque vaciado\", sostiene que el rural interior español se\ncomporta crecientemente como un electorado cohesionado, animado por una\n\"geografía del resentimiento\" análoga a la documentada por Rodríguez-Pose\n(2018) para regiones europeas y norteamericanas en declive. En esta lectura,\nlo rural sería un bloque que castiga a los partidos de gobierno —del color\nque sean— y premia a candidaturas localistas o protesta.\n\nEsta tesis ha encontrado eco no sólo en la academia sino también en la\nprensa de opinión y en el discurso de los propios partidos. Los gabinetes\nde estrategia electoral del PSOE y del PP han incorporado, en los últimos\nciclos, asesores específicamente dedicados al \"voto rural\" entendido como\nun objeto unitario. La hipótesis funciona, por tanto, como una premisa de\ntrabajo con consecuencias prácticas, y por ello merece un examen empírico\ndesagregado.\n\nEste artículo defiende una tesis distinta y más matizada: el rural español\nno se comporta como un bloque, y la divergencia respecto al voto urbano\nadmite al menos tres patrones diferenciables, cuya emergencia se explica\nmejor por la **estructura económica local** que por las variables\ndemográficas habituales (tamaño, edad mediana, tasa de despoblación).\nSostenemos, en concreto, que:\n\n- (i) las zonas de agricultura intensiva tienden hacia un patrón de voto\n  conservador-estable con baja volatilidad;\n- (ii) las zonas agro-industriales diversificadas muestran un patrón de\n  volatilidad alta y descomposición del bipartidismo, donde compiten\n  candidaturas provinciales con la izquierda tradicional;\n- (iii) las zonas terciario-residenciales —típicamente periurbanas o\n  turísticas— se aproximan, con desfase, al patrón de voto urbano de\n  capital provincial.\n\nEste desagregado revisa la imagen del \"bloque vaciado\" sin negar la\nexistencia de un componente común de divergencia respecto al voto de las\ngrandes ciudades.\n\nEl argumento procede como sigue. La sección 2 sitúa la tesis en el debate\nsobre cleavages territoriales y geografía del resentimiento. La sección 3\ndescribe los datos y la estrategia analítica, basada en modelos multinivel\ny clustering jerárquico ascendente sobre vectores de resultados electorales\nsecularizados por sección censal. La sección 4 presenta los tres patrones\ny los predictores que los discriminan. La sección 5 discute contra-\nargumentos relevantes, en particular la objeción de que la tipología podría\nser un artefacto del método de clustering elegido. La sección 6 declara\nlimitaciones, y la sección 7 cierra con implicaciones políticas. [...] La literatura sobre cleavages urbano-rurales en sistemas electorales\neuropeos ha experimentado un renacimiento en la última década. Frente a la\ntesis de Lipset y Rokkan (1967) según la cual los cleavages clásicos se\ncongelaron a mediados del siglo XX, autores como Rodríguez-Pose (2018),\nCramer (2016) y Scala y Johnson (2017) han documentado un realineamiento\nterritorial creciente: territorios percibidos como \"dejados atrás\"\ndesarrollan formas específicas de descontento que se traducen en voto\nantisistema o protesta.\n\nRodríguez-Pose acuña la expresión *places that don't matter*: lugares cuya\npérdida de centralidad económica produce un voto de revancha cuyas\nconsecuencias políticas exceden el peso demográfico de quienes lo emiten.\nLa tesis ha sido aplicada al voto Brexit, al Frente Nacional francés, al\ntrumpismo y, en el caso español, a la emergencia de plataformas provinciales.\n\n### 2.2 La traducción española del marco\n\nEn el caso español, Cuerpo (2024) ha trasladado este marco al análisis del\nciclo 2019-2023 y ha mostrado que la correlación entre densidad poblacional\ny voto a plataformas provinciales es robusta a controles socioeconómicos\nclásicos. Riba y Sanz (2025), por su parte, han añadido un componente\nidentitario: el rural interior reactivaría adscripciones territoriales\nsubestatales que el bipartidismo no canaliza. Ambos trabajos, sin embargo,\noperan con un tratamiento agregado del \"rural\" como categoría.\n\nUna tradición complementaria —representada por Pallarés y Keating (2003)\ny, más recientemente, por Liñeira y Henderson (2021)— enfatiza la importancia\ndel nivel autonómico como el espacio donde estas divergencias se hacen\nvisibles, porque la circunscripción provincial sobrerrepresenta a las zonas\nrurales y desactiva el \"efecto desperdicio\" del voto. Es precisamente en las\nautonómicas, y no en las generales, donde el patrón rural-urbano debería\nmanifestarse con mayor claridad analítica, y por eso elegimos este ámbito.\n\n### 2.3 Posicionamiento de este trabajo\n\nNuestra contribución se inscribe en este debate, pero **matiza** la versión\nfuerte de la tesis del bloque vaciado. Coincidimos con Rodríguez-Pose,\nCuerpo y Riba en que existe un componente común de divergencia rural;\ndiscrepamos en la asunción de homogeneidad. La pregunta empírica —¿es lo\nrural español un bloque?— se ha respondido casi siempre por la afirmativa\nsin un test propiamente desagregado. [...] 1. **Resultados electorales.** Catálogo electoral del Ministerio del\n   Interior, desagregado a sección censal para las elecciones autonómicas\n   de 2023 (todas las CC. AA. estudiadas excepto Galicia y Asturias),\n   2024 (Galicia y Asturias) y la convocatoria anticipada de 2025 en\n   Castilla y León. Construimos un vector electoral por sección que recoge\n   porcentajes para PSOE, PP, Vox, Sumar/coaliciones a la izquierda del\n   PSOE, plataformas provinciales (España Vaciada, Teruel Existe, Soria Ya\n   y análogos) y otros.\n\n2. **Encuestas postelectorales del CIS.** Estudios 3411, 3437, 3452 y\n   3471. Los empleamos para validar a nivel individual los patrones\n   detectados a nivel agregado (recall de voto, motivaciones declaradas)\n   y para evitar la falacia ecológica.\n\n3. **Variables socioestructurales del INE.** Padrón continuo, Censo\n   Agrario 2020, Cuentas Económicas Regionales y Atlas de distribución de\n   renta de los hogares (referencia 2022). De aquí derivamos la\n   **tipología de estructura económica local** (variable independiente\n   clave) mediante un índice compuesto que combina porcentaje de empleo\n   en agricultura, peso del sector agroalimentario industrial y peso del\n   terciario residencial-turístico.\n\n### 3.3 Estrategia analítica\n\nProcedemos en tres fases:\n\n- **Fase 1 (descriptiva).** Estadística descriptiva de la divergencia\n  rural-urbana por comunidad autónoma, replicando aproximadamente la\n  metodología de Cuerpo (2024) sobre nuestra muestra. Servirá para\n  cuantificar el componente común antes de buscar la heterogeneidad\n  interna.\n\n- **Fase 2 (clustering).** Clustering jerárquico ascendente (método de\n  Ward, distancia euclídea sobre el vector electoral estandarizado) sobre\n  las 4.218 secciones. Cortamos el dendrograma al nivel que maximiza el\n  índice de Calinski-Harabasz, obteniendo k = 3 patrones. Reportamos\n  también análisis de sensibilidad con k-medias (k = 2 a 6) y con\n  clustering basado en mixtura gaussiana, descritos en el anexo\n  metodológico.\n\n- **Fase 3 (multinivel).** Modelos lineales multinivel con tres niveles\n  (sección, municipio, CC. AA.) en los que el patrón asignado en la fase\n  2 se regresa sobre los predictores estructurales, demográficos e\n  identitarios. Los modelos se estiman por máxima verosimilitud\n  restringida, con interceptos aleatorios por municipio y por CC. AA. [...] ### 4.1 Existe un componente común de divergencia, pero es más débil de lo asumido\n\nLa Tabla 1 (descrita en el texto) muestra la diferencia entre la media\nrural y la media urbana por comunidad autónoma para el voto al PP, al PSOE\ny a plataformas provinciales. La divergencia existe y es estadísticamente\nsignificativa en las seis CC. AA. para al menos uno de los tres bloques,\npero su magnitud es desigual: máxima en Castilla y León (+18,4 puntos PP,\n+9,7 puntos plataformas) y mínima en Galicia (+4,1 puntos PP, no\nsignificativo para plataformas). El componente común existe; no es\nuniforme.\n\n### 4.2 Tres patrones diferenciables\n\nEl clustering identifica tres patrones, etiquetados en función de su firma\nelectoral predominante:\n\n- **Patrón A — Conservador-estable (n = 1.984 secciones, 47,0%).** Voto\n  al PP muy por encima de la media autonómica (media patrón: 48,3%), voto\n  al PSOE en torno a la media (24,1%), presencia residual de plataformas\n  provinciales (<3%) y volatilidad inter-elecciones baja (índice de\n  Pedersen medio: 6,2).\n\n- **Patrón B — Volátil y fragmentado (n = 1.317, 31,2%).** Voto al PP y al\n  PSOE comprimidos (35,1% y 27,4% respectivamente), presencia notable de\n  plataformas provinciales (media 11,8%, máxima 38% en algunas secciones\n  de Teruel y Soria) y volatilidad alta (Pedersen medio: 14,1).\n\n- **Patrón C — Periurbano-residencial (n = 917, 21,7%).** Distribución del\n  voto cercana a la media urbana de la capital provincial respectiva (PP\n  32,8%, PSOE 29,3%, Sumar/izquierda 9,5%), presencia significativa de\n  Vox (10,2%) y volatilidad media (Pedersen: 8,9).\n\nA modo de ejemplo, las secciones rurales de la provincia de Salamanca\noriental se concentran abrumadoramente en el patrón A; las del sur de\nSoria y este de Teruel definen el núcleo del patrón B; las de la sierra\nnorte de Madrid (que entran en nuestra muestra cuando administrativamente\npertenecen a CC. AA. estudiadas adyacentes) o las del entorno de Cuenca\nturística ilustran el patrón C.\n\n### 4.3 La estructura económica predice el patrón mejor que la demografía\n\nLos modelos multinivel (Tabla 2, descrita) revelan que el predictor más\nfuerte de pertenencia al patrón es el índice de estructura económica local.\nEl patrón A se asocia a estructura **agraria intensiva** (β = 0,71, p <\n0,001), el patrón B a estructura **agro-industrial diversificada** (β =\n0,54, p < 0,001) y el patrón C a estructura **terciario-residencial** (β =\n0,68, p < 0,001). Las variables demográficas clásicas —tasa de\ndespoblación, edad mediana, tamaño poblacional— mantienen efectos\nsignificativos pero menores y, controlando por estructura económica, su\npoder explicativo cae sustancialmente (R² marginal pasa del 0,34 al 0,11\nal añadir la estructura económica).\n\n### 4.4 Las motivaciones declaradas en el CIS son coherentes con los patrones\n\nEl cruce con los postelectorales del CIS muestra que en las secciones del\npatrón B los votantes declaran significativamente más a menudo \"abandono\ninstitucional del territorio\" como motivación principal (38% frente al\n12-15% en patrones A y C). En el patrón A predominan motivaciones\nprogramáticas conservadoras clásicas (impuestos, orden público), y en el\npatrón C aparecen motivaciones próximas a las urbanas (vivienda,\nservicios). Esta convergencia individuo-territorio mitiga, sin disolver,\nel riesgo de falacia ecológica. [...] ### 5.1 ¿Es la tipología un artefacto del método de clustering?\n\nLa objeción más seria que enfrentamos es metodológica. El clustering\njerárquico siempre devuelve clusters; la pregunta es si los patrones\ndetectados son entidades reales o particiones arbitrarias del continuo\nelectoral. Tres líneas de evidencia mitigan esta preocupación. Primera, el\nanálisis de sensibilidad con k-medias y mixtura gaussiana devuelve\nparticiones cualitativamente equivalentes para k = 3 (anexo A2). Segunda,\nlos índices de validación interna (Calinski-Harabasz, silueta media)\npresentan un máximo claro en k = 3, no una meseta. Tercera, los\npredictores externos —estructura económica, motivaciones del CIS— se\nalinean coherentemente con los clusters, lo que sería improbable si éstos\nno captaran estructura real. Reconocemos, no obstante, que ninguna de\nestas verificaciones es concluyente y que un sistema continuo siempre\nadmite discretizaciones alternativas razonables.\n\n### 5.2 ¿No será una mera reedición del cleavage centro-periferia clásico?\n\nUna segunda objeción es que el patrón B reproduce simplemente el voto\nterritorial subestatal que la literatura clásica de Linz (1973) o Pallarés\ny Keating (2003) ya había identificado para las periferias nacionalistas.\nRespondemos que el patrón B aparece de forma robusta en Castilla y León,\nAragón, Castilla-La Mancha y Extremadura —comunidades sin nacionalismo\nsubestatal fuerte— y que su firma electoral es claramente distinta de la\nde Galicia, donde el BNG opera. El cleavage que detectamos es genuinamente\nnuevo, aunque comparte con el clásico su carácter territorial.\n\n### 5.3 ¿No estarán las plataformas provinciales sobre-representadas en la muestra?\n\nUna tercera objeción es que la sobreponderación de Castilla y León y\nAragón en nuestra muestra sesga los resultados hacia un papel mayor del\npatrón B. Aquí dejamos abierta la cuestión: la magnitud relativa del\npatrón B podría reducirse en una muestra ampliada a CC. AA. con menor\ntradición de plataformas provinciales, y no podemos descartarlo con los\ndatos disponibles. La existencia del patrón, sin embargo, no depende de\nla magnitud: el agrupamiento es robusto incluso restringiendo el análisis\na las CC. AA. donde las plataformas no superan el 5% del voto. [...] ## 6. Limitaciones\n\nLos autores reconocemos explícitamente cuatro limitaciones del trabajo:\n\n1. **Alcance temporal limitado.** El estudio cubre un único ciclo\n   autonómico (2023-2025) y no permite afirmar que los patrones sean\n   estables a largo plazo. Es plausible que la fase actual del sistema de\n   partidos español, en transición tras la implosión de Ciudadanos y la\n   emergencia de Sumar, haga que las firmas electorales muten en próximos\n   ciclos.\n\n2. **Cobertura territorial parcial.** El análisis se limita a seis\n   comunidades autónomas representativas del interior español. La\n   extensión a CC. AA. con realidad rural distinta (Andalucía, Cataluña\n   interior, Valencia interior) podría revelar patrones adicionales no\n   capturados aquí; esto es un problema de validez externa de la\n   tipología.\n\n3. **Validez de constructo del índice de estructura económica.** El\n   índice compuesto que clasifica la estructura económica local agrega\n   heterogeneidad interna importante. Una zona \"agro-industrial\n   diversificada\" en Aragón no es idéntica a una en Castilla-La Mancha,\n   y el índice no captura estas diferencias cualitativas.\n\n4. **Riesgo residual de falacia ecológica.** Pese al cruce con datos\n   individuales del CIS, las muestras del CIS para secciones rurales\n   pequeñas son limitadas, y las inferencias sobre motivaciones\n   individuales por patrón se basan en estimaciones con error\n   sustancial. [...] ## 7. Conclusiones e implicaciones políticas\n\nEl rural español no es un bloque. La narrativa de la \"España vaciada\",\nútil como significante movilizador y como diagnóstico genérico, oculta\nuna heterogeneidad interna que el análisis desagregado revela con\nclaridad: al menos tres patrones electorales coexisten en el rural\ninterior, y su emergencia obedece a la estructura económica local más\nque a la pura demografía. Esto matiza —no destruye— la tesis del cleavage\nterritorial: la divergencia rural-urbana existe, pero internamente es\nplural.\n\nLas implicaciones de política pública son tres. Primera, los programas de\ncohesión territorial deberían diferenciar por tipo de estructura económica\ny no aplicar instrumentos uniformes al \"rural\". Segunda, los partidos\nestatales que quieran recuperar voto en el patrón B —el más volátil y\npolíticamente disputado— necesitan instrumentos específicamente adaptados\na economías agro-industriales diversificadas, no recetas genéricas de\n\"atención al mundo rural\". Tercera, el sistema electoral provincial\nseguirá generando incentivos para plataformas territoriales en zonas del\npatrón B; esto es estructural y no se corregirá con apelaciones\ndiscursivas.\n\nTrabajos futuros deberán extender la cobertura territorial, ampliar el\nhorizonte temporal, y refinar la medida de estructura económica local\npara superar las limitaciones identificadas.",
+  "instruction": "Extrae la estructura argumental completa del artículo: tesis principal, sub-afirmaciones con sus evidencias, contra-afirmaciones reconocidas (con respuesta si la hay), limitaciones declaradas por los autores, posicionamiento respecto al estado del arte y antecedentes citados como predecesores de la tesis.",
+  "target_schema": {
+    "$defs": {
+      "CounterClaim": {
+        "additionalProperties": false,
+        "description": "Una objeción o contra-afirmación que el artículo reconoce y responde.",
+        "properties": {
+          "statement": {
+            "description": "Enunciado de la objeción en voz declarativa (p. ej. 'La correlación observada podría explicarse por el sesgo de selección de la muestra').",
+            "title": "Statement",
+            "type": "string"
+          },
+          "response": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Respuesta o concesión del artículo a la objeción si la incluye (p. ej. 'Los autores controlan este sesgo estratificando por edad y nivel socioeconómico'). Null si el artículo presenta la objeción sin responderla.",
+            "title": "Response"
+          }
+        },
+        "required": [
+          "statement"
+        ],
+        "title": "CounterClaim",
+        "type": "object"
+      },
+      "Evidence": {
+        "additionalProperties": false,
+        "description": "Una pieza de evidencia que apoya una afirmación del artículo.",
+        "properties": {
+          "kind": {
+            "$ref": "#/$defs/EvidenceKind",
+            "description": "Tipo de evidencia."
+          },
+          "description": {
+            "description": "Descripción literal o casi literal de la evidencia en una frase (p. ej. 'experimento controlado con N=240 hablantes nativos de español').",
+            "title": "Description",
+            "type": "string"
+          },
+          "quoted_passage": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Cita literal del artículo (sin comillas) que presenta esta evidencia, si el extractor la conserva. Null si el extractor solo parafrasea.",
+            "title": "Quoted Passage"
+          }
+        },
+        "required": [
+          "kind",
+          "description"
+        ],
+        "title": "Evidence",
+        "type": "object"
+      },
+      "EvidenceKind": {
+        "enum": [
+          "estudio_empírico",
+          "análisis_datos",
+          "demostración_teórica",
+          "literatura_citada",
+          "ejemplo_caso",
+          "simulación"
+        ],
+        "title": "EvidenceKind",
+        "type": "string"
+      },
+      "Limitation": {
+        "additionalProperties": false,
+        "description": "Una limitación del trabajo declarada por los propios autores.",
+        "properties": {
+          "kind": {
+            "$ref": "#/$defs/LimitationKind",
+            "description": "Categoría de la limitación."
+          },
+          "description": {
+            "description": "Descripción literal o casi literal de la limitación tal como la consignan los autores.",
+            "title": "Description",
+            "type": "string"
+          }
+        },
+        "required": [
+          "kind",
+          "description"
+        ],
+        "title": "Limitation",
+        "type": "object"
+      },
+      "LimitationKind": {
+        "enum": [
+          "tamaño_muestral",
+          "validez_externa",
+          "validez_de_constructo",
+          "metodología",
+          "calidad_datos",
+          "alcance"
+        ],
+        "title": "LimitationKind",
+        "type": "string"
+      },
+      "PositioningStance": {
+        "enum": [
+          "extiende",
+          "matiza",
+          "cuestiona",
+          "sintetiza",
+          "introduce_novedoso"
+        ],
+        "title": "PositioningStance",
+        "type": "string"
+      },
+      "SubClaim": {
+        "additionalProperties": false,
+        "description": "Una afirmación de apoyo subordinada a la tesis principal.",
+        "properties": {
+          "statement": {
+            "description": "Enunciado de la afirmación en una frase, en voz declarativa (p. ej. 'La frecuencia de uso del subjuntivo decrece con la edad de exposición al inglés').",
+            "title": "Statement",
+            "type": "string"
+          },
+          "supporting_evidence": {
+            "description": "Pieza(s) de evidencia que el artículo aporta para esta afirmación. Al menos una.",
+            "items": {
+              "$ref": "#/$defs/Evidence"
+            },
+            "minItems": 1,
+            "title": "Supporting Evidence",
+            "type": "array"
+          }
+        },
+        "required": [
+          "statement",
+          "supporting_evidence"
+        ],
+        "title": "SubClaim",
+        "type": "object"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Estructura argumental completa de un artículo académico (humanidades,\nciencias sociales, ciencia o medicina) en español: tesis central,\nsub-afirmaciones con sus evidencias, contra-afirmaciones reconocidas y\ncontestadas, limitaciones declaradas y posicionamiento explícito en el\nestado del arte.\n\nLa extracción debe distinguir entre la tesis principal y las sub-afirmaciones\nque la sostienen, asociar cada evidencia a la afirmación que apoya, y\ndiferenciar las contra-afirmaciones que el propio artículo plantea de las\nlimitaciones que sus autores reconocen. Requiere lectura holística del\nartículo completo, no solo del resumen.\n\nComplejidad: L10 — razonamiento argumentativo sobre el conjunto del\ndocumento con jerarquías retóricas, enlazado evidencia↔afirmación, y\ndistinciones semánticas finas (limitación vs. contra-afirmación vs.\nposicionamiento).",
+    "properties": {
+      "title": {
+        "description": "Título del artículo tal como aparece en la portada.",
+        "title": "Title",
+        "type": "string"
+      },
+      "discipline": {
+        "description": "Disciplina principal del artículo según el propio texto (p. ej. 'sociolingüística', 'bioquímica', 'historia económica').",
+        "title": "Discipline",
+        "type": "string"
+      },
+      "main_thesis": {
+        "description": "Tesis central del artículo en una o dos frases. Captura lo que el artículo afirma de novedoso o controvertido, no su objeto de estudio.",
+        "title": "Main Thesis",
+        "type": "string"
+      },
+      "sub_claims": {
+        "description": "Afirmaciones de apoyo a la tesis principal, en el orden en que el artículo las desarrolla. Cada una debe ir acompañada de su evidencia.",
+        "items": {
+          "$ref": "#/$defs/SubClaim"
+        },
+        "minItems": 1,
+        "title": "Sub Claims",
+        "type": "array"
+      },
+      "counter_claims": {
+        "description": "Objeciones o contra-afirmaciones que el artículo plantea explícitamente y a las que (idealmente) responde. Lista vacía si el artículo no reconoce contra-argumentos.",
+        "items": {
+          "$ref": "#/$defs/CounterClaim"
+        },
+        "title": "Counter Claims",
+        "type": "array"
+      },
+      "limitations": {
+        "description": "Limitaciones que los autores reconocen sobre su propio trabajo, típicamente en una sección 'Limitaciones' o 'Discusión'. Lista vacía si el artículo no las declara.",
+        "items": {
+          "$ref": "#/$defs/Limitation"
+        },
+        "title": "Limitations",
+        "type": "array"
+      },
+      "positioning": {
+        "$ref": "#/$defs/PositioningStance",
+        "description": "Cómo se posiciona el artículo respecto al estado del arte: 'extiende' un marco anterior, 'matiza' resultados previos, 'cuestiona' una tesis recibida, 'sintetiza' tradiciones distintas, o 'introduce_novedoso' un objeto/método no tratado antes."
+      },
+      "cited_predecessors": {
+        "description": "Trabajos o autores anteriores que el artículo cita como antecedentes directos de su tesis (p. ej. 'Labov (1972)', 'la escuela de Praga'). Solo los citados explícitamente como antecedentes de la tesis principal, no toda la bibliografía.",
+        "items": {
+          "type": "string"
+        },
+        "title": "Cited Predecessors",
+        "type": "array"
+      }
+    },
+    "required": [
+      "title",
+      "discipline",
+      "main_thesis",
+      "sub_claims",
+      "positioning"
+    ],
+    "title": "PaperArgument",
+    "type": "object"
+  },
+  "output": {
+    "title": "Más allá del bloque vaciado: tres patrones de divergencia rural-urbana en el voto autonómico español, 2023-2025",
+    "discipline": "ciencia política",
+    "main_thesis": "El rural español no se comporta como un bloque homogéneo: la divergencia respecto al voto urbano admite al menos tres patrones diferenciables cuya emergencia se explica mejor por la estructura económica local (agraria intensiva, agro-industrial diversificada o terciario-residencial) que por las variables demográficas habituales como el tamaño, la edad mediana o la tasa de despoblación.",
+    "sub_claims": [
+      {
+        "statement": "Existe un componente común de divergencia rural-urbana en el voto, pero es más débil y desigual de lo que asume la tesis del bloque vaciado.",
+        "supporting_evidence": [
+          {
+            "kind": "análisis_datos",
+            "description": "Diferencia media rural-urbana por comunidad autónoma para PP, PSOE y plataformas provinciales: máxima en Castilla y León (+18,4 puntos PP, +9,7 plataformas) y mínima en Galicia (+4,1 puntos PP, no significativa para plataformas).",
+            "quoted_passage": "La divergencia existe y es estadísticamente significativa en las seis CC. AA. para al menos uno de los tres bloques, pero su magnitud es desigual: máxima en Castilla y León (+18,4 puntos PP, +9,7 puntos plataformas) y mínima en Galicia (+4,1 puntos PP, no significativo para plataformas)."
+          }
+        ]
+      },
+      {
+        "statement": "El clustering jerárquico sobre 4.218 secciones censales rurales identifica tres patrones electorales diferenciables (conservador-estable, volátil-fragmentado y periurbano-residencial).",
+        "supporting_evidence": [
+          {
+            "kind": "análisis_datos",
+            "description": "Clustering jerárquico ascendente (Ward, k=3 maximizando Calinski-Harabasz) que separa 1.984 secciones (47,0%) en el patrón A conservador-estable, 1.317 (31,2%) en el patrón B volátil y fragmentado, y 917 (21,7%) en el patrón C periurbano-residencial.",
+            "quoted_passage": "Patrón A — Conservador-estable (n = 1.984 secciones, 47,0%)"
+          },
+          {
+            "kind": "ejemplo_caso",
+            "description": "Las secciones rurales de la provincia de Salamanca oriental ilustran el patrón A, las del sur de Soria y este de Teruel definen el núcleo del patrón B, y las del entorno de Cuenca turística ejemplifican el patrón C.",
+            "quoted_passage": "las secciones rurales de la provincia de Salamanca oriental se concentran abrumadoramente en el patrón A; las del sur de Soria y este de Teruel definen el núcleo del patrón B"
+          }
+        ]
+      },
+      {
+        "statement": "La estructura económica local predice mejor la pertenencia al patrón electoral que las variables demográficas clásicas (tamaño, edad, despoblación).",
+        "supporting_evidence": [
+          {
+            "kind": "análisis_datos",
+            "description": "En los modelos multinivel, el patrón A se asocia a estructura agraria intensiva (β=0,71, p<0,001), el B a agro-industrial diversificada (β=0,54) y el C a terciario-residencial (β=0,68); el R² marginal cae del 0,34 al 0,11 cuando se añade la estructura económica a las variables demográficas.",
+            "quoted_passage": "controlando por estructura económica, su poder explicativo cae sustancialmente (R² marginal pasa del 0,34 al 0,11 al añadir la estructura económica)"
+          }
+        ]
+      },
+      {
+        "statement": "Las motivaciones declaradas por los votantes en los postelectorales del CIS son coherentes con los patrones detectados a nivel agregado, lo que mitiga el riesgo de falacia ecológica.",
+        "supporting_evidence": [
+          {
+            "kind": "estudio_empírico",
+            "description": "En el patrón B, el 38% de los votantes declara 'abandono institucional del territorio' como motivación principal, frente al 12-15% en los patrones A y C; en el patrón A predominan motivaciones programáticas conservadoras y en el C aparecen motivaciones próximas a las urbanas.",
+            "quoted_passage": "en las secciones del patrón B los votantes declaran significativamente más a menudo \"abandono institucional del territorio\" como motivación principal (38% frente al 12-15% en patrones A y C)"
+          },
+          {
+            "kind": "literatura_citada",
+            "description": "Cuerpo (2024) había mostrado que la correlación entre densidad poblacional y voto a plataformas provinciales es robusta a controles socioeconómicos clásicos, sirviendo como base que este trabajo desagrega.",
+            "quoted_passage": "Cuerpo (2024) ha trasladado este marco al análisis del ciclo 2019-2023 y ha mostrado que la correlación entre densidad poblacional y voto a plataformas provinciales es robusta a controles socioeconómicos clásicos"
+          }
+        ]
+      }
+    ],
+    "counter_claims": [
+      {
+        "statement": "La tipología de tres patrones podría ser un artefacto del método de clustering elegido y no una entidad real, ya que cualquier clustering jerárquico siempre devuelve clusters aunque el continuo subyacente sea homogéneo.",
+        "response": "El análisis de sensibilidad con k-medias y mixtura gaussiana devuelve particiones equivalentes para k=3; los índices de validación interna presentan un máximo claro en k=3; y los predictores externos se alinean coherentemente con los clusters, aunque ninguna verificación es concluyente."
+      },
+      {
+        "statement": "El patrón B podría ser una mera reedición del cleavage centro-periferia clásico identificado por Linz (1973) o Pallarés y Keating (2003) para las periferias nacionalistas.",
+        "response": "El patrón B aparece de forma robusta en Castilla y León, Aragón, Castilla-La Mancha y Extremadura —comunidades sin nacionalismo subestatal fuerte— y su firma electoral es claramente distinta de la de Galicia, donde opera el BNG."
+      },
+      {
+        "statement": "La sobreponderación de Castilla y León y Aragón en la muestra podría sesgar los resultados hacia un papel mayor del patrón B, cuya magnitud podría reducirse en una muestra ampliada a CC. AA. con menor tradición de plataformas provinciales.",
+        "response": null
+      }
+    ],
+    "limitations": [
+      {
+        "kind": "alcance",
+        "description": "El estudio cubre un único ciclo autonómico (2023-2025) y no permite afirmar que los patrones sean estables a largo plazo, especialmente en una fase de transición del sistema de partidos tras la implosión de Ciudadanos y la emergencia de Sumar."
+      },
+      {
+        "kind": "validez_externa",
+        "description": "El análisis se limita a seis comunidades autónomas del interior español; la extensión a Andalucía, Cataluña interior o Valencia interior podría revelar patrones adicionales no capturados aquí."
+      },
+      {
+        "kind": "validez_de_constructo",
+        "description": "El índice compuesto que clasifica la estructura económica local agrega heterogeneidad interna importante: una zona 'agro-industrial diversificada' en Aragón no es idéntica a una en Castilla-La Mancha, y el índice no captura estas diferencias cualitativas."
+      },
+      {
+        "kind": "metodología",
+        "description": "Persiste un riesgo residual de falacia ecológica porque las muestras del CIS para secciones rurales pequeñas son limitadas y las inferencias sobre motivaciones individuales por patrón se basan en estimaciones con error sustancial."
+      }
+    ],
+    "positioning": "matiza",
+    "cited_predecessors": [
+      "Rodríguez-Pose (2018)",
+      "Cuerpo (2024)",
+      "Riba y Sanz (2025)",
+      "Lipset y Rokkan (1967)",
+      "Cramer (2016)",
+      "Scala y Johnson (2017)",
+      "Pallarés y Keating (2003)",
+      "Liñeira y Henderson (2021)",
+      "Linz (1973)"
+    ]
+  },
+  "metadata": {
+    "source": "synthetic_20260601_007.md",
+    "domain": "research",
+    "subdomain": "paper_argument"
+  }
+}

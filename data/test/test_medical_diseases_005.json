@@ -1,0 +1,150 @@
+{
+  "id": "test_medical_diseases_005",
+  "input_text": "El glaucoma es un conjunto de enfermedades que pueden dañar el nervio óptico y causar pérdida de visión.​​ Generalmente está causado por el aumento patológico de la presión intraocular, por falta de drenaje del humor acuoso y tiene como condición final común una neuropatía óptica que se caracteriza por la pérdida progresiva de las fibras nerviosas del nervio óptico y cambios en su aspecto. \nLa mayoría de las personas afectadas no presentan síntomas en las primeras fases de la enfermedad; más adelante aparecen defectos en el campo visual y pérdida progresiva de visión. La aparición de estos síntomas puede significar que la enfermedad está en un punto avanzado de su evolución. Es inusual que exista dolor ocular en el glaucoma crónico, pero es frecuente en el glaucoma agudo (glaucoma de ángulo cerrado), el cual sí puede ocasionar intensos síntomas desde su inicio.​\nUno de los principales factores que pueden influir en la aparición de glaucoma es la presión intraocular alta, aunque no existe una correlación exacta entre glaucoma y presión intraocular, pues algunas personas pueden desarrollar la enfermedad con cifras de presión intraocular consideradas normales y, sin embargo, en otras ocasiones existen cifras altas sin que se produzca ninguna repercusión ocular.\nExisten varios tipos de glaucoma, cada uno de los cuales tiene un origen y una evolución diferentes, por lo cual la definición general anteriormente expuesta puede no corresponder a todas las formas de esta enfermedad. La mayor parte de los casos corresponde al llamado glaucoma crónico simple (glaucoma de ángulo abierto).​ [...] ## Diagnóstico\nExisten dos aspectos clave para sospechar el diagnóstico de glaucoma: la elevación de la presión intraocular por encima de 21 mmHg y la presencia de una papila excavada. Cualquiera de estas dos circunstancias hacen probable el diagnóstico, especialmente si existen antecedentes familiares de la enfermedad y la edad es superior a los cuarenta años.[cita requerida] \nUna vez sospechado el diagnóstico, se pueden realizar otros estudios, como una exploración oftalmológica completa para comprobar la agudeza visual y observar todas las estructuras del ojo, tanto del polo anterior como del posterior y una campimetría o valoración del campo visual, para buscar la existencia de zonas ciegas o escotomas.",
+  "instruction": "Extrae el perfil de la patología descrita: nombre, etiología, síntomas estructurados, métodos diagnósticos y si es crónica. Usa null cuando la información no esté explícita.",
+  "target_schema": {
+    "$defs": {
+      "EtiologyType": {
+        "enum": [
+          "INFECTIOUS",
+          "GENETIC",
+          "AUTOIMMUNE",
+          "DEGENERATIVE",
+          "UNKNOWN",
+          "OTHER"
+        ],
+        "title": "EtiologyType",
+        "type": "string"
+      },
+      "Symptom": {
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "description": "Verbatim name of the symptom",
+            "title": "Name",
+            "type": "string"
+          },
+          "severity_level": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Inferred severity if mentioned (Mild, Moderate, Severe)",
+            "title": "Severity Level"
+          },
+          "is_primary": {
+            "default": true,
+            "description": "True if this is a defining symptom of the disease",
+            "title": "Is Primary",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "name"
+        ],
+        "title": "Symptom",
+        "type": "object"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Hierarchical extraction of pathology details from medical summaries.\nComplexity: L5 (Hierarchical Grouping).",
+    "properties": {
+      "pathology_name": {
+        "description": "The medical name of the disease or disorder",
+        "title": "Pathology Name",
+        "type": "string"
+      },
+      "etiology_type": {
+        "$ref": "#/$defs/EtiologyType",
+        "description": "The primary origin or cause of the disease"
+      },
+      "etiology_description": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "A brief summary of how the disease is caused",
+        "title": "Etiology Description"
+      },
+      "symptoms": {
+        "description": "Structured list of reported symptoms",
+        "items": {
+          "$ref": "#/$defs/Symptom"
+        },
+        "title": "Symptoms",
+        "type": "array"
+      },
+      "diagnosis_methods": {
+        "description": "Clinical tests or methods mentioned for identifying the pathology",
+        "items": {
+          "type": "string"
+        },
+        "title": "Diagnosis Methods",
+        "type": "array"
+      },
+      "is_chronic": {
+        "anyOf": [
+          {
+            "type": "boolean"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "True if the text explicitly defines the disease as chronic or long-term",
+        "title": "Is Chronic"
+      }
+    },
+    "required": [
+      "pathology_name",
+      "etiology_type"
+    ],
+    "title": "DiseaseProfile",
+    "type": "object"
+  },
+  "output": {
+    "pathology_name": "Glaucoma",
+    "etiology_type": "DEGENERATIVE",
+    "etiology_description": "Generalmente causado por el aumento patológico de la presión intraocular, por falta de drenaje del humor acuoso, con neuropatía óptica caracterizada por la pérdida progresiva de las fibras nerviosas del nervio óptico.",
+    "symptoms": [
+      {
+        "name": "defectos en el campo visual",
+        "severity_level": null,
+        "is_primary": true
+      },
+      {
+        "name": "pérdida progresiva de visión",
+        "severity_level": null,
+        "is_primary": true
+      },
+      {
+        "name": "dolor ocular",
+        "severity_level": "Severe",
+        "is_primary": false
+      }
+    ],
+    "diagnosis_methods": [
+      "medición de la presión intraocular",
+      "observación de papila excavada",
+      "exploración oftalmológica completa",
+      "campimetría"
+    ],
+    "is_chronic": true
+  },
+  "metadata": {
+    "source": "fresh_testset_glaucoma.md",
+    "domain": "medical",
+    "subdomain": "diseases"
+  }
+}

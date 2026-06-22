@@ -1,0 +1,122 @@
+{
+  "id": "test_legal_judicial_004",
+  "input_text": "Las autoridades aduaneras de Alemania y Bélgica incautaron una captura récord de más de 23 toneladas de cocaína con destino a los Países Bajos en dos redadas este mes, dijeron el miércoles fiscales holandeses.\nEl hallazgo se produjo en un barco portacontenedores procedente de Paraguay. En él se ubicaron cinco contenedores con aproximadamente 16,17 toneladas de cocaína en más de 1.700 latas de relleno de paredes. La nave había atracado en los puertos de Hamburgo (Alemania), para descubrirse después que se ubicaban otras 7,2 toneladas de los estupefacientes en Amberes (Bélgica). Precisamente en la misma fecha organismos gubernamentales antidrogas de Paraguay afirmaron proceder con un operativo en diversos locales que se presume están relacionados con el cargamento de droga hacia Europa. Ambos cargamentos tenían previsto como destino los Países Bajos.\nLas instituciones aduaneras, tanto de Bélgica como de Alemania, exclamaron que se trata de la incautación más grande y significativa de estupefacientes en el continente europeo. Además, se estimaba que su valor en la calle ronda los 600 millones de euros (730 millones de dólares), aseguraron los fiscales de ambos países, lo que se asegura ser el mayor decomiso de cocaína dirigida a los Países Bajos. \nAutoridades informaron igualmente que un hombre de 28 años de nacionalidad holandesa ha sido detenido por ser el principal sospechoso de importar el cargamento de cocaína incautado en la operación, al estar registrado su nombre como destinatario en los contenedores.",
+  "instruction": "Extrae la lógica de sentencia de esta noticia: indica si el acusado está anonimizado, el veredicto judicial (si lo hay), los hechos aceptados como probados, la base legal citada, y las penas finales impuestas. Distingue cuidadosamente entre hechos confirmados por autoridades y meras sospechas o alegaciones; no asumas un veredicto que el texto no afirma.",
+  "target_schema": {
+    "$defs": {
+      "Penalty": {
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "description": "e.g., 'Prison', 'Fine', 'Disqualification'",
+            "title": "Type",
+            "type": "string"
+          },
+          "quantity": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Numeric value (years, euros)",
+            "title": "Quantity"
+          },
+          "unit": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Unit for the quantity (e.g., 'months', 'EUR')",
+            "title": "Unit"
+          }
+        },
+        "required": [
+          "type"
+        ],
+        "title": "Penalty",
+        "type": "object"
+      },
+      "VerdictCategory": {
+        "enum": [
+          "GUILTY",
+          "NOT_GUILTY",
+          "PARTIALLY_GUILTY",
+          "DISMISSED",
+          "REMANDED"
+        ],
+        "title": "VerdictCategory",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Extracts the reasoning and outcome. Requires aggregating scattered facts.",
+    "properties": {
+      "defendant_anonymized": {
+        "description": "True if the name is hidden (e.g., 'J.D.S.')",
+        "title": "Defendant Anonymized",
+        "type": "boolean"
+      },
+      "verdict": {
+        "$ref": "#/$defs/VerdictCategory"
+      },
+      "proven_facts": {
+        "description": "List of key facts accepted as true by the court",
+        "items": {
+          "type": "string"
+        },
+        "title": "Proven Facts",
+        "type": "array"
+      },
+      "legal_basis": {
+        "description": "List of laws or articles cited as justification",
+        "items": {
+          "type": "string"
+        },
+        "title": "Legal Basis",
+        "type": "array"
+      },
+      "final_penalties": {
+        "description": "Structured list of imposed sanctions",
+        "items": {
+          "$ref": "#/$defs/Penalty"
+        },
+        "title": "Final Penalties",
+        "type": "array"
+      }
+    },
+    "required": [
+      "defendant_anonymized",
+      "verdict",
+      "proven_facts",
+      "legal_basis"
+    ],
+    "title": "SentencingLogic",
+    "type": "object"
+  },
+  "output": {
+    "defendant_anonymized": true,
+    "verdict": "DISMISSED",
+    "proven_facts": [
+      "Las autoridades aduaneras de Alemania y Bélgica incautaron más de 23 toneladas de cocaína con destino a los Países Bajos.",
+      "Se hallaron cinco contenedores con aproximadamente 16,17 toneladas de cocaína en más de 1.700 latas de relleno de paredes en un barco portacontenedores procedente de Paraguay atracado en Hamburgo (Alemania).",
+      "Se ubicaron otras 7,2 toneladas de cocaína en Amberes (Bélgica).",
+      "Un hombre de 28 años de nacionalidad holandesa fue detenido como principal sospechoso de importar el cargamento, al estar registrado su nombre como destinatario en los contenedores."
+    ],
+    "legal_basis": [],
+    "final_penalties": []
+  },
+  "metadata": {
+    "source": "fresh_testset_alemania_y_bélgica_incautan_23_toneladas_de_cocaín.md",
+    "domain": "legal",
+    "subdomain": "judicial"
+  }
+}

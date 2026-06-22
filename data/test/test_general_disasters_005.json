@@ -1,0 +1,152 @@
+{
+  "id": "test_general_disasters_005",
+  "input_text": "Durante este miércoles, una avioneta de la compañía Tara Air que realizaba un vuelo desde Pokhara hasta Jomsom se estrelló en medio del mal tiempo en una zona montañosa y provocó el lamentable fallecimiento de las 23 personas que iban a bordo de este.\n\nSegún informó el agente Phul Khumar Thapa, la avioneta fue localizada y encontrada en el área de Dana, distrito de Mygdi, específicamente en zona montañosa a unos 4900 metros de altitud aproximadamente.\n\nDe manera preliminar se hablaba de que eran 21 personas las que se encontraban en la aeronave, sin embargo, esa cifra aumentó a 23 personas con el pasar de las horas, entre ellos se encontraban un ciudadano de nacionalidad china y otro de nacionalidad kuwaití.\n\nLas autoridades señalaron que la zona de Mustang fue cubierta por una niebla en el área donde se encuentra la localidad de Jomsom y su vez está situada en las montañas del centro de Nepal donde solo aviones pequeños vuelan a este lugar desde la ciudad de Pokhara.",
+  "instruction": "Extrae información estructurada de este artículo de noticias sobre un accidente aéreo en Nepal.",
+  "target_schema": {
+    "$defs": {
+      "NewsCategory": {
+        "enum": [
+          "JUDICIAL",
+          "DISASTER",
+          "HEALTH",
+          "ENVIRONMENT",
+          "POLITICS",
+          "ECONOMY",
+          "SCIENCE",
+          "CULTURE",
+          "SPORTS",
+          "OTHER"
+        ],
+        "title": "NewsCategory",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Extracts structured information from general news articles.\nComplexity: L4 (Sparse Extraction) - Some fields may be null/missing.",
+    "properties": {
+      "headline": {
+        "description": "The main headline or title of the news article",
+        "title": "Headline",
+        "type": "string"
+      },
+      "summary": {
+        "description": "A brief summary of the main facts reported (1-3 sentences)",
+        "title": "Summary",
+        "type": "string"
+      },
+      "category": {
+        "$ref": "#/$defs/NewsCategory",
+        "description": "The thematic category of the news story"
+      },
+      "location": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Geographic location where the event occurred (city, country, or region)",
+        "title": "Location"
+      },
+      "date": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Date mentioned in the article (may be implicit or explicit)",
+        "title": "Date"
+      },
+      "key_people": {
+        "description": "Names of key individuals mentioned in the article",
+        "items": {
+          "type": "string"
+        },
+        "title": "Key People",
+        "type": "array"
+      },
+      "key_organizations": {
+        "description": "Names of organizations, companies, or governments mentioned",
+        "items": {
+          "type": "string"
+        },
+        "title": "Key Organizations",
+        "type": "array"
+      },
+      "casualties": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of deaths mentioned, if any",
+        "title": "Casualties"
+      },
+      "injured": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of people injured, if any",
+        "title": "Injured"
+      },
+      "affected_count": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of people affected or displaced, if applicable",
+        "title": "Affected Count"
+      }
+    },
+    "required": [
+      "headline",
+      "summary",
+      "category"
+    ],
+    "title": "NewsArticle",
+    "type": "object"
+  },
+  "output": {
+    "headline": "Accidente aéreo en Nepal no deja sobrevivientes",
+    "summary": "Una avioneta de la compañía Tara Air que volaba desde Pokhara hasta Jomsom se estrelló en una zona montañosa de Nepal en medio del mal tiempo, causando la muerte de las 23 personas que iban a bordo. La aeronave fue localizada en el área de Dana, distrito de Mygdi, a unos 4900 metros de altitud.",
+    "category": "DISASTER",
+    "location": "Dana, distrito de Mygdi, Nepal",
+    "date": null,
+    "key_people": [
+      "Phul Khumar Thapa"
+    ],
+    "key_organizations": [
+      "Tara Air"
+    ],
+    "casualties": 23,
+    "injured": null,
+    "affected_count": null
+  },
+  "metadata": {
+    "source": "fresh_testset_accidente_aéreo_en_nepal_no_deja_sobrevivientes.md",
+    "domain": "general",
+    "subdomain": "disasters"
+  }
+}

@@ -1,0 +1,157 @@
+{
+  "id": "test_general_disasters_004",
+  "input_text": "# Accidente aéreo en la República del Congo [...] Un avión de transporte de cargas, un Antonov 12 cayó cerca de la capital congoleña, según precisó el Ministro de Transporte del país africano, Emile Ouosso.\nEl cónsul de Rusia en esa capital, Evgueni Sikolov, informó a RIA Novosti que según datos confirmados, dos ucranianos, dos moldavos y dos congoleños perdieron la vida en el accidente.\n\"Según datos precisados, los muertos son seis. Dos ciudadanos de Congo que acompañaban la carga y cuatro tripulantes: dos ciudadanos de Ucrania y dos de Moldavia\", dijo el diplomático.\nAnteriormente, se recibió la información de que al estrellarse el avión, perecieron cuatro ucranianos y dos congoleños.\nEl avión habría partido a las 5.00 GMT desde la ciudad de Point Noire, la más importante del país por su actividad económica, y se estrelló cerca de una hora más tarde a unos 20km de Brazzaville.\nSegún la agencia de noticias Reuters, Ouosso habría señalado que cuando fueron al lugar del accidente encontraron 5 rusos y dos congoleños muertos. También están investigando si existen más víctimas. [...] ((es))  “Dos ucranianos, dos moldavos y dos congoleños murieron en accidente aéreo en Congo” — RIA Novosti, 26 de agosto, 2009.\n((es))  Christian Tsoumou - en español por Lucila Sigal “Siete muertos en accidente aéreo República del Congo: Gobierno” — Reuters, 26 de agosto, 2009.",
+  "instruction": "Extrae información estructurada de este artículo de noticias sobre un accidente aéreo en la República del Congo según el esquema NewsArticle.",
+  "target_schema": {
+    "$defs": {
+      "NewsCategory": {
+        "enum": [
+          "JUDICIAL",
+          "DISASTER",
+          "HEALTH",
+          "ENVIRONMENT",
+          "POLITICS",
+          "ECONOMY",
+          "SCIENCE",
+          "CULTURE",
+          "SPORTS",
+          "OTHER"
+        ],
+        "title": "NewsCategory",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Extracts structured information from general news articles.\nComplexity: L4 (Sparse Extraction) - Some fields may be null/missing.",
+    "properties": {
+      "headline": {
+        "description": "The main headline or title of the news article",
+        "title": "Headline",
+        "type": "string"
+      },
+      "summary": {
+        "description": "A brief summary of the main facts reported (1-3 sentences)",
+        "title": "Summary",
+        "type": "string"
+      },
+      "category": {
+        "$ref": "#/$defs/NewsCategory",
+        "description": "The thematic category of the news story"
+      },
+      "location": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Geographic location where the event occurred (city, country, or region)",
+        "title": "Location"
+      },
+      "date": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Date mentioned in the article (may be implicit or explicit)",
+        "title": "Date"
+      },
+      "key_people": {
+        "description": "Names of key individuals mentioned in the article",
+        "items": {
+          "type": "string"
+        },
+        "title": "Key People",
+        "type": "array"
+      },
+      "key_organizations": {
+        "description": "Names of organizations, companies, or governments mentioned",
+        "items": {
+          "type": "string"
+        },
+        "title": "Key Organizations",
+        "type": "array"
+      },
+      "casualties": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of deaths mentioned, if any",
+        "title": "Casualties"
+      },
+      "injured": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of people injured, if any",
+        "title": "Injured"
+      },
+      "affected_count": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of people affected or displaced, if applicable",
+        "title": "Affected Count"
+      }
+    },
+    "required": [
+      "headline",
+      "summary",
+      "category"
+    ],
+    "title": "NewsArticle",
+    "type": "object"
+  },
+  "output": {
+    "headline": "Accidente aéreo en la República del Congo",
+    "summary": "Un avión de transporte de cargas Antonov 12 se estrelló cerca de Brazzaville tras partir de Point Noire, dejando varias víctimas mortales entre tripulantes y acompañantes de la carga. Las cifras y nacionalidades de los fallecidos difieren entre las fuentes consultadas.",
+    "category": "DISASTER",
+    "location": "Brazzaville, República del Congo",
+    "date": "26 de agosto, 2009",
+    "key_people": [
+      "Emile Ouosso",
+      "Evgueni Sikolov",
+      "Christian Tsoumou",
+      "Lucila Sigal"
+    ],
+    "key_organizations": [
+      "RIA Novosti",
+      "Reuters",
+      "Ministerio de Transporte de la República del Congo"
+    ],
+    "casualties": 6,
+    "injured": null,
+    "affected_count": null
+  },
+  "metadata": {
+    "source": "fresh_testset_accidente_aéreo_en_la_república_del_congo.md",
+    "domain": "general",
+    "subdomain": "disasters"
+  }
+}

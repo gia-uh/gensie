@@ -1,0 +1,125 @@
+{
+  "id": "test_legal_contracts_003",
+  "input_text": "# CONTRATO DE SUMINISTRO HEMATOLÓGICO CONTINUADO\n\nSuscrito en la ciudadela de Sighişoara, Rumanía, a los tres días de la luna nueva del mes de octubre del año civil 2026. La vigencia del acuerdo se retrotraerá al momento en que el Cliente consumió la primera muestra gratuita, hecho acaecido el 15 de septiembre de 2026.\n\n**PARTES**\n\n**El Suministrador:** *Banco de Sangre Nocturno LLC*, una subsidiaria del conglomerado *Nosferatu Enterprises*, representada legalmente por Vladislav Dracul, actuando bajo el seudónimo corporativo \"V.D. Associates\".\n\n**El Cliente:** La Orden de la Noche Eterna, una asociación religiosa no inscrita, representada por la Alta Sacerdotisa, Condesa Isabela Bathory.\n\n**CLÁUSULAS**\n\n**1. Obligaciones:**\nEl Suministrador proveerá al Cliente con cincuenta (50) litros semanales de plasma humano sintético enriquecido (Tipo O-Negativo, Variante Inmortal).\n\n**2. Pacto de Silencio:**\nEl Cliente se compromete bajo juramento de sangre a no revelar la composición del plasma sintético ni la existencia de este mercado a la Organización Mundial de la Salud (OMS) ni a la Interpol. Romper esta reserva implicará la exposición del Cliente a la luz solar directa durante el mediodía.\n\n**3. Jurisdicción:**\nEl contrato se rige, en primera instancia, por el antiguo Código Valaco de 1450. Para asuntos relativos al transporte internacional y aduanas, será de aplicación el marco regulatorio del Tribunal de Justicia de la Unión Europea (TJUE).",
+  "instruction": "Extrae los parámetros esenciales del contrato siguiendo el esquema ContractSummary.",
+  "target_schema": {
+    "$defs": {
+      "ContractType": {
+        "enum": [
+          "PRESTACIÓN DE SERVICIOS",
+          "COMPRAVENTA",
+          "LABORAL",
+          "CONFIDENCIALIDAD",
+          "ACUERDO MARCO",
+          "OTRO"
+        ],
+        "title": "ContractType",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Identifies the core parameters and semantic structure of an agreement.\nComplexity: L5 (Hierarchical & Semantic Extraction).",
+    "properties": {
+      "contract_title": {
+        "description": "The formal title or heading of the contract",
+        "title": "Contract Title",
+        "type": "string"
+      },
+      "contract_type": {
+        "$ref": "#/$defs/ContractType",
+        "description": "The broad legal category of the agreement"
+      },
+      "effective_date": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "The date the contract goes into effect (YYYY-MM-DD or verbatim)",
+        "title": "Effective Date"
+      },
+      "parties": {
+        "description": "The names of the individuals or organizations entering into the agreement",
+        "items": {
+          "type": "string"
+        },
+        "title": "Parties",
+        "type": "array"
+      },
+      "total_clauses": {
+        "description": "Total number of numbered or named sections (e.g., PRIMERO, SEGUNDO...)",
+        "title": "Total Clauses",
+        "type": "integer"
+      },
+      "governing_law_jurisdiction": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "The state, country, or jurisdiction whose laws govern the contract",
+        "title": "Governing Law Jurisdiction"
+      },
+      "has_nda_clause": {
+        "default": false,
+        "description": "True if the text explicitly mentions confidentiality or non-disclosure",
+        "title": "Has Nda Clause",
+        "type": "boolean"
+      },
+      "has_liability_limitation": {
+        "default": false,
+        "description": "True if there is an explicit clause limiting or exempting liability",
+        "title": "Has Liability Limitation",
+        "type": "boolean"
+      },
+      "monetary_amount": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Total amount of the contract if specified numerically",
+        "title": "Monetary Amount"
+      }
+    },
+    "required": [
+      "contract_title",
+      "contract_type",
+      "parties",
+      "total_clauses"
+    ],
+    "title": "ContractSummary",
+    "type": "object"
+  },
+  "output": {
+    "contract_title": "CONTRATO DE SUMINISTRO HEMATOLÓGICO CONTINUADO",
+    "contract_type": "OTRO",
+    "effective_date": "2026-09-15",
+    "parties": [
+      "Banco de Sangre Nocturno LLC (subsidiaria de Nosferatu Enterprises), representada por Vladislav Dracul bajo el seudónimo V.D. Associates",
+      "La Orden de la Noche Eterna, representada por la Alta Sacerdotisa Condesa Isabela Bathory"
+    ],
+    "total_clauses": 3,
+    "governing_law_jurisdiction": "Código Valaco de 1450 (primera instancia); Tribunal de Justicia de la Unión Europea (TJUE) para transporte internacional y aduanas",
+    "has_nda_clause": true,
+    "has_liability_limitation": false,
+    "monetary_amount": null
+  },
+  "metadata": {
+    "source": "synthetic_20260414_008.md",
+    "domain": "legal",
+    "subdomain": "contracts"
+  }
+}

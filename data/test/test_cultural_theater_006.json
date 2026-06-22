@@ -1,0 +1,282 @@
+{
+  "id": "cultural_theater_006",
+  "input_text": "# LAS HIJAS DEL SALITRE\n\n**Una pieza de teatro documental sobre la huelga de las recogedoras de sal de Torrevieja (1962–1964)** [...] ## Teatro de La Abadía — Sala Juan de la Cruz\n\n**Calle de Fernández de los Ríos, 42. Madrid.** [...] Estreno: **14 de marzo de 2026**\nÚltima función de temporada: **10 de mayo de 2026**\nFunciones de miércoles a sábado, 20:00 h. Domingos, 19:00 h.\nDuración aproximada: **115 minutos, sin intermedio.** [...] A partir de cuarenta y dos entrevistas grabadas entre 2022 y 2025 a antiguas trabajadoras de las salinas de Torrevieja, sus hijas y nietas, *Las hijas del salitre* reconstruye la huelga silenciosa que durante veintidós meses sostuvieron las recogedoras de sal frente a la patronal y al sindicato vertical, en plena dictadura. [...] | Encarna, recogedora / narradora-testigo | Marisa Paredes-Cuenca |\n| Dolores, hija de Encarna / abogada laboralista | Nieves Carbonell |\n| Remedios, capataza | Aitana de la Hoz |\n| Pilar, sindicalista clandestina | Bárbara Lluch Ortega |\n| Don Anselmo, administrador de la salina | Joaquim Tessier |\n| Coro de mujeres del salitre (cinco intérpretes-testigos) | Lucía Bermejo, Esther Vázquez-Roldán, Mati Ortuño, Carmela Drews, Yaiza Pinilla | [...] Los papeles de **Encarna** y **Dolores** se interpretan en doble rol: las mismas actrices encarnan también, en los pasajes documentales, a las testigos reales cuyas grabaciones se proyectan en escena. [...] - **Dirección:** Andrea Sigüenza Boixader\n- **Dramaturgia documental:** Andrea Sigüenza Boixader y Rufino Palau-Mendizábal\n- **Investigación y archivo oral:** Colectivo Memoria del Salitre (coord. Tere Alarcón Espí)\n- **Escenografía:** Estudio Tregua (Mónica Carbó y Pau Iniesta)\n- **Diseño de vídeo y proyecciones de archivo:** Selma Khoury\n- **Iluminación:** Bru Antón i Vergés\n- **Espacio sonoro y composición:** Ainhoa Larrañaga\n- **Vestuario:** Lupe Castro-Almenar\n- **Asesoría histórica:** Dra. Inmaculada Riquelme Bas (Universidad Miguel Hernández)\n- **Ayudante de dirección:** Saturnino Quílez\n- **Producción ejecutiva:** La Abadía y Compañía Sal Gruesa, en coproducción con el Institut Valencià de Cultura [...] La función contiene **lenguaje fuerte** en varios pasajes testimoniales (insultos sexistas y de clase reproducidos verbatim de las grabaciones originales).\n\nContiene **escenas de tabaquismo en escena**: una de las intérpretes fuma cigarrillos de hierbas durante una secuencia de aproximadamente cuatro minutos.\n\nContiene **efectos sonoros intensos**: en el minuto 78 se reproduce, a volumen elevado, una grabación de las sirenas de la salina de 1963.\n\nNo se utilizan luces estroboscópicas. No hay desnudos. No hay representación explícita de violencia física, aunque sí relatos verbales de represalias policiales que pueden resultar perturbadores.",
+  "instruction": "Extrae los datos del programa de mano de esta producción teatral: título, sala, fechas, sinopsis, reparto, equipo creativo y avisos al público.",
+  "target_schema": {
+    "$defs": {
+      "CastMember": {
+        "additionalProperties": false,
+        "description": "Una intervención del reparto, con su rol y la persona que lo interpreta.",
+        "properties": {
+          "role": {
+            "description": "Nombre literal del personaje o función dramatúrgica (p. ej. 'Hamlet', 'Coro', 'Bailarín solista').",
+            "title": "Role",
+            "type": "string"
+          },
+          "actor": {
+            "description": "Nombre del intérprete que asume el rol, en el formato en que el programa lo presenta.",
+            "title": "Actor",
+            "type": "string"
+          },
+          "understudy": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Nombre del suplente para este rol si el programa lo nombra. Null si no aparece o si el programa no asigna suplentes.",
+            "title": "Understudy"
+          }
+        },
+        "required": [
+          "role",
+          "actor"
+        ],
+        "title": "CastMember",
+        "type": "object"
+      },
+      "ContentAdvisory": {
+        "enum": [
+          "ninguna",
+          "violencia",
+          "lenguaje_fuerte",
+          "contenido_sexual",
+          "tabaquismo",
+          "efectos_sonoros_intensos",
+          "luces_estroboscópicas"
+        ],
+        "title": "ContentAdvisory",
+        "type": "string"
+      },
+      "CreativeRole": {
+        "additionalProperties": false,
+        "description": "Una persona en el equipo creativo de la producción, con su función.",
+        "properties": {
+          "role": {
+            "description": "Función dentro del equipo creativo, tal como aparece en el programa (p. ej. 'Dirección', 'Dramaturgia', 'Escenografía', 'Música', 'Iluminación', 'Vestuario').",
+            "title": "Role",
+            "type": "string"
+          },
+          "name": {
+            "description": "Nombre de la persona o colectivo.",
+            "title": "Name",
+            "type": "string"
+          }
+        },
+        "required": [
+          "role",
+          "name"
+        ],
+        "title": "CreativeRole",
+        "type": "object"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Programa de mano (playbill) de una producción teatral, danza o lírica. La\ninformación se reparte entre cabecera (título + sala + fechas), reparto,\nequipo creativo, sinopsis y notas de aviso al público. La extracción debe\ndiferenciar entre intérpretes (CastMember) y equipo creativo (CreativeRole),\naunque ambos aparezcan en listados similares.\n\nComplejidad: L7 — síntesis de varias secciones con listas paralelas y\ndistinción de roles semánticamente cercanos.",
+    "properties": {
+      "title": {
+        "description": "Título de la obra tal como aparece en portada del programa.",
+        "title": "Title",
+        "type": "string"
+      },
+      "venue": {
+        "description": "Nombre de la sala o teatro donde se representa.",
+        "title": "Venue",
+        "type": "string"
+      },
+      "city": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Ciudad de la sala si el programa la menciona. Null si no aparece.",
+        "title": "City"
+      },
+      "opening_date": {
+        "description": "Fecha de estreno de esta producción en formato ISO 'YYYY-MM-DD' o, si el programa solo da mes y año, 'YYYY-MM'.",
+        "title": "Opening Date",
+        "type": "string"
+      },
+      "closing_date": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Fecha del último pase de la temporada en formato ISO. Null si la temporada está abierta o el programa no la cierra.",
+        "title": "Closing Date"
+      },
+      "runtime_minutes": {
+        "anyOf": [
+          {
+            "exclusiveMinimum": 0,
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Duración total del espectáculo en minutos, incluido intermedio si lo hay. Null si el programa no la indica.",
+        "title": "Runtime Minutes"
+      },
+      "synopsis": {
+        "description": "Resumen literal del argumento como aparece en la sección 'Sinopsis' o equivalente. Una o dos frases.",
+        "title": "Synopsis",
+        "type": "string"
+      },
+      "themes": {
+        "description": "Temas explícitamente nombrados en la nota de programa o la entrevista al director (p. ej. 'memoria histórica', 'feminismo', 'duelo'). Solo temas literalmente mencionados, no inferidos.",
+        "items": {
+          "type": "string"
+        },
+        "title": "Themes",
+        "type": "array"
+      },
+      "cast": {
+        "description": "Reparto en el orden en que aparece en el programa. Cada entrada asocia un rol dramatúrgico con su intérprete.",
+        "items": {
+          "$ref": "#/$defs/CastMember"
+        },
+        "title": "Cast",
+        "type": "array"
+      },
+      "creative_team": {
+        "description": "Equipo creativo (dirección, dramaturgia, diseño escenográfico, música, iluminación, etc.) en el orden de aparición.",
+        "items": {
+          "$ref": "#/$defs/CreativeRole"
+        },
+        "title": "Creative Team",
+        "type": "array"
+      },
+      "content_advisory": {
+        "description": "Avisos para el público presentes en el programa. 'ninguna' solo si el programa declara explícitamente apto para todos los públicos.",
+        "items": {
+          "$ref": "#/$defs/ContentAdvisory"
+        },
+        "title": "Content Advisory",
+        "type": "array"
+      }
+    },
+    "required": [
+      "title",
+      "venue",
+      "opening_date",
+      "synopsis",
+      "cast"
+    ],
+    "title": "TheaterPlaybill",
+    "type": "object"
+  },
+  "output": {
+    "title": "LAS HIJAS DEL SALITRE",
+    "venue": "Teatro de La Abadía — Sala Juan de la Cruz",
+    "city": "Madrid",
+    "opening_date": "2026-03-14",
+    "closing_date": "2026-05-10",
+    "runtime_minutes": 115,
+    "synopsis": "A partir de cuarenta y dos entrevistas grabadas entre 2022 y 2025 a antiguas trabajadoras de las salinas de Torrevieja, sus hijas y nietas, Las hijas del salitre reconstruye la huelga silenciosa que durante veintidós meses sostuvieron las recogedoras de sal frente a la patronal y al sindicato vertical, en plena dictadura.",
+    "themes": [],
+    "cast": [
+      {
+        "role": "Encarna, recogedora / narradora-testigo",
+        "actor": "Marisa Paredes-Cuenca",
+        "understudy": null
+      },
+      {
+        "role": "Dolores, hija de Encarna / abogada laboralista",
+        "actor": "Nieves Carbonell",
+        "understudy": null
+      },
+      {
+        "role": "Remedios, capataza",
+        "actor": "Aitana de la Hoz",
+        "understudy": null
+      },
+      {
+        "role": "Pilar, sindicalista clandestina",
+        "actor": "Bárbara Lluch Ortega",
+        "understudy": null
+      },
+      {
+        "role": "Don Anselmo, administrador de la salina",
+        "actor": "Joaquim Tessier",
+        "understudy": null
+      },
+      {
+        "role": "Coro de mujeres del salitre (cinco intérpretes-testigos)",
+        "actor": "Lucía Bermejo, Esther Vázquez-Roldán, Mati Ortuño, Carmela Drews, Yaiza Pinilla",
+        "understudy": null
+      }
+    ],
+    "creative_team": [
+      {
+        "role": "Dirección",
+        "name": "Andrea Sigüenza Boixader"
+      },
+      {
+        "role": "Dramaturgia documental",
+        "name": "Andrea Sigüenza Boixader y Rufino Palau-Mendizábal"
+      },
+      {
+        "role": "Investigación y archivo oral",
+        "name": "Colectivo Memoria del Salitre (coord. Tere Alarcón Espí)"
+      },
+      {
+        "role": "Escenografía",
+        "name": "Estudio Tregua (Mónica Carbó y Pau Iniesta)"
+      },
+      {
+        "role": "Diseño de vídeo y proyecciones de archivo",
+        "name": "Selma Khoury"
+      },
+      {
+        "role": "Iluminación",
+        "name": "Bru Antón i Vergés"
+      },
+      {
+        "role": "Espacio sonoro y composición",
+        "name": "Ainhoa Larrañaga"
+      },
+      {
+        "role": "Vestuario",
+        "name": "Lupe Castro-Almenar"
+      },
+      {
+        "role": "Asesoría histórica",
+        "name": "Dra. Inmaculada Riquelme Bas (Universidad Miguel Hernández)"
+      },
+      {
+        "role": "Ayudante de dirección",
+        "name": "Saturnino Quílez"
+      },
+      {
+        "role": "Producción ejecutiva",
+        "name": "La Abadía y Compañía Sal Gruesa, en coproducción con el Institut Valencià de Cultura"
+      }
+    ],
+    "content_advisory": [
+      "lenguaje_fuerte",
+      "tabaquismo",
+      "efectos_sonoros_intensos"
+    ]
+  },
+  "metadata": {
+    "source": "synthetic_20260601_006.md",
+    "domain": "cultural",
+    "subdomain": "theater"
+  }
+}

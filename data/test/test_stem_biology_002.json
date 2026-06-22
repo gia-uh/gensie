@@ -1,0 +1,171 @@
+{
+  "id": "test_stem_biology_002",
+  "input_text": "# Cetacea\n\n## Resumen\nLos cetáceos (Cetacea) son un infraorden de mamíferos placentarios completamente adaptados a la vida acuática. La palabra «cetáceo» deriva del griego κῆτος, kētos, que significa 'ballena' o 'monstruo marino', y fue acuñado por Aristóteles para referirse a los animales acuáticos dotados de respiración pulmonar. Presentan un cuerpo fusiforme, semejante al de los peces, que los hace más hidrodinámicos. Las patas anteriores se han transformado en aletas, mientras que las posteriores han desaparecido como tales, aunque quedan algunos huesos vestigiales, no unidos a la pelvis y ocultos dentro del cuerpo. La aleta caudal es horizontal y se divide en dos lóbulos. Generalmente carecen de pelo y tienen una espesa capa de grasa que les sirve de aislamiento térmico. El clado de los cetáceos contiene unas ochenta especies,​​ casi todas marinas, excepto 5 especies de delfines de agua dulce. Los cetáceos vivientes se subdividen en dos parvórdenes, el de los misticetos o barbados y el de los odontocetos o dentados. Un tercer parvorden, los arqueocetos, solo contiene especies extintas. Hasta hace poco los cetáceos estaban clasificados como un orden aparte, pero nuevas clasificaciones cladísticas actuales, han incluido a Cetacea como un infraorden del orden Artiodactyla y en el suborden Whippomorpha o Cetacondonta junto con los hipopótamos sus parientes más próximos y algunos clados extintos, ya que ambos compartieron antepasados que vivieron durante el Eoceno y el Paleoceno.​​ A veces el orden Artiodactyla incluido los cetáceos se denomina Cetartiodactyla.​ Entre los misticetos están los animales vulgarmente llamados ballenas, los más grandes del mundo; en concreto, la ballena azul es el animal más grande que jamás haya existido en la Tierra, incluso mayor que los dinosaurios. En cambio, entre los odontocetos están los delfines y las orcas, algunas de cuyas especies pueden ser criadas y adiestradas en delfinarios. La rama de la biología que se encarga del estudio de estos animales es la cetología.\n\n## Taxonomía (taxobox)\n\n- **Reino**: Animalia\n- **Filo**: Chordata\n- **Subfilo**: Vertebrata\n- **Clase**: Mammalia\n- **Subclase**: Theria\n- **Infraclase**: Placentalia\n- **Superorden**: Laurasiatheria Scrotifera\n- **Orden**: Artiodactyla\n- **Suborden**: Whippomorpha\n- **Infraorden**: Cetacea Brisson , 1762\n\n## Metadatos del taxobox\n\n- **rango_temporal**: Rango temporal : 53,5 Ma - 0 Ma PreЄ Є O S D C P T J K Pg N Eoceno - holoceno",
+  "instruction": "Extrae la clasificación taxonómica jerárquica del organismo descrito en el artículo. Construye un árbol recursivo desde el rango más alto presente en el texto hasta el más específico, usando únicamente los rangos principales del enum (dominio, reino, filo, clase, orden, familia, género, especie, subespecie). Omite rangos auxiliares como subfilo, subclase, infraclase, superorden, suborden o infraorden. Incluye el nombre común solo si el texto lo indica explícitamente para ese taxón. Marca extinct=true solo si el texto lo afirma explícitamente.",
+  "target_schema": {
+    "$defs": {
+      "ConservationStatus": {
+        "enum": [
+          "extinto",
+          "en_peligro_crítico",
+          "en_peligro",
+          "vulnerable",
+          "casi_amenazado",
+          "preocupación_menor",
+          "datos_insuficientes",
+          "no_evaluado"
+        ],
+        "title": "ConservationStatus",
+        "type": "string"
+      },
+      "Taxon": {
+        "additionalProperties": false,
+        "description": "A single node in a taxonomic tree. May contain nested child taxa of a\nlower rank, forming an arbitrarily deep hierarchy from dominio down to\nsubespecie.",
+        "properties": {
+          "rank": {
+            "$ref": "#/$defs/TaxonomicRank",
+            "description": "Categoría taxonómica del nodo. Usar uno de los rangos principales: dominio, reino, filo, clase, orden, familia, género, especie, subespecie. Ignorar prefijos como sub-, super-, infra-: por ejemplo 'Subfilo' se mapea a 'filo'."
+          },
+          "scientific_name": {
+            "description": "Nombre científico literal del taxón tal como aparece en el texto (p. ej. 'Mammalia', 'Carnivora', 'Panthera leo'). Sin autoría ni fechas.",
+            "title": "Scientific Name",
+            "type": "string"
+          },
+          "common_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Nombre común en español si el texto lo indica explícitamente para este taxón. Devolver null si no se menciona — la mayoría de los rangos superiores no tienen nombre común.",
+            "title": "Common Name"
+          },
+          "extinct": {
+            "default": false,
+            "description": "True solo si el texto afirma de forma explícita que el taxón está extinto (p. ej. 'extinguido', '†', 'desapareció en el Pleistoceno'). False en caso contrario.",
+            "title": "Extinct",
+            "type": "boolean"
+          },
+          "children": {
+            "description": "Lista de taxones inmediatamente subordinados a éste en la jerarquía. Vacía si el nodo es una hoja (típicamente la especie o subespecie). El orden refleja la cadena taxonómica del texto.",
+            "items": {
+              "$ref": "#/$defs/Taxon"
+            },
+            "title": "Children",
+            "type": "array"
+          }
+        },
+        "required": [
+          "rank",
+          "scientific_name"
+        ],
+        "title": "Taxon",
+        "type": "object"
+      },
+      "TaxonomicRank": {
+        "enum": [
+          "dominio",
+          "reino",
+          "filo",
+          "clase",
+          "orden",
+          "familia",
+          "género",
+          "especie",
+          "subespecie"
+        ],
+        "title": "TaxonomicRank",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Clasificación taxonómica jerárquica de un organismo a partir de su artículo\nde Wikipedia (taxobox + sección de Taxonomía). El árbol parte del rango más\nalto presente en el texto y desciende, anidando cada rango como hijo del\nanterior.\nComplejidad: L6 — profundidad estructural recursiva.",
+    "properties": {
+      "canonical_name": {
+        "description": "Nombre científico canónico del organismo objeto del artículo (la hoja del árbol o el binomio más específico citado).",
+        "title": "Canonical Name",
+        "type": "string"
+      },
+      "common_name": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Nombre común en español del organismo principal si el artículo lo indica (p. ej. 'león' para Panthera leo). Null si no se menciona.",
+        "title": "Common Name"
+      },
+      "conservation_status": {
+        "anyOf": [
+          {
+            "$ref": "#/$defs/ConservationStatus"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Estado de conservación según la UICN si el texto lo enuncia para el organismo principal. Null si no aparece o solo se menciona de forma genérica sin categoría."
+      },
+      "classification_tree": {
+        "$ref": "#/$defs/Taxon",
+        "description": "Raíz del árbol taxonómico: el rango más alto citado en el texto (típicamente 'dominio' o 'reino'). Sus descendientes encadenan recursivamente los rangos hasta la especie o subespecie del organismo."
+      }
+    },
+    "required": [
+      "canonical_name",
+      "classification_tree"
+    ],
+    "title": "TaxonomicClassification",
+    "type": "object"
+  },
+  "output": {
+    "canonical_name": "Cetacea",
+    "common_name": "cetáceos",
+    "conservation_status": null,
+    "classification_tree": {
+      "rank": "reino",
+      "scientific_name": "Animalia",
+      "common_name": null,
+      "extinct": false,
+      "children": [
+        {
+          "rank": "filo",
+          "scientific_name": "Chordata",
+          "common_name": null,
+          "extinct": false,
+          "children": [
+            {
+              "rank": "clase",
+              "scientific_name": "Mammalia",
+              "common_name": null,
+              "extinct": false,
+              "children": [
+                {
+                  "rank": "orden",
+                  "scientific_name": "Artiodactyla",
+                  "common_name": null,
+                  "extinct": false,
+                  "children": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "metadata": {
+    "source": "wiki_cetacea.md",
+    "domain": "stem",
+    "subdomain": "biology"
+  }
+}

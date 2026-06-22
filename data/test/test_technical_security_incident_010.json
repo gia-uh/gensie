@@ -1,0 +1,396 @@
+{
+  "id": "technical_security_incident_010",
+  "input_text": "# Informe post-mortem — INC-2026-0810\n\n**Clasificación:** Interno · Distribución restringida al CSIRT y a Dirección Industrial.\n**Autor:** SOC de Planta — Línea de Envasado Norte (Zona DMZ-OT).\n**Fecha de emisión:** 2026-05-29.\n**Tipo de incidente:** Compromiso de dispositivos IoT/OT por variante de la botnet **Mirai** (familia *Mirai-Mukashi*) y participación involuntaria en ataque DDoS saliente.\n\n---\n\n## 1. Resumen ejecutivo\n\nEl 2026-05-24 a las 03:42 (hora local Europa/Madrid) el sistema SCADA de la línea de envasado Norte registró latencias anómalas en la lectura cíclica de los PLC y caídas intermitentes del enlace WAN principal. La investigación posterior, conducida por el SOC de planta con apoyo del proveedor externo de respuesta, determinó que un conjunto de **17 cámaras IP del modelo Hikvision DS-2CD2042WD-I** (firmware V5.4.0) y **2 PLC Siemens S7-1200 (CPU 1212C, firmware V4.2.1)** habían sido comprometidos por una variante de la botnet Mirai. Los dispositivos comprometidos estaban participando, sin conocimiento del operador, en un ataque DDoS volumétrico (UDP flood y TCP SYN flood) contra un objetivo externo no identificado, saturando el enlace WAN de 200 Mbps de la planta y degradando la operación de envasado durante aproximadamente 6 horas hasta la contención inicial.\n\nLa severidad se calificó como **alta** por el impacto operativo directo sobre la producción (pérdida estimada de 4.200 unidades de producto envasado) y por el riesgo reputacional asociado a haber participado como origen en un ataque a un tercero. No se identificó exfiltración de datos productivos ni manipulación de las recetas de envasado almacenadas en el historiador.\n\n---\n\n## 2. Sistemas afectados\n\nA continuación se enumeran los activos confirmados como comprometidos o impactados durante el incidente, junto con su ubicación lógica y rol funcional:\n\n- **Cámaras IP Hikvision DS-2CD2042WD-I** (17 unidades) — desplegadas en el perímetro de la línea de envasado y en el muelle de carga. Conectadas a la VLAN 30 (vídeo-vigilancia) que, debido a un error histórico de configuración del switch industrial, mantenía ruta directa hacia la VLAN 10 (OT-producción) y hacia el gateway WAN sin filtrado.\n- **PLC Siemens S7-1200 CPU 1212C** (2 unidades, identificadores `PLC-ENV-N-03` y `PLC-ENV-N-07`) — controlan las cintas transportadoras 3 y 7 de la línea Norte. Firmware V4.2.1, afectado por la vulnerabilidad **CVE-2020-15782** (escritura arbitraria de memoria vía puerto TCP/102, ISO-TSAP).\n- **Switch industrial Hirschmann RS20** — actúa como núcleo de las VLAN 10/30/40 de planta. No comprometido, pero su ACL inter-VLAN era permisiva (`permit ip any any` en la interfaz de uplink al firewall corporativo).\n- **Servidor SCADA WinCC** — no comprometido. Funcionó como detector indirecto al reportar timeouts cíclicos en la lectura OPC-UA contra los PLC.\n- **Enlace WAN corporativo de planta** (línea simétrica 200/200 Mbps proporcionada por ISP regional) — saturado durante los picos del DDoS saliente.\n- **Historiador de proceso** (`HIST-N-01`, base PostgreSQL con OSIsoft PI conector) — no comprometido; revisado por completitud de la cadena.\n\n---\n\n## 3. Cronología y análisis\n\n> **Nota:** La cronología siguiente mezcla deliberadamente eventos observados (extraídos de logs del firewall perimetral Fortigate 200F, del IDS Suricata y del SCADA) con el análisis posterior del equipo. Cuando la marca temporal es exacta proviene de logs sincronizados por NTP interno; cuando se indica \"aprox.\" es una inferencia del analista.\n\n**2026-05-20 — Reconocimiento (aprox. 22:10 UTC).** Telemetría del IDS perimetral muestra un escaneo *opportunistic* desde la IP **185.244.25.218** (perteneciente a un rango ya reportado por INCIBE-CERT en boletín ICS-2026-04 como infraestructura de propagación de variantes Mirai) contra todo el rango público asignado al enlace WAN de planta. El escaneo se concentró en los puertos TCP/23 (Telnet), TCP/2323 y TCP/81. **Esta es la fase de reconocimiento de la cadena**: probing masivo en busca de dispositivos IoT expuestos.\n\n**2026-05-20 — Acceso inicial (22:47 UTC).** La cámara `CAM-MUELLE-04` (IP pública NAT 1:1 expuesta inadvertidamente desde una regla de port-forward antigua para mantenimiento del integrador) acepta credenciales por defecto **admin/12345** del binario atacante. *Análisis:* la cámara fue desplegada en 2019 por un integrador externo que dejó la cuenta `admin` con la contraseña por defecto del fabricante; la rotación de credenciales nunca se ejecutó porque el activo no figuraba en el inventario CMDB de IT (estaba en el inventario OT, gestionado en hoja Excel).\n\n**2026-05-20 — Ejecución (22:48 UTC).** Inmediatamente tras el login, el atacante descarga un binario ELF ARM (`hikvision.arm7`) desde `http://45.95.169.143/bins/hikvision.arm7` mediante `wget`. El binario presenta SHA-256 `9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08`, coincidente con la variante *Mirai-Mukashi* catalogada por el TLP:GREEN feed de INCIBE-CERT. El binario se ejecuta directamente desde `/tmp/.x` y se autorreplica en la memoria de la cámara.\n\n**2026-05-21 — Persistencia (~00:15 UTC).** El malware modifica el `init` de la cámara para volver a descargar el dropper en cada arranque desde un segundo servidor (`http://download.cncservice.top/x.sh`). Dado que el sistema de ficheros de la cámara es de solo lectura excepto `/tmp`, la persistencia real depende del C2; reiniciar la cámara sin cortar el C2 reinfecta. *Análisis del responder:* esta es una característica clásica de variantes Mirai en cámaras con firmware monolítico.\n\n**2026-05-21 — Comunicación con C2 (~00:18 UTC).** Establecimiento de conexión TCP saliente persistente hacia el dominio **`report.cncservice.top`** (resuelto en ese momento a 45.95.169.143) por el puerto TCP/23. El IDS Suricata no alertó porque la regla de detección Mirai-C2 había sido silenciada el 2026-02-11 por un falso positivo en cámaras de otra marca y nunca se rehabilitó.\n\n**2026-05-21 a 2026-05-23 — Movimiento lateral interno.** Desde `CAM-MUELLE-04` el malware escanea la VLAN 30 buscando otros dispositivos con Telnet abierto y credenciales débiles. Compromete sucesivamente 16 cámaras adicionales del mismo modelo (todas con credenciales por defecto idénticas o con `admin/admin`). Posteriormente, aprovechando la mala segmentación VLAN, salta a la VLAN 10 (OT) y explota **CVE-2020-15782** sobre `PLC-ENV-N-03` y `PLC-ENV-N-07`, obteniendo capacidad de escritura arbitraria de memoria. *No se observa modificación de la lógica ladder*: el atacante usa los PLC únicamente como nodo de tráfico saliente adicional, no como objetivo final.\n\n**2026-05-24 03:42 UTC — Impacto operativo.** Los 19 dispositivos comprometidos reciben simultáneamente la orden de inicio de ataque DDoS desde el C2, dirigida contra una IP de destino no revelada por el atacante en el panel (probablemente un objetivo de gaming online según el patrón de puertos). El tráfico saliente UDP flood agregado satura el enlace WAN simétrico de 200 Mbps. El SCADA empieza a reportar timeouts OPC-UA contra los PLC porque el procesador de comunicaciones de los S7-1200 está saturado generando tráfico. Las cintas 3 y 7 se detienen automáticamente por watchdog del SCADA.\n\n**2026-05-24 03:55 UTC — Detección.** El operador de turno escala la alarma SCADA al SOC de planta. El analista de guardia identifica en menos de 20 minutos el patrón anómalo de tráfico saliente en el dashboard del firewall perimetral (tráfico saliente sostenido >180 Mbps frente a baseline nocturno de <2 Mbps) y declara el incidente como **INC-2026-0810** a las 04:18 UTC.\n\n---\n\n## 4. Indicadores de compromiso (IoCs)\n\nLos siguientes indicadores fueron extraídos del análisis forense y compartidos con INCIBE-CERT y con el grupo sectorial CCI-ES bajo TLP:AMBER:\n\n- **IP de origen del escaneo y primer dropper:** `185.244.25.218` — observada por primera vez el 2026-05-20.\n- **IP de hosting del binario y resolución temporal del C2:** `45.95.169.143` — observada el 2026-05-20.\n- **Dominio de comando y control:** `report.cncservice.top` — primera resolución observada 2026-05-21.\n- **URL del segundo dropper:** `http://download.cncservice.top/x.sh` — observada el 2026-05-21.\n- **Hash del binario Mirai variant ARM:** `9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08` (SHA-256).\n- **CVE explotado sobre PLC:** `CVE-2020-15782`.\n- **Correo del operador de la botnet observado en el panel filtrado:** `mukashi-ops@protonmail.example` (fecha de observación desconocida, aportado por threat-intel de tercero el 2026-05-26).\n\nNo se incluye regla YARA en este informe; se entregará en addendum técnico una vez validada por el laboratorio del proveedor.\n\n---\n\n## 5. Acciones de contención y remediación\n\nEl equipo de respuesta ejecutó las siguientes acciones, listadas en el orden en que fueron iniciadas:\n\n1. **Aislamiento inmediato de la VLAN 30 (vídeo-vigilancia) del resto de la red.** Ejecutado a las 04:25 UTC del 2026-05-24 modificando la ACL del switch Hirschmann RS20 para denegar todo tráfico entre VLAN 30 y VLAN 10 y entre VLAN 30 y el uplink WAN. **Estado: completada.** Responsable: SOC de planta.\n2. **Bloqueo perimetral de los IoCs de red en el Fortigate 200F.** Inserción de las IPs `185.244.25.218` y `45.95.169.143`, y del dominio `report.cncservice.top`, en la lista de denegación. **Estado: completada.** Responsable: SOC de planta.\n3. **Reset de fábrica y reflasheo de las 17 cámaras Hikvision al firmware V5.7.15 (versión actual recomendada por el fabricante).** Se ejecutó secuencialmente entre el 2026-05-24 y el 2026-05-26 por el equipo de mantenimiento OT, con verificación de integridad del firmware mediante hash publicado por Hikvision. **Estado: completada.** Responsable: Mantenimiento OT.\n4. **Cambio de credenciales por defecto en todos los dispositivos IoT/OT de planta** (no solo los comprometidos). Se generaron credenciales únicas por dispositivo, gestionadas mediante el vault corporativo Bitwarden Self-Hosted. **Estado: en_curso.** Responsable: Mantenimiento OT. Se estima cierre al 2026-06-15.\n5. **Actualización del firmware de los PLC Siemens S7-1200 a la versión V4.5.0** (que mitiga CVE-2020-15782 al deshabilitar por defecto el acceso TCP/102 sin autenticación). **Estado: pendiente.** Responsable: Ingeniería de Procesos. Bloqueada hasta la próxima ventana de mantenimiento productivo planificada para 2026-06-08.\n6. **Rediseño completo de la segmentación VLAN de la planta**, incluyendo introducción de un firewall industrial dedicado (Stormshield SNi40) entre las VLAN OT y la red corporativa. **Estado: en_curso.** Responsable: Arquitectura de Red.\n7. **Rehabilitación y revisión integral del conjunto de reglas Suricata** relativas a familias Mirai/Gafgyt, con prohibición explícita de silenciado de reglas sin doble aprobación. **Estado: completada.** Responsable: SOC corporativo.\n8. **Notificación formal al INCIBE-CERT como operador de servicios esenciales** (al amparo del Real Decreto-ley 12/2018) presentada el 2026-05-25 a las 09:00 UTC con número de referencia interna `NOT-INCIBE-2026-1147`. **Estado: completada.** Responsable: Responsable de Seguridad.\n9. **Comunicación a Dirección Industrial y a Comité de Crisis** del impacto operativo y del plan de remediación. **Estado: completada.** No se asigna responsable individual: ejecutada colegiadamente.\n\n---\n\n## 6. Causa raíz\n\nLa causa raíz del incidente es la **convergencia de tres deficiencias sistémicas**: (i) segmentación de red insuficiente entre la VLAN de vídeo-vigilancia y la VLAN OT de producción, con ACLs permisivas que permitían tráfico arbitrario entre ambas y hacia el gateway WAN; (ii) credenciales por defecto vigentes en dispositivos IoT desplegados por integradores externos sin proceso de hardening contractual obligatorio; y (iii) firmware desactualizado en cámaras IP y en PLC, con vulnerabilidades públicas con parche disponible desde hace más de cuatro años en el caso de CVE-2020-15782.\n\nNinguna de las tres deficiencias por sí sola habría producido el incidente con el impacto observado; su combinación, sumada al silenciado no documentado de la regla IDS de detección de C2 Mirai, permitió que el compromiso se propagara durante cuatro días sin ser detectado hasta que el impacto operativo —saturación de la WAN y caída de las cintas— forzó la escalada.\n\n---\n\n## 7. Lecciones aprendidas y próximos pasos\n\nSe abre un plan de remediación estructural (`PLAN-OT-2026-Q3`) que incluye, además de las acciones ya enumeradas, la incorporación obligatoria del inventario OT al CMDB corporativo, la auditoría anual independiente de la segmentación de red de planta y la inclusión de cláusulas de hardening verificable en todos los contratos con integradores. El plan se presentará al Comité de Seguridad de Información el 2026-06-20.\n\n*Fin del informe.*",
+  "instruction": "Extrae el incidente de seguridad estructurado del informe post-mortem: identificador, fecha de detección, severidad, sistemas afectados, IoCs, cadena de ataque en fases ATT&CK ordenadas cronológicamente, acciones de contención con su estado y causa raíz.",
+  "target_schema": {
+    "$defs": {
+      "AttackPhase": {
+        "description": "Fases de la cadena de ataque (MITRE ATT&CK simplificado).",
+        "enum": [
+          "reconocimiento",
+          "acceso_inicial",
+          "ejecución",
+          "persistencia",
+          "escalada_de_privilegios",
+          "evasión_de_defensas",
+          "acceso_a_credenciales",
+          "movimiento_lateral",
+          "exfiltración",
+          "impacto"
+        ],
+        "title": "AttackPhase",
+        "type": "string"
+      },
+      "AttackStep": {
+        "additionalProperties": false,
+        "description": "Un paso de la cadena de ataque tal como lo reconstruye el informe.",
+        "properties": {
+          "phase": {
+            "$ref": "#/$defs/AttackPhase",
+            "description": "Fase ATT&CK a la que pertenece el paso."
+          },
+          "description": {
+            "description": "Descripción de la acción del atacante en una frase (p. ej. 'Envío de correo de phishing con adjunto malicioso al departamento financiero').",
+            "title": "Description",
+            "type": "string"
+          },
+          "timestamp": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Marca temporal en formato ISO 8601 si el informe la consigna. Null si solo se indica el orden relativo.",
+            "title": "Timestamp"
+          },
+          "technique_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Identificador MITRE ATT&CK si el informe lo cita (p. ej. 'T1566.001'). Null si no aparece.",
+            "title": "Technique Id"
+          }
+        },
+        "required": [
+          "phase",
+          "description"
+        ],
+        "title": "AttackStep",
+        "type": "object"
+      },
+      "ContainmentAction": {
+        "additionalProperties": false,
+        "description": "Acción de contención o remediación tomada por el equipo de respuesta.",
+        "properties": {
+          "description": {
+            "description": "Descripción literal de la acción (p. ej. 'Aislamiento del host afectado en VLAN de cuarentena').",
+            "title": "Description",
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/$defs/ContainmentStatus",
+            "description": "Estado de ejecución de la acción al cierre del informe."
+          },
+          "owner": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Equipo o persona responsable de la acción (p. ej. 'SOC', 'Red Team'). Null si no se asigna explícitamente.",
+            "title": "Owner"
+          }
+        },
+        "required": [
+          "description",
+          "status"
+        ],
+        "title": "ContainmentAction",
+        "type": "object"
+      },
+      "ContainmentStatus": {
+        "enum": [
+          "pendiente",
+          "en_curso",
+          "completada",
+          "no_aplica"
+        ],
+        "title": "ContainmentStatus",
+        "type": "string"
+      },
+      "Indicator": {
+        "additionalProperties": false,
+        "description": "Indicador de compromiso (IoC) observado durante el incidente.",
+        "properties": {
+          "kind": {
+            "$ref": "#/$defs/IndicatorKind",
+            "description": "Tipo de indicador."
+          },
+          "value": {
+            "description": "Valor literal del indicador tal como aparece en el informe (IP, dominio, SHA-256, CVE-XXXX-XXXX, etc.). Sin modificar.",
+            "title": "Value",
+            "type": "string"
+          },
+          "first_seen": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Fecha en formato ISO en que se observó el indicador por primera vez durante el incidente. Null si el informe no la fecha.",
+            "title": "First Seen"
+          }
+        },
+        "required": [
+          "kind",
+          "value"
+        ],
+        "title": "Indicator",
+        "type": "object"
+      },
+      "IndicatorKind": {
+        "enum": [
+          "ip",
+          "dominio",
+          "url",
+          "hash",
+          "correo",
+          "cve",
+          "regla_yara"
+        ],
+        "title": "IndicatorKind",
+        "type": "string"
+      },
+      "Severity": {
+        "enum": [
+          "baja",
+          "media",
+          "alta",
+          "crítica"
+        ],
+        "title": "Severity",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Post-mortem o informe de respuesta a un incidente de ciberseguridad: IoCs\nobservados, reconstrucción de la cadena de ataque en fases ordenadas\ncronológicamente, sistemas afectados y acciones de contención con su estado.\nLa extracción debe diferenciar fases ATT&CK por su semántica (no por\nel orden literal en el informe, que puede mezclar narrativa y análisis), y\nasociar cada IoC con su tipo correcto a partir de su forma.\n\nComplejidad: L9 — cadena causal con vocabulario técnico denso, taxonomía\nrígida (fases ATT&CK), pluralidad de listas heterogéneas y enlazado\nentre acciones y sistemas.",
+    "properties": {
+      "incident_id": {
+        "description": "Identificador interno del incidente tal como aparece en el informe (p. ej. 'INC-2026-0042').",
+        "title": "Incident Id",
+        "type": "string"
+      },
+      "detection_date": {
+        "description": "Fecha de detección del incidente en formato ISO 8601 ('YYYY-MM-DDTHH:MM' o 'YYYY-MM-DD' si no hay hora).",
+        "title": "Detection Date",
+        "type": "string"
+      },
+      "severity": {
+        "$ref": "#/$defs/Severity",
+        "description": "Severidad declarada del incidente según la clasificación del informe."
+      },
+      "affected_systems": {
+        "description": "Nombres o identificadores de los sistemas, aplicaciones o redes afectados (p. ej. 'CRM corporativo', 'Active Directory', 'VPN'). Un sistema por entrada.",
+        "items": {
+          "type": "string"
+        },
+        "minItems": 1,
+        "title": "Affected Systems",
+        "type": "array"
+      },
+      "indicators": {
+        "description": "IoCs observados durante el incidente. Lista vacía si el informe declara que no se identificaron indicadores accionables.",
+        "items": {
+          "$ref": "#/$defs/Indicator"
+        },
+        "title": "Indicators",
+        "type": "array"
+      },
+      "attack_chain": {
+        "description": "Cadena de ataque reconstruida, en orden cronológico. Cada paso asignado a una única fase ATT&CK.",
+        "items": {
+          "$ref": "#/$defs/AttackStep"
+        },
+        "minItems": 1,
+        "title": "Attack Chain",
+        "type": "array"
+      },
+      "containment_actions": {
+        "description": "Acciones de contención y remediación, en el orden en que fueron ejecutadas o planificadas.",
+        "items": {
+          "$ref": "#/$defs/ContainmentAction"
+        },
+        "minItems": 1,
+        "title": "Containment Actions",
+        "type": "array"
+      },
+      "root_cause": {
+        "description": "Causa raíz declarada por el informe en una o dos frases (p. ej. 'Configuración por defecto del servidor expuesto a internet sin autenticación').",
+        "title": "Root Cause",
+        "type": "string"
+      }
+    },
+    "required": [
+      "incident_id",
+      "detection_date",
+      "severity",
+      "affected_systems",
+      "attack_chain",
+      "containment_actions",
+      "root_cause"
+    ],
+    "title": "SecurityIncident",
+    "type": "object"
+  },
+  "output": {
+    "incident_id": "INC-2026-0810",
+    "detection_date": "2026-05-24T03:55",
+    "severity": "alta",
+    "affected_systems": [
+      "Cámaras IP Hikvision DS-2CD2042WD-I",
+      "PLC Siemens S7-1200 CPU 1212C (PLC-ENV-N-03 y PLC-ENV-N-07)",
+      "Switch industrial Hirschmann RS20",
+      "Servidor SCADA WinCC",
+      "Enlace WAN corporativo de planta",
+      "Historiador de proceso HIST-N-01"
+    ],
+    "indicators": [
+      {
+        "kind": "ip",
+        "value": "185.244.25.218",
+        "first_seen": "2026-05-20"
+      },
+      {
+        "kind": "ip",
+        "value": "45.95.169.143",
+        "first_seen": "2026-05-20"
+      },
+      {
+        "kind": "dominio",
+        "value": "report.cncservice.top",
+        "first_seen": "2026-05-21"
+      },
+      {
+        "kind": "url",
+        "value": "http://download.cncservice.top/x.sh",
+        "first_seen": "2026-05-21"
+      },
+      {
+        "kind": "hash",
+        "value": "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08",
+        "first_seen": null
+      },
+      {
+        "kind": "cve",
+        "value": "CVE-2020-15782",
+        "first_seen": null
+      },
+      {
+        "kind": "correo",
+        "value": "mukashi-ops@protonmail.example",
+        "first_seen": null
+      }
+    ],
+    "attack_chain": [
+      {
+        "phase": "reconocimiento",
+        "description": "Escaneo opportunistic desde IP 185.244.25.218 contra el rango WAN público de planta, dirigido a puertos TCP/23, TCP/2323 y TCP/81 en busca de dispositivos IoT expuestos.",
+        "timestamp": "2026-05-20T22:10",
+        "technique_id": null
+      },
+      {
+        "phase": "acceso_inicial",
+        "description": "Login exitoso en la cámara CAM-MUELLE-04 expuesta por NAT 1:1 mediante credenciales por defecto admin/12345.",
+        "timestamp": "2026-05-20T22:47",
+        "technique_id": null
+      },
+      {
+        "phase": "ejecución",
+        "description": "Descarga y ejecución del binario ELF ARM hikvision.arm7 desde http://45.95.169.143/bins/hikvision.arm7 mediante wget, lanzado desde /tmp/.x.",
+        "timestamp": "2026-05-20T22:48",
+        "technique_id": null
+      },
+      {
+        "phase": "persistencia",
+        "description": "Modificación del init de la cámara para volver a descargar el dropper en cada arranque desde http://download.cncservice.top/x.sh.",
+        "timestamp": "2026-05-21T00:15",
+        "technique_id": null
+      },
+      {
+        "phase": "evasión_de_defensas",
+        "description": "El tráfico hacia el C2 report.cncservice.top por TCP/23 no es detectado porque la regla Suricata de Mirai-C2 había sido silenciada el 2026-02-11 por un falso positivo y nunca rehabilitada.",
+        "timestamp": "2026-05-21T00:18",
+        "technique_id": null
+      },
+      {
+        "phase": "acceso_a_credenciales",
+        "description": "Desde CAM-MUELLE-04 el malware escanea la VLAN 30 buscando otras cámaras con Telnet abierto y prueba credenciales débiles por defecto (admin/admin y similares).",
+        "timestamp": null,
+        "technique_id": null
+      },
+      {
+        "phase": "movimiento_lateral",
+        "description": "Compromiso sucesivo de 16 cámaras adicionales en VLAN 30 y salto a la VLAN 10 (OT) explotando CVE-2020-15782 sobre los PLC Siemens S7-1200 PLC-ENV-N-03 y PLC-ENV-N-07.",
+        "timestamp": null,
+        "technique_id": null
+      },
+      {
+        "phase": "impacto",
+        "description": "Los 19 dispositivos comprometidos lanzan simultáneamente un ataque DDoS (UDP flood y TCP SYN flood) saliente que satura el enlace WAN de 200 Mbps, provoca timeouts OPC-UA contra los PLC y detiene por watchdog las cintas 3 y 7 de la línea Norte.",
+        "timestamp": "2026-05-24T03:42",
+        "technique_id": null
+      }
+    ],
+    "containment_actions": [
+      {
+        "description": "Aislamiento inmediato de la VLAN 30 (vídeo-vigilancia) del resto de la red modificando la ACL del switch Hirschmann RS20 para denegar tráfico entre VLAN 30 y VLAN 10 y hacia el uplink WAN.",
+        "status": "completada",
+        "owner": "SOC de planta"
+      },
+      {
+        "description": "Bloqueo perimetral en el Fortigate 200F de las IPs 185.244.25.218 y 45.95.169.143 y del dominio report.cncservice.top.",
+        "status": "completada",
+        "owner": "SOC de planta"
+      },
+      {
+        "description": "Reset de fábrica y reflasheo de las 17 cámaras Hikvision al firmware V5.7.15 con verificación de hash publicado por el fabricante.",
+        "status": "completada",
+        "owner": "Mantenimiento OT"
+      },
+      {
+        "description": "Cambio de credenciales por defecto en todos los dispositivos IoT/OT de planta con credenciales únicas por dispositivo gestionadas en Bitwarden Self-Hosted.",
+        "status": "en_curso",
+        "owner": "Mantenimiento OT"
+      },
+      {
+        "description": "Actualización del firmware de los PLC Siemens S7-1200 a la versión V4.5.0 que mitiga CVE-2020-15782.",
+        "status": "pendiente",
+        "owner": "Ingeniería de Procesos"
+      },
+      {
+        "description": "Rediseño completo de la segmentación VLAN de planta con introducción de un firewall industrial dedicado Stormshield SNi40 entre las VLAN OT y la red corporativa.",
+        "status": "en_curso",
+        "owner": "Arquitectura de Red"
+      },
+      {
+        "description": "Rehabilitación y revisión integral del conjunto de reglas Suricata relativas a familias Mirai/Gafgyt con prohibición de silenciado sin doble aprobación.",
+        "status": "completada",
+        "owner": "SOC corporativo"
+      },
+      {
+        "description": "Notificación formal al INCIBE-CERT como operador de servicios esenciales bajo el Real Decreto-ley 12/2018, con referencia interna NOT-INCIBE-2026-1147.",
+        "status": "completada",
+        "owner": "Responsable de Seguridad"
+      },
+      {
+        "description": "Comunicación a Dirección Industrial y al Comité de Crisis del impacto operativo y del plan de remediación.",
+        "status": "completada",
+        "owner": null
+      }
+    ],
+    "root_cause": "Convergencia de tres deficiencias sistémicas: segmentación insuficiente entre la VLAN de vídeo-vigilancia y la VLAN OT con ACLs permisivas, credenciales por defecto vigentes en dispositivos IoT desplegados por integradores externos sin hardening contractual, y firmware desactualizado en cámaras y PLC con vulnerabilidades públicas parcheadas hace años (CVE-2020-15782)."
+  },
+  "metadata": {
+    "source": "synthetic_20260601_010.md",
+    "domain": "technical",
+    "subdomain": "security_incident"
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "id": "test_legal_legislation_004",
+  "input_text": "Artículo primero. Modificación de la Ley 16/1995, de 4 de mayo, Forestal y de Protección de la Naturaleza de la Comunidad de Madrid.\nSe añade un artículo 35 bis en la Ley 16/1995, de 4 de mayo, Forestal y de Protección de la Naturaleza de la Comunidad de Madrid, con el siguiente tenor literal:\n«Artículo 35 bis. Acción popular.\n1. La Comunidad de Madrid podrá ejercer la acción popular en los procesos penales seguidos por delitos de incendio y contra los recursos naturales y el medio ambiente, que tengan impacto en su territorio y que revistan especial gravedad con perjuicio para los montes o masas forestales, el medio natural o la vida silvestre, así como los que comporten riesgo para la vida, la integridad física o la salud de las personas, en la forma y condiciones establecidas por la legislación procesal y por esta ley.\n2. En los casos en que proceda, la Comunidad de Madrid podrá ejercer otras acciones en los términos regulados en la legislación procesal».",
+  "instruction": "Determina si la Comunidad de Madrid está habilitada para ejercer la acción popular en procesos penales por delitos de incendio que tengan impacto en su territorio, según el texto legal. Identifica las citas textuales y los artículos involucrados.",
+  "target_schema": {
+    "additionalProperties": false,
+    "description": "Performs binary legal reasoning based on a legislative text.\nComplexity: L8 (Logical Inference & Evidence Aggregation).",
+    "properties": {
+      "question": {
+        "description": "The specific question to be answered (e.g., 'Is the death penalty prohibited?')",
+        "title": "Question",
+        "type": "string"
+      },
+      "is_applicable": {
+        "description": "True if the condition described in the question is met or permitted by the text",
+        "title": "Is Applicable",
+        "type": "boolean"
+      },
+      "evidence_quotes": {
+        "description": "Direct verbatim fragments from the text that support the answer",
+        "items": {
+          "type": "string"
+        },
+        "title": "Evidence Quotes",
+        "type": "array"
+      },
+      "cited_articles": {
+        "description": "List of article identifiers involved (e.g., 'Art. 1', 'Art. 15')",
+        "items": {
+          "type": "string"
+        },
+        "title": "Cited Articles",
+        "type": "array"
+      },
+      "is_explicit": {
+        "description": "True if the answer is literally stated; False if it requires inference or synthesis",
+        "title": "Is Explicit",
+        "type": "boolean"
+      }
+    },
+    "required": [
+      "question",
+      "is_applicable",
+      "evidence_quotes",
+      "is_explicit"
+    ],
+    "title": "LegalInquiry",
+    "type": "object"
+  },
+  "output": {
+    "question": "¿Puede la Comunidad de Madrid ejercer la acción popular en los procesos penales seguidos por delitos de incendio que tengan impacto en su territorio?",
+    "is_applicable": true,
+    "evidence_quotes": [
+      "La Comunidad de Madrid podrá ejercer la acción popular en los procesos penales seguidos por delitos de incendio y contra los recursos naturales y el medio ambiente, que tengan impacto en su territorio y que revistan especial gravedad con perjuicio para los montes o masas forestales, el medio natural o la vida silvestre",
+      "Se añade un artículo 35 bis en la Ley 16/1995, de 4 de mayo, Forestal y de Protección de la Naturaleza de la Comunidad de Madrid"
+    ],
+    "cited_articles": [
+      "Artículo 35 bis"
+    ],
+    "is_explicit": true
+  },
+  "metadata": {
+    "source": "BOE-A-2026-10120.md",
+    "domain": "legal",
+    "subdomain": "legislation"
+  }
+}

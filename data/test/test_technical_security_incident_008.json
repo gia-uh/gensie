@@ -1,0 +1,424 @@
+{
+  "id": "technical_security_incident_008",
+  "input_text": "# Informe Post-Mortem — Incidente INC-2026-0117\n\n**Clasificación:** Confidencial — Distribución restringida (CISO, CFO, Dirección General, Asesoría Jurídica)\n**Tipo de incidente:** Business Email Compromise (BEC) con fraude de transferencia\n**Autor:** Equipo de Respuesta a Incidentes (CSIRT interno)\n**Fecha de emisión del informe:** 2026-05-30\n**Versión:** 1.2 (revisada tras conclusiones del peritaje forense externo de Mandiant Iberia)\n\n---\n\n## 1. Resumen ejecutivo\n\nEntre el 12 de abril de 2026 y el 21 de mayo de 2026, un actor de amenazas no atribuido públicamente comprometió la cuenta corporativa de Microsoft 365 del Director Financiero (CFO), Don Ignacio Vergara, mediante una campaña de spear phishing dirigida. Tras obtener credenciales válidas y bypass del segundo factor (mediante un kit AiTM tipo *Evilginx2* hospedado en un dominio lookalike), el atacante mantuvo acceso silencioso al buzón durante aproximadamente 37 días, monitorizando comunicaciones con proveedores estratégicos.\n\nEl **21 de mayo de 2026 a las 09:42 CEST**, el atacante envió desde la cuenta legítima del CFO un correo al Departamento de Contabilidad (a la cuenta de Doña Marta Iruña, responsable de tesorería) solicitando modificar urgentemente los datos bancarios de un proveedor real —la constructora **Edificaciones Norbel S.L.U.**, con la que existía una factura pendiente de pago por hito de obra— hacia una cuenta IBAN controlada por el actor en una entidad báltica. La transferencia se ejecutó el mismo día a las 13:18 CEST por importe de **279.840,00 €**.\n\nEl fraude fue detectado el **25 de mayo de 2026 a las 11:05 CEST**, cuando el comercial de Edificaciones Norbel telefoneó para reclamar el pago. La detección NO provino de controles técnicos sino de una llamada del proveedor real.\n\n**Severidad declarada: crítica**. Impacto financiero directo: **279.840,00 €** (de los cuales se han bloqueado provisionalmente 84.200 € por la entidad receptora tras la denuncia; recuperación restante incierta). Impacto reputacional moderado (no se ha producido brecha de datos personales notificable bajo RGPD, según valoración del DPO).\n\n---\n\n## 2. Sistemas y servicios afectados\n\n- **Microsoft 365 — buzón del CFO** (`ivergara@<corporativo>.es`): cuenta primaria comprometida.\n- **Microsoft 365 — Exchange Online**: creación de regla de bandeja oculta con reenvío externo y borrado selectivo.\n- **Microsoft Entra ID (antes Azure AD)**: tokens de sesión MFA secuestrados, sesión persistente mantenida durante 37 días.\n- **Outlook Web Access (OWA)**: vector principal de uso por parte del atacante (sin instalación de cliente).\n- **IMAP / Servicio de auditoría de buzón (mailbox audit log)**: usado para evasión — el atacante borró selectivamente entradas del *audit log* del buzón durante la ventana de monitorización (técnica conocida desde 2023, no del todo mitigada en tenants con auditoría no avanzada).\n- **Sistema bancario corporativo (banca electrónica BBVA Net Cash)**: usado por contabilidad para ejecutar la transferencia — NO comprometido directamente, pero sí el flujo de autorización por confianza implícita en el correo del CFO.\n\nNo se identificó movimiento lateral hacia ningún otro buzón corporativo ni hacia file shares de SharePoint/OneDrive.\n\n---\n\n## 3. Cronología reconstruida y análisis técnico\n\nEsta sección **entremezcla deliberadamente cronología y análisis**, siguiendo la convención del CSIRT para informes BEC: los hallazgos forenses se anotan en línea con los eventos para preservar el razonamiento.\n\n### 3.1 Fase de reconocimiento (anterior al 12 de abril)\n\nAunque no se ha podido fechar con precisión, el análisis OSINT realizado posteriormente sugiere que el atacante recopiló información durante semanas, probablemente desde finales de marzo. Datos públicos utilizados: perfil de LinkedIn del CFO (titulado, eventos a los que asistió, foto reciente), nota de prensa corporativa del 4 de abril mencionando inversión inmobiliaria con Edificaciones Norbel, y memoria anual 2025 disponible en el Registro Mercantil. Este reconocimiento explica la calidad del correo de spear phishing (referencias contextuales precisas, tono adecuado al destinatario). Fase ATT&CK: **reconocimiento** (T1589, T1591).\n\n### 3.2 Acceso inicial — 12 de abril de 2026, 08:14 CEST\n\nEl CFO recibe un correo aparentemente proveniente de DocuSign anunciando un documento contractual pendiente de firma relacionado con \"Norbel — Anexo III Hito 4\". El correo procedía del dominio lookalike **`docusing-secure.com`** (nótese la \"g\" en lugar de \"n\" — typosquatting). Adjunto: PDF benigno con un enlace a un portal de autenticación falso que clonaba la pantalla de login de Microsoft 365.\n\nEl CFO hizo clic, introdujo credenciales, y al recibir el reto MFA en su Authenticator lo aprobó (los logs del Authenticator muestran la aprobación a las 08:15:42). El portal era en realidad un proxy AiTM (Adversary-in-the-Middle) compatible con Evilginx2, que capturó tanto las credenciales como la cookie de sesión `ESTSAUTH` válida tras la aprobación del segundo factor. Hash SHA-256 del adjunto PDF: **`b4f1c2d9e7a6f3b8e0d2c5a4f9b1e6d8c3a7f0b2e9d4c6a1f8b5e3d7c0a2f4b9`**. Fase ATT&CK: **acceso_inicial** (T1566.002 — Phishing: Spearphishing Link).\n\n### 3.3 Persistencia — 12 de abril, 08:47 CEST\n\nA los 32 minutos del compromiso, el atacante se conectó por primera vez a OWA desde la IP **45.134.26.118** (geolocalización: Sofía, Bulgaria — VPS de OVH). Su primera acción fue crear una **regla de bandeja oculta** denominada `..` (dos puntos, nombre intencionalmente discreto) que cumplía dos funciones:\n\n1. Reenviar copia de todo correo entrante cuyo asunto o cuerpo contuviera `Norbel`, `factura`, `IBAN`, `transferencia`, `pago` o `wire` a la dirección externa **`i.vergara.cfo@proton.me`** (correo controlado por el atacante).\n2. Mover automáticamente esos mismos correos a una subcarpeta llamada `RSS Feeds\\Archive` (rara vez inspeccionada por el usuario) para que no aparecieran en la bandeja principal del CFO.\n\nFase ATT&CK: **persistencia** (T1564.008 — Email Hiding Rules) y **persistencia** (T1098.002 — Account Manipulation: Additional Email Delegate Permissions, parcialmente).\n\n### 3.4 Evasión de defensas — del 12 de abril al 21 de mayo\n\nDurante toda la ventana de monitorización, el atacante ejecutó dos técnicas de evasión:\n\n- **Borrado selectivo del mailbox audit log vía IMAP**: el atacante usó comandos IMAP `STORE +FLAGS (\\Deleted) EXPUNGE` sobre items específicos del buzón auditado, aprovechando una limitación conocida de tenants con auditoría no avanzada. Se identificaron 14 limpiezas a lo largo del periodo. **CVE-2023-21709** (aunque ya parcheada en algunos vectores, persiste el patrón en configuraciones por defecto).\n- **Uso exclusivo de OWA sin instalación de cliente** y desde IPs rotatorias dentro del mismo ASN báltico (`AS9009 — M247`), evitando huella en endpoint corporativo.\n\nFase ATT&CK: **evasión_de_defensas** (T1070.008 — Indicator Removal: Clear Mailbox Data).\n\n### 3.5 Exfiltración — del 14 de abril al 20 de mayo\n\nA través de la regla de reenvío, el atacante exfiltró progresivamente 47 hilos de correo relacionados con Edificaciones Norbel y otros 3 proveedores. Esta exfiltración fue **silenciosa y de bajo volumen** (no detectable por DLP por umbral). Permitió al atacante: (a) entender el calendario de pagos por hitos de obra, (b) replicar el estilo y firma del CFO, y (c) elegir el momento idóneo en que un pago a Norbel era inminente y esperable. Fase ATT&CK: **exfiltración** (T1020 — Automated Exfiltration vía regla de reenvío).\n\n### 3.6 Impacto — 21 de mayo de 2026\n\nA las **09:42:11 CEST** del 21 de mayo, el atacante envió desde el buzón legítimo del CFO un correo a Doña Marta Iruña con asunto *\"URGENTE — Modificación datos bancarios Norbel hito 4 (firmado)\"*. El cuerpo del correo:\n\n- Referenciaba correctamente el número de factura interno (F-2026-0418, obtenido por exfiltración).\n- Pedía pagar a un nuevo IBAN **LT12 3500 0100 0011 4477** (banco lituano Paysera), aduciendo que Norbel había cambiado de entidad por un \"embargo cautelar resuelto\".\n- Incluía un PDF adjunto con membrete falsificado de Norbel y un IBAN coincidente. Hash SHA-256 del PDF: **`c0e5a1d4b8f2e6c9a3b7d0e1f4c2b6a9d8e3f0c1b7a4d6e2f9c5a0b8d3e7f1c6`**.\n- Firmaba con la firma corporativa exacta del CFO (extraída por exfiltración del correo legítimo).\n\nMarta Iruña, siguiendo el procedimiento de doble validación, **respondió al correo** pidiendo confirmación. El atacante (con acceso al buzón) **interceptó esta respuesta gracias a la regla oculta**, respondió afirmativamente desde el propio buzón del CFO, y borró ambos mensajes de la carpeta de enviados del CFO. Marta procedió a tramitar la transferencia en BBVA Net Cash. A las 13:18:04 CEST se ejecutó la orden por **279.840,00 €**. Fase ATT&CK: **impacto** (T1657 — Financial Theft).\n\n### 3.7 Detección — 25 de mayo, 11:05 CEST\n\nEl comercial de Edificaciones Norbel, Don Javier Pereda, llamó al CFO directamente reclamando el pago del hito 4. Al confrontar el correo del 21 de mayo, el CFO confirmó no haberlo escrito. Se escaló al CSIRT a las 11:31 CEST.\n\n---\n\n## 4. Indicadores de Compromiso (IoCs)\n\n| Tipo | Valor | Primera observación |\n|---|---|---|\n| IP | `45.134.26.118` | 2026-04-12 |\n| IP | `185.220.101.47` | 2026-04-19 |\n| Dominio | `docusing-secure.com` | 2026-04-12 |\n| Dominio | `login-microsftonline.com` | 2026-04-12 |\n| URL | `https://docusing-secure.com/sign/anexo-norbel-h4` | 2026-04-12 |\n| Correo | `i.vergara.cfo@proton.me` | 2026-04-12 |\n| Correo | `notifications@docusing-secure.com` | 2026-04-12 |\n| Hash | `b4f1c2d9e7a6f3b8e0d2c5a4f9b1e6d8c3a7f0b2e9d4c6a1f8b5e3d7c0a2f4b9` | 2026-04-12 |\n| Hash | `c0e5a1d4b8f2e6c9a3b7d0e1f4c2b6a9d8e3f0c1b7a4d6e2f9c5a0b8d3e7f1c6` | 2026-05-21 |\n| CVE | `CVE-2023-21709` | 2026-05-26 |\n| Regla YARA | `rule BEC_Evilginx2_DocusignLookalike { strings: $s1 = \"docusing-secure\" condition: $s1 }` | 2026-05-27 |\n\n---\n\n## 5. Acciones de contención y remediación\n\n| # | Acción | Estado | Responsable |\n|---|---|---|---|\n| C-01 | Revocación inmediata de todos los tokens de sesión del CFO en Entra ID (`Revoke-AzureADUserAllRefreshToken`). | completada | SOC |\n| C-02 | Reset de contraseña del CFO y rotación del método MFA (paso a llave FIDO2). | completada | IT Helpdesk |\n| C-03 | Eliminación de la regla oculta `..` del buzón comprometido y auditoría exhaustiva de reglas en los buzones de toda la dirección financiera (47 buzones inspeccionados). | completada | SOC |\n| C-04 | Notificación urgente al banco emisor (BBVA) y al banco receptor (Paysera, Lituania) con número de referencia SWIFT para intento de recall. | completada | Tesorería |\n| C-05 | Denuncia formal ante la Brigada de Investigación Tecnológica (BIT) de la Policía Nacional, ref. 2026/BIT/0814. | completada | Asesoría Jurídica |\n| C-06 | Notificación al INCIBE-CERT como incidente de criticidad alta. | completada | CSIRT |\n| C-07 | Activación de auditoría avanzada (Purview Audit Premium) en todo el tenant. | en_curso | IT Infraestructura |\n| C-08 | Despliegue de política de Conditional Access que bloquea logins a OWA desde geografías no autorizadas (whitelist: ES, PT, FR, AND). | en_curso | IT Seguridad |\n| C-09 | Implantación obligatoria de FIDO2 para todos los puestos C-Level y financieros (50 usuarios). | en_curso | IT Helpdesk |\n| C-10 | Rediseño del procedimiento de modificación de datos bancarios de proveedores: exigencia de doble validación **fuera de banda** (llamada telefónica al número en ficha maestra, no al de la firma del correo). | en_curso | Tesorería + CFO |\n| C-11 | Formación específica anti-BEC para directivos y departamento financiero. | pendiente | RRHH + CSIRT |\n| C-12 | Contratación de servicio MDR 24x7 con foco en señales de identidad (Microsoft Defender for Identity + tercero). | pendiente | Dirección |\n| C-13 | Recuperación del importe restante (~195.640 €) vía proceso judicial internacional. | pendiente | Asesoría Jurídica |\n\n---\n\n## 6. Causa raíz\n\nLa causa raíz del incidente es la **combinación de un compromiso de credenciales con bypass de MFA mediante phishing AiTM contra un ejecutivo de alto valor, agravada por la confianza implícita del flujo de modificación de datos bancarios en una validación basada únicamente en correo electrónico (sin verificación fuera de banda)**. El factor técnico (kit AiTM + regla oculta) fue posibilitado por la ausencia de auditoría avanzada y de Conditional Access restrictivo; el factor de proceso (transferencia ejecutada tras validación intra-canal) fue la condición *sine qua non* para que el fraude se materializara.\n\n---\n\n## 7. Lecciones aprendidas (anexo)\n\n- La autenticación multifactor basada en push notification es **insuficiente** frente a kits AiTM modernos. FIDO2 / Passkeys es la única mitigación robusta.\n- La validación de modificaciones bancarias por correo es estructuralmente vulnerable al BEC; debe sustituirse por validación fuera de banda contra el contacto en ficha maestra.\n- El borrado del audit log de buzón seguía siendo posible en nuestra configuración; la migración a Purview Audit Premium debió haberse priorizado tras las recomendaciones del audit 2025.\n\n---\n\n*Fin del documento. Próxima revisión prevista: 2026-08-30 (cierre de actuaciones judiciales y recuperación).*",
+  "instruction": "Extrae el incidente de seguridad estructurado (IoCs, cadena de ataque por fases ATT&CK, sistemas afectados, acciones de contención y causa raíz) del informe post-mortem de BEC.",
+  "target_schema": {
+    "$defs": {
+      "AttackPhase": {
+        "description": "Fases de la cadena de ataque (MITRE ATT&CK simplificado).",
+        "enum": [
+          "reconocimiento",
+          "acceso_inicial",
+          "ejecución",
+          "persistencia",
+          "escalada_de_privilegios",
+          "evasión_de_defensas",
+          "acceso_a_credenciales",
+          "movimiento_lateral",
+          "exfiltración",
+          "impacto"
+        ],
+        "title": "AttackPhase",
+        "type": "string"
+      },
+      "AttackStep": {
+        "additionalProperties": false,
+        "description": "Un paso de la cadena de ataque tal como lo reconstruye el informe.",
+        "properties": {
+          "phase": {
+            "$ref": "#/$defs/AttackPhase",
+            "description": "Fase ATT&CK a la que pertenece el paso."
+          },
+          "description": {
+            "description": "Descripción de la acción del atacante en una frase (p. ej. 'Envío de correo de phishing con adjunto malicioso al departamento financiero').",
+            "title": "Description",
+            "type": "string"
+          },
+          "timestamp": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Marca temporal en formato ISO 8601 si el informe la consigna. Null si solo se indica el orden relativo.",
+            "title": "Timestamp"
+          },
+          "technique_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Identificador MITRE ATT&CK si el informe lo cita (p. ej. 'T1566.001'). Null si no aparece.",
+            "title": "Technique Id"
+          }
+        },
+        "required": [
+          "phase",
+          "description"
+        ],
+        "title": "AttackStep",
+        "type": "object"
+      },
+      "ContainmentAction": {
+        "additionalProperties": false,
+        "description": "Acción de contención o remediación tomada por el equipo de respuesta.",
+        "properties": {
+          "description": {
+            "description": "Descripción literal de la acción (p. ej. 'Aislamiento del host afectado en VLAN de cuarentena').",
+            "title": "Description",
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/$defs/ContainmentStatus",
+            "description": "Estado de ejecución de la acción al cierre del informe."
+          },
+          "owner": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Equipo o persona responsable de la acción (p. ej. 'SOC', 'Red Team'). Null si no se asigna explícitamente.",
+            "title": "Owner"
+          }
+        },
+        "required": [
+          "description",
+          "status"
+        ],
+        "title": "ContainmentAction",
+        "type": "object"
+      },
+      "ContainmentStatus": {
+        "enum": [
+          "pendiente",
+          "en_curso",
+          "completada",
+          "no_aplica"
+        ],
+        "title": "ContainmentStatus",
+        "type": "string"
+      },
+      "Indicator": {
+        "additionalProperties": false,
+        "description": "Indicador de compromiso (IoC) observado durante el incidente.",
+        "properties": {
+          "kind": {
+            "$ref": "#/$defs/IndicatorKind",
+            "description": "Tipo de indicador."
+          },
+          "value": {
+            "description": "Valor literal del indicador tal como aparece en el informe (IP, dominio, SHA-256, CVE-XXXX-XXXX, etc.). Sin modificar.",
+            "title": "Value",
+            "type": "string"
+          },
+          "first_seen": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Fecha en formato ISO en que se observó el indicador por primera vez durante el incidente. Null si el informe no la fecha.",
+            "title": "First Seen"
+          }
+        },
+        "required": [
+          "kind",
+          "value"
+        ],
+        "title": "Indicator",
+        "type": "object"
+      },
+      "IndicatorKind": {
+        "enum": [
+          "ip",
+          "dominio",
+          "url",
+          "hash",
+          "correo",
+          "cve",
+          "regla_yara"
+        ],
+        "title": "IndicatorKind",
+        "type": "string"
+      },
+      "Severity": {
+        "enum": [
+          "baja",
+          "media",
+          "alta",
+          "crítica"
+        ],
+        "title": "Severity",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Post-mortem o informe de respuesta a un incidente de ciberseguridad: IoCs\nobservados, reconstrucción de la cadena de ataque en fases ordenadas\ncronológicamente, sistemas afectados y acciones de contención con su estado.\nLa extracción debe diferenciar fases ATT&CK por su semántica (no por\nel orden literal en el informe, que puede mezclar narrativa y análisis), y\nasociar cada IoC con su tipo correcto a partir de su forma.\n\nComplejidad: L9 — cadena causal con vocabulario técnico denso, taxonomía\nrígida (fases ATT&CK), pluralidad de listas heterogéneas y enlazado\nentre acciones y sistemas.",
+    "properties": {
+      "incident_id": {
+        "description": "Identificador interno del incidente tal como aparece en el informe (p. ej. 'INC-2026-0042').",
+        "title": "Incident Id",
+        "type": "string"
+      },
+      "detection_date": {
+        "description": "Fecha de detección del incidente en formato ISO 8601 ('YYYY-MM-DDTHH:MM' o 'YYYY-MM-DD' si no hay hora).",
+        "title": "Detection Date",
+        "type": "string"
+      },
+      "severity": {
+        "$ref": "#/$defs/Severity",
+        "description": "Severidad declarada del incidente según la clasificación del informe."
+      },
+      "affected_systems": {
+        "description": "Nombres o identificadores de los sistemas, aplicaciones o redes afectados (p. ej. 'CRM corporativo', 'Active Directory', 'VPN'). Un sistema por entrada.",
+        "items": {
+          "type": "string"
+        },
+        "minItems": 1,
+        "title": "Affected Systems",
+        "type": "array"
+      },
+      "indicators": {
+        "description": "IoCs observados durante el incidente. Lista vacía si el informe declara que no se identificaron indicadores accionables.",
+        "items": {
+          "$ref": "#/$defs/Indicator"
+        },
+        "title": "Indicators",
+        "type": "array"
+      },
+      "attack_chain": {
+        "description": "Cadena de ataque reconstruida, en orden cronológico. Cada paso asignado a una única fase ATT&CK.",
+        "items": {
+          "$ref": "#/$defs/AttackStep"
+        },
+        "minItems": 1,
+        "title": "Attack Chain",
+        "type": "array"
+      },
+      "containment_actions": {
+        "description": "Acciones de contención y remediación, en el orden en que fueron ejecutadas o planificadas.",
+        "items": {
+          "$ref": "#/$defs/ContainmentAction"
+        },
+        "minItems": 1,
+        "title": "Containment Actions",
+        "type": "array"
+      },
+      "root_cause": {
+        "description": "Causa raíz declarada por el informe en una o dos frases (p. ej. 'Configuración por defecto del servidor expuesto a internet sin autenticación').",
+        "title": "Root Cause",
+        "type": "string"
+      }
+    },
+    "required": [
+      "incident_id",
+      "detection_date",
+      "severity",
+      "affected_systems",
+      "attack_chain",
+      "containment_actions",
+      "root_cause"
+    ],
+    "title": "SecurityIncident",
+    "type": "object"
+  },
+  "output": {
+    "incident_id": "INC-2026-0117",
+    "detection_date": "2026-05-25T11:05",
+    "severity": "crítica",
+    "affected_systems": [
+      "Microsoft 365 — buzón del CFO",
+      "Microsoft 365 — Exchange Online",
+      "Microsoft Entra ID",
+      "Outlook Web Access (OWA)",
+      "IMAP / Servicio de auditoría de buzón (mailbox audit log)",
+      "Sistema bancario corporativo (banca electrónica BBVA Net Cash)"
+    ],
+    "indicators": [
+      {
+        "kind": "ip",
+        "value": "45.134.26.118",
+        "first_seen": "2026-04-12"
+      },
+      {
+        "kind": "ip",
+        "value": "185.220.101.47",
+        "first_seen": "2026-04-19"
+      },
+      {
+        "kind": "dominio",
+        "value": "docusing-secure.com",
+        "first_seen": "2026-04-12"
+      },
+      {
+        "kind": "dominio",
+        "value": "login-microsftonline.com",
+        "first_seen": "2026-04-12"
+      },
+      {
+        "kind": "url",
+        "value": "https://docusing-secure.com/sign/anexo-norbel-h4",
+        "first_seen": "2026-04-12"
+      },
+      {
+        "kind": "correo",
+        "value": "i.vergara.cfo@proton.me",
+        "first_seen": "2026-04-12"
+      },
+      {
+        "kind": "correo",
+        "value": "notifications@docusing-secure.com",
+        "first_seen": "2026-04-12"
+      },
+      {
+        "kind": "hash",
+        "value": "b4f1c2d9e7a6f3b8e0d2c5a4f9b1e6d8c3a7f0b2e9d4c6a1f8b5e3d7c0a2f4b9",
+        "first_seen": "2026-04-12"
+      },
+      {
+        "kind": "hash",
+        "value": "c0e5a1d4b8f2e6c9a3b7d0e1f4c2b6a9d8e3f0c1b7a4d6e2f9c5a0b8d3e7f1c6",
+        "first_seen": "2026-05-21"
+      },
+      {
+        "kind": "cve",
+        "value": "CVE-2023-21709",
+        "first_seen": "2026-05-26"
+      },
+      {
+        "kind": "regla_yara",
+        "value": "rule BEC_Evilginx2_DocusignLookalike { strings: $s1 = \"docusing-secure\" condition: $s1 }",
+        "first_seen": "2026-05-27"
+      }
+    ],
+    "attack_chain": [
+      {
+        "phase": "reconocimiento",
+        "description": "Recolección OSINT del CFO desde LinkedIn, notas de prensa y memoria anual del Registro Mercantil para preparar el spear phishing.",
+        "timestamp": null,
+        "technique_id": "T1589"
+      },
+      {
+        "phase": "acceso_inicial",
+        "description": "Envío de correo de spear phishing suplantando DocuSign desde dominio lookalike docusing-secure.com con enlace a portal AiTM que captura credenciales y cookie de sesión MFA.",
+        "timestamp": "2026-04-12T08:14",
+        "technique_id": "T1566.002"
+      },
+      {
+        "phase": "persistencia",
+        "description": "Creación de regla de bandeja oculta '..' que reenvía correos con keywords (Norbel, factura, IBAN) a i.vergara.cfo@proton.me y los mueve a la subcarpeta RSS Feeds\\Archive.",
+        "timestamp": "2026-04-12T08:47",
+        "technique_id": "T1564.008"
+      },
+      {
+        "phase": "evasión_de_defensas",
+        "description": "Borrado selectivo del mailbox audit log vía IMAP con STORE +FLAGS (\\Deleted) EXPUNGE sobre items específicos, ejecutado 14 veces durante la ventana de monitorización.",
+        "timestamp": null,
+        "technique_id": "T1070.008"
+      },
+      {
+        "phase": "exfiltración",
+        "description": "Exfiltración silenciosa y de bajo volumen de 47 hilos de correo relacionados con Edificaciones Norbel y otros tres proveedores mediante la regla de reenvío externa.",
+        "timestamp": null,
+        "technique_id": "T1020"
+      },
+      {
+        "phase": "impacto",
+        "description": "Envío desde el buzón legítimo del CFO de correo solicitando modificar el IBAN del proveedor Norbel, intercepción y respuesta a la validación interna de tesorería, y ejecución de transferencia bancaria de 279.840,00 € a IBAN báltico controlado por el atacante.",
+        "timestamp": "2026-05-21T13:18",
+        "technique_id": "T1657"
+      }
+    ],
+    "containment_actions": [
+      {
+        "description": "Revocación inmediata de todos los tokens de sesión del CFO en Entra ID (Revoke-AzureADUserAllRefreshToken).",
+        "status": "completada",
+        "owner": "SOC"
+      },
+      {
+        "description": "Reset de contraseña del CFO y rotación del método MFA (paso a llave FIDO2).",
+        "status": "completada",
+        "owner": "IT Helpdesk"
+      },
+      {
+        "description": "Eliminación de la regla oculta '..' del buzón comprometido y auditoría exhaustiva de reglas en los buzones de toda la dirección financiera (47 buzones inspeccionados).",
+        "status": "completada",
+        "owner": "SOC"
+      },
+      {
+        "description": "Notificación urgente al banco emisor (BBVA) y al banco receptor (Paysera, Lituania) con número de referencia SWIFT para intento de recall.",
+        "status": "completada",
+        "owner": "Tesorería"
+      },
+      {
+        "description": "Denuncia formal ante la Brigada de Investigación Tecnológica (BIT) de la Policía Nacional, ref. 2026/BIT/0814.",
+        "status": "completada",
+        "owner": "Asesoría Jurídica"
+      },
+      {
+        "description": "Notificación al INCIBE-CERT como incidente de criticidad alta.",
+        "status": "completada",
+        "owner": "CSIRT"
+      },
+      {
+        "description": "Activación de auditoría avanzada (Purview Audit Premium) en todo el tenant.",
+        "status": "en_curso",
+        "owner": "IT Infraestructura"
+      },
+      {
+        "description": "Despliegue de política de Conditional Access que bloquea logins a OWA desde geografías no autorizadas (whitelist: ES, PT, FR, AND).",
+        "status": "en_curso",
+        "owner": "IT Seguridad"
+      },
+      {
+        "description": "Implantación obligatoria de FIDO2 para todos los puestos C-Level y financieros (50 usuarios).",
+        "status": "en_curso",
+        "owner": "IT Helpdesk"
+      },
+      {
+        "description": "Rediseño del procedimiento de modificación de datos bancarios de proveedores: exigencia de doble validación fuera de banda (llamada telefónica al número en ficha maestra, no al de la firma del correo).",
+        "status": "en_curso",
+        "owner": "Tesorería + CFO"
+      },
+      {
+        "description": "Formación específica anti-BEC para directivos y departamento financiero.",
+        "status": "pendiente",
+        "owner": "RRHH + CSIRT"
+      },
+      {
+        "description": "Contratación de servicio MDR 24x7 con foco en señales de identidad (Microsoft Defender for Identity + tercero).",
+        "status": "pendiente",
+        "owner": "Dirección"
+      },
+      {
+        "description": "Recuperación del importe restante (~195.640 €) vía proceso judicial internacional.",
+        "status": "pendiente",
+        "owner": "Asesoría Jurídica"
+      }
+    ],
+    "root_cause": "Combinación de un compromiso de credenciales con bypass de MFA mediante phishing AiTM contra un ejecutivo de alto valor, agravada por la confianza implícita del flujo de modificación de datos bancarios en una validación basada únicamente en correo electrónico (sin verificación fuera de banda)."
+  },
+  "metadata": {
+    "source": "synthetic_20260601_008.md",
+    "domain": "technical",
+    "subdomain": "security_incident"
+  }
+}

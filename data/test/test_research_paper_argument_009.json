@@ -1,0 +1,323 @@
+{
+  "id": "research_paper_argument_009",
+  "input_text": "**Trabajos de Prehistoria**\nVol. 83, núm. 1, 2026, pp. 41–72\nDOI: 10.3989/tp.2026.83.1.041\nISSN: 0082-5638 / ISSN (en línea): 1988-3218\n\n# Una neolitización tardía en el sureste peninsular: nuevo modelado bayesiano de 82 dataciones AMS en el Almanzora y la cuenca de Vera (Almería)\n\n**Carmen Reig Espinosa**¹, **Joaquín Maldonado Cánovas**², **Sara Pérez-Olmos Galindo**¹, **Tomás Rabasco Iniesta**³\n\n¹ Departamento de Prehistoria, Arqueología, Historia Antigua, Filología Griega y Filología Latina, Universidad de Alicante\n² Centro Nacional de Investigación sobre la Evolución Humana (CENIEH), Burgos\n³ Museo Arqueológico de Almería · Consejería de Cultura, Junta de Andalucía\n\nCorrespondencia: carmen.reig@ua.es\n\nRecibido: 12 de septiembre de 2025 · Aceptado: 4 de enero de 2026 · Publicado en línea: 28 de febrero de 2026\n\n---\n\n## Resumen\n\nPresentamos un modelado bayesiano de 82 dataciones radiocarbónicas AMS procedentes de diez yacimientos clave del valle del Almanzora y la cuenca de Vera (Almería), once de ellas inéditas y obtenidas específicamente para este estudio sobre semillas carbonizadas de cereal cultivado y restos óseos de ovicaprino doméstico en contextos primarios sellados. Las dataciones se calibran con IntCal20 y se modelan en OxCal v4.4 mediante secuencias estratigráficas con límites (`Boundary`) entre las fases mesolítica final, neolítica antigua y neolítica plena. El resultado central, **el límite modelado para la primera evidencia de economía productora en la zona se sitúa en 5320–5170 cal BC (95.4% prob.), entre 250 y 400 años más tarde que el rango aceptado por la síntesis dominante** (cf. Bocquet-Appel 2009; Bernabeu Aubán et al. 2015), obliga a revisar el ajuste regional del modelo de \"olas\" de expansión rápida (~1 km/año) propuesto para el avance neolítico mediterráneo. Argumentamos que el sureste peninsular constituye una zona de freno o ralentización local que el modelo continental promedia, y que las cronologías heredadas de la década de 1990 estaban contaminadas por dataciones convencionales sobre muestras de vida larga (carbón de madera) y por contextos estratigráficamente cuestionables. Discutimos críticas previsibles —efecto reservorio en muestras marinas, sesgo de selección de yacimientos, equivalencia entre \"primera presencia\" y \"consolidación económica\"— y declaramos limitaciones del estudio.\n\n**Palabras clave:** Neolítico antiguo; Mesolítico; sureste peninsular; Almería; modelado bayesiano; radiocarbono; OxCal; IntCal20; Bocquet-Appel; expansión neolítica.\n\n---\n\n## 1. Introducción\n\nEl tránsito del Mesolítico al Neolítico en el Mediterráneo occidental ha sido objeto, durante las dos últimas décadas, de un esfuerzo de afinamiento cronológico sin precedentes. La síntesis hoy dominante, articulada en torno a los modelos demográficos de Bocquet-Appel (2002, 2009) y a los trabajos cronométricos de Bernabeu Aubán, Pardo-Gordó y García Puchol (2015, 2017), sostiene que la expansión de la economía productora hacia el oeste mediterráneo se produjo en \"olas\" de avance rápido —del orden de 1 km/año— y que el sureste de la Península Ibérica habría sido alcanzado entre 5600 y 5450 cal BC. Esta cronología se ha vuelto referencia obligada y aparece naturalizada en manuales recientes (Hernando 2018; Rojo Guerra et al. 2019).\n\nEl presente trabajo defiende una tesis principal: **la primera evidencia robusta de economía productora en el sureste peninsular —concretamente en los valles del Almanzora y de Vera— se sitúa entre 5320 y 5170 cal BC (95.4% de probabilidad bayesiana), es decir, entre 250 y 400 años más tarde que el rango asumido por la síntesis dominante, lo que cuestiona el ajuste empírico del modelo de olas rápidas de Bocquet-Appel para esta zona y abre la hipótesis de una neolitización regional decalada respecto al avance general mediterráneo**. Esta tesis no es una mera reducción cronológica: si el sureste se neolitiza varios siglos después de lo asumido, los modelos demográficos que computan la expansión sobre la base de una velocidad media uniforme están sobreestimando el ritmo en esta franja y, por extensión, subestimando la heterogeneidad regional del proceso.\n\nEl artículo se organiza como sigue. La sección 2 sintetiza el marco geográfico y arqueológico. La sección 3 expone los materiales (yacimientos, muestras, criterios de selección) y los métodos (preparación AMS, calibración, modelado bayesiano en OxCal). La sección 4 presenta los resultados organizados en cuatro sub-afirmaciones cronológicas. La sección 5 discute los principales contra-argumentos. La sección 6 declara las limitaciones. La sección 7 cierra con implicaciones para los modelos de expansión. [...] El valle del Almanzora y la cuenca de Vera, en la provincia de Almería, articulan una franja semiárida del sureste peninsular cuyo poblamiento entre el VII y el V milenio cal BC ha sido estudiado de manera intermitente desde las excavaciones de los hermanos Siret a finales del siglo XIX y, ya en clave moderna, desde los trabajos de Acosta Martínez (1995) y Camalich y Martín Socas (1999). La estratigrafía regional combina ocupaciones epipaleolíticas y mesolíticas finales en abrigos del piedemonte (Cueva del Algarrobo, Abrigo de los Carriguillos), con primeros yacimientos al aire libre con cerámica impresa cardial atribuibles al Neolítico antiguo (Cabecicos Negros, Loma de la Atalaya) y, ya en el Neolítico pleno, asentamientos estables con arquitectura de mampostería (El Garcel, Tres Cabezos).\n\nLa transición ha sido tradicionalmente leída en clave continuista: una población mesolítica local que adopta progresivamente los elementos del paquete neolítico (cereal cultivado, ganado doméstico, cerámica) a lo largo del VI milenio cal BC. La cronología fina, sin embargo, ha descansado durante décadas en dataciones convencionales (gas o líquido) realizadas sobre muestras de vida larga —principalmente carbón de madera— procedentes de contextos no siempre estratigráficamente seguros. La presente investigación se propone resolver ese déficit cronométrico mediante un programa AMS dirigido y un modelado bayesiano explícito. [...] ## 3. Materiales y métodos\n\n### 3.1 Yacimientos y muestras\n\nSeleccionamos diez yacimientos cubriendo las fases mesolítica final, neolítica antigua y neolítica plena: Cueva del Algarrobo, Abrigo de los Carriguillos, Cueva de los Murciélagos de Zurgena, Cabecicos Negros, Loma de la Atalaya, El Tarajal, El Garcel, Tres Cabezos, Cueva del Pájaro y Cabezo del Plomo. Sobre estos diez yacimientos se obtuvieron las **82 dataciones AMS** que componen el corpus: 71 ya publicadas en la literatura entre 1998 y 2023 y reevaluadas críticamente, y **11 inéditas** procesadas para este estudio en los laboratorios D-AMS (Direct AMS, Bothell, EE. UU.) y CNA (Centro Nacional de Aceleradores, Sevilla) durante 2024.\n\nDe las 11 dataciones nuevas, ocho se obtuvieron sobre semillas carbonizadas de *Triticum monococcum*, *Triticum dicoccum* y *Hordeum vulgare* recuperadas en contextos primarios sellados de Cabecicos Negros, Loma de la Atalaya y Cueva de los Murciélagos. Las tres restantes proceden de restos óseos de *Ovis aries* y *Capra hircus* en niveles equivalentes. La elección de muestras de vida corta y origen taxonómicamente seguro es deliberada: minimiza el sesgo de \"old wood\" y la ambigüedad entre fauna silvestre y doméstica.\n\n### 3.2 Calibración y modelado bayesiano\n\nLas dataciones se calibraron con la curva IntCal20 (Reimer et al. 2020). Para una muestra costera de Cabezo del Plomo se aplicó corrección de efecto reservorio marino con ΔR local estimado en 87 ± 35 años a partir de los pares pre-bomba de Soares y Dias (2006) para la costa SE ibérica. El modelado bayesiano se realizó en OxCal v4.4 (Bronk Ramsey 2017). Construimos para cada yacimiento una secuencia estratigráfica (`Sequence`) con `Boundary` de inicio y fin de cada fase. A escala regional, las fases mesolítica final, neolítica antigua y neolítica plena se modelaron como `Phase` anidadas en una `Sequence` con `Boundary` entre ellas, lo que permite estimar la transición probabilística sin asumir simultaneidad. Tres dataciones quedaron identificadas como *outliers* (Agreement Index < 60) y se excluyeron del modelo final tras inspección estratigráfica caso por caso.\n\n### 3.3 Replicabilidad\n\nEl proyecto OxCal completo (.oxcal) y los datos crudos están depositados en Zenodo (DOI: 10.5281/zenodo.14728112) bajo licencia CC-BY 4.0. El modelo se ejecutó en tres particiones independientes para verificar estabilidad de los `Boundary` de transición; las tres convergen dentro de ±25 años en el límite mesolítico-neolítico. [...] ## 4. Resultados\n\n### 4.1 El límite modelado para la primera economía productora se sitúa en 5320–5170 cal BC\n\nEl `Boundary` que marca el inicio modelado de la fase neolítica antigua en la región, integrando las dataciones de Cabecicos Negros, Loma de la Atalaya, Cueva de los Murciélagos y El Tarajal, ofrece un rango de **5320–5170 cal BC al 95.4% de probabilidad** (mediana 5240 cal BC). Este resultado es robusto: se mantiene dentro de ±30 años en las tres particiones de validación y no depende críticamente de ninguna datación individual (`leave-one-out` sobre las 11 dataciones inéditas no desplaza el `Boundary` más de 40 años en ningún caso). El rango previamente asumido por la síntesis dominante (5600–5450 cal BC, según Bernabeu Aubán et al. 2015) queda **fuera del intervalo de credibilidad al 95.4%** de nuestro modelo.\n\n### 4.2 La última evidencia mesolítica se mantiene hasta ca. 5360 cal BC sin solapamiento neolítico\n\nEl `Boundary` modelado para el final de la fase mesolítica en la región se sitúa en 5410–5310 cal BC (95.4%). El solapamiento de credibilidad entre el fin del mesolítico y el inicio del neolítico es mínimo (menos del 8% de probabilidad conjunta), lo que es compatible con un tránsito relativamente rápido localmente, pero descarta tanto la coexistencia prolongada como una llegada temprana neolítica al SE peninsular.\n\n### 4.3 Las dataciones convencionales pre-2000 sobre carbón de madera sobreestiman sistemáticamente la antigüedad\n\nReanalizando las 23 dataciones convencionales pre-2000 sobre carbón de vida larga del mismo conjunto de yacimientos, observamos un desplazamiento sistemático de **180 ± 65 años** hacia el rango más antiguo respecto a las dataciones AMS sobre semilla y hueso recuperadas en los mismos contextos estratigráficos. Este desplazamiento es consistente con un efecto \"old wood\" no corregido y explica buena parte de la diferencia entre nuestra cronología y la asumida por la síntesis dominante, que se construyó en gran medida sobre ese conjunto de dataciones convencionales.\n\n### 4.4 El decalage regional respecto a la línea de avance modelada por Bocquet-Appel es de ~7-9 generaciones\n\nCalculando la diferencia entre el rango modelado en este trabajo (5320–5170 cal BC) y la posición predicha para el SE peninsular por el modelo de avance de 1 km/año de Bocquet-Appel (2009) desde la cabecera tesalio-balcánica, el decalage es de aproximadamente **200–350 años**, equivalente a unas 7-9 generaciones biológicas. Esta desviación es suficiente para que el modelo continental sobreestime el ritmo regional efectivo en este tramo de la franja mediterránea occidental. [...] ### 5.1 Contraste con la síntesis dominante\n\nNuestro resultado central diverge del consenso articulado en torno a Bernabeu Aubán, Pardo-Gordó y García Puchol (2015, 2017) y de la lectura demográfica de Bocquet-Appel (2002, 2009). Coincide, en cambio, con la sugerencia matizada de Zilhão (2014) de que existen \"subregiones de freno\" dentro del avance neolítico mediterráneo, aunque Zilhão las situaba sobre todo en el Atlántico portugués y no las extendía explícitamente al SE peninsular. Nuestra cronología, en este sentido, **extiende la hipótesis de heterogeneidad regional de Zilhão hacia el SE peninsular y, en esa medida, cuestiona la suficiencia del modelo de olas rápidas como descriptor único del proceso**.\n\n### 5.2 Implicaciones para los modelos demográficos\n\nSi la velocidad de avance fue significativamente menor en el SE peninsular durante el tramo 5500-5200 cal BC, los modelos que reconstruyen la dinámica poblacional asumiendo expansión uniforme están sobreestimando la presión demográfica regional en esos siglos. Esto tiene consecuencias sobre las hipótesis de competencia con poblaciones mesolíticas residentes y sobre los modelos de difusión cultural vs. movimiento poblacional.\n\n### 5.3 Contra-argumentos\n\nAnticipamos tres objeciones serias.\n\n**Primera, el efecto reservorio marino podría sesgar dataciones costeras.** Cabezo del Plomo es un yacimiento costero y dos de sus dataciones inéditas son sobre concha de molusco. Hemos aplicado corrección con ΔR = 87 ± 35 años basada en Soares y Dias (2006), pero la incertidumbre del ΔR local para el SE peninsular en el VI milenio cal BC es real y no plenamente resoluble con los datos hoy disponibles. Reconocemos esta limitación y notamos que excluir las dos dataciones sobre concha del modelo desplaza el `Boundary` regional solo 15 años, lo que sugiere que la conclusión central no depende críticamente de ellas.\n\n**Segunda, podríamos estar confundiendo \"primera presencia\" con \"consolidación económica\".** Es posible que existieran ocupaciones puntuales con elementos neolíticos antes del rango que modelamos, pero que no hayan dejado registro detectable o que el muestreo de yacimientos las haya pasado por alto. Aceptamos el matiz: nuestra tesis se refiere a la primera evidencia robusta y estratigráficamente segura, no a la imposibilidad absoluta de presencias previas. Sin embargo, los esfuerzos prospectivos sistemáticos realizados en la zona durante las últimas dos décadas hacen poco verosímil un volumen sustancial de evidencia inadvertida.\n\n**Tercera, el sesgo de selección de yacimientos podría favorecer cronologías tardías.** Si los yacimientos seleccionados son sistemáticamente los excavados con metodología estratigráfica moderna —y por tanto, los más recientes en la secuencia de investigación—, podríamos estar dejando fuera contextos antiguos mal datados. Este sesgo es real pero opera en dirección contraria a la que cuestionaría nuestra tesis: precisamente las dataciones antiguas y poco fiables son las que tendían a producir cronologías más tempranas, que es lo que aquí impugnamos. [...] Los autores reconocemos las siguientes limitaciones del estudio.\n\n**(L1) Tamaño muestral por fase.** Aunque 82 dataciones es un corpus respetable a escala regional, el número de dataciones realmente diagnósticas de la fase mesolítica final es bajo (n=19), y solo siete proceden de contextos primarios sellados. La precisión del `Boundary` de fin del mesolítico depende fuertemente de este subconjunto.\n\n**(L2) Validez externa.** Las conclusiones se refieren al SE peninsular y específicamente al ámbito Almanzora–Vera. La extrapolación a otras subregiones mediterráneas occidentales (Valle del Ebro, Levante, sur de Francia) no está garantizada sin un programa cronométrico equivalente.\n\n**(L3) Calidad de los datos heredados.** El reanálisis de las 71 dataciones pre-existentes ha implicado decisiones interpretativas sobre integridad estratigráfica de contextos que conocemos solo por publicación. En ocho casos hemos asignado niveles de confianza intermedios; el modelo es robusto a su exclusión, pero la subjetividad de esa clasificación es una limitación metodológica.\n\n**(L4) Resolución de la curva de calibración.** En el tramo 5400–5100 cal BC, la curva IntCal20 presenta una pendiente relativamente suave que limita la precisión absoluta de los `Boundary` modelados. La incorporación futura de IntCal25 (en preparación) podría afinar los rangos. [...] ## 7. Conclusiones\n\nSostenemos que la primera evidencia robusta de economía productora en el SE peninsular se sitúa en 5320–5170 cal BC, entre 250 y 400 años más tarde que el rango aceptado por la síntesis dominante. Este resultado, obtenido mediante un programa AMS dirigido a muestras de vida corta y un modelado bayesiano explícito en OxCal v4.4, cuestiona el ajuste empírico del modelo de olas rápidas de Bocquet-Appel para esta franja del Mediterráneo occidental y refuerza la hipótesis de heterogeneidad regional avanzada por Zilhão. La implicación principal no es invalidar el marco global de expansión neolítica, sino exigir que sus calibraciones regionales sean revisadas con metodologías cronométricas equivalentes en cada subregión, antes de operar inferencias demográficas a escala continental.\n\nLa línea de continuación inmediata será el programa equivalente que el equipo está iniciando para el Levante peninsular norte, en colaboración con la Universidad de Valencia, con el objetivo de comprobar si el decalage observado en Almería es una singularidad del SE o se extiende a la franja levantina central. [...] ## Referencias\n\nAcosta Martínez, P. (1995). Las culturas del Neolítico y Calcolítico en Andalucía Occidental. *Espacio, Tiempo y Forma. Serie I, Prehistoria y Arqueología*, 8, 33–80.\n\nBernabeu Aubán, J., García Puchol, O., Pardo-Gordó, S., Barton, M. y Bergin, S. (2015). Radiocarbon dates, climatic events, and social dynamics during the early Neolithic in Mediterranean Iberia. *Quaternary International*, 403, 201–210.\n\nBernabeu Aubán, J., Pardo-Gordó, S. y García Puchol, O. (2017). The chrono-cultural sequence of the early Neolithic in Mediterranean Iberia. *Documenta Praehistorica*, 44, 138–155.\n\nBocquet-Appel, J.-P. (2002). Paleoanthropological traces of a Neolithic Demographic Transition. *Current Anthropology*, 43(4), 637–650.\n\nBocquet-Appel, J.-P. (2009). The demographic impact of the agricultural system in human history. *Current Anthropology*, 50(5), 657–660.\n\nBronk Ramsey, C. (2017). Methods for Summarizing Radiocarbon Datasets. *Radiocarbon*, 59(2), 1809–1833.\n\nCamalich Massieu, M. D. y Martín Socas, D. (eds.) (1999). *El territorio almeriense desde los inicios de la producción hasta finales de la antigüedad*. Junta de Andalucía.\n\nHernando Gonzalo, A. (2018). *La fantasía de la individualidad*. Traficantes de Sueños.\n\nPardo-Gordó, S., Bernabeu Aubán, J. y García Puchol, O. (2018). Demographic dynamics and Neolithic spread in the western Mediterranean. *Journal of Anthropological Archaeology*, 51, 1–14.\n\nReimer, P. J., Austin, W. E. N., Bard, E., Bayliss, A., Blackwell, P. G., Bronk Ramsey, C., et al. (2020). The IntCal20 Northern Hemisphere radiocarbon age calibration curve (0–55 cal kBP). *Radiocarbon*, 62(4), 725–757.\n\nRojo Guerra, M., Garrido Pena, R. y García Martínez de Lagrán, I. (eds.) (2019). *La cuestión del Neolítico inicial peninsular*. Universidad de Valladolid.\n\nSoares, A. M. M. y Dias, J. M. A. (2006). Coastal upwelling and radiocarbon — evidence for temporal fluctuations in ocean reservoir effect off Portugal during the Holocene. *Radiocarbon*, 48(1), 45–60.\n\nZilhão, J. (2014). Early prehistoric navigation in the western Mediterranean: implications for the Neolithic transition in Iberia and the Maghreb. *Eurasian Prehistory*, 11(1–2), 185–200.",
+  "instruction": "Extrae la estructura argumental completa del artículo: tesis, sub-afirmaciones con evidencias, contra-afirmaciones, limitaciones, posicionamiento y antecedentes citados.",
+  "target_schema": {
+    "$defs": {
+      "CounterClaim": {
+        "additionalProperties": false,
+        "description": "Una objeción o contra-afirmación que el artículo reconoce y responde.",
+        "properties": {
+          "statement": {
+            "description": "Enunciado de la objeción en voz declarativa (p. ej. 'La correlación observada podría explicarse por el sesgo de selección de la muestra').",
+            "title": "Statement",
+            "type": "string"
+          },
+          "response": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Respuesta o concesión del artículo a la objeción si la incluye (p. ej. 'Los autores controlan este sesgo estratificando por edad y nivel socioeconómico'). Null si el artículo presenta la objeción sin responderla.",
+            "title": "Response"
+          }
+        },
+        "required": [
+          "statement"
+        ],
+        "title": "CounterClaim",
+        "type": "object"
+      },
+      "Evidence": {
+        "additionalProperties": false,
+        "description": "Una pieza de evidencia que apoya una afirmación del artículo.",
+        "properties": {
+          "kind": {
+            "$ref": "#/$defs/EvidenceKind",
+            "description": "Tipo de evidencia."
+          },
+          "description": {
+            "description": "Descripción literal o casi literal de la evidencia en una frase (p. ej. 'experimento controlado con N=240 hablantes nativos de español').",
+            "title": "Description",
+            "type": "string"
+          },
+          "quoted_passage": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Cita literal del artículo (sin comillas) que presenta esta evidencia, si el extractor la conserva. Null si el extractor solo parafrasea.",
+            "title": "Quoted Passage"
+          }
+        },
+        "required": [
+          "kind",
+          "description"
+        ],
+        "title": "Evidence",
+        "type": "object"
+      },
+      "EvidenceKind": {
+        "enum": [
+          "estudio_empírico",
+          "análisis_datos",
+          "demostración_teórica",
+          "literatura_citada",
+          "ejemplo_caso",
+          "simulación"
+        ],
+        "title": "EvidenceKind",
+        "type": "string"
+      },
+      "Limitation": {
+        "additionalProperties": false,
+        "description": "Una limitación del trabajo declarada por los propios autores.",
+        "properties": {
+          "kind": {
+            "$ref": "#/$defs/LimitationKind",
+            "description": "Categoría de la limitación."
+          },
+          "description": {
+            "description": "Descripción literal o casi literal de la limitación tal como la consignan los autores.",
+            "title": "Description",
+            "type": "string"
+          }
+        },
+        "required": [
+          "kind",
+          "description"
+        ],
+        "title": "Limitation",
+        "type": "object"
+      },
+      "LimitationKind": {
+        "enum": [
+          "tamaño_muestral",
+          "validez_externa",
+          "validez_de_constructo",
+          "metodología",
+          "calidad_datos",
+          "alcance"
+        ],
+        "title": "LimitationKind",
+        "type": "string"
+      },
+      "PositioningStance": {
+        "enum": [
+          "extiende",
+          "matiza",
+          "cuestiona",
+          "sintetiza",
+          "introduce_novedoso"
+        ],
+        "title": "PositioningStance",
+        "type": "string"
+      },
+      "SubClaim": {
+        "additionalProperties": false,
+        "description": "Una afirmación de apoyo subordinada a la tesis principal.",
+        "properties": {
+          "statement": {
+            "description": "Enunciado de la afirmación en una frase, en voz declarativa (p. ej. 'La frecuencia de uso del subjuntivo decrece con la edad de exposición al inglés').",
+            "title": "Statement",
+            "type": "string"
+          },
+          "supporting_evidence": {
+            "description": "Pieza(s) de evidencia que el artículo aporta para esta afirmación. Al menos una.",
+            "items": {
+              "$ref": "#/$defs/Evidence"
+            },
+            "minItems": 1,
+            "title": "Supporting Evidence",
+            "type": "array"
+          }
+        },
+        "required": [
+          "statement",
+          "supporting_evidence"
+        ],
+        "title": "SubClaim",
+        "type": "object"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Estructura argumental completa de un artículo académico (humanidades,\nciencias sociales, ciencia o medicina) en español: tesis central,\nsub-afirmaciones con sus evidencias, contra-afirmaciones reconocidas y\ncontestadas, limitaciones declaradas y posicionamiento explícito en el\nestado del arte.\n\nLa extracción debe distinguir entre la tesis principal y las sub-afirmaciones\nque la sostienen, asociar cada evidencia a la afirmación que apoya, y\ndiferenciar las contra-afirmaciones que el propio artículo plantea de las\nlimitaciones que sus autores reconocen. Requiere lectura holística del\nartículo completo, no solo del resumen.\n\nComplejidad: L10 — razonamiento argumentativo sobre el conjunto del\ndocumento con jerarquías retóricas, enlazado evidencia↔afirmación, y\ndistinciones semánticas finas (limitación vs. contra-afirmación vs.\nposicionamiento).",
+    "properties": {
+      "title": {
+        "description": "Título del artículo tal como aparece en la portada.",
+        "title": "Title",
+        "type": "string"
+      },
+      "discipline": {
+        "description": "Disciplina principal del artículo según el propio texto (p. ej. 'sociolingüística', 'bioquímica', 'historia económica').",
+        "title": "Discipline",
+        "type": "string"
+      },
+      "main_thesis": {
+        "description": "Tesis central del artículo en una o dos frases. Captura lo que el artículo afirma de novedoso o controvertido, no su objeto de estudio.",
+        "title": "Main Thesis",
+        "type": "string"
+      },
+      "sub_claims": {
+        "description": "Afirmaciones de apoyo a la tesis principal, en el orden en que el artículo las desarrolla. Cada una debe ir acompañada de su evidencia.",
+        "items": {
+          "$ref": "#/$defs/SubClaim"
+        },
+        "minItems": 1,
+        "title": "Sub Claims",
+        "type": "array"
+      },
+      "counter_claims": {
+        "description": "Objeciones o contra-afirmaciones que el artículo plantea explícitamente y a las que (idealmente) responde. Lista vacía si el artículo no reconoce contra-argumentos.",
+        "items": {
+          "$ref": "#/$defs/CounterClaim"
+        },
+        "title": "Counter Claims",
+        "type": "array"
+      },
+      "limitations": {
+        "description": "Limitaciones que los autores reconocen sobre su propio trabajo, típicamente en una sección 'Limitaciones' o 'Discusión'. Lista vacía si el artículo no las declara.",
+        "items": {
+          "$ref": "#/$defs/Limitation"
+        },
+        "title": "Limitations",
+        "type": "array"
+      },
+      "positioning": {
+        "$ref": "#/$defs/PositioningStance",
+        "description": "Cómo se posiciona el artículo respecto al estado del arte: 'extiende' un marco anterior, 'matiza' resultados previos, 'cuestiona' una tesis recibida, 'sintetiza' tradiciones distintas, o 'introduce_novedoso' un objeto/método no tratado antes."
+      },
+      "cited_predecessors": {
+        "description": "Trabajos o autores anteriores que el artículo cita como antecedentes directos de su tesis (p. ej. 'Labov (1972)', 'la escuela de Praga'). Solo los citados explícitamente como antecedentes de la tesis principal, no toda la bibliografía.",
+        "items": {
+          "type": "string"
+        },
+        "title": "Cited Predecessors",
+        "type": "array"
+      }
+    },
+    "required": [
+      "title",
+      "discipline",
+      "main_thesis",
+      "sub_claims",
+      "positioning"
+    ],
+    "title": "PaperArgument",
+    "type": "object"
+  },
+  "output": {
+    "title": "Una neolitización tardía en el sureste peninsular: nuevo modelado bayesiano de 82 dataciones AMS en el Almanzora y la cuenca de Vera (Almería)",
+    "discipline": "arqueología prehistórica",
+    "main_thesis": "La primera evidencia robusta de economía productora en el sureste peninsular —concretamente en los valles del Almanzora y de Vera— se sitúa entre 5320 y 5170 cal BC (95.4% de probabilidad bayesiana), es decir, entre 250 y 400 años más tarde que el rango asumido por la síntesis dominante, lo que cuestiona el ajuste empírico del modelo de olas rápidas de Bocquet-Appel para esta zona y abre la hipótesis de una neolitización regional decalada respecto al avance general mediterráneo.",
+    "sub_claims": [
+      {
+        "statement": "El límite bayesiano modelado para la primera economía productora en el Almanzora-Vera se sitúa en 5320–5170 cal BC al 95.4% de probabilidad.",
+        "supporting_evidence": [
+          {
+            "kind": "análisis_datos",
+            "description": "Modelado bayesiano en OxCal v4.4 sobre el Boundary regional integrando dataciones AMS de Cabecicos Negros, Loma de la Atalaya, Cueva de los Murciélagos y El Tarajal con validación leave-one-out estable dentro de ±40 años.",
+            "quoted_passage": "El `Boundary` que marca el inicio modelado de la fase neolítica antigua en la región, integrando las dataciones de Cabecicos Negros, Loma de la Atalaya, Cueva de los Murciélagos y El Tarajal, ofrece un rango de **5320–5170 cal BC al 95.4% de probabilidad** (mediana 5240 cal BC)."
+          }
+        ]
+      },
+      {
+        "statement": "La última evidencia mesolítica se mantiene hasta ca. 5360 cal BC sin solapamiento significativo con la fase neolítica.",
+        "supporting_evidence": [
+          {
+            "kind": "análisis_datos",
+            "description": "El Boundary modelado de fin del mesolítico se sitúa en 5410–5310 cal BC (95.4%) con menos del 8% de probabilidad conjunta de solapamiento con el inicio neolítico.",
+            "quoted_passage": "El `Boundary` modelado para el final de la fase mesolítica en la región se sitúa en 5410–5310 cal BC (95.4%). El solapamiento de credibilidad entre el fin del mesolítico y el inicio del neolítico es mínimo (menos del 8% de probabilidad conjunta)"
+          }
+        ]
+      },
+      {
+        "statement": "Las dataciones convencionales pre-2000 sobre carbón de vida larga sobreestiman sistemáticamente la antigüedad en unos 180 ± 65 años respecto a las AMS sobre semilla y hueso.",
+        "supporting_evidence": [
+          {
+            "kind": "análisis_datos",
+            "description": "Reanálisis de 23 dataciones convencionales pre-2000 sobre carbón de vida larga comparadas con las AMS sobre semilla y hueso de los mismos contextos estratigráficos.",
+            "quoted_passage": "Reanalizando las 23 dataciones convencionales pre-2000 sobre carbón de vida larga del mismo conjunto de yacimientos, observamos un desplazamiento sistemático de **180 ± 65 años** hacia el rango más antiguo respecto a las dataciones AMS sobre semilla y hueso recuperadas en los mismos contextos estratigráficos."
+          },
+          {
+            "kind": "ejemplo_caso",
+            "description": "El desplazamiento observado es consistente con un efecto 'old wood' no corregido que explica buena parte de la diferencia con la cronología dominante.",
+            "quoted_passage": "Este desplazamiento es consistente con un efecto \"old wood\" no corregido y explica buena parte de la diferencia entre nuestra cronología y la asumida por la síntesis dominante"
+          }
+        ]
+      },
+      {
+        "statement": "El decalage regional respecto al avance predicho por el modelo de Bocquet-Appel es de aproximadamente 200-350 años, equivalente a 7-9 generaciones biológicas.",
+        "supporting_evidence": [
+          {
+            "kind": "simulación",
+            "description": "Comparación entre el rango bayesiano modelado en el estudio (5320–5170 cal BC) y la posición predicha para el SE peninsular por el modelo de avance de 1 km/año de Bocquet-Appel (2009) desde la cabecera tesalio-balcánica.",
+            "quoted_passage": "Calculando la diferencia entre el rango modelado en este trabajo (5320–5170 cal BC) y la posición predicha para el SE peninsular por el modelo de avance de 1 km/año de Bocquet-Appel (2009) desde la cabecera tesalio-balcánica, el decalage es de aproximadamente **200–350 años**, equivalente a unas 7-9 generaciones biológicas."
+          },
+          {
+            "kind": "literatura_citada",
+            "description": "El resultado coincide con la sugerencia matizada de Zilhão (2014) de que existen 'subregiones de freno' dentro del avance neolítico mediterráneo.",
+            "quoted_passage": "Coincide, en cambio, con la sugerencia matizada de Zilhão (2014) de que existen \"subregiones de freno\" dentro del avance neolítico mediterráneo"
+          }
+        ]
+      }
+    ],
+    "counter_claims": [
+      {
+        "statement": "El efecto reservorio marino podría sesgar las dataciones costeras y, por tanto, el Boundary regional modelado.",
+        "response": "Se aplicó corrección con ΔR = 87 ± 35 años basada en Soares y Dias (2006); además, excluir las dos dataciones sobre concha del modelo desplaza el Boundary regional solo 15 años, lo que muestra que la conclusión central no depende críticamente de ellas."
+      },
+      {
+        "statement": "Podríamos estar confundiendo 'primera presencia' con 'consolidación económica', dejando fuera ocupaciones puntuales con elementos neolíticos previas al rango modelado.",
+        "response": "Los autores aceptan el matiz limitando su tesis a la primera evidencia robusta y estratigráficamente segura, y argumentan que los esfuerzos prospectivos sistemáticos de las últimas dos décadas hacen poco verosímil un volumen sustancial de evidencia inadvertida."
+      },
+      {
+        "statement": "El sesgo de selección de yacimientos podría favorecer cronologías tardías al excluir contextos antiguos peor datados.",
+        "response": "Los autores reconocen el sesgo pero argumentan que opera en dirección contraria a la que cuestionaría su tesis: precisamente las dataciones antiguas y poco fiables son las que tendían a producir cronologías más tempranas."
+      }
+    ],
+    "limitations": [
+      {
+        "kind": "tamaño_muestral",
+        "description": "El número de dataciones realmente diagnósticas de la fase mesolítica final es bajo (n=19), y solo siete proceden de contextos primarios sellados, lo que hace que la precisión del Boundary de fin del mesolítico dependa fuertemente de este subconjunto."
+      },
+      {
+        "kind": "validez_externa",
+        "description": "Las conclusiones se refieren al SE peninsular y específicamente al ámbito Almanzora–Vera; la extrapolación a otras subregiones mediterráneas occidentales (Valle del Ebro, Levante, sur de Francia) no está garantizada sin un programa cronométrico equivalente."
+      },
+      {
+        "kind": "calidad_datos",
+        "description": "El reanálisis de las 71 dataciones pre-existentes ha implicado decisiones interpretativas sobre integridad estratigráfica de contextos conocidos solo por publicación; en ocho casos se han asignado niveles de confianza intermedios, lo que introduce una subjetividad metodológica."
+      },
+      {
+        "kind": "metodología",
+        "description": "En el tramo 5400–5100 cal BC la curva IntCal20 presenta una pendiente relativamente suave que limita la precisión absoluta de los Boundary modelados."
+      }
+    ],
+    "positioning": "cuestiona",
+    "cited_predecessors": [
+      "Bocquet-Appel (2002, 2009)",
+      "Bernabeu Aubán, Pardo-Gordó y García Puchol (2015, 2017)",
+      "Zilhão (2014)",
+      "Acosta Martínez (1995)",
+      "Camalich y Martín Socas (1999)",
+      "Hernando (2018)",
+      "Rojo Guerra et al. (2019)"
+    ]
+  },
+  "metadata": {
+    "source": "synthetic_20260601_009.md",
+    "domain": "research",
+    "subdomain": "paper_argument"
+  }
+}

@@ -1,0 +1,366 @@
+{
+  "id": "technical_security_incident_005",
+  "input_text": "# Informe post-mortem — INC-2026-0117\n\n**Clasificación interna:** Confidencial — distribución limitada al Comité de Seguridad y a la Dirección Comercial.\n**Autor:** Equipo de Respuesta a Incidentes (CSIRT) de Verlita Consulting Group.\n**Fecha de emisión del informe:** 2026-05-30.\n**Versión:** 1.2 (consolida la versión preliminar 1.0 del 2026-05-26 con los hallazgos del segundo análisis forense del laboratorio externo).\n\n## 1. Resumen ejecutivo\n\nEl 2026-05-23 a las 03:17 (hora Madrid, UTC+02:00) la plataforma de gestión de identidades (IdP) interna emitió la primera alerta de la regla `MFA-PUSH-SPAM-V3`, configurada para disparar cuando una misma cuenta acumula más de doce notificaciones push de Microsoft Authenticator en menos de cinco minutos sin un evento de aprobación correlativo. Ese disparo aislado fue revisado por el turno de noche y archivado como falso positivo conocido del usuario `j.merino@verlita.example`, que tiene historial de problemas con su reloj de sistema. Sin embargo, entre las 03:42 y las 05:11 la misma regla se disparó para otras 86 cuentas, momento en el cual el SOC escaló el incidente y comenzó la fase formal de respuesta.\n\nLa investigación posterior ha concluido —con un grado de confianza alto— que la organización fue objeto de una **campaña dirigida de credential stuffing contra el portal VPN de teletrabajo `vpn.verlita.example`**, ejecutada desde una botnet residencial distribuida principalmente en proveedores domésticos de Brasil, Vietnam, India y Polonia. El atacante combinó credenciales filtradas en breaches públicos anteriores (cotejadas a posteriori contra `Have I Been Pwned` y la colección interna `CombosA-Q4-2025`) con una técnica de **MFA fatigue / push bombing**: tras una autenticación primaria exitosa, el script lanzaba ráfagas de hasta 30 notificaciones push consecutivas a la víctima, confiando en que alguna acabara aprobando por reflejo o por error.\n\nLa técnica funcionó. Diez cuentas aprobaron al menos un push durante la ventana del ataque. **Nueve de ellas eran consultores junior** sin acceso a información sensible más allá de su propio buzón y carpetas personales en SharePoint. **La décima, sin embargo, pertenecía a la responsable del área de Propuestas Comerciales** (`d.varela@verlita.example`), cuya cuenta estaba indebidamente incluida en el grupo `SP-Propuestas-Editor-Global` con permisos de lectura sobre **todo el repositorio de propuestas comerciales activas y archivadas de la consultora**, incluyendo borradores, modelos económicos y correspondencia con clientes. Esta es la *exposición material* del incidente y la razón por la que se ha clasificado con severidad **crítica** en lugar de alta.\n\n## 2. Sistemas afectados\n\nTres sistemas resultaron directamente involucrados en la cadena del incidente:\n\n- **Gateway VPN de teletrabajo (`vpn.verlita.example`)**: el punto de entrada. Concretamente la versión 7.4.2 del concentrador SSL-VPN de Pulsefast desplegada en el datacenter de Madrid-Norte, accesible desde Internet sin restricciones geográficas previas al incidente. Es el sistema que sostuvo la totalidad de los intentos de autenticación maliciosos.\n- **Plataforma de identidad corporativa (IdP — Microsoft Entra ID tenant `verlita.onmicrosoft.com`)**: federada con el gateway VPN vía SAML 2.0 y responsable de la emisión de tokens, la evaluación de políticas condicionales y el envío de los desafíos MFA push a Microsoft Authenticator. Es el sistema cuyos logs permitieron reconstruir el ataque.\n- **SharePoint Online — site colección `propuestas-comerciales`**: el activo de información comprometido. No fue atacado directamente; se accedió a él **a través de la sesión legítima de la usuaria `d.varela`** una vez que el atacante logró autenticarse contra el IdP.\n\nNo se tiene evidencia de afectación al CRM (Salesforce) ni al ERP (SAP S/4HANA), ambos protegidos por una política condicional adicional que el atacante no superó porque no intentó la pivotación lateral hacia esas aplicaciones en el periodo de ventana observado.\n\n## 3. Cronología detallada\n\nLa siguiente reconstrucción combina logs del concentrador VPN (formato CEF), del IdP (Sign-in logs y Audit logs exportados a Sentinel) y de SharePoint (Unified Audit Log). Todas las marcas temporales se expresan en hora Madrid (UTC+02:00); los logs originales se conservan en UTC.\n\n- **2026-05-22T22:08:00** — Primera petición HTTP `GET /` contra `vpn.verlita.example` desde la IP `45.131.208.74`. El User-Agent es `python-requests/2.31.0`, atípico para el portal pero no bloqueado. Esta visita y otras 14 similares durante las cinco horas siguientes constituyen, en retrospectiva, la fase de **reconocimiento** del atacante: enumeración del endpoint de login, comprobación del flujo SAML y del nombre del IdP federado.\n- **2026-05-23T02:51:00** — Comienza una ráfaga de intentos POST contra `/auth/login` desde un pool inicial de 312 direcciones IPv4 residenciales. El ratio sostenido es de aproximadamente 40 intentos por segundo durante los primeros 15 minutos, ralentizándose después a 12 por segundo cuando entran en juego los retardos progresivos del concentrador. La distribución de los User-Agents imita navegadores Chrome y Edge sobre Windows 10/11; el análisis forense detectó que el patrón coincide con la firma del kit comercial `OpenBullet2-Anomaly-Pack-v9`.\n- **2026-05-23T03:04:00** — Primera autenticación primaria exitosa: la combinación email/contraseña de `c.lopez@verlita.example` es válida. La contraseña (`Verano2023!`) aparece efectivamente en el dump público `Collection-X` de 2024. El IdP, conforme a la política, emite un desafío MFA push al teléfono del usuario. El usuario, dormido, no responde y el desafío caduca.\n- **2026-05-23T03:04:14** — El script del atacante reintenta inmediatamente la autenticación primaria, lo que dispara una segunda notificación push. A partir de aquí se establece el patrón de **push bombing**: hasta 30 notificaciones consecutivas por cuenta válida, separadas por entre 6 y 14 segundos, durante un máximo de 8 minutos por víctima.\n- **2026-05-23T03:17:00** — Disparo de `MFA-PUSH-SPAM-V3` para la cuenta `j.merino@verlita.example`. Marcado como falso positivo conocido por el turno de noche (ver §6 sobre causa raíz organizativa).\n- **2026-05-23T03:42:00 — 2026-05-23T05:11:00** — Ventana principal del ataque. La regla se dispara para 86 cuentas adicionales. **Diez aprobaciones de MFA push exitosas** son registradas por el IdP en este intervalo, correspondientes a las cuentas listadas en el Anexo A del informe técnico (no se reproducen aquí los identificadores de las nueve cuentas no comprometidas materialmente, por privacidad). La cuenta `d.varela@verlita.example` aprueba un push a las **04:38:21**.\n- **2026-05-23T04:39:02** — Primera sesión SAML emitida para `d.varela` desde el atacante. La IP de origen es `103.97.45.219`, geolocalizada en Yakarta. El IdP no aplica restricción geográfica porque la usuaria viaja con frecuencia.\n- **2026-05-23T04:39:48** — Conexión VPN establecida. El atacante recibe una IP del rango interno `10.220.44.0/24` y obtiene acceso a la red corporativa.\n- **2026-05-23T04:41:10** — Primer acceso a SharePoint vía OneDrive sync. El cliente nativo de Windows no funciona (el atacante no está en una máquina corporativa); usa la interfaz web. Comienza a navegar el site `propuestas-comerciales`.\n- **2026-05-23T04:43:00 — 2026-05-23T05:09:00** — **Exfiltración**. El Unified Audit Log de SharePoint registra 1.247 eventos `FileDownloaded` desde la sesión de `d.varela`. El volumen total descargado es de 8,4 GB. Los ficheros tocados incluyen propuestas activas para tres clientes estratégicos (BancoMer, Telefónica y Repsol) y el modelo económico maestro de la firma. Los descargados se envían en bloques de aproximadamente 50 MB hacia el dominio `cdn-static-eu.cloudbackup.live`, identificado posteriormente como el **C2 del atacante**.\n- **2026-05-23T05:11:00** — El SOC, ya alertado, fuerza el cierre de todas las sesiones activas del tenant Entra ID mediante `Revoke-AzureADUserAllRefreshToken` masivo y bloquea el rango `103.97.0.0/16` en el WAF del concentrador VPN. El acceso del atacante se interrumpe.\n- **2026-05-23T05:14:00** — Se declara incidente formal y se convoca al comité de crisis.\n\n### 3.1 Una nota sobre el análisis de las aprobaciones MFA\n\nVale la pena detenerse aquí antes de continuar con la línea temporal de la contención, porque uno de los hallazgos más relevantes del post-mortem se refiere precisamente a por qué diez personas aprobaron un push que no habían iniciado. El equipo entrevistó a las diez víctimas; nueve declararon haber aprobado *creyendo que era una notificación legítima de su propio cliente VPN reabriendo conexión* (es un patrón habitual a primera hora). La décima, `d.varela`, describió haber recibido la oleada en mitad de un viaje internacional, con jet lag, y haber pulsado «Aprobar» tras la decimoquinta notificación para detener el bombardeo. Este último testimonio confirma la hipótesis operativa de que el push bombing **funciona contra usuarios técnicamente conscientes** cuando se dan condiciones de fatiga, y motiva la decisión de contención §4.3 (number matching obligatorio).\n\n## 4. Acciones de contención y remediación\n\nLas acciones se documentan en el orden en que se ejecutaron o se planificaron, con su estado actual al cierre de esta versión del informe.\n\n### 4.1 Revocación masiva de sesiones y reset forzado\n\nA las 05:11 del 2026-05-23, en paralelo con el bloqueo del rango IP, se ejecutó `Revoke-AzureADUserAllRefreshToken` sobre la totalidad del tenant. A las 05:48 se forzó el cambio de contraseña obligatorio para las 96 cuentas que habían experimentado actividad de push spam (las 10 comprometidas más las 86 sondeadas sin éxito). Esta acción está **completada** y la ejecutó el equipo SOC en colaboración con IT-Identidad.\n\n### 4.2 Restricción geográfica del portal VPN\n\nSe aplicó una política condicional de Entra ID que restringe el acceso al portal VPN a **conexiones originadas desde España, Portugal, México, Colombia y Estados Unidos** (los cinco países en los que reside personal de la consultora). El resto del mundo requiere una excepción documentada y aprobada por el manager directo. Esta acción está **completada** y la ejecutó el equipo de IT-Identidad. Se reconoce que la restricción es porosa frente a VPN comerciales del atacante, pero eleva la fricción operativa de un siguiente intento.\n\n### 4.3 Endurecimiento de MFA: number matching\n\nSe ha planificado migrar a todas las cuentas del tenant del esquema de push estándar al esquema de **number matching de Microsoft Authenticator**, en el que el usuario debe teclear un número de dos dígitos mostrado por el servicio en vez de pulsar simplemente «Aprobar». La migración se está ejecutando por anillos: el anillo 1 (IT y SOC, 47 cuentas) se completó el 2026-05-27; los anillos 2 y 3 (resto de la organización, ~1.800 cuentas) están **en curso** y se estima finalizar antes del 2026-06-15. Owner: equipo de IT-Identidad.\n\n### 4.4 Auditoría del grupo `SP-Propuestas-Editor-Global`\n\nSe ha lanzado una revisión completa del grupo `SP-Propuestas-Editor-Global` y, por extensión, de los grupos con permisos amplios sobre site colecciones de SharePoint sensibles. La hipótesis preliminar es que `d.varela` fue añadida al grupo en 2023 durante una sustitución temporal de su entonces manager y nunca fue retirada. La revisión está **en curso** bajo responsabilidad del equipo de Gobierno de Datos.\n\n### 4.5 Notificaciones regulatorias y a clientes\n\nLa asesoría jurídica, con el apoyo del DPO, ha valorado el incidente como notificable a la AEPD (datos personales contenidos en las propuestas) y a los tres clientes cuya información comercial confidencial fue accedida. La notificación a la AEPD se envió el 2026-05-25 dentro de la ventana de 72 horas; las notificaciones a clientes se emitieron entre el 2026-05-26 y el 2026-05-28. Esta acción está **completada** y la ejecutó Legal & Compliance.\n\n### 4.6 Bloqueo de IoCs en perímetro\n\nEl equipo de Red distribuyó los IoCs (ver §5) a la plataforma EDR, al firewall perimetral y al proxy de salida. Esta acción está **completada**, owner Red Team.\n\n## 5. Indicadores de compromiso (IoCs)\n\nLos siguientes indicadores fueron observados durante el incidente y forman la base de las reglas de detección posteriores. Cuando se conoce la fecha de primera observación, se indica.\n\n- IP `45.131.208.74` — primera IP residencial usada para reconocimiento. Observada por primera vez el 2026-05-22.\n- IP `103.97.45.219` — IP desde la que se establece la sesión VPN exitosa con la cuenta `d.varela`. Observada el 2026-05-23.\n- Rango `103.97.0.0/16` — rango más amplio del proveedor residencial indonesio, bloqueado preventivamente tras la contención. Observado el 2026-05-23.\n- Dominio `cdn-static-eu.cloudbackup.live` — servidor C2 al que se exfiltraron los ficheros descargados de SharePoint. Observado el 2026-05-23.\n- Correo `c.lopez@verlita.example` — primera cuenta corporativa con credenciales válidas confirmadas en el dump `Collection-X`.\n- Correo `d.varela@verlita.example` — cuenta materialmente comprometida.\n- Hash SHA-256 `9f4b3c8e2a1d7f5b6c0e9a8d4f2b1c3e7d8a9b0c1d2e3f4a5b6c7d8e9f0a1b2c` — hash del script `stuffer.py` recuperado por el análisis del nodo de salida de la botnet incautado por las autoridades polacas el 2026-05-28; usado por el atacante como motor de credential stuffing.\n- Regla YARA `YARA_OpenBullet2_Anomaly_v9` — firma comercial del kit OpenBullet2 con el pack Anomaly v9, detectada en el script `stuffer.py`.\n\nNo se ha identificado ninguna CVE explotada en este incidente: el ataque es íntegramente abuso de credenciales válidas, sin explotación de vulnerabilidad técnica del concentrador VPN ni del IdP.\n\n## 6. Causa raíz\n\nLa causa raíz se descompone en dos planos, técnico y organizativo, que deben tratarse juntos para que la remediación sea efectiva.\n\nEn el plano **técnico**, la causa raíz es la combinación de un mecanismo de MFA push aprobable con un único toque (sin number matching) con la ausencia, en el momento del ataque, de una política condicional que restringiera geográficamente el acceso al portal VPN. Cualquiera de las dos contramedidas, aplicada por separado, habría reducido la probabilidad de éxito del push bombing a un nivel residual.\n\nEn el plano **organizativo**, la causa raíz es la pertenencia indebida de la cuenta `d.varela@verlita.example` al grupo `SP-Propuestas-Editor-Global` durante un periodo de aproximadamente tres años, sin revisión periódica de membresías. Sin esa pertenencia, la décima aprobación de MFA habría conducido a un acceso limitado al buzón y carpeta personal de la usuaria, no al repositorio comercial completo. Es esta segunda raíz la que convierte un incidente de fatiga MFA en un incidente de exfiltración material, y la que justifica el plan de revisión de membresías de grupos sensibles iniciado en §4.4.",
+  "instruction": "Extrae el incidente de seguridad: identificador, fecha de detección, severidad, sistemas afectados, IoCs (con su tipo), cadena de ataque por fases ATT&CK en orden cronológico, acciones de contención con estado y causa raíz.",
+  "target_schema": {
+    "$defs": {
+      "AttackPhase": {
+        "description": "Fases de la cadena de ataque (MITRE ATT&CK simplificado).",
+        "enum": [
+          "reconocimiento",
+          "acceso_inicial",
+          "ejecución",
+          "persistencia",
+          "escalada_de_privilegios",
+          "evasión_de_defensas",
+          "acceso_a_credenciales",
+          "movimiento_lateral",
+          "exfiltración",
+          "impacto"
+        ],
+        "title": "AttackPhase",
+        "type": "string"
+      },
+      "AttackStep": {
+        "additionalProperties": false,
+        "description": "Un paso de la cadena de ataque tal como lo reconstruye el informe.",
+        "properties": {
+          "phase": {
+            "$ref": "#/$defs/AttackPhase",
+            "description": "Fase ATT&CK a la que pertenece el paso."
+          },
+          "description": {
+            "description": "Descripción de la acción del atacante en una frase (p. ej. 'Envío de correo de phishing con adjunto malicioso al departamento financiero').",
+            "title": "Description",
+            "type": "string"
+          },
+          "timestamp": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Marca temporal en formato ISO 8601 si el informe la consigna. Null si solo se indica el orden relativo.",
+            "title": "Timestamp"
+          },
+          "technique_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Identificador MITRE ATT&CK si el informe lo cita (p. ej. 'T1566.001'). Null si no aparece.",
+            "title": "Technique Id"
+          }
+        },
+        "required": [
+          "phase",
+          "description"
+        ],
+        "title": "AttackStep",
+        "type": "object"
+      },
+      "ContainmentAction": {
+        "additionalProperties": false,
+        "description": "Acción de contención o remediación tomada por el equipo de respuesta.",
+        "properties": {
+          "description": {
+            "description": "Descripción literal de la acción (p. ej. 'Aislamiento del host afectado en VLAN de cuarentena').",
+            "title": "Description",
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/$defs/ContainmentStatus",
+            "description": "Estado de ejecución de la acción al cierre del informe."
+          },
+          "owner": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Equipo o persona responsable de la acción (p. ej. 'SOC', 'Red Team'). Null si no se asigna explícitamente.",
+            "title": "Owner"
+          }
+        },
+        "required": [
+          "description",
+          "status"
+        ],
+        "title": "ContainmentAction",
+        "type": "object"
+      },
+      "ContainmentStatus": {
+        "enum": [
+          "pendiente",
+          "en_curso",
+          "completada",
+          "no_aplica"
+        ],
+        "title": "ContainmentStatus",
+        "type": "string"
+      },
+      "Indicator": {
+        "additionalProperties": false,
+        "description": "Indicador de compromiso (IoC) observado durante el incidente.",
+        "properties": {
+          "kind": {
+            "$ref": "#/$defs/IndicatorKind",
+            "description": "Tipo de indicador."
+          },
+          "value": {
+            "description": "Valor literal del indicador tal como aparece en el informe (IP, dominio, SHA-256, CVE-XXXX-XXXX, etc.). Sin modificar.",
+            "title": "Value",
+            "type": "string"
+          },
+          "first_seen": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Fecha en formato ISO en que se observó el indicador por primera vez durante el incidente. Null si el informe no la fecha.",
+            "title": "First Seen"
+          }
+        },
+        "required": [
+          "kind",
+          "value"
+        ],
+        "title": "Indicator",
+        "type": "object"
+      },
+      "IndicatorKind": {
+        "enum": [
+          "ip",
+          "dominio",
+          "url",
+          "hash",
+          "correo",
+          "cve",
+          "regla_yara"
+        ],
+        "title": "IndicatorKind",
+        "type": "string"
+      },
+      "Severity": {
+        "enum": [
+          "baja",
+          "media",
+          "alta",
+          "crítica"
+        ],
+        "title": "Severity",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Post-mortem o informe de respuesta a un incidente de ciberseguridad: IoCs\nobservados, reconstrucción de la cadena de ataque en fases ordenadas\ncronológicamente, sistemas afectados y acciones de contención con su estado.\nLa extracción debe diferenciar fases ATT&CK por su semántica (no por\nel orden literal en el informe, que puede mezclar narrativa y análisis), y\nasociar cada IoC con su tipo correcto a partir de su forma.\n\nComplejidad: L9 — cadena causal con vocabulario técnico denso, taxonomía\nrígida (fases ATT&CK), pluralidad de listas heterogéneas y enlazado\nentre acciones y sistemas.",
+    "properties": {
+      "incident_id": {
+        "description": "Identificador interno del incidente tal como aparece en el informe (p. ej. 'INC-2026-0042').",
+        "title": "Incident Id",
+        "type": "string"
+      },
+      "detection_date": {
+        "description": "Fecha de detección del incidente en formato ISO 8601 ('YYYY-MM-DDTHH:MM' o 'YYYY-MM-DD' si no hay hora).",
+        "title": "Detection Date",
+        "type": "string"
+      },
+      "severity": {
+        "$ref": "#/$defs/Severity",
+        "description": "Severidad declarada del incidente según la clasificación del informe."
+      },
+      "affected_systems": {
+        "description": "Nombres o identificadores de los sistemas, aplicaciones o redes afectados (p. ej. 'CRM corporativo', 'Active Directory', 'VPN'). Un sistema por entrada.",
+        "items": {
+          "type": "string"
+        },
+        "minItems": 1,
+        "title": "Affected Systems",
+        "type": "array"
+      },
+      "indicators": {
+        "description": "IoCs observados durante el incidente. Lista vacía si el informe declara que no se identificaron indicadores accionables.",
+        "items": {
+          "$ref": "#/$defs/Indicator"
+        },
+        "title": "Indicators",
+        "type": "array"
+      },
+      "attack_chain": {
+        "description": "Cadena de ataque reconstruida, en orden cronológico. Cada paso asignado a una única fase ATT&CK.",
+        "items": {
+          "$ref": "#/$defs/AttackStep"
+        },
+        "minItems": 1,
+        "title": "Attack Chain",
+        "type": "array"
+      },
+      "containment_actions": {
+        "description": "Acciones de contención y remediación, en el orden en que fueron ejecutadas o planificadas.",
+        "items": {
+          "$ref": "#/$defs/ContainmentAction"
+        },
+        "minItems": 1,
+        "title": "Containment Actions",
+        "type": "array"
+      },
+      "root_cause": {
+        "description": "Causa raíz declarada por el informe en una o dos frases (p. ej. 'Configuración por defecto del servidor expuesto a internet sin autenticación').",
+        "title": "Root Cause",
+        "type": "string"
+      }
+    },
+    "required": [
+      "incident_id",
+      "detection_date",
+      "severity",
+      "affected_systems",
+      "attack_chain",
+      "containment_actions",
+      "root_cause"
+    ],
+    "title": "SecurityIncident",
+    "type": "object"
+  },
+  "output": {
+    "incident_id": "INC-2026-0117",
+    "detection_date": "2026-05-23T03:17",
+    "severity": "crítica",
+    "affected_systems": [
+      "Gateway VPN de teletrabajo (vpn.verlita.example)",
+      "Plataforma de identidad corporativa (IdP — Microsoft Entra ID tenant verlita.onmicrosoft.com)",
+      "SharePoint Online — site colección propuestas-comerciales"
+    ],
+    "indicators": [
+      {
+        "kind": "ip",
+        "value": "45.131.208.74",
+        "first_seen": "2026-05-22"
+      },
+      {
+        "kind": "ip",
+        "value": "103.97.45.219",
+        "first_seen": "2026-05-23"
+      },
+      {
+        "kind": "ip",
+        "value": "103.97.0.0/16",
+        "first_seen": "2026-05-23"
+      },
+      {
+        "kind": "dominio",
+        "value": "cdn-static-eu.cloudbackup.live",
+        "first_seen": "2026-05-23"
+      },
+      {
+        "kind": "correo",
+        "value": "c.lopez@verlita.example",
+        "first_seen": null
+      },
+      {
+        "kind": "correo",
+        "value": "d.varela@verlita.example",
+        "first_seen": null
+      },
+      {
+        "kind": "hash",
+        "value": "9f4b3c8e2a1d7f5b6c0e9a8d4f2b1c3e7d8a9b0c1d2e3f4a5b6c7d8e9f0a1b2c",
+        "first_seen": "2026-05-28"
+      },
+      {
+        "kind": "regla_yara",
+        "value": "YARA_OpenBullet2_Anomaly_v9",
+        "first_seen": null
+      }
+    ],
+    "attack_chain": [
+      {
+        "phase": "reconocimiento",
+        "description": "Enumeración del endpoint de login del portal VPN y comprobación del flujo SAML federado mediante peticiones GET desde IP residencial.",
+        "timestamp": "2026-05-22T22:08:00",
+        "technique_id": null
+      },
+      {
+        "phase": "acceso_a_credenciales",
+        "description": "Ráfaga de credential stuffing desde botnet residencial contra /auth/login utilizando combinaciones email/contraseña filtradas en breaches públicos.",
+        "timestamp": "2026-05-23T02:51:00",
+        "technique_id": null
+      },
+      {
+        "phase": "acceso_inicial",
+        "description": "Push bombing / MFA fatigue: hasta 30 notificaciones push consecutivas por cuenta válida hasta que la usuaria d.varela aprueba un push y se emite una sesión SAML para el atacante.",
+        "timestamp": "2026-05-23T04:38:21",
+        "technique_id": null
+      },
+      {
+        "phase": "movimiento_lateral",
+        "description": "Aprovechamiento de la pertenencia indebida de d.varela al grupo SP-Propuestas-Editor-Global, que otorga lectura sobre todo el repositorio comercial de la consultora.",
+        "timestamp": "2026-05-23T04:41:10",
+        "technique_id": null
+      },
+      {
+        "phase": "exfiltración",
+        "description": "Descarga vía interfaz web de SharePoint de 1.247 ficheros (8,4 GB) y envío en bloques de ~50 MB al dominio C2 cdn-static-eu.cloudbackup.live.",
+        "timestamp": "2026-05-23T04:43:00",
+        "technique_id": null
+      }
+    ],
+    "containment_actions": [
+      {
+        "description": "Revocación masiva de sesiones del tenant Entra ID (Revoke-AzureADUserAllRefreshToken) y reset forzado de contraseña para las 96 cuentas con actividad de push spam.",
+        "status": "completada",
+        "owner": "SOC"
+      },
+      {
+        "description": "Aplicación de una política condicional de Entra ID que restringe el acceso al portal VPN a conexiones originadas desde España, Portugal, México, Colombia y Estados Unidos.",
+        "status": "completada",
+        "owner": "IT-Identidad"
+      },
+      {
+        "description": "Migración por anillos de todas las cuentas del tenant al esquema de number matching de Microsoft Authenticator.",
+        "status": "en_curso",
+        "owner": "IT-Identidad"
+      },
+      {
+        "description": "Auditoría completa del grupo SP-Propuestas-Editor-Global y de los grupos con permisos amplios sobre site colecciones de SharePoint sensibles.",
+        "status": "en_curso",
+        "owner": "Gobierno de Datos"
+      },
+      {
+        "description": "Notificación del incidente a la AEPD dentro de la ventana de 72 horas y a los tres clientes cuya información comercial confidencial fue accedida.",
+        "status": "completada",
+        "owner": "Legal & Compliance"
+      },
+      {
+        "description": "Distribución de los IoCs a la plataforma EDR, al firewall perimetral y al proxy de salida.",
+        "status": "completada",
+        "owner": "Red Team"
+      }
+    ],
+    "root_cause": "Combinación de un mecanismo de MFA push aprobable con un único toque (sin number matching) y la ausencia de restricción geográfica del portal VPN, agravada por la pertenencia indebida de la cuenta d.varela al grupo SP-Propuestas-Editor-Global durante aproximadamente tres años sin revisión periódica de membresías, lo que convirtió una aprobación de MFA por fatiga en una exfiltración material del repositorio comercial."
+  },
+  "metadata": {
+    "source": "synthetic_20260601_005.md",
+    "domain": "technical",
+    "subdomain": "security_incident"
+  },
+  "revalued_at": "2026-06-02T11:12:16"
+}

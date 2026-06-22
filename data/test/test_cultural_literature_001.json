@@ -1,0 +1,90 @@
+{
+  "id": "test_cultural_literature_001",
+  "input_text": "# Niebla (novela)\n\nNiebla es una nivola escrita por Miguel de Unamuno en 1907 y publicada por primera vez en 1914 por la Editorial Renacimiento que narra la historia de Augusto Pérez, un joven rico licenciado en Derecho, hijo único de una madre viuda y sus problemas de amoríos y existenciales que vive al cuestionar su cotidianeidad y al visitar al propio Unamuno, quien le dice que es un ente de ficción. [...] ## Argumento\nAugusto Pérez es una persona que tiene una vida muy rutinaria y tranquila. Al verse afectado por el amor y por las pláticas que hace frecuentemente con su amigo Víctor Goti, comienza a cuestionar cada uno de los aspectos de su vida: se pregunta si alguien sabe lo que es amar, qué es vivir y cuál es la finalidad de la existencia, entre otros temas. Esos pensamientos lo consumen en el momento en el que su novia Eugenia huye con otro hombre después de que él abandona a Rosario, una muchacha que le planchaba la ropa, que le había jurado estar con él y quererle siempre.\nAl verse sin salida, decide buscar ayuda y se dirige a la casa de Miguel de Unamuno, un reconocido escritor, con la idea de que podría decirle qué hacer. Los resultados son inesperados cuando Unamuno se pronuncia como su creador y le dice que es un ente de ficción a quien, incluso, puede matar si lo desea. Augusto, en su defensa, dice que quizá Unamuno también es el personaje “nivolesco” de alguien más y que ese ente terminará con su vida cuando menos lo espere; y defiende su existencia al mencionar que él volverá a vivir cada vez que alguien lea su historia, mientras que el autor vasco, en cambio, no lo hará.\nDe esta forma, Miguel de Unamuno intenta plasmar el encuentro de un creador con su creación simulando la relación Dios-criatura; Niebla se construye alrededor de este tema mediante el desarrollo de conceptos como la concepción de la vida y el destino.​",
+  "instruction": "Extrae los metadatos bibliográficos básicos y los temas clave de la obra literaria descrita en el texto. Incluye título, autor, año de publicación, géneros y temas principales.",
+  "target_schema": {
+    "additionalProperties": false,
+    "description": "Extracts basic bibliographic metadata and key themes from a book description or encyclopedia entry.\nComplexity: L2 (Explicit Information Retrieval).",
+    "properties": {
+      "title": {
+        "description": "The official title of the literary work",
+        "title": "Title",
+        "type": "string"
+      },
+      "author": {
+        "description": "The primary author or creator of the work",
+        "title": "Author",
+        "type": "string"
+      },
+      "publication_year": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "The year the work was first published",
+        "title": "Publication Year"
+      },
+      "genres": {
+        "description": "Literary genres associated with the work (e.g., 'Science Fiction', 'Romance')",
+        "items": {
+          "type": "string"
+        },
+        "title": "Genres",
+        "type": "array"
+      },
+      "key_themes": {
+        "description": "Main topics or themes explored in the work",
+        "items": {
+          "type": "string"
+        },
+        "title": "Key Themes",
+        "type": "array"
+      },
+      "original_language": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "The language in which the work was originally written",
+        "title": "Original Language"
+      }
+    },
+    "required": [
+      "title",
+      "author"
+    ],
+    "title": "LiteraryWork",
+    "type": "object"
+  },
+  "output": {
+    "title": "Niebla",
+    "author": "Miguel de Unamuno",
+    "publication_year": 1914,
+    "genres": [
+      "nivola"
+    ],
+    "key_themes": [
+      "amoríos",
+      "existencialismo",
+      "concepción de la vida",
+      "destino",
+      "relación creador-criatura"
+    ],
+    "original_language": null
+  },
+  "metadata": {
+    "source": "fresh_testset_niebla_novela.md",
+    "domain": "cultural",
+    "subdomain": "literature"
+  }
+}

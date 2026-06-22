@@ -1,0 +1,90 @@
+{
+  "id": "test_cultural_literature_002",
+  "input_text": "# La sombra del viento\n\nLa sombra del viento es una novela de Carlos Ruiz Zafón publicada en 2001, el primer libro de la saga del Cementerio de los libros olvidados, con elementos de realismo mágico e intriga. Ha sido un libro superventas mundial, con más de veinticinco millones de ejemplares vendidos en 36 idiomas diferentes y en más de 30 países.​​\nLa crítica la tildó como «una de las grandes revelaciones literarias de los últimos tiempos». La sombra del viento es la primera entrega de un ciclo de cuatro novelas de prosa rica y evocadora, interconectadas y ambientadas en una Barcelona misteriosa y gótica que va desde la era de la revolución industrial hasta los años posteriores a la guerra civil española. Los cuatro relatos, independientes y autosuficientes en sí mismos, comparten algunos personajes y escenarios. Sus secuelas son El juego del ángel (2008), El prisionero del cielo (2011) y El laberinto de los espíritus (2016).​",
+  "instruction": "Extrae los metadatos bibliográficos básicos y los temas clave de la obra literaria descrita en el texto. Devuelve un objeto JSON conforme al esquema LiteraryWork.",
+  "target_schema": {
+    "additionalProperties": false,
+    "description": "Extracts basic bibliographic metadata and key themes from a book description or encyclopedia entry.\nComplexity: L2 (Explicit Information Retrieval).",
+    "properties": {
+      "title": {
+        "description": "The official title of the literary work",
+        "title": "Title",
+        "type": "string"
+      },
+      "author": {
+        "description": "The primary author or creator of the work",
+        "title": "Author",
+        "type": "string"
+      },
+      "publication_year": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "The year the work was first published",
+        "title": "Publication Year"
+      },
+      "genres": {
+        "description": "Literary genres associated with the work (e.g., 'Science Fiction', 'Romance')",
+        "items": {
+          "type": "string"
+        },
+        "title": "Genres",
+        "type": "array"
+      },
+      "key_themes": {
+        "description": "Main topics or themes explored in the work",
+        "items": {
+          "type": "string"
+        },
+        "title": "Key Themes",
+        "type": "array"
+      },
+      "original_language": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "The language in which the work was originally written",
+        "title": "Original Language"
+      }
+    },
+    "required": [
+      "title",
+      "author"
+    ],
+    "title": "LiteraryWork",
+    "type": "object"
+  },
+  "output": {
+    "title": "La sombra del viento",
+    "author": "Carlos Ruiz Zafón",
+    "publication_year": 2001,
+    "genres": [
+      "realismo mágico",
+      "intriga"
+    ],
+    "key_themes": [
+      "Cementerio de los libros olvidados",
+      "Barcelona gótica",
+      "revolución industrial",
+      "posguerra civil española"
+    ],
+    "original_language": null
+  },
+  "metadata": {
+    "source": "fresh_testset_la_sombra_del_viento.md",
+    "domain": "cultural",
+    "subdomain": "literature"
+  }
+}

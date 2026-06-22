@@ -1,0 +1,314 @@
+{
+  "id": "research_paper_argument_001",
+  "input_text": "**Lengua y Sociedad. Revista del Centro de Investigación de Lingüística Aplicada**\nVol. 24, núm. 2, 2025, pp. 87–124\nDOI: 10.15381/lengsoc.v24i2.2025.0087\nISSN (impreso): 1729-9721 / ISSN (en línea): 2413-2659\n\n# El bilingüismo escrito en pantalla: code-switching español–quechua en publicaciones de Twitter/X y TikTok de jóvenes urbanos peruanos\n\n**Rosa Mamani Quispe**¹, **Diego Allauca Ríos**², **Sofía Pizarro Vela**¹\n\n¹ Departamento de Lingüística, Universidad Nacional Mayor de San Marcos, Lima, Perú\n² Programa de Estudios Andinos, Pontificia Universidad Católica del Perú, Lima, Perú\n\nCorrespondencia: rosa.mamani@unmsm.edu.pe\n\nRecibido: 14 de marzo de 2025 · Aceptado: 22 de julio de 2025 · Publicado en línea: 30 de septiembre de 2025\n\n---\n\n## Resumen\n\nEste artículo examina las prácticas de alternancia de código (code-switching) español–quechua en publicaciones de Twitter/X y TikTok producidas por jóvenes urbanos peruanos de entre 16 y 28 años, residentes en Lima, Arequipa, Cusco y Huancayo. A partir de un corpus de 4 218 publicaciones recolectadas entre enero de 2023 y diciembre de 2024, sostenemos que el code-switching escrito en redes sociales no replica los patrones documentados para la oralidad: presenta una frecuencia significativamente mayor de inserciones léxicas marcadas tipográficamente, una distribución funcional dominada por la afiliación identitaria por sobre la economía discursiva, y la emergencia de convenciones ortográficas propias (uso de hashtags híbridos, marcadores emoji, sufijos quechuas adheridos a raíces castellanas). Defendemos que estas prácticas constituyen un **género discursivo bilingüe digital** con autonomía respecto al continuo oralidad–escritura tradicionalmente postulado por la sociolingüística andina. Las implicaciones tocan tanto la teoría del code-switching como las políticas de revitalización lingüística mediadas por tecnología.\n\n**Palabras clave:** alternancia de código; quechua; español andino; sociolingüística digital; Twitter/X; TikTok; bilingüismo escrito; revitalización lingüística.\n\n---\n\n## 1. Introducción\n\nLa alternancia de código entre el español y las lenguas originarias andinas ha sido objeto de estudio sostenido desde los trabajos pioneros de Cerrón-Palomino (1987) y Escobar (1990), y posteriormente sistematizada por Zavala (2014) y de los Heros (2012) en el marco de la sociolingüística crítica peruana. La práctica totalidad de esta literatura, sin embargo, se ha construido sobre datos de interacción oral: grabaciones de mercados, asambleas comunales, entrevistas semi-estructuradas, programas de radio. La irrupción masiva de los hablantes bilingües jóvenes en plataformas digitales escritas como Twitter/X y, más recientemente, en formatos de video corto con subtítulos generados por el propio usuario en TikTok, abre un terreno que la literatura ha tocado solo de manera tangencial (Brañez 2018; Pérez Silva y Acurio 2022).\n\nEl presente trabajo defiende una tesis principal: **la frecuencia y los patrones de alternancia de código español–quechua observables en las publicaciones de Twitter/X y TikTok de jóvenes urbanos peruanos difieren significativamente de los documentados para el habla oral y configuran, en su conjunto, un género discursivo bilingüe propio del entorno digital, no derivado por extensión de la oralidad ni de la escritura formal**. Esta tesis no es meramente descriptiva: implica que los modelos clásicos de tipología del code-switching (Poplack 1980; Myers-Scotton 1993) requieren ampliación para incorporar fenómenos específicamente digitales como la marcación tipográfica del cambio, el uso identitario por sobre el funcional, y la convencionalización ortográfica emergente.\n\nEl artículo se organiza como sigue. La sección 2 revisa el estado de la cuestión y precisa nuestro posicionamiento teórico. La sección 3 describe el corpus y la metodología de anotación. La sección 4 presenta los resultados organizados en cuatro sub-afirmaciones. La sección 5 discute objeciones previsibles. La sección 6 declara las limitaciones del estudio. La sección 7 cierra con conclusiones y trabajo futuro.\n\n---\n\n## 2. Estado de la cuestión y marco teórico\n\n### 2.1 La tradición de los estudios de alternancia español–quechua\n\nLos estudios fundacionales de Cerrón-Palomino (1987) sobre el \"castellano andino\" describen el contacto como un fenómeno estructural, observable en la fonología y la sintaxis del castellano hablado por bilingües de primera y segunda lengua. Escobar (1990, 2000) desplaza la atención hacia los procesos de adquisición y muestra que la alternancia funciona como un recurso discursivo regulado por factores sociales: edad, lugar de residencia, red de socialización. Zavala (2014) introduce una mirada crítica que enfatiza la dimensión ideológica: el code-switching no es solo una práctica lingüística sino una performance identitaria que negocia jerarquías raciales y de clase.\n\nToda esta literatura, lo subrayamos, se sostiene sobre datos orales. La pregunta de cómo se comporta el code-switching cuando se escribe ha sido formulada de manera marginal: Brañez (2018) examina grafitis bilingües en Cusco; Pérez Silva y Acurio (2022) ofrecen un estudio piloto sobre 200 tuits de hablantes huancavelicanos. Hasta donde conocemos, no existe trabajo de escala que aborde el fenómeno en plataformas digitales con un corpus comparable a los corpus orales canónicos.\n\n### 2.2 Marcos tipológicos del code-switching\n\nEl marco de Poplack (1980), construido sobre datos del español caribeño y el inglés en Nueva York, distingue tres tipos: cambio intra-oracional, inter-oracional y de etiqueta (tag-switching). Myers-Scotton (1993), con su Modelo de Lengua Matriz, propone un esquema jerárquico en el que una lengua aporta el marco morfosintáctico y la otra inserta material léxico. Ambos modelos fueron diseñados para fenómenos orales y asumen implícitamente que el canal no condiciona la estructura del cambio.\n\n### 2.3 Posicionamiento\n\nNuestro trabajo **introduce un objeto no tratado antes** por la literatura sociolingüística andina con escala y rigor anotacional: el corpus digital escrito de jóvenes bilingües urbanos. No nos limitamos a extender los marcos previos al nuevo canal —si lo hiciéramos, defenderíamos una posición de mera continuidad—, sino que argumentamos que el canal digital escrito produce fenómenos cualitativamente nuevos que los modelos clásicos no anticipan.\n\n---\n\n## 3. Metodología\n\n### 3.1 Corpus\n\nConstruimos un corpus de **4 218 publicaciones**, distribuidas en 2 941 tuits/posts de Twitter/X y 1 277 publicaciones de TikTok (descripciones de video más subtítulos auto-generados editados por el usuario), recolectadas entre el 1 de enero de 2023 y el 31 de diciembre de 2024. Los autores fueron identificados como jóvenes urbanos peruanos (edad declarada o inferida entre 16 y 28 años, residencia en Lima, Arequipa, Cusco o Huancayo) mediante una combinación de auto-declaración en biografía, geolocalización, y verificación manual.\n\n### 3.2 Anotación\n\nTres anotadoras con formación en lingüística andina (dos hablantes nativas de quechua sureño, una hablante de herencia) etiquetaron cada publicación según las siguientes capas: (a) tipo estructural de cambio (intra-oracional, inter-oracional, tag), (b) función discursiva (afiliación identitaria, énfasis, cita, juego léxico, economía, exclusión de audiencia), (c) marcación tipográfica (mayúsculas, cursiva, hashtag, emoji, sufijo adherido sin guión), (d) variedad de quechua identificable. Calculamos un kappa de Cohen inter-anotadora de 0.81 sobre una submuestra de 400 publicaciones, considerado alto para tareas de anotación sociolingüística.\n\n### 3.3 Comparación con corpus oral\n\nComo condición de comparabilidad, recolectamos un sub-corpus oral de control compuesto por 64 horas de entrevistas semi-estructuradas a 48 jóvenes con perfiles sociodemográficos equivalentes, realizadas entre 2023 y 2024 en las mismas cuatro ciudades. Las 4 218 publicaciones digitales y las 64 horas de oral fueron procesadas con el mismo esquema de anotación.\n\n---\n\n## 4. Resultados\n\n### 4.1 Frecuencia: el cambio escrito es más frecuente que el oral, por unidad de discurso\n\nEn el corpus oral controlado, observamos una tasa promedio de **3.2 cambios de código por cada 100 palabras** producidas por hablante. En el corpus digital, la tasa asciende a **9.7 cambios por cada 100 palabras**, una diferencia significativa (χ² = 142.6, p < 0.001). La diferencia se mantiene cuando se controla por edad, ciudad y nivel educativo declarado.\n\n### 4.2 Marcación tipográfica: el 71% de los cambios escritos están explícitamente marcados\n\nMientras que en la oralidad el cambio de código se realiza típicamente sin marcas prosódicas explícitas —los hablantes pasan de una lengua a otra de manera fluida y sin pausa demarcativa—, en el corpus digital el 71% de las inserciones quechuas aparecen marcadas mediante al menos uno de los siguientes recursos: hashtag (#sumaqkay), mayúsculas en la raíz quechua, emoji que precede o sigue al término quechua (típicamente 🇵🇪, 🌾 o el emoji de mano abierta), o uso de cursiva tipográfica cuando la plataforma lo permite. Sólo el 29% restante presenta inserciones sin marca tipográfica alguna.\n\n### 4.3 Función dominante: afiliación identitaria por sobre economía discursiva\n\nLos modelos clásicos predicen que la alternancia obedece principalmente a una economía discursiva: el hablante cambia de lengua porque la lengua alterna ofrece un término más preciso, más breve o más expresivo. En nuestro corpus digital, sin embargo, sólo el **18% de los cambios** se explican por economía. La función dominante, presente en el **56% de los cambios**, es la **afiliación identitaria**: el hablante introduce material quechua para señalar pertenencia, orgullo cultural o adscripción regional, incluso cuando el contenido podría expresarse cómodamente en castellano. El restante 26% se distribuye entre cita, juego léxico, y exclusión deliberada de audiencia no bilingüe.\n\n### 4.4 Convencionalización ortográfica emergente\n\nDocumentamos al menos tres convenciones ortográficas emergentes que no encuentran antecedente claro en la oralidad ni en la escritura formal del quechua: (i) la adhesión sin guión de sufijos quechuas a raíces castellanas, como en *amigo-y* (mi amigo, con sufijo posesivo de primera persona) escrito *amigoy* sin separador; (ii) el uso de hashtags híbridos como **#yawarmasi** (hermano de sangre) que funcionan a la vez como etiqueta de búsqueda y como vocativo identitario; (iii) la emergencia de un grupo de 32 lexemas quechuas que aparecen sistemáticamente en plural castellano con la marca *-s* (*ayllus*, *runas*, *wawas*), una hibridación morfológica poco frecuente en la oralidad documentada.\n\n---\n\n## 5. Discusión\n\nLos resultados, considerados en conjunto, sostienen la tesis de que el code-switching digital constituye un género discursivo bilingüe propio. Antes de cerrar, discutimos tres objeciones previsibles.\n\n### 5.1 Objeción de la auto-selección\n\n**Cabría objetar que** las publicaciones de Twitter/X y TikTok recogidas son producidas por una minoría hiper-visible de jóvenes bilingües políticamente activos, y por tanto los patrones documentados reflejan la performance identitaria de un sub-grupo militante más que el comportamiento del bilingüe medio. **A esto cabe responder que** sí, en parte: el corpus digital es por definición un corpus de hablantes que publican, y publicar tiene un componente performativo ineludible. Pero esta característica no anula los hallazgos: el género discursivo bilingüe digital que describimos *es*, precisamente, el género que se realiza cuando se publica. Su autonomía respecto a la oralidad no se pierde por reconocer su naturaleza performativa; al contrario, la confirma.\n\n### 5.2 Objeción de la heterogeneidad de plataforma\n\n**Otra objeción posible es que** Twitter/X y TikTok son plataformas tan distintas en sus restricciones formales (límite de caracteres, multimodalidad, audiencia algorítmica) que tratarlas conjuntamente puede ocultar diferencias estructurales relevantes. **Reconocemos parcialmente la fuerza de esta objeción**: al separar los dos sub-corpus, la tasa de marcación tipográfica es más alta en TikTok (78%) que en Twitter/X (66%), lo que sugiere que el formato multimodal favorece el énfasis identitario. Sin embargo, las cuatro sub-afirmaciones del apartado 4 se sostienen en ambos sub-corpus por separado, lo que justifica el tratamiento conjunto para los propósitos del artículo.\n\n### 5.3 Objeción de la representatividad dialectal del quechua\n\n**Una tercera objeción** apunta a que nuestra anotación no distingue de manera fina entre variedades de quechua (sureño, central, amazónico), agrupándolas bajo una categoría genérica de \"quechua\" en el 64% de los casos donde la variedad no es identificable con seguridad por una sola publicación. *Esta objeción no es respondida en el presente artículo y la dejamos como tarea abierta para trabajo futuro, dado que requiere un esquema de anotación dialectal específico que excede los recursos del proyecto actual.*\n\n---\n\n## 6. Limitaciones\n\nDeclaramos las siguientes limitaciones del estudio:\n\n1. **Tamaño muestral acotado.** Aunque 4 218 publicaciones constituyen un corpus mayor al de los estudios previos sobre escritura bilingüe andina (Brañez 2018; Pérez Silva y Acurio 2022), sigue siendo modesto comparado con corpus de redes sociales en lenguas mayoritarias, y limita la potencia estadística de los análisis por sub-grupo (edad × ciudad × plataforma).\n\n2. **Validez externa restringida a contextos urbanos peruanos.** Los hallazgos no son directamente generalizables a jóvenes bilingües rurales, ni a contextos bolivianos o ecuatorianos donde el quechua/quichua presenta configuraciones sociolingüísticas distintas. La replicación en estos contextos queda pendiente.\n\n3. **Calidad de datos: ruido en la identificación de variedad de quechua.** Como se discutió en 5.3, el 64% de las publicaciones no permite identificar la variedad de quechua empleada con seguridad sobre la base de una sola pieza textual. Esto limita el granular de los análisis dialectales.\n\n4. **Metodología: ausencia de triangulación con entrevista al usuario.** No hemos contactado a los autores de las publicaciones para indagar sus motivaciones reportadas. La asignación de función discursiva (apartado 4.3) se basa exclusivamente en interpretación de las anotadoras y no en auto-reporte, lo que introduce un riesgo de sobreatribución de intencionalidad identitaria.\n\n---\n\n## 7. Conclusiones y trabajo futuro\n\nHemos defendido que las publicaciones de Twitter/X y TikTok de jóvenes urbanos peruanos bilingües español–quechua exhiben patrones de alternancia de código que (a) son más frecuentes que en la oralidad equivalente, (b) están mayoritariamente marcados tipográficamente, (c) responden a una función identitaria dominante por sobre la economía discursiva, y (d) muestran convencionalización ortográfica emergente. En conjunto, estos hallazgos sostienen que el bilingüismo escrito en pantalla constituye un género discursivo bilingüe propio del entorno digital, no derivable por extensión de los modelos orales canónicos.\n\nComo trabajo futuro identificamos tres líneas: (i) ampliar el corpus a plataformas adicionales (Instagram, YouTube Shorts) y a contextos rurales y bolivianos/ecuatorianos; (ii) introducir una capa de anotación dialectal fina del quechua; (iii) complementar el análisis textual con entrevistas a una sub-muestra de autores para triangular la asignación funcional.\n\nEsperamos que esta investigación contribuya a actualizar los marcos teóricos del code-switching para la era digital y a informar políticas de revitalización lingüística que reconozcan las plataformas escritas en línea como espacios legítimos de práctica bilingüe.\n\n---\n\n## Referencias\n\nBrañez, R. (2018). *Grafitis bilingües en el Cusco contemporáneo: identidad y resistencia escrita*. Lima: Instituto de Estudios Peruanos.\n\nCerrón-Palomino, R. (1987). *Lingüística quechua*. Cusco: Centro Bartolomé de las Casas.\n\nCerrón-Palomino, R. (2003). *Castellano andino: aspectos sociolingüísticos, pedagógicos y gramaticales*. Lima: Fondo Editorial PUCP.\n\nDe los Heros, S. (2012). *Utopía y realidad: nociones sobre el estándar lingüístico en la esfera intelectual y educativa peruana*. Lima: IEP / Iberoamericana Vervuert.\n\nEscobar, A. M. (1990). *Los bilingües y el castellano en el Perú*. Lima: Instituto de Estudios Peruanos.\n\nEscobar, A. M. (2000). *Contacto social y lingüístico: el español en contacto con el quechua en el Perú*. Lima: Fondo Editorial PUCP.\n\nHeller, M. (2007). *Bilingualism: A Social Approach*. Basingstoke: Palgrave Macmillan.\n\nMyers-Scotton, C. (1993). *Duelling Languages: Grammatical Structure in Codeswitching*. Oxford: Clarendon Press.\n\nPérez Silva, J. I., & Acurio, R. (2022). \"Tuits bilingües: una mirada piloto al code-switching español–quechua en Twitter desde Huancavelica.\" *Lexis*, 46(2), 451–478.\n\nPoplack, S. (1980). \"Sometimes I'll start a sentence in Spanish y termino en español: toward a typology of code-switching.\" *Linguistics*, 18(7–8), 581–618.\n\nSayer, P. (2013). \"Translanguaging, TexMex, and Bilingual Pedagogy: Emergent Bilinguals Learning Through the Vernacular.\" *TESOL Quarterly*, 47(1), 63–88.\n\nZavala, V. (2014). \"An ancestral language to speak with the 'Other': Closing down ideological spaces of a language policy in the Peruvian Andes.\" *Language Policy*, 13(1), 1–20.\n\nZavala, V., & Back, M. (eds.) (2017). *Racismo y lenguaje*. Lima: Fondo Editorial PUCP.",
+  "instruction": "Extrae la estructura argumental completa del artículo: tesis principal, sub-afirmaciones con evidencias, contra-afirmaciones respondidas o no, limitaciones declaradas, posicionamiento respecto al estado del arte, y antecedentes citados como directos de la tesis.",
+  "target_schema": {
+    "$defs": {
+      "CounterClaim": {
+        "additionalProperties": false,
+        "description": "Una objeción o contra-afirmación que el artículo reconoce y responde.",
+        "properties": {
+          "statement": {
+            "description": "Enunciado de la objeción en voz declarativa (p. ej. 'La correlación observada podría explicarse por el sesgo de selección de la muestra').",
+            "title": "Statement",
+            "type": "string"
+          },
+          "response": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Respuesta o concesión del artículo a la objeción si la incluye (p. ej. 'Los autores controlan este sesgo estratificando por edad y nivel socioeconómico'). Null si el artículo presenta la objeción sin responderla.",
+            "title": "Response"
+          }
+        },
+        "required": [
+          "statement"
+        ],
+        "title": "CounterClaim",
+        "type": "object"
+      },
+      "Evidence": {
+        "additionalProperties": false,
+        "description": "Una pieza de evidencia que apoya una afirmación del artículo.",
+        "properties": {
+          "kind": {
+            "$ref": "#/$defs/EvidenceKind",
+            "description": "Tipo de evidencia."
+          },
+          "description": {
+            "description": "Descripción literal o casi literal de la evidencia en una frase (p. ej. 'experimento controlado con N=240 hablantes nativos de español').",
+            "title": "Description",
+            "type": "string"
+          },
+          "quoted_passage": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Cita literal del artículo (sin comillas) que presenta esta evidencia, si el extractor la conserva. Null si el extractor solo parafrasea.",
+            "title": "Quoted Passage"
+          }
+        },
+        "required": [
+          "kind",
+          "description"
+        ],
+        "title": "Evidence",
+        "type": "object"
+      },
+      "EvidenceKind": {
+        "enum": [
+          "estudio_empírico",
+          "análisis_datos",
+          "demostración_teórica",
+          "literatura_citada",
+          "ejemplo_caso",
+          "simulación"
+        ],
+        "title": "EvidenceKind",
+        "type": "string"
+      },
+      "Limitation": {
+        "additionalProperties": false,
+        "description": "Una limitación del trabajo declarada por los propios autores.",
+        "properties": {
+          "kind": {
+            "$ref": "#/$defs/LimitationKind",
+            "description": "Categoría de la limitación."
+          },
+          "description": {
+            "description": "Descripción literal o casi literal de la limitación tal como la consignan los autores.",
+            "title": "Description",
+            "type": "string"
+          }
+        },
+        "required": [
+          "kind",
+          "description"
+        ],
+        "title": "Limitation",
+        "type": "object"
+      },
+      "LimitationKind": {
+        "enum": [
+          "tamaño_muestral",
+          "validez_externa",
+          "validez_de_constructo",
+          "metodología",
+          "calidad_datos",
+          "alcance"
+        ],
+        "title": "LimitationKind",
+        "type": "string"
+      },
+      "PositioningStance": {
+        "enum": [
+          "extiende",
+          "matiza",
+          "cuestiona",
+          "sintetiza",
+          "introduce_novedoso"
+        ],
+        "title": "PositioningStance",
+        "type": "string"
+      },
+      "SubClaim": {
+        "additionalProperties": false,
+        "description": "Una afirmación de apoyo subordinada a la tesis principal.",
+        "properties": {
+          "statement": {
+            "description": "Enunciado de la afirmación en una frase, en voz declarativa (p. ej. 'La frecuencia de uso del subjuntivo decrece con la edad de exposición al inglés').",
+            "title": "Statement",
+            "type": "string"
+          },
+          "supporting_evidence": {
+            "description": "Pieza(s) de evidencia que el artículo aporta para esta afirmación. Al menos una.",
+            "items": {
+              "$ref": "#/$defs/Evidence"
+            },
+            "minItems": 1,
+            "title": "Supporting Evidence",
+            "type": "array"
+          }
+        },
+        "required": [
+          "statement",
+          "supporting_evidence"
+        ],
+        "title": "SubClaim",
+        "type": "object"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Estructura argumental completa de un artículo académico (humanidades,\nciencias sociales, ciencia o medicina) en español: tesis central,\nsub-afirmaciones con sus evidencias, contra-afirmaciones reconocidas y\ncontestadas, limitaciones declaradas y posicionamiento explícito en el\nestado del arte.\n\nLa extracción debe distinguir entre la tesis principal y las sub-afirmaciones\nque la sostienen, asociar cada evidencia a la afirmación que apoya, y\ndiferenciar las contra-afirmaciones que el propio artículo plantea de las\nlimitaciones que sus autores reconocen. Requiere lectura holística del\nartículo completo, no solo del resumen.\n\nComplejidad: L10 — razonamiento argumentativo sobre el conjunto del\ndocumento con jerarquías retóricas, enlazado evidencia↔afirmación, y\ndistinciones semánticas finas (limitación vs. contra-afirmación vs.\nposicionamiento).",
+    "properties": {
+      "title": {
+        "description": "Título del artículo tal como aparece en la portada.",
+        "title": "Title",
+        "type": "string"
+      },
+      "discipline": {
+        "description": "Disciplina principal del artículo según el propio texto (p. ej. 'sociolingüística', 'bioquímica', 'historia económica').",
+        "title": "Discipline",
+        "type": "string"
+      },
+      "main_thesis": {
+        "description": "Tesis central del artículo en una o dos frases. Captura lo que el artículo afirma de novedoso o controvertido, no su objeto de estudio.",
+        "title": "Main Thesis",
+        "type": "string"
+      },
+      "sub_claims": {
+        "description": "Afirmaciones de apoyo a la tesis principal, en el orden en que el artículo las desarrolla. Cada una debe ir acompañada de su evidencia.",
+        "items": {
+          "$ref": "#/$defs/SubClaim"
+        },
+        "minItems": 1,
+        "title": "Sub Claims",
+        "type": "array"
+      },
+      "counter_claims": {
+        "description": "Objeciones o contra-afirmaciones que el artículo plantea explícitamente y a las que (idealmente) responde. Lista vacía si el artículo no reconoce contra-argumentos.",
+        "items": {
+          "$ref": "#/$defs/CounterClaim"
+        },
+        "title": "Counter Claims",
+        "type": "array"
+      },
+      "limitations": {
+        "description": "Limitaciones que los autores reconocen sobre su propio trabajo, típicamente en una sección 'Limitaciones' o 'Discusión'. Lista vacía si el artículo no las declara.",
+        "items": {
+          "$ref": "#/$defs/Limitation"
+        },
+        "title": "Limitations",
+        "type": "array"
+      },
+      "positioning": {
+        "$ref": "#/$defs/PositioningStance",
+        "description": "Cómo se posiciona el artículo respecto al estado del arte: 'extiende' un marco anterior, 'matiza' resultados previos, 'cuestiona' una tesis recibida, 'sintetiza' tradiciones distintas, o 'introduce_novedoso' un objeto/método no tratado antes."
+      },
+      "cited_predecessors": {
+        "description": "Trabajos o autores anteriores que el artículo cita como antecedentes directos de su tesis (p. ej. 'Labov (1972)', 'la escuela de Praga'). Solo los citados explícitamente como antecedentes de la tesis principal, no toda la bibliografía.",
+        "items": {
+          "type": "string"
+        },
+        "title": "Cited Predecessors",
+        "type": "array"
+      }
+    },
+    "required": [
+      "title",
+      "discipline",
+      "main_thesis",
+      "sub_claims",
+      "positioning"
+    ],
+    "title": "PaperArgument",
+    "type": "object"
+  },
+  "output": {
+    "title": "El bilingüismo escrito en pantalla: code-switching español–quechua en publicaciones de Twitter/X y TikTok de jóvenes urbanos peruanos",
+    "discipline": "sociolingüística",
+    "main_thesis": "La frecuencia y los patrones de alternancia de código español–quechua observables en las publicaciones de Twitter/X y TikTok de jóvenes urbanos peruanos difieren significativamente de los documentados para el habla oral y configuran, en su conjunto, un género discursivo bilingüe propio del entorno digital, no derivado por extensión de la oralidad ni de la escritura formal.",
+    "sub_claims": [
+      {
+        "statement": "El cambio de código escrito en redes sociales es significativamente más frecuente que el cambio de código oral, por unidad de discurso.",
+        "supporting_evidence": [
+          {
+            "kind": "análisis_datos",
+            "description": "Comparación de tasas: 3.2 cambios por cada 100 palabras en el corpus oral controlado frente a 9.7 cambios por cada 100 palabras en el corpus digital, con χ² = 142.6 y p < 0.001.",
+            "quoted_passage": "En el corpus oral controlado, observamos una tasa promedio de 3.2 cambios de código por cada 100 palabras producidas por hablante. En el corpus digital, la tasa asciende a 9.7 cambios por cada 100 palabras, una diferencia significativa (χ² = 142.6, p < 0.001)."
+          }
+        ]
+      },
+      {
+        "statement": "El 71% de las inserciones quechuas en el corpus digital están explícitamente marcadas mediante recursos tipográficos.",
+        "supporting_evidence": [
+          {
+            "kind": "análisis_datos",
+            "description": "En el corpus digital el 71% de las inserciones quechuas aparecen marcadas con hashtag, mayúsculas en la raíz, emoji adyacente o cursiva tipográfica, frente a sólo el 29% sin marca.",
+            "quoted_passage": "en el corpus digital el 71% de las inserciones quechuas aparecen marcadas mediante al menos uno de los siguientes recursos: hashtag (#sumaqkay), mayúsculas en la raíz quechua, emoji que precede o sigue al término quechua"
+          }
+        ]
+      },
+      {
+        "statement": "La función dominante del cambio de código en el corpus digital es la afiliación identitaria, no la economía discursiva.",
+        "supporting_evidence": [
+          {
+            "kind": "análisis_datos",
+            "description": "Sólo el 18% de los cambios se explican por economía discursiva, mientras que el 56% responden a afiliación identitaria y el 26% restante a cita, juego léxico o exclusión deliberada de audiencia.",
+            "quoted_passage": "sólo el 18% de los cambios se explican por economía. La función dominante, presente en el 56% de los cambios, es la afiliación identitaria"
+          }
+        ]
+      },
+      {
+        "statement": "El corpus digital muestra convenciones ortográficas emergentes sin antecedente claro en la oralidad ni en la escritura formal del quechua.",
+        "supporting_evidence": [
+          {
+            "kind": "ejemplo_caso",
+            "description": "Tres convenciones documentadas: adhesión sin guión de sufijos quechuas a raíces castellanas (amigoy), hashtags híbridos como #yawarmasi, y pluralización castellana de lexemas quechuas (ayllus, runas, wawas).",
+            "quoted_passage": "(i) la adhesión sin guión de sufijos quechuas a raíces castellanas, como en amigo-y (mi amigo, con sufijo posesivo de primera persona) escrito amigoy sin separador; (ii) el uso de hashtags híbridos como #yawarmasi"
+          }
+        ]
+      }
+    ],
+    "counter_claims": [
+      {
+        "statement": "Las publicaciones recogidas son producidas por una minoría hiper-visible de jóvenes bilingües políticamente activos, y por tanto los patrones documentados reflejan la performance identitaria de un sub-grupo militante más que el comportamiento del bilingüe medio.",
+        "response": "Los autores conceden parcialmente que el corpus digital es por definición un corpus de hablantes que publican, con un componente performativo ineludible, pero argumentan que esta característica no anula los hallazgos: el género discursivo bilingüe digital descrito es precisamente el género que se realiza cuando se publica, y su naturaleza performativa confirma en lugar de anular su autonomía respecto a la oralidad."
+      },
+      {
+        "statement": "Twitter/X y TikTok son plataformas tan distintas en sus restricciones formales (límite de caracteres, multimodalidad, audiencia algorítmica) que tratarlas conjuntamente puede ocultar diferencias estructurales relevantes.",
+        "response": "Los autores reconocen parcialmente la fuerza de la objeción y reportan que la tasa de marcación tipográfica es más alta en TikTok (78%) que en Twitter/X (66%), pero defienden el tratamiento conjunto porque las cuatro sub-afirmaciones se sostienen en ambos sub-corpus por separado."
+      },
+      {
+        "statement": "La anotación del corpus no distingue de manera fina entre variedades de quechua (sureño, central, amazónico), agrupándolas bajo una categoría genérica de quechua en el 64% de los casos donde la variedad no es identificable con seguridad por una sola publicación.",
+        "response": null
+      }
+    ],
+    "limitations": [
+      {
+        "kind": "tamaño_muestral",
+        "description": "Aunque 4 218 publicaciones constituyen un corpus mayor al de los estudios previos sobre escritura bilingüe andina, sigue siendo modesto comparado con corpus de redes sociales en lenguas mayoritarias, y limita la potencia estadística de los análisis por sub-grupo (edad × ciudad × plataforma)."
+      },
+      {
+        "kind": "validez_externa",
+        "description": "Los hallazgos no son directamente generalizables a jóvenes bilingües rurales, ni a contextos bolivianos o ecuatorianos donde el quechua/quichua presenta configuraciones sociolingüísticas distintas."
+      },
+      {
+        "kind": "calidad_datos",
+        "description": "El 64% de las publicaciones no permite identificar la variedad de quechua empleada con seguridad sobre la base de una sola pieza textual, lo que limita el granular de los análisis dialectales."
+      },
+      {
+        "kind": "metodología",
+        "description": "No se contactó a los autores de las publicaciones para indagar sus motivaciones reportadas; la asignación de función discursiva se basa exclusivamente en interpretación de las anotadoras y no en auto-reporte, lo que introduce un riesgo de sobreatribución de intencionalidad identitaria."
+      }
+    ],
+    "positioning": "introduce_novedoso",
+    "cited_predecessors": [
+      "Cerrón-Palomino (1987)",
+      "Escobar (1990)",
+      "Zavala (2014)",
+      "de los Heros (2012)",
+      "Brañez (2018)",
+      "Pérez Silva y Acurio (2022)",
+      "Poplack (1980)",
+      "Myers-Scotton (1993)"
+    ]
+  },
+  "metadata": {
+    "source": "synthetic_20260601_001.md",
+    "domain": "research",
+    "subdomain": "paper_argument"
+  }
+}

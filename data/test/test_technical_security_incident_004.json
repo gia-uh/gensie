@@ -1,0 +1,421 @@
+{
+  "id": "technical_security_incident_004",
+  "input_text": "# Post-mortem INC-2026-0118: Kerberoasting y movimiento lateral en dominio FARMA.CORP\n\n**Clasificación**: Confidencial — uso interno Equipo de Respuesta a Incidentes (CSIRT) Pharmagenix S.A.\n**Identificador interno**: INC-2026-0118\n**Fecha de detección**: 2026-05-22T03:47\n**Fecha de cierre del informe**: 2026-05-30\n**Autor**: CSIRT Pharmagenix — Tier 3\n**Severidad declarada**: crítica [...] ## 2. Alcance y sistemas afectados\n\nLos siguientes sistemas resultaron afectados, en distinto grado, según la reconstrucción forense:\n\n- `DC01.farma.corp` — Controlador de dominio primario (Windows Server 2022). Objetivo de las solicitudes TGS masivas. No comprometido como host, pero emisor involuntario de los tickets crackeables.\n- `DC02.farma.corp` — Controlador de dominio secundario. Réplica de los logs Kerberos relevantes.\n- `SQL-PROD-01.farma.corp` — Servidor SQL Server 2019, motor de los pipelines de ensayos clínicos. Acceso comprometido vía pass-the-hash con NTLM de `svc_sqlrepl`.\n- `SQL-PROD-02.farma.corp` — Servidor SQL Server 2019, réplica geográfica. Acceso comprometido por la misma vía.\n- `APP-ERP-02.farma.corp` — Servidor de aplicaciones del ERP (SAP B1 + middleware .NET). Acceso comprometido mediante la misma credencial reutilizada como administrador local por error histórico de despliegue.\n- `WS-LAB-117.farma.corp` — Estación de trabajo en VLAN de I+D usada por `j.salinas`. Origen aparente del foothold inicial (autenticación remota desde IP externa).\n\nNo se vieron afectados los sistemas de la planta productiva (segregados en una red OT con airgap parcial) ni la infraestructura de correo (Exchange Online). [...] ### 3.1 Acceso inicial — 2026-05-21T22:14\n\nA las 22:14 del 21 de mayo se observa una autenticación interactiva exitosa contra el portal VPN corporativo (`vpn.farma.corp`) con credenciales válidas de `j.salinas@farma.corp` desde la IP de origen **185.220.101.42** (nodo de salida Tor conocido). Pese a que la política nominal exige MFA, la cuenta de `j.salinas` figuraba en una lista de excepciones temporales otorgadas en febrero de 2026 por una incidencia con su token físico — excepción que nunca fue revocada. Este es el primer paso reconocible de la cadena, asociable a la fase de **acceso_inicial**.\n\nLa hipótesis del CSIRT — corroborada por el propio usuario tras la entrevista del 23 de mayo — es que la contraseña fue obtenida del dump público de un servicio externo de gestión de viajes en el que `j.salinas` se registró en 2024 con el mismo email corporativo y la misma contraseña que usa en el dominio. La técnica equivale a **T1078.002** (cuentas válidas de dominio) en términos ATT&CK, aunque el informe la consigna bajo la fase de acceso inicial por simplicidad operativa.\n\n### 3.2 Reconocimiento interno — 2026-05-21T22:31\n\nPocos minutos después, desde `WS-LAB-117` (host al que la VPN concedió acceso por estar asociado al perfil de `j.salinas`), se observan consultas LDAP anómalas contra `DC01.farma.corp` enumerando objetos `User` y `Computer`, y, lo más relevante, filtrando por `servicePrincipalName=*`. El volumen y la sintaxis coinciden con la firma de la herramienta `Rubeus` (versión 2.2.x) ejecutada con el módulo `kerberoast`. Esta actividad se cataloga en la fase de **reconocimiento**.\n\n### 3.3 Solicitud masiva de TGS (Kerberoasting) — 2026-05-21T22:47\n\nA las 22:47 se registra un pico de **eventos 4769** (\"A Kerberos service ticket was requested\") en `DC01` y `DC02`, con 47 solicitudes en una ventana de 90 segundos, todas originadas en `WS-LAB-117` y dirigidas a SPNs de cuentas de servicio del dominio. Las cuentas afectadas más notables son:\n\n- `svc_sqlrepl@farma.corp` (servicio SQL replication, miembro de `SQLAdmins`).\n- `svc_backup@farma.corp` (Veeam backup service).\n- `svc_iisapp@farma.corp` (pool de aplicación IIS del ERP).\n- `svc_sccm@farma.corp` (System Center Configuration Manager).\n\nTodas las cuentas anteriores tenían registrado SPN y, según la auditoría posterior, **contraseñas no rotadas en 18+ meses** y sin habilitar AES Kerberos (campo `msDS-SupportedEncryptionTypes` en valor por defecto, RC4-HMAC). Esta fase corresponde a **acceso_a_credenciales** y se etiqueta como **T1558.003** (*Steal or Forge Kerberos Tickets: Kerberoasting*).\n\n### 3.4 Exfiltración de los TGS y crackeo offline — 2026-05-21T22:48 a 2026-05-23T07:00\n\nLos TGS exfiltrados (suma total: ~32 KB) salen de la red comprimidos en un POST HTTPS contra `cdn-static.update-mirror[.]xyz` resolviéndose a la IP **45.95.169.231**. El crackeo se realiza offline; no hay actividad relevante en la red corporativa durante ~32 horas. El CSIRT estima — basándose en la complejidad observada de las contraseñas de servicio recuperadas — que un GPU rig de gama media (4× RTX 4090) basta para recuperar la contraseña de `svc_sqlrepl` en menos de 12 horas con `hashcat -m 13100`. Esta fase queda registrada como **acceso_a_credenciales** continuada / **exfiltración** parcial (solo de tickets, no de datos de negocio).\n\n### 3.5 Pass-the-hash contra SQL-PROD-01 — 2026-05-23T07:14\n\nA las 07:14 del 23 de mayo se observa la primera autenticación NTLM en `SQL-PROD-01` desde `WS-LAB-117`, usando el hash NTLM **`aad3b435b51404eeaad3b435b51404ee:a87f3c1d9e2b4f6a8c5d7e1f2a3b4c5d`** (la primera mitad es el LM nulo estándar; la segunda es el hash NT recuperado de `svc_sqlrepl`). La técnica corresponde a **T1550.002** (*Use Alternate Authentication Material: Pass the Hash*). La fase ATT&CK es **movimiento_lateral**.\n\nA partir de esa autenticación, el atacante ejecuta consultas T-SQL legítimas contra `SQL-PROD-01`, recuperando esquemas y, posteriormente, lectura de la tabla `clinical_trials.batch_metadata`. Se confirma lectura, no escritura ni borrado.\n\n### 3.6 Salto a SQL-PROD-02 y APP-ERP-02 — 2026-05-23T08:02 a 09:11\n\nEntre las 08:02 y las 09:11 del 23 de mayo se repite el patrón pass-the-hash contra `SQL-PROD-02` (réplica) y, finalmente, contra `APP-ERP-02`. En este último caso, el éxito de la autenticación se debe a un error histórico: el grupo `SQLAdmins` figuraba como administrador local en el servidor del ERP por un script de despliegue de 2023 nunca revertido. El CSIRT cataloga estos saltos también como **movimiento_lateral**, manteniendo el ID **T1550.002**.\n\n### 3.7 Detección y disparo de la respuesta — 2026-05-22T03:47 (cronológicamente, antes del salto al ERP)\n\nLa alerta inicial de MDI (*Suspected Kerberos SPN exposure*) se generó a las 03:47 del 22 de mayo, *durante* la ventana de crackeo offline y antes del primer pass-the-hash. El SOC de guardia no escaló la alerta inmediatamente por considerarla un falso positivo recurrente — históricamente esta firma había generado ruido por consultas legítimas de `sccm` semanales. La escalada efectiva al Tier 3 ocurrió el 23 de mayo a las 09:34, ya con tres servidores comprometidos.\n\nEste desfase entre detección y respuesta es uno de los hallazgos principales del post-mortem y se aborda en la sección 6.\n\n### 3.8 Impacto y cierre del acceso del atacante — 2026-05-23T11:20\n\nA las 11:20 del 23 de mayo, tras el aislamiento de `WS-LAB-117` y la deshabilitación de la cuenta `j.salinas`, se observa el último intento de autenticación del atacante (fallido) contra `DC01`. No hay actividad ulterior. La fase declarada es **impacto** parcial: lectura confirmada de datos sensibles (412 filas de metadatos de lotes de ensayos clínicos), sin manipulación ni exfiltración masiva confirmada de los datos clínicos en sí. [...] ## 4. Indicadores de compromiso (IoCs)\n\nLos siguientes indicadores se observaron durante el incidente. Todos verificados por el CSIRT contra la telemetría de red, EDR (CrowdStrike Falcon) y logs del directorio activo.\n\n- **IP de origen del foothold (VPN)**: **185.220.101.42** — observada por primera vez el 2026-05-21.\n- **IP de exfiltración de TGS**: **45.95.169.231** — primera observación 2026-05-21.\n- **Dominio C2 de exfiltración**: **cdn-static.update-mirror.xyz** — primera observación 2026-05-21.\n- **URL completa de exfiltración**: **https://cdn-static.update-mirror.xyz/upload/blob** — primera observación 2026-05-21.\n- **Hash NTLM exfiltrado de `svc_sqlrepl`**: **aad3b435b51404eeaad3b435b51404ee:a87f3c1d9e2b4f6a8c5d7e1f2a3b4c5d** — primera observación 2026-05-23.\n- **Hash SHA-256 del binario Rubeus modificado en memoria**: **5a3f2c1d9e8b4f6a7c8d5e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b** — primera observación 2026-05-22.\n- **Cuenta de servicio comprometida (correo de dominio)**: **svc_sqlrepl@farma.corp** — primera observación 2026-05-21.\n- **Cuenta de usuario comprometida (correo de dominio)**: **j.salinas@farma.corp** — primera observación 2026-05-21.\n- **Regla YARA distribuida internamente para detectar el binario Rubeus modificado**: **APT_Rubeus_Kerberoast_Variant_2026_05** — primera observación 2026-05-23.\n- **CVE relacionada (no explotada, pero relevante para el endurecimiento posterior)**: **CVE-2022-33679** — vulnerabilidad de elevación de privilegios en Kerberos (RC4) en Windows que motiva el endurecimiento de tipos de cifrado. Sin fecha de primera observación específica en este incidente.\n\nNo se identificaron muestras de malware persistente en disco; toda la actividad ofensiva utilizó binarios LOLBins (PowerShell, `klist`) y herramientas in-memory (Rubeus cargado vía reflective loading). [...] ## 5. Acciones de contención y remediación\n\nLas acciones siguientes fueron ejecutadas — o quedaron planificadas — entre el 23 y el 30 de mayo de 2026. El orden refleja la secuencia de ejecución real.\n\n1. **Aislamiento de `WS-LAB-117` en VLAN de cuarentena** — completada por el equipo de SOC a las 09:48 del 23 de mayo.\n2. **Deshabilitación inmediata de la cuenta `j.salinas` en Active Directory** — completada por el equipo de IAM a las 09:51 del 23 de mayo.\n3. **Reset forzado de contraseñas de todas las cuentas de servicio con SPN del dominio (47 cuentas)** — completada por el equipo de IAM el 23 de mayo a las 14:00, con coordinación previa con los propietarios de cada servicio.\n4. **Doble reset de la contraseña de la cuenta `krbtgt` del dominio `FARMA.CORP`**, con ventana de 12 horas entre el primer y el segundo reset para invalidar todos los Golden Tickets potenciales sin romper la replicación — primer reset el 24 de mayo a las 02:00, segundo reset el 24 de mayo a las 14:00. Acción completada por el equipo de Directorio Activo.\n5. **Aislamiento temporal de `SQL-PROD-01`, `SQL-PROD-02` y `APP-ERP-02` para análisis forense** — completada por el SOC el 23 de mayo entre las 10:00 y las 11:30. Restauración progresiva entre el 25 y el 27 de mayo.\n6. **Habilitación de AES128/AES256 Kerberos en todas las cuentas de servicio y deshabilitación de RC4-HMAC en el dominio** — en curso al cierre del informe. Responsable: equipo de Directorio Activo. Bloqueada parcialmente por compatibilidad con un middleware legacy del ERP que requiere ventana de mantenimiento.\n7. **Revisión y revocación de todas las excepciones de MFA del portal VPN** — completada el 25 de mayo. Responsable: equipo de IAM.\n8. **Despliegue de regla SIEM para alertar ante más de 10 eventos 4769 con cifrado RC4 en menos de 60 segundos desde un mismo host** — completada el 26 de mayo. Responsable: SOC.\n9. **Auditoría exhaustiva de pertenencia del grupo `SQLAdmins` y eliminación de su pertenencia como administrador local fuera de los SQL de producción** — completada el 28 de mayo. Responsable: equipo de Plataforma.\n10. **Notificación a la AEPD por sospecha de acceso no autorizado a datos personales de sujetos de ensayos clínicos** — pendiente, en revisión por el equipo Legal al cierre del informe.\n11. **Reentrenamiento sobre reutilización de credenciales para todo el personal con acceso a VPN** — pendiente, programada para junio de 2026. Responsable: equipo de Seguridad de la Información. [...] ## 6. Causa raíz\n\nLa causa raíz declarada por el informe es la combinación de **reutilización por parte de un usuario interno de su contraseña corporativa en un servicio externo que fue comprometido**, agravada por **cuentas de servicio del dominio con SPN registrado, contraseñas débiles no rotadas y cifrado Kerberos RC4-HMAC habilitado**, lo que permitió un Kerberoasting exitoso y el posterior movimiento lateral mediante pass-the-hash.\n\n### 6.1 Factores contribuyentes\n\nEl CSIRT identifica los siguientes factores contribuyentes secundarios, sin los cuales el incidente habría tenido un alcance significativamente menor:\n\n- **Excepción de MFA no caducada**: la cuenta `j.salinas` figuraba en una lista de excepciones temporales otorgada en febrero de 2026 por una incidencia con su token físico. Esa excepción debió expirar a los 7 días pero, por una limitación del flujo de aprovisionamiento, quedó permanentemente activa.\n- **Falta de detección de Kerberoasting en producción**: aunque el bosque tenía MDI desplegado, la regla nativa de detección de SPN-roasting estaba en modo *aprendizaje* desde diciembre de 2025, lo que silenciaba alertas en hosts catalogados como \"scanners legítimos\" — categoría a la que se asignó `WS-LAB-117` por error humano del equipo de Plataforma.\n- **Pertenencia a grupos privilegiados por inercia operativa**: la presencia del grupo `SQLAdmins` como administrador local de `APP-ERP-02` databa de un script de despliegue de 2023 nunca revertido tras la migración del módulo financiero a una arquitectura desacoplada. Ningún proceso de revisión recurrente capturó esta deriva.",
+  "instruction": "Extrae el incidente de seguridad estructurado según el esquema SecurityIncident: identificador, fecha de detección, severidad, sistemas afectados, IoCs con su tipo, cadena de ataque ordenada por fases ATT&CK, acciones de contención con su estado y causa raíz.",
+  "target_schema": {
+    "$defs": {
+      "AttackPhase": {
+        "description": "Fases de la cadena de ataque (MITRE ATT&CK simplificado).",
+        "enum": [
+          "reconocimiento",
+          "acceso_inicial",
+          "ejecución",
+          "persistencia",
+          "escalada_de_privilegios",
+          "evasión_de_defensas",
+          "acceso_a_credenciales",
+          "movimiento_lateral",
+          "exfiltración",
+          "impacto"
+        ],
+        "title": "AttackPhase",
+        "type": "string"
+      },
+      "AttackStep": {
+        "additionalProperties": false,
+        "description": "Un paso de la cadena de ataque tal como lo reconstruye el informe.",
+        "properties": {
+          "phase": {
+            "$ref": "#/$defs/AttackPhase",
+            "description": "Fase ATT&CK a la que pertenece el paso."
+          },
+          "description": {
+            "description": "Descripción de la acción del atacante en una frase (p. ej. 'Envío de correo de phishing con adjunto malicioso al departamento financiero').",
+            "title": "Description",
+            "type": "string"
+          },
+          "timestamp": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Marca temporal en formato ISO 8601 si el informe la consigna. Null si solo se indica el orden relativo.",
+            "title": "Timestamp"
+          },
+          "technique_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Identificador MITRE ATT&CK si el informe lo cita (p. ej. 'T1566.001'). Null si no aparece.",
+            "title": "Technique Id"
+          }
+        },
+        "required": [
+          "phase",
+          "description"
+        ],
+        "title": "AttackStep",
+        "type": "object"
+      },
+      "ContainmentAction": {
+        "additionalProperties": false,
+        "description": "Acción de contención o remediación tomada por el equipo de respuesta.",
+        "properties": {
+          "description": {
+            "description": "Descripción literal de la acción (p. ej. 'Aislamiento del host afectado en VLAN de cuarentena').",
+            "title": "Description",
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/$defs/ContainmentStatus",
+            "description": "Estado de ejecución de la acción al cierre del informe."
+          },
+          "owner": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Equipo o persona responsable de la acción (p. ej. 'SOC', 'Red Team'). Null si no se asigna explícitamente.",
+            "title": "Owner"
+          }
+        },
+        "required": [
+          "description",
+          "status"
+        ],
+        "title": "ContainmentAction",
+        "type": "object"
+      },
+      "ContainmentStatus": {
+        "enum": [
+          "pendiente",
+          "en_curso",
+          "completada",
+          "no_aplica"
+        ],
+        "title": "ContainmentStatus",
+        "type": "string"
+      },
+      "Indicator": {
+        "additionalProperties": false,
+        "description": "Indicador de compromiso (IoC) observado durante el incidente.",
+        "properties": {
+          "kind": {
+            "$ref": "#/$defs/IndicatorKind",
+            "description": "Tipo de indicador."
+          },
+          "value": {
+            "description": "Valor literal del indicador tal como aparece en el informe (IP, dominio, SHA-256, CVE-XXXX-XXXX, etc.). Sin modificar.",
+            "title": "Value",
+            "type": "string"
+          },
+          "first_seen": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Fecha en formato ISO en que se observó el indicador por primera vez durante el incidente. Null si el informe no la fecha.",
+            "title": "First Seen"
+          }
+        },
+        "required": [
+          "kind",
+          "value"
+        ],
+        "title": "Indicator",
+        "type": "object"
+      },
+      "IndicatorKind": {
+        "enum": [
+          "ip",
+          "dominio",
+          "url",
+          "hash",
+          "correo",
+          "cve",
+          "regla_yara"
+        ],
+        "title": "IndicatorKind",
+        "type": "string"
+      },
+      "Severity": {
+        "enum": [
+          "baja",
+          "media",
+          "alta",
+          "crítica"
+        ],
+        "title": "Severity",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Post-mortem o informe de respuesta a un incidente de ciberseguridad: IoCs\nobservados, reconstrucción de la cadena de ataque en fases ordenadas\ncronológicamente, sistemas afectados y acciones de contención con su estado.\nLa extracción debe diferenciar fases ATT&CK por su semántica (no por\nel orden literal en el informe, que puede mezclar narrativa y análisis), y\nasociar cada IoC con su tipo correcto a partir de su forma.\n\nComplejidad: L9 — cadena causal con vocabulario técnico denso, taxonomía\nrígida (fases ATT&CK), pluralidad de listas heterogéneas y enlazado\nentre acciones y sistemas.",
+    "properties": {
+      "incident_id": {
+        "description": "Identificador interno del incidente tal como aparece en el informe (p. ej. 'INC-2026-0042').",
+        "title": "Incident Id",
+        "type": "string"
+      },
+      "detection_date": {
+        "description": "Fecha de detección del incidente en formato ISO 8601 ('YYYY-MM-DDTHH:MM' o 'YYYY-MM-DD' si no hay hora).",
+        "title": "Detection Date",
+        "type": "string"
+      },
+      "severity": {
+        "$ref": "#/$defs/Severity",
+        "description": "Severidad declarada del incidente según la clasificación del informe."
+      },
+      "affected_systems": {
+        "description": "Nombres o identificadores de los sistemas, aplicaciones o redes afectados (p. ej. 'CRM corporativo', 'Active Directory', 'VPN'). Un sistema por entrada.",
+        "items": {
+          "type": "string"
+        },
+        "minItems": 1,
+        "title": "Affected Systems",
+        "type": "array"
+      },
+      "indicators": {
+        "description": "IoCs observados durante el incidente. Lista vacía si el informe declara que no se identificaron indicadores accionables.",
+        "items": {
+          "$ref": "#/$defs/Indicator"
+        },
+        "title": "Indicators",
+        "type": "array"
+      },
+      "attack_chain": {
+        "description": "Cadena de ataque reconstruida, en orden cronológico. Cada paso asignado a una única fase ATT&CK.",
+        "items": {
+          "$ref": "#/$defs/AttackStep"
+        },
+        "minItems": 1,
+        "title": "Attack Chain",
+        "type": "array"
+      },
+      "containment_actions": {
+        "description": "Acciones de contención y remediación, en el orden en que fueron ejecutadas o planificadas.",
+        "items": {
+          "$ref": "#/$defs/ContainmentAction"
+        },
+        "minItems": 1,
+        "title": "Containment Actions",
+        "type": "array"
+      },
+      "root_cause": {
+        "description": "Causa raíz declarada por el informe en una o dos frases (p. ej. 'Configuración por defecto del servidor expuesto a internet sin autenticación').",
+        "title": "Root Cause",
+        "type": "string"
+      }
+    },
+    "required": [
+      "incident_id",
+      "detection_date",
+      "severity",
+      "affected_systems",
+      "attack_chain",
+      "containment_actions",
+      "root_cause"
+    ],
+    "title": "SecurityIncident",
+    "type": "object"
+  },
+  "output": {
+    "incident_id": "INC-2026-0118",
+    "detection_date": "2026-05-22T03:47",
+    "severity": "crítica",
+    "affected_systems": [
+      "DC01.farma.corp",
+      "DC02.farma.corp",
+      "SQL-PROD-01.farma.corp",
+      "SQL-PROD-02.farma.corp",
+      "APP-ERP-02.farma.corp",
+      "WS-LAB-117.farma.corp"
+    ],
+    "indicators": [
+      {
+        "kind": "ip",
+        "value": "185.220.101.42",
+        "first_seen": "2026-05-21"
+      },
+      {
+        "kind": "ip",
+        "value": "45.95.169.231",
+        "first_seen": "2026-05-21"
+      },
+      {
+        "kind": "dominio",
+        "value": "cdn-static.update-mirror.xyz",
+        "first_seen": "2026-05-21"
+      },
+      {
+        "kind": "url",
+        "value": "https://cdn-static.update-mirror.xyz/upload/blob",
+        "first_seen": "2026-05-21"
+      },
+      {
+        "kind": "hash",
+        "value": "aad3b435b51404eeaad3b435b51404ee:a87f3c1d9e2b4f6a8c5d7e1f2a3b4c5d",
+        "first_seen": "2026-05-23"
+      },
+      {
+        "kind": "hash",
+        "value": "5a3f2c1d9e8b4f6a7c8d5e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b",
+        "first_seen": "2026-05-22"
+      },
+      {
+        "kind": "correo",
+        "value": "svc_sqlrepl@farma.corp",
+        "first_seen": "2026-05-21"
+      },
+      {
+        "kind": "correo",
+        "value": "j.salinas@farma.corp",
+        "first_seen": "2026-05-21"
+      },
+      {
+        "kind": "regla_yara",
+        "value": "APT_Rubeus_Kerberoast_Variant_2026_05",
+        "first_seen": "2026-05-23"
+      },
+      {
+        "kind": "cve",
+        "value": "CVE-2022-33679",
+        "first_seen": null
+      }
+    ],
+    "attack_chain": [
+      {
+        "phase": "acceso_inicial",
+        "description": "Autenticación interactiva exitosa contra el portal VPN corporativo con credenciales válidas de j.salinas desde IP externa (nodo Tor).",
+        "timestamp": "2026-05-21T22:14",
+        "technique_id": null
+      },
+      {
+        "phase": "reconocimiento",
+        "description": "Consultas LDAP anómalas desde WS-LAB-117 contra DC01 enumerando objetos User y Computer filtrando por servicePrincipalName=*.",
+        "timestamp": "2026-05-21T22:31",
+        "technique_id": null
+      },
+      {
+        "phase": "acceso_a_credenciales",
+        "description": "Pico de eventos 4769 con 47 solicitudes de TGS en 90 segundos desde WS-LAB-117 dirigidas a SPNs de cuentas de servicio del dominio (Kerberoasting).",
+        "timestamp": "2026-05-21T22:47",
+        "technique_id": "T1558.003"
+      },
+      {
+        "phase": "exfiltración",
+        "description": "Salida del bundle de TGS (~32 KB) comprimidos vía POST HTTPS contra cdn-static.update-mirror.xyz resolviendo a 45.95.169.231.",
+        "timestamp": "2026-05-21T22:48",
+        "technique_id": null
+      },
+      {
+        "phase": "movimiento_lateral",
+        "description": "Primera autenticación NTLM en SQL-PROD-01 desde WS-LAB-117 con el hash NT recuperado de svc_sqlrepl (pass-the-hash).",
+        "timestamp": "2026-05-23T07:14",
+        "technique_id": "T1550.002"
+      },
+      {
+        "phase": "movimiento_lateral",
+        "description": "Pass-the-hash contra SQL-PROD-02 (réplica) repitiendo el patrón con la misma credencial.",
+        "timestamp": "2026-05-23T08:02",
+        "technique_id": "T1550.002"
+      },
+      {
+        "phase": "movimiento_lateral",
+        "description": "Pass-the-hash contra APP-ERP-02 aprovechando que el grupo SQLAdmins figuraba como administrador local por un script de despliegue de 2023 nunca revertido.",
+        "timestamp": "2026-05-23T09:11",
+        "technique_id": "T1550.002"
+      },
+      {
+        "phase": "impacto",
+        "description": "Lectura confirmada de esquemas, scripts de réplica y 412 filas de la tabla clinical_trials.batch_metadata sin manipulación ni borrado; último intento fallido del atacante a las 11:20.",
+        "timestamp": "2026-05-23T11:20",
+        "technique_id": null
+      }
+    ],
+    "containment_actions": [
+      {
+        "description": "Aislamiento de WS-LAB-117 en VLAN de cuarentena.",
+        "status": "completada",
+        "owner": "SOC"
+      },
+      {
+        "description": "Deshabilitación inmediata de la cuenta j.salinas en Active Directory.",
+        "status": "completada",
+        "owner": "IAM"
+      },
+      {
+        "description": "Reset forzado de contraseñas de todas las cuentas de servicio con SPN del dominio (47 cuentas).",
+        "status": "completada",
+        "owner": "IAM"
+      },
+      {
+        "description": "Doble reset de la contraseña de la cuenta krbtgt del dominio FARMA.CORP con ventana de 12 horas entre el primer y el segundo reset.",
+        "status": "completada",
+        "owner": "Directorio Activo"
+      },
+      {
+        "description": "Aislamiento temporal de SQL-PROD-01, SQL-PROD-02 y APP-ERP-02 para análisis forense.",
+        "status": "completada",
+        "owner": "SOC"
+      },
+      {
+        "description": "Habilitación de AES128/AES256 Kerberos en todas las cuentas de servicio y deshabilitación de RC4-HMAC en el dominio.",
+        "status": "en_curso",
+        "owner": "Directorio Activo"
+      },
+      {
+        "description": "Revisión y revocación de todas las excepciones de MFA del portal VPN.",
+        "status": "completada",
+        "owner": "IAM"
+      },
+      {
+        "description": "Despliegue de regla SIEM para alertar ante más de 10 eventos 4769 con cifrado RC4 en menos de 60 segundos desde un mismo host.",
+        "status": "completada",
+        "owner": "SOC"
+      },
+      {
+        "description": "Auditoría exhaustiva de pertenencia del grupo SQLAdmins y eliminación de su pertenencia como administrador local fuera de los SQL de producción.",
+        "status": "completada",
+        "owner": "Plataforma"
+      },
+      {
+        "description": "Notificación a la AEPD por sospecha de acceso no autorizado a datos personales de sujetos de ensayos clínicos.",
+        "status": "pendiente",
+        "owner": "Legal"
+      },
+      {
+        "description": "Reentrenamiento sobre reutilización de credenciales para todo el personal con acceso a VPN.",
+        "status": "pendiente",
+        "owner": "Seguridad de la Información"
+      }
+    ],
+    "root_cause": "Reutilización por parte de un usuario interno de su contraseña corporativa en un servicio externo comprometido, agravada por cuentas de servicio del dominio con SPN registrado, contraseñas débiles no rotadas y cifrado Kerberos RC4-HMAC habilitado, lo que permitió un Kerberoasting exitoso y el posterior movimiento lateral mediante pass-the-hash."
+  },
+  "metadata": {
+    "source": "synthetic_20260601_004.md",
+    "domain": "technical",
+    "subdomain": "security_incident"
+  }
+}

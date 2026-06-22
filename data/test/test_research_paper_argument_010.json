@@ -1,0 +1,320 @@
+{
+  "id": "research_paper_argument_010",
+  "input_text": "**Investigaciones Geográficas**\nNúm. 83, 2025, pp. 145–178\nDOI: 10.14198/INGEO.27914\nISSN: 0213-4691 (impreso) · ISSN: 1989-9890 (en línea)\n\n# Intensificación y concentración temporal de las precipitaciones extremas en el Levante peninsular (1970–2024): un análisis combinado de series observacionales AEMET y simulaciones EURO-CORDEX con proyección a 2050\n\n**Laura Beneyto Castelló**¹, **Joaquín Sempere-Cervera**², **María Dolores Pastor Lillo**¹, **Ramón Cánovas Mira**³\n\n¹ Departamento de Geografía, Universidad de Alicante, San Vicente del Raspeig, España\n² Centro de Estudios Ambientales del Mediterráneo (CEAM), Paterna, Valencia, España\n³ Departamento de Geografía Física, Universidad de Murcia, Murcia, España\n\nCorrespondencia: laura.beneyto@ua.es [...] ## Resumen [...] El Mediterráneo occidental ha sido identificado de manera consistente como uno de los *hotspots* del cambio climático global (Giorgi 2006; Tuel y Eltahir 2020), tanto por la magnitud proyectada del calentamiento como por la sensibilidad de su régimen hidrológico a las modificaciones en la circulación atmosférica de gran escala. Dentro de la fachada mediterránea ibérica, el Levante peninsular —entendido aquí como el arco costero que se extiende desde la Plana de Castelló hasta el Campo de Cartagena, incluyendo las provincias de Valencia, Alicante y Murcia— constituye una región de particular interés porque combina una pluviometría anual moderada (300–700 mm/año según el sector) con una marcada irregularidad intra-anual y una propensión histórica a episodios de precipitación intensa asociados a configuraciones sinópticas de gota fría (DANA) en la transición estacional otoñal.\n\nLa discusión académica reciente ha estado dominada por una aparente paradoja: las series pluviométricas regionales no muestran tendencias significativas en los acumulados anuales (Peña-Angulo et al. 2020; González-Hidalgo et al. 2018), pero la percepción social y la frecuencia mediática de episodios catastróficos —DANA de septiembre de 2019 en la Vega Baja del Segura, temporal de marzo de 2022 en el sur de Alicante, episodio de octubre de 2024 en Valencia con más de 200 víctimas mortales— sugiere un aumento del riesgo. Este trabajo defiende una **tesis principal**: el aparente desacuerdo entre observación cuantitativa y percepción es ilusorio, y se resuelve cuando se desplaza el foco analítico desde los acumulados anuales hacia los índices que capturan la **intensidad** y la **concentración temporal** de los eventos extremos. En concreto, sostenemos que en el Levante peninsular durante 1970–2024 la precipitación anual total no muestra tendencia significativa, pero la intensidad de los eventos diarios por encima del percentil 99 ha aumentado, los días secos consecutivos entre episodios extremos se han alargado, y el índice de concentración diaria ha crecido —los tres patrones de manera estadísticamente significativa y coherente con la señal proyectada por EURO-CORDEX hasta 2050.\n\nEsta tesis no es meramente descriptiva: tiene implicaciones para el diseño de infraestructura hidráulica, para los modelos de riesgo aseguradores y para la planificación urbana en zonas inundables. Si la cuestión relevante deja de ser el promedio anual y pasa a ser la distribución temporal, los criterios de dimensionamiento basados en períodos de retorno calculados sobre series estacionarias quedan obsoletos.\n\nEl artículo se organiza como sigue. La sección 2 sintetiza el marco teórico (Clausius-Clapeyron, índices ETCCDI, evidencia previa en el Mediterráneo occidental). La sección 3 describe los datos y los métodos. La sección 4 presenta los resultados organizados en cuatro sub-afirmaciones. La sección 5 discute objeciones e interlocutores. La sección 6 declara las limitaciones del estudio. La sección 7 concluye. [...] ## 2. Marco teórico\n\n### 2.1 La relación de Clausius-Clapeyron y la intensificación esperada\n\nLa relación de Clausius-Clapeyron establece que, en condiciones de saturación, la capacidad de la atmósfera para contener vapor de agua aumenta aproximadamente un 7 % por cada grado Celsius de calentamiento. Esta relación, aplicada al ciclo hidrológico, conduce a la expectativa termodinámica de que los eventos de precipitación intensa se intensifiquen a un ritmo similar al del calentamiento de superficie, mientras que los acumulados de precipitación —que dependen además de la disponibilidad de masas de aire húmedo, de los patrones de circulación y del tiempo de residencia— no necesariamente lo hacen. Trabajos a escala global (Westra et al. 2013; Fischer y Knutti 2016) han confirmado este patrón empíricamente. Para el Mediterráneo occidental, sin embargo, los estudios regionales han producido resultados más matizados: Tramblay y Somot (2018) reportan escalamientos super-Clausius-Clapeyron en episodios convectivos puntuales, mientras que estudios sobre series ibéricas (Beguería et al. 2011) describen señales más débiles y heterogéneas.\n\n### 2.2 Índices ETCCDI y la cuestión de la concentración temporal\n\nEl Equipo de Expertos sobre Detección, Vigilancia e Índices del Cambio Climático (ETCCDI) ha estandarizado un conjunto de índices diseñados para caracterizar los extremos de temperatura y precipitación. Para precipitación destacamos: **Rx1day** (precipitación máxima en un día), **Rx5day** (precipitación máxima en cinco días consecutivos), **R99pTOT** (precipitación total caída en días por encima del percentil 99 de la serie de referencia), **CDD** (días secos consecutivos máximos), y **PRCPTOT** (precipitación anual total). A estos índices añadimos el **índice de concentración diaria (CI)** de Martín-Vide (2004), que sintetiza en un único valor entre 0 y 1 el grado en que la precipitación anual se concentra en pocos días: valores altos indican que un número reducido de días aporta la mayoría del total anual.\n\n### 2.3 Evidencia previa en el Mediterráneo occidental\n\nGonzález-Hidalgo et al. (2018) analizan 1668 estaciones de la Península Ibérica para 1916–2010 y reportan ausencia de tendencia significativa en PRCPTOT a escala peninsular, con señales locales heterogéneas. Peña-Angulo et al. (2020), trabajando sobre la base de datos MOPREDAS, llegan a conclusiones similares y advierten que los métodos de homogeneización son sensibles a las elecciones del analista. Serrano-Notivoli et al. (2018) construyen el dataset SPREAD de alta resolución y, en su análisis de índices ETCCDI para 1950–2012, encuentran tendencias positivas en Rx1day en sectores puntuales del litoral mediterráneo, sin que la señal alcance significación regional. Beguería et al. (2011) habían señalado tendencias positivas en la intensidad horaria de los episodios convectivos en el este peninsular, anticipando la línea de investigación que este trabajo extiende. [...] ### 3.1 Red observacional AEMET\n\nPartimos de un conjunto inicial de 132 estaciones pluviométricas de la red secundaria de AEMET situadas en las provincias de Valencia, Alicante y Murcia, con registros que cubren al menos el periodo 1970–2024. Aplicamos un proceso de control de calidad y homogeneización siguiendo el procedimiento RHtest v4 (Wang y Feng 2013) y descartamos series con más de un 5 % de datos faltantes, con saltos no atribuibles a causas físicas, o con cambios de instrumentación documentados que no pudieran corregirse. El conjunto final retenido es de **47 estaciones**, distribuidas en 19 en Valencia, 17 en Alicante y 11 en Murcia, con altitudes entre 4 m y 1280 m s.n.m. y cobertura espacial razonable del arco costero y de la franja prelitoral.\n\n### 3.2 Índices y umbrales\n\nPara cada estación calculamos los índices ETCCDI Rx1day, Rx5day, R99pTOT, CDD y PRCPTOT a resolución anual, usando como periodo de referencia para el cálculo de percentiles 1971–2000 (norma climática WMO). Adicionalmente calculamos el CI de Martín-Vide con la formulación de curvas de Lorenz. Definimos **evento extremo** como un día con precipitación superior al percentil 99 de la serie de referencia 1971–2000 de la estación correspondiente; los umbrales así obtenidos oscilan entre 38 mm/día en estaciones del interior murciano y 96 mm/día en estaciones del litoral valenciano septentrional.\n\n### 3.3 Análisis de tendencias\n\nAplicamos el test no paramétrico de Mann-Kendall (Mann 1945; Kendall 1975) con la corrección por autocorrelación de Hamed y Rao (1998) para evitar falsos positivos en series con persistencia. La magnitud de las tendencias se cuantifica con el estimador de pendiente de Sen (Sen 1968). Fijamos el nivel de significación en α = 0,05 a escala individual y aplicamos la corrección por tasa de falsos descubrimientos de Benjamini-Hochberg para los análisis multi-estación. [...] Utilizamos seis combinaciones GCM–RCM del ensamble EURO-CORDEX a resolución 0,11° (~12 km), seleccionadas por su rendimiento documentado sobre la Península Ibérica (Coppola et al. 2021): tres bajo SSP2-4.5 y tres bajo SSP5-8.5. Los datos diarios se sesgo-corrigen frente a las series AEMET homogeneizadas mediante el método de mapeo de cuantiles empíricos. El horizonte de proyección es 2025–2050.\n\n---\n\n## 4. Resultados\n\n### 4.1 Sub-afirmación 1: la precipitación anual total no muestra tendencia significativa\n\nDel total de 47 estaciones, el test de Mann-Kendall sobre PRCPTOT arroja tendencia estadísticamente significativa al 5 % en sólo 8 estaciones: 3 con tendencia positiva (todas en el norte de Valencia) y 5 con tendencia negativa (concentradas en el interior murciano). En las 39 estaciones restantes, el p-valor excede 0,1. La pendiente de Sen mediana del conjunto es de –1,8 mm/década, no significativa cuando se aplica la corrección de Benjamini-Hochberg.\n\n### 4.2 Sub-afirmación 2: la intensidad de los eventos diarios extremos ha aumentado de manera significativa\n\nEl índice Rx1day muestra tendencia positiva significativa en 34 de las 47 estaciones (72 %), con pendiente de Sen mediana de **+2,4 mm/década** y un máximo en la estación de Gandia-Aeródromo de +6,1 mm/década. El índice R99pTOT —precipitación total aportada por los días por encima del percentil 99— aumenta significativamente en 31 estaciones, con pendiente mediana de **+3,9 mm/década**, lo que implica que los días extremos están aportando una proporción creciente del total anual incluso cuando ese total no crece. La señal se sostiene tras la corrección por autocorrelación de Hamed y Rao y tras la corrección por tasa de falsos descubrimientos.\n\n### 4.3 Sub-afirmación 3: la concentración temporal aumenta — más días secos entre extremos\n\nEl índice CDD (días secos consecutivos máximos por año) muestra tendencia positiva significativa en 28 estaciones, con pendiente mediana de **+1,7 días/década**. Complementariamente, el CI de Martín-Vide aumenta significativamente en 22 estaciones, con incremento mediano de **+0,012 unidades/década**, lo que equivale a un desplazamiento de aproximadamente 4 puntos en el ranking ibérico de concentración pluviométrica. La conjunción de Rx1day creciente, R99pTOT creciente, CDD creciente y CI creciente describe un régimen en el que llueve menos veces pero, cuando llueve, llueve más fuerte.\n\n### 4.4 Sub-afirmación 4: las simulaciones EURO-CORDEX reproducen la señal y la proyectan hacia 2050\n\nLas seis simulaciones EURO-CORDEX, una vez sesgo-corregidas, reproducen cualitativamente los signos de las tendencias observadas: ningún miembro del ensamble proyecta aumento significativo en PRCPTOT para 2025–2050, pero los seis proyectan aumento en Rx1day (rango: +1,1 a +3,8 mm/década) y los cinco SSP5-8.5 más uno de los SSP2-4.5 proyectan aumento en R99pTOT (rango: +2,2 a +5,9 mm/década). El ensamble proyecta también prolongación de CDD (+1,2 a +2,8 días/década), si bien con mayor dispersión inter-modelo en este índice. La coherencia entre la señal observacional 1970–2024 y la proyectada 2025–2050 refuerza la atribución antropogénica del patrón. [...] Los resultados, considerados en conjunto, sostienen nuestra tesis: el régimen de precipitaciones extremas en el Levante peninsular ha entrado en una fase de intensificación y concentración temporal que no se aprecia si se mira sólo el agregado anual. Discutimos a continuación tres objeciones previsibles y nuestro posicionamiento respecto a la literatura.\n\n### 5.1 Objeción de la inhomogeneidad de las series\n\n**Cabría objetar que** las tendencias detectadas en Rx1day y R99pTOT podrían reflejar artefactos de inhomogeneidad en las series pluviométricas —cambios de instrumentación, traslados de pluviómetro, modificaciones del entorno de la estación— más que una señal climática real. Esta es una preocupación seria que Peña-Angulo et al. (2020) han subrayado para el conjunto de la base MOPREDAS. **A esto cabe responder que** nuestro procedimiento de homogeneización con RHtest v4 y el descarte de series con saltos no físicos mitigan, aunque no eliminan, este sesgo. Adicionalmente, la consistencia espacial de la señal —tendencias del mismo signo en estaciones independientes y geográficamente próximas— y la coherencia con la proyección EURO-CORDEX sugieren que la inhomogeneidad residual no puede explicar el grueso del patrón.\n\n### 5.2 Objeción de la sensibilidad al periodo de referencia\n\n**Cabría objetar que** la elección del percentil 99 sobre la serie 1971–2000 condiciona los resultados, y que un percentil distinto o un periodo de referencia distinto produciría señales diferentes. En el material complementario reportamos análisis de sensibilidad con percentiles 95, 97,5 y 99,5, y con periodos de referencia 1961–1990 y 1981–2010. Las conclusiones cualitativas se mantienen en todos los casos, con magnitudes de tendencia que varían en menos del 20 %.\n\n### 5.3 Objeción del peso del episodio de octubre de 2024\n\n**Cabría objetar que** el episodio catastrófico de octubre de 2024 en Valencia, por su magnitud excepcional, podría estar inflando las tendencias detectadas. Esta objeción no encuentra respuesta clara en nuestros análisis: cuando excluimos el año 2024 completo de las series, las tendencias en Rx1day se mantienen significativas en 29 estaciones (frente a 34 con el año incluido) pero la pendiente mediana cae a +1,9 mm/década (frente a +2,4). El episodio de 2024, por tanto, refuerza una señal preexistente pero no la genera de la nada. Reconocemos, no obstante, que la cuestión metodológica de cómo tratar valores extremos individuales en series cortas merece un tratamiento dedicado que excede el alcance de este trabajo.\n\n### 5.4 Posicionamiento\n\nNuestro trabajo se posiciona explícitamente como **matización** de las conclusiones recientes de Peña-Angulo et al. (2020) y Serrano-Notivoli et al. (2018), no como una refutación. Coincidimos con esos trabajos en que los acumulados anuales no muestran tendencia significativa en el Mediterráneo ibérico. Lo que añadimos es que esa conclusión, aunque correcta, induce a una lectura empobrecida del cambio en el régimen pluviométrico: el agregado anual oculta una redistribución temporal que es ella misma la señal climáticamente relevante. En este sentido, extendemos la línea anticipada por Beguería et al. (2011) y González-Hidalgo et al. (2018) en sus análisis sobre intensidad sub-diaria, aplicándola a la escala diaria con un dataset regional homogeneizado y combinándola con proyecciones EURO-CORDEX. [...] ## 6. Limitaciones\n\nLos autores reconocen las siguientes limitaciones de este trabajo:\n\n1. **Calidad y densidad de la red observacional**: a pesar de la homogeneización con RHtest v4, las 47 estaciones retenidas no cubren uniformemente el Levante. El interior murciano y las sierras prebéticas están sub-representados, y los resultados para esos sub-sectores deben tomarse con cautela.\n\n2. **Alcance temporal del análisis**: el periodo 1970–2024 (55 años) es suficiente para detectar tendencias de magnitud moderada con los tests aplicados, pero queda corto para caracterizar la variabilidad multi-decadal asociada a oscilaciones como la NAO o la AMO. Tendencias detectadas en ventanas de 55 años podrían reflejar parcialmente fases largas de estas oscilaciones.\n\n3. **Limitaciones metodológicas del ensamble EURO-CORDEX**: el ensamble utilizado (seis miembros) es pequeño en comparación con los ensambles utilizados en trabajos de proyección recientes (típicamente 12–18 miembros). La incertidumbre estructural inter-modelo, especialmente para los índices de concentración, podría estar subestimada.\n\n4. **Validez externa**: nuestras conclusiones aplican al Levante peninsular y, con cautela, al conjunto del Mediterráneo ibérico. No deben extrapolarse a la fachada cantábrica ni al interior de la meseta, donde el régimen pluviométrico responde a configuraciones sinópticas distintas. [...] ## 7. Conclusiones\n\nHemos analizado 47 series pluviométricas homogeneizadas de AEMET (1970–2024) para el Levante peninsular, complementadas con seis simulaciones EURO-CORDEX hasta 2050. Los resultados muestran que la precipitación anual total no presenta tendencia significativa, pero la intensidad de los eventos diarios por encima del percentil 99, la concentración temporal medida por CI y CDD, y la fracción del total anual aportada por los días extremos (R99pTOT) aumentan de manera estadísticamente significativa y coherente con la respuesta termodinámica esperada por Clausius-Clapeyron. Las proyecciones EURO-CORDEX continúan e incluso aceleran la señal hasta 2050. Estos hallazgos matizan la literatura previa sobre la ausencia de tendencia en los acumulados anuales y obligan a reorientar el debate desde el promedio hacia la distribución. Las implicaciones para infraestructura hidráulica, modelos de riesgo y planificación urbana son sustanciales y requieren tratamiento en trabajos posteriores.",
+  "instruction": "Extrae la estructura argumental del artículo: tesis principal, sub-afirmaciones con sus evidencias, contra-afirmaciones, limitaciones, posicionamiento y antecedentes citados.",
+  "target_schema": {
+    "$defs": {
+      "CounterClaim": {
+        "additionalProperties": false,
+        "description": "Una objeción o contra-afirmación que el artículo reconoce y responde.",
+        "properties": {
+          "statement": {
+            "description": "Enunciado de la objeción en voz declarativa (p. ej. 'La correlación observada podría explicarse por el sesgo de selección de la muestra').",
+            "title": "Statement",
+            "type": "string"
+          },
+          "response": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Respuesta o concesión del artículo a la objeción si la incluye (p. ej. 'Los autores controlan este sesgo estratificando por edad y nivel socioeconómico'). Null si el artículo presenta la objeción sin responderla.",
+            "title": "Response"
+          }
+        },
+        "required": [
+          "statement"
+        ],
+        "title": "CounterClaim",
+        "type": "object"
+      },
+      "Evidence": {
+        "additionalProperties": false,
+        "description": "Una pieza de evidencia que apoya una afirmación del artículo.",
+        "properties": {
+          "kind": {
+            "$ref": "#/$defs/EvidenceKind",
+            "description": "Tipo de evidencia."
+          },
+          "description": {
+            "description": "Descripción literal o casi literal de la evidencia en una frase (p. ej. 'experimento controlado con N=240 hablantes nativos de español').",
+            "title": "Description",
+            "type": "string"
+          },
+          "quoted_passage": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Cita literal del artículo (sin comillas) que presenta esta evidencia, si el extractor la conserva. Null si el extractor solo parafrasea.",
+            "title": "Quoted Passage"
+          }
+        },
+        "required": [
+          "kind",
+          "description"
+        ],
+        "title": "Evidence",
+        "type": "object"
+      },
+      "EvidenceKind": {
+        "enum": [
+          "estudio_empírico",
+          "análisis_datos",
+          "demostración_teórica",
+          "literatura_citada",
+          "ejemplo_caso",
+          "simulación"
+        ],
+        "title": "EvidenceKind",
+        "type": "string"
+      },
+      "Limitation": {
+        "additionalProperties": false,
+        "description": "Una limitación del trabajo declarada por los propios autores.",
+        "properties": {
+          "kind": {
+            "$ref": "#/$defs/LimitationKind",
+            "description": "Categoría de la limitación."
+          },
+          "description": {
+            "description": "Descripción literal o casi literal de la limitación tal como la consignan los autores.",
+            "title": "Description",
+            "type": "string"
+          }
+        },
+        "required": [
+          "kind",
+          "description"
+        ],
+        "title": "Limitation",
+        "type": "object"
+      },
+      "LimitationKind": {
+        "enum": [
+          "tamaño_muestral",
+          "validez_externa",
+          "validez_de_constructo",
+          "metodología",
+          "calidad_datos",
+          "alcance"
+        ],
+        "title": "LimitationKind",
+        "type": "string"
+      },
+      "PositioningStance": {
+        "enum": [
+          "extiende",
+          "matiza",
+          "cuestiona",
+          "sintetiza",
+          "introduce_novedoso"
+        ],
+        "title": "PositioningStance",
+        "type": "string"
+      },
+      "SubClaim": {
+        "additionalProperties": false,
+        "description": "Una afirmación de apoyo subordinada a la tesis principal.",
+        "properties": {
+          "statement": {
+            "description": "Enunciado de la afirmación en una frase, en voz declarativa (p. ej. 'La frecuencia de uso del subjuntivo decrece con la edad de exposición al inglés').",
+            "title": "Statement",
+            "type": "string"
+          },
+          "supporting_evidence": {
+            "description": "Pieza(s) de evidencia que el artículo aporta para esta afirmación. Al menos una.",
+            "items": {
+              "$ref": "#/$defs/Evidence"
+            },
+            "minItems": 1,
+            "title": "Supporting Evidence",
+            "type": "array"
+          }
+        },
+        "required": [
+          "statement",
+          "supporting_evidence"
+        ],
+        "title": "SubClaim",
+        "type": "object"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Estructura argumental completa de un artículo académico (humanidades,\nciencias sociales, ciencia o medicina) en español: tesis central,\nsub-afirmaciones con sus evidencias, contra-afirmaciones reconocidas y\ncontestadas, limitaciones declaradas y posicionamiento explícito en el\nestado del arte.\n\nLa extracción debe distinguir entre la tesis principal y las sub-afirmaciones\nque la sostienen, asociar cada evidencia a la afirmación que apoya, y\ndiferenciar las contra-afirmaciones que el propio artículo plantea de las\nlimitaciones que sus autores reconocen. Requiere lectura holística del\nartículo completo, no solo del resumen.\n\nComplejidad: L10 — razonamiento argumentativo sobre el conjunto del\ndocumento con jerarquías retóricas, enlazado evidencia↔afirmación, y\ndistinciones semánticas finas (limitación vs. contra-afirmación vs.\nposicionamiento).",
+    "properties": {
+      "title": {
+        "description": "Título del artículo tal como aparece en la portada.",
+        "title": "Title",
+        "type": "string"
+      },
+      "discipline": {
+        "description": "Disciplina principal del artículo según el propio texto (p. ej. 'sociolingüística', 'bioquímica', 'historia económica').",
+        "title": "Discipline",
+        "type": "string"
+      },
+      "main_thesis": {
+        "description": "Tesis central del artículo en una o dos frases. Captura lo que el artículo afirma de novedoso o controvertido, no su objeto de estudio.",
+        "title": "Main Thesis",
+        "type": "string"
+      },
+      "sub_claims": {
+        "description": "Afirmaciones de apoyo a la tesis principal, en el orden en que el artículo las desarrolla. Cada una debe ir acompañada de su evidencia.",
+        "items": {
+          "$ref": "#/$defs/SubClaim"
+        },
+        "minItems": 1,
+        "title": "Sub Claims",
+        "type": "array"
+      },
+      "counter_claims": {
+        "description": "Objeciones o contra-afirmaciones que el artículo plantea explícitamente y a las que (idealmente) responde. Lista vacía si el artículo no reconoce contra-argumentos.",
+        "items": {
+          "$ref": "#/$defs/CounterClaim"
+        },
+        "title": "Counter Claims",
+        "type": "array"
+      },
+      "limitations": {
+        "description": "Limitaciones que los autores reconocen sobre su propio trabajo, típicamente en una sección 'Limitaciones' o 'Discusión'. Lista vacía si el artículo no las declara.",
+        "items": {
+          "$ref": "#/$defs/Limitation"
+        },
+        "title": "Limitations",
+        "type": "array"
+      },
+      "positioning": {
+        "$ref": "#/$defs/PositioningStance",
+        "description": "Cómo se posiciona el artículo respecto al estado del arte: 'extiende' un marco anterior, 'matiza' resultados previos, 'cuestiona' una tesis recibida, 'sintetiza' tradiciones distintas, o 'introduce_novedoso' un objeto/método no tratado antes."
+      },
+      "cited_predecessors": {
+        "description": "Trabajos o autores anteriores que el artículo cita como antecedentes directos de su tesis (p. ej. 'Labov (1972)', 'la escuela de Praga'). Solo los citados explícitamente como antecedentes de la tesis principal, no toda la bibliografía.",
+        "items": {
+          "type": "string"
+        },
+        "title": "Cited Predecessors",
+        "type": "array"
+      }
+    },
+    "required": [
+      "title",
+      "discipline",
+      "main_thesis",
+      "sub_claims",
+      "positioning"
+    ],
+    "title": "PaperArgument",
+    "type": "object"
+  },
+  "output": {
+    "title": "Intensificación y concentración temporal de las precipitaciones extremas en el Levante peninsular (1970–2024): un análisis combinado de series observacionales AEMET y simulaciones EURO-CORDEX con proyección a 2050",
+    "discipline": "climatología regional",
+    "main_thesis": "En el Levante peninsular durante 1970–2024 la precipitación anual total no muestra tendencia significativa, pero la intensidad de los eventos diarios por encima del percentil 99 ha aumentado, los días secos consecutivos entre episodios extremos se han alargado, y el índice de concentración diaria ha crecido, de manera estadísticamente significativa y coherente con la señal proyectada por EURO-CORDEX hasta 2050.",
+    "sub_claims": [
+      {
+        "statement": "La precipitación anual total (PRCPTOT) en el Levante peninsular no muestra una tendencia estadísticamente significativa en el periodo 1970–2024.",
+        "supporting_evidence": [
+          {
+            "kind": "análisis_datos",
+            "description": "Test de Mann-Kendall sobre PRCPTOT en 47 estaciones AEMET homogeneizadas: sólo 8 estaciones presentan tendencia significativa al 5 %, y la pendiente de Sen mediana (–1,8 mm/década) deja de ser significativa tras la corrección de Benjamini-Hochberg.",
+            "quoted_passage": "Del total de 47 estaciones, el test de Mann-Kendall sobre PRCPTOT arroja tendencia estadísticamente significativa al 5 % en sólo 8 estaciones"
+          }
+        ]
+      },
+      {
+        "statement": "La intensidad de los eventos diarios extremos por encima del percentil 99 ha aumentado de manera estadísticamente significativa en el Levante peninsular.",
+        "supporting_evidence": [
+          {
+            "kind": "análisis_datos",
+            "description": "El índice Rx1day muestra tendencia positiva significativa en 34 de 47 estaciones con pendiente de Sen mediana de +2,4 mm/década, y R99pTOT aumenta significativamente en 31 estaciones con pendiente mediana de +3,9 mm/década, manteniéndose la señal tras correcciones por autocorrelación y por tasa de falsos descubrimientos.",
+            "quoted_passage": "El índice Rx1day muestra tendencia positiva significativa en 34 de las 47 estaciones (72 %), con pendiente de Sen mediana de **+2,4 mm/década**"
+          },
+          {
+            "kind": "demostración_teórica",
+            "description": "La relación de Clausius-Clapeyron predice que los eventos de precipitación intensa se intensifiquen ~7 % por grado Celsius de calentamiento, mientras los acumulados no necesariamente crecen.",
+            "quoted_passage": "La relación de Clausius-Clapeyron establece que, en condiciones de saturación, la capacidad de la atmósfera para contener vapor de agua aumenta aproximadamente un 7 % por cada grado Celsius de calentamiento"
+          }
+        ]
+      },
+      {
+        "statement": "La concentración temporal de la precipitación aumenta: hay más días secos consecutivos entre episodios extremos y el índice de concentración diaria crece.",
+        "supporting_evidence": [
+          {
+            "kind": "análisis_datos",
+            "description": "El índice CDD muestra tendencia positiva significativa en 28 estaciones con pendiente mediana de +1,7 días/década, y el CI de Martín-Vide aumenta significativamente en 22 estaciones con incremento mediano de +0,012 unidades/década.",
+            "quoted_passage": "El índice CDD (días secos consecutivos máximos por año) muestra tendencia positiva significativa en 28 estaciones, con pendiente mediana de **+1,7 días/década**"
+          }
+        ]
+      },
+      {
+        "statement": "Las simulaciones EURO-CORDEX reproducen cualitativamente la señal observada y proyectan su continuación e incluso aceleración hasta 2050.",
+        "supporting_evidence": [
+          {
+            "kind": "simulación",
+            "description": "Las seis simulaciones EURO-CORDEX sesgo-corregidas no proyectan aumento significativo en PRCPTOT para 2025–2050 pero las seis proyectan aumento en Rx1day (+1,1 a +3,8 mm/década) y casi todas proyectan aumento en R99pTOT (+2,2 a +5,9 mm/década) y prolongación de CDD (+1,2 a +2,8 días/década).",
+            "quoted_passage": "ningún miembro del ensamble proyecta aumento significativo en PRCPTOT para 2025–2050, pero los seis proyectan aumento en Rx1day (rango: +1,1 a +3,8 mm/década)"
+          },
+          {
+            "kind": "literatura_citada",
+            "description": "Trabajos previos a escala global (Westra et al. 2013; Fischer y Knutti 2016) y regional (Tramblay y Somot 2018; Beguería et al. 2011) confirman empíricamente la intensificación de extremos en línea con Clausius-Clapeyron.",
+            "quoted_passage": "Trabajos a escala global (Westra et al. 2013; Fischer y Knutti 2016) han confirmado este patrón empíricamente"
+          }
+        ]
+      }
+    ],
+    "counter_claims": [
+      {
+        "statement": "Las tendencias detectadas en Rx1day y R99pTOT podrían reflejar artefactos de inhomogeneidad de las series pluviométricas (cambios de instrumentación, traslados de pluviómetro, modificaciones del entorno) más que una señal climática real.",
+        "response": "El procedimiento de homogeneización con RHtest v4 y el descarte de series con saltos no físicos mitigan, aunque no eliminan, este sesgo; la consistencia espacial de la señal en estaciones independientes y geográficamente próximas y la coherencia con la proyección EURO-CORDEX sugieren que la inhomogeneidad residual no puede explicar el grueso del patrón."
+      },
+      {
+        "statement": "La elección del percentil 99 sobre la serie de referencia 1971–2000 condiciona los resultados, y un percentil o periodo de referencia distinto produciría señales diferentes.",
+        "response": "Los análisis de sensibilidad con percentiles 95, 97,5 y 99,5 y con periodos de referencia 1961–1990 y 1981–2010 mantienen las conclusiones cualitativas, con magnitudes que varían en menos del 20 %."
+      },
+      {
+        "statement": "El episodio catastrófico de octubre de 2024 en Valencia, por su magnitud excepcional, podría estar inflando las tendencias detectadas.",
+        "response": null
+      }
+    ],
+    "limitations": [
+      {
+        "kind": "calidad_datos",
+        "description": "A pesar de la homogeneización con RHtest v4, las 47 estaciones retenidas no cubren uniformemente el Levante; el interior murciano y las sierras prebéticas están sub-representados."
+      },
+      {
+        "kind": "alcance",
+        "description": "El periodo 1970–2024 (55 años) es suficiente para detectar tendencias de magnitud moderada pero queda corto para caracterizar la variabilidad multi-decadal asociada a oscilaciones como la NAO o la AMO."
+      },
+      {
+        "kind": "metodología",
+        "description": "El ensamble EURO-CORDEX utilizado (seis miembros) es pequeño en comparación con los ensambles de proyección recientes (típicamente 12–18 miembros); la incertidumbre estructural inter-modelo, especialmente para los índices de concentración, podría estar subestimada."
+      },
+      {
+        "kind": "validez_externa",
+        "description": "Las conclusiones aplican al Levante peninsular y, con cautela, al conjunto del Mediterráneo ibérico; no deben extrapolarse a la fachada cantábrica ni al interior de la meseta, donde el régimen pluviométrico responde a configuraciones sinópticas distintas."
+      }
+    ],
+    "positioning": "matiza",
+    "cited_predecessors": [
+      "Peña-Angulo et al. (2020)",
+      "Serrano-Notivoli et al. (2018)",
+      "González-Hidalgo et al. (2018)",
+      "Beguería et al. (2011)"
+    ]
+  },
+  "metadata": {
+    "source": "synthetic_20260601_010.md",
+    "domain": "research",
+    "subdomain": "paper_argument"
+  }
+}

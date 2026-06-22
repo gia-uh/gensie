@@ -1,0 +1,362 @@
+{
+  "id": "technical_security_incident_003",
+  "input_text": "# Informe post-mortem — Exfiltración de PII vía SQL Injection en Portal Ciudadano\n\n**incident_id:** INC-2026-0317\n**Fecha de detección:** 2026-05-23T03:42\n**Severidad:** crítica\n**Clasificación interna:** Confidencial — Distribución restringida (CISO, DPO, Alcaldía, AEPD)\n**Autor:** Equipo de Respuesta a Incidentes (CERT-Municipal)\n**Versión:** 1.2 — cierre del informe a 2026-05-29\n\n---\n\n## 1. Resumen ejecutivo\n\nEntre la noche del 22 de mayo y la madrugada del 23 de mayo de 2026, un actor\nexterno no identificado explotó una vulnerabilidad de inyección SQL en el\nbuscador público de trámites del Portal Ciudadano del Ayuntamiento. La\nvulnerabilidad permitía concatenar carga maliciosa directamente sobre la\ncláusula `WHERE` de la consulta que alimentaba el autocompletado del buscador.\nA través de unas seis horas de actividad sostenida, el atacante consiguió\nextraer aproximadamente 48.700 registros de la tabla `padron_habitantes` de la\nbase de datos PostgreSQL que da servicio al portal, incluyendo nombre completo,\nDNI/NIE, dirección postal, fecha de nacimiento y, en una fracción menor, número\nde teléfono y correo electrónico de contacto.\n\nLa detección no fue inmediata: el sistema WAF (Cloudflare) emitió una primera\nalerta de baja prioridad a las 23:51 del 22-05-2026, pero no fue revisada por\nel SOC externo hasta la rotación de turno a las 03:42 del 23-05-2026. A esa\nhora el operador de guardia escaló el evento como severidad alta y, tras la\ncorrelación con los logs del balanceador, se reclasificó a **crítica** a las\n04:10 al confirmarse el patrón de exfiltración.\n\nA día de cierre del presente informe se han notificado los hechos a la **Agencia\nEspañola de Protección de Datos (AEPD)** dentro del plazo de 72 horas marcado\npor el RGPD (notificación enviada el 2026-05-25 a las 18:30), se ha desplegado\nun parche urgente que parametriza la consulta vulnerable, y se ha publicado una\nregla WAF específica que bloquea las firmas de los payloads observados. La\nnotificación individualizada a las personas afectadas se encuentra **en curso**\ny se prevé completar antes del 2026-06-10.\n\n---\n\n## 2. Sistemas afectados\n\nLos siguientes sistemas se vieron implicados durante el incidente, ya sea como\nvector de entrada, vehículo de exfiltración o repositorio de datos comprometidos:\n\n- **Portal Ciudadano (front-end público)** — aplicación web pública del\n  Ayuntamiento, accesible desde `https://sede.ayuntamiento.example/`. Es el\n  punto donde reside el formulario vulnerable.\n- **api-tramites (back-end Node.js)** — microservicio interno que expone el\n  endpoint `/api/v1/tramites/buscar` consumido por el portal. La concatenación\n  vulnerable se produce en este componente.\n- **Base de datos PostgreSQL `padron_db`** — instancia PostgreSQL 14.6 alojada\n  en un servidor on-premise (`db-padron-01.intra`). Contiene la tabla\n  `padron_habitantes` desde la que se exfiltraron los registros.\n- **Balanceador NGINX (`lb-front-02`)** — pieza de red por la que pasó todo el\n  tráfico malicioso; sus logs fueron clave para la reconstrucción.\n\nSe descarta, tras revisión por parte del equipo de directorio, que el ataque\nhaya alcanzado el **Active Directory corporativo**. El portal y la API expuesta\nno comparten credenciales con AD y la base de datos se autentica con un usuario\nlocal de PostgreSQL.\n\n---\n\n## 3. Cronología detallada\n\nA continuación se reconstruye la línea temporal a partir de los logs del WAF,\ndel balanceador y del propio servidor PostgreSQL (auditoría `pgaudit`\nparcialmente habilitada). Las horas se expresan en hora local peninsular\n(CEST, UTC+2). Los pasos se presentan en orden cronológico pero la\ninterpretación de fase ATT&CK se discute en línea cuando es relevante.\n\n**2026-05-22 — 21:14** — Primer escaneo conocido desde la IP `185.220.101.47`\n(nodo de salida Tor según el listado público de la Universidad de Heidelberg).\nEl atacante realiza una serie de peticiones GET al endpoint público\n`/api/v1/tramites/buscar?q=` con cadenas alfabéticas cortas. Esto es coherente\ncon un mapeo automatizado del comportamiento del endpoint (fase de\n**reconocimiento**).\n\n**2026-05-22 — 22:03** — Se observa la primera inyección de tanteo:\n`?q=cert%27%20OR%201=1--`. La respuesta del servidor (HTTP 200, contenido\ninusualmente largo) confirma al atacante la vulnerabilidad. Este momento marca\nel inicio del **acceso inicial** efectivo al sistema de datos.\n\n**2026-05-22 — 23:51** — Cloudflare WAF emite la alerta `WAF-RULE-942100`\n(SQL Injection Attack Detected) con prioridad **baja**, dado que el patrón\ndetectado coincide con falsos positivos frecuentes en el endpoint. La alerta\nqueda en la cola del SOC externo sin asignación.\n\n**2026-05-23 — 00:05** — El atacante comienza a usar la técnica de UNION-based\nSQLi para mapear el esquema. Se observan payloads del tipo:\n`?q=x%27%20UNION%20SELECT%20table_name,NULL%20FROM%20information_schema.tables--`.\nEsto corresponde a la fase de **ejecución** sobre el motor SQL.\n\n**2026-05-23 — 00:42** — El atacante identifica la tabla `padron_habitantes`\ny comienza la exfiltración por paginación: extrae lotes de 500 filas usando\n`LIMIT 500 OFFSET <n>`, cifrando la salida en base64 dentro del campo de\nrespuesta. Esta etapa, sostenida hasta las 03:30 aproximadamente, constituye\nla **exfiltración** de datos personales.\n\n**2026-05-23 — 01:18** — El atacante intenta escalar acceso ejecutando\n`?q=x%27;%20COPY%20pg_shadow%20TO%20PROGRAM%20%27curl...%27--`, lo cual habría\npermitido leer hashes de credenciales del propio PostgreSQL. La cuenta de\naplicación carece del rol `pg_execute_server_program`, por lo que el comando\nfalla con error de privilegios — **escalada de privilegios** fallida.\n\n**2026-05-23 — 02:55** — Las peticiones de exfiltración se redirigen, en lotes\nde los registros extraídos, hacia el dominio externo `paste.deepunknown.cc`,\ncontrolado por el atacante. Se trata por tanto de un canal C2/colector\nadicional al propio canal HTTP.\n\n**2026-05-23 — 03:42** — Cambio de turno en el SOC; el operador entrante\ndetecta el volumen anómalo de alertas asociadas a la IP de Tor, escala el\nticket y abre el caso INC-2026-0317.\n\n**2026-05-23 — 04:10** — Tras correlacionar con los logs de PostgreSQL, el\nCERT-Municipal reclasifica el incidente a **severidad crítica** y bloquea la\nIP origen en el WAF y en la regla de borde del balanceador.\n\n**2026-05-23 — 05:30** — Se despliega en caliente una regla WAF específica que\nbloquea los payloads observados (`UNION SELECT`, `OR 1=1`, comentarios SQL\n`--` al final del parámetro `q`).\n\n**2026-05-23 — 11:20** — Despliegue del parche definitivo: la consulta del\nendpoint se reescribe usando *prepared statements* con `pg-promise`,\neliminando la concatenación de strings.\n\n**2026-05-25 — 18:30** — Notificación formal a la AEPD a través de la sede\nelectrónica, dentro del plazo de 72 horas.\n\n---\n\n## 4. Análisis técnico de la causa raíz\n\nLa función responsable del bug reside en `src/handlers/tramites.js` del\nrepositorio `api-tramites`. La versión vulnerable (commit `4f9c2d1`) construía\nla consulta así:\n\n```js\nconst query = `SELECT nombre, dni, direccion FROM padron_habitantes\n               WHERE LOWER(nombre) LIKE '%${q.toLowerCase()}%' LIMIT 500`;\n```\n\nLa variable `q` proviene directamente del parámetro de query string sin\nsanitización ni parametrización. El framework subyacente (Express 4.18 con\n`pg-promise` 11.4) ofrece de forma nativa la API de *prepared statements* que\nel equipo de desarrollo no había adoptado en este endpoint legacy.\n\nNo se trata de una vulnerabilidad del framework — no aplica ningún CVE\nconocido en este caso —; es un fallo de codificación introducido en una\nrefactorización de mayo de 2024 que no pasó por revisión de seguridad\nporque el endpoint se marcó (erróneamente) como \"read-only no sensible\" en el\ninventario de aplicaciones.\n\n**Causa raíz declarada:** uso de concatenación de strings en la construcción\nde una consulta SQL alimentada con entrada directa del usuario, en un endpoint\npúblico clasificado erróneamente como no sensible y por tanto excluido del\nciclo de revisión de seguridad estática (SAST).\n\n---\n\n## 5. Indicadores de compromiso (IoCs)\n\nA efectos de detección y de compartir con el CCN-CERT y con otras\nadministraciones, se consignan los siguientes indicadores observados:\n\n- **IP origen:** `185.220.101.47` — primera observación 2026-05-22T21:14.\n  Nodo Tor.\n- **URL de payload característico:**\n  `https://sede.ayuntamiento.example/api/v1/tramites/buscar?q=x%27%20UNION%20SELECT%20table_name,NULL%20FROM%20information_schema.tables--`\n  — primera observación 2026-05-23T00:05.\n- **Dominio de exfiltración:** `paste.deepunknown.cc` — primera observación\n  2026-05-23T02:55. Resolvía en el momento del incidente a un VPS en una\n  región del este de Europa.\n- **Regla YARA propuesta:** `WAF_PADRON_SQLI_UNION_SELECT_V1` — desarrollada\n  por el CERT-Municipal y compartida internamente; primera observación\n  asociada 2026-05-23T05:30.\n\nNo se han identificado hashes de fichero relevantes (el ataque no involucró\nmalware en disco) ni correos electrónicos del atacante.\n\n---\n\n## 6. Acciones de contención y remediación\n\nEl equipo de respuesta ha ejecutado, en este orden, las siguientes acciones:\n\n1. **Bloqueo de la IP de origen en WAF y balanceador.** Owner: SOC externo.\n   Estado: **completada** a las 04:15 del 23-05-2026.\n2. **Despliegue de regla WAF específica anti-SQLi para el endpoint\n   `/api/v1/tramites/buscar`.** Owner: CERT-Municipal. Estado: **completada**\n   a las 05:30 del 23-05-2026.\n3. **Parche en código: reescritura de la consulta con prepared statements.**\n   Owner: Equipo de Desarrollo Portal. Estado: **completada** con despliegue\n   a producción a las 11:20 del 23-05-2026.\n4. **Revocación y rotación del usuario PostgreSQL `app_portal` y reducción de\n   sus privilegios (eliminación de cualquier permiso sobre\n   `information_schema` ampliado).** Owner: DBA. Estado: **completada** el\n   24-05-2026.\n5. **Notificación a la AEPD vía sede electrónica.** Owner: DPO. Estado:\n   **completada** el 25-05-2026 a las 18:30.\n6. **Notificación individualizada a las personas afectadas por carta postal\n   y, donde se disponga, por correo electrónico.** Owner: DPO + Atención\n   Ciudadana. Estado: **en curso**, previsto cierre el 10-06-2026.\n7. **Auditoría SAST completa del repositorio `api-tramites` y revisión del\n   inventario de \"endpoints no sensibles\".** Owner: CISO. Estado:\n   **pendiente** de planificación formal.\n8. **Habilitación completa de `pgaudit` con captura de sentencias SELECT en\n   `padron_db` (actualmente parcial).** Owner: DBA. Estado: **en curso**.\n\n---\n\n## 7. Lecciones aprendidas\n\n- La clasificación \"endpoint no sensible\" no debe eximir del ciclo SAST cuando\n  el endpoint consulta una base de datos con PII, aunque sea en modo lectura.\n- La latencia entre la primera alerta WAF (baja prioridad, 23:51) y su\n  triage por el SOC (03:42) es inaceptable para datos clasificados como\n  especialmente protegidos por el RGPD. Se propondrá revisar el SLA con el\n  proveedor del SOC.\n- La habilitación parcial de `pgaudit` dificultó la reconstrucción exacta del\n  número de filas exfiltradas; el cálculo de 48.700 registros es una\n  estimación con margen de ±5%.\n\n---\n\n## 8. Anexos\n\n- Anexo A — Logs del balanceador NGINX (`/var/log/nginx/access.log.gz`)\n  filtrados por la IP `185.220.101.47`, depositados en el sistema de\n  evidencia forense con hash SHA-256.\n- Anexo B — Captura completa de payloads recogidos por el WAF.\n- Anexo C — Borrador de la notificación a personas afectadas.\n- Anexo D — Comunicación oficial enviada a la AEPD (referencia\n  AEPD/2026/051923).",
+  "instruction": "Extrae el incidente de seguridad estructurado (IoCs, cadena de ataque por fases ATT&CK, sistemas afectados, acciones de contención y causa raíz) del informe post-mortem.",
+  "target_schema": {
+    "$defs": {
+      "AttackPhase": {
+        "description": "Fases de la cadena de ataque (MITRE ATT&CK simplificado).",
+        "enum": [
+          "reconocimiento",
+          "acceso_inicial",
+          "ejecución",
+          "persistencia",
+          "escalada_de_privilegios",
+          "evasión_de_defensas",
+          "acceso_a_credenciales",
+          "movimiento_lateral",
+          "exfiltración",
+          "impacto"
+        ],
+        "title": "AttackPhase",
+        "type": "string"
+      },
+      "AttackStep": {
+        "additionalProperties": false,
+        "description": "Un paso de la cadena de ataque tal como lo reconstruye el informe.",
+        "properties": {
+          "phase": {
+            "$ref": "#/$defs/AttackPhase",
+            "description": "Fase ATT&CK a la que pertenece el paso."
+          },
+          "description": {
+            "description": "Descripción de la acción del atacante en una frase (p. ej. 'Envío de correo de phishing con adjunto malicioso al departamento financiero').",
+            "title": "Description",
+            "type": "string"
+          },
+          "timestamp": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Marca temporal en formato ISO 8601 si el informe la consigna. Null si solo se indica el orden relativo.",
+            "title": "Timestamp"
+          },
+          "technique_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Identificador MITRE ATT&CK si el informe lo cita (p. ej. 'T1566.001'). Null si no aparece.",
+            "title": "Technique Id"
+          }
+        },
+        "required": [
+          "phase",
+          "description"
+        ],
+        "title": "AttackStep",
+        "type": "object"
+      },
+      "ContainmentAction": {
+        "additionalProperties": false,
+        "description": "Acción de contención o remediación tomada por el equipo de respuesta.",
+        "properties": {
+          "description": {
+            "description": "Descripción literal de la acción (p. ej. 'Aislamiento del host afectado en VLAN de cuarentena').",
+            "title": "Description",
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/$defs/ContainmentStatus",
+            "description": "Estado de ejecución de la acción al cierre del informe."
+          },
+          "owner": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Equipo o persona responsable de la acción (p. ej. 'SOC', 'Red Team'). Null si no se asigna explícitamente.",
+            "title": "Owner"
+          }
+        },
+        "required": [
+          "description",
+          "status"
+        ],
+        "title": "ContainmentAction",
+        "type": "object"
+      },
+      "ContainmentStatus": {
+        "enum": [
+          "pendiente",
+          "en_curso",
+          "completada",
+          "no_aplica"
+        ],
+        "title": "ContainmentStatus",
+        "type": "string"
+      },
+      "Indicator": {
+        "additionalProperties": false,
+        "description": "Indicador de compromiso (IoC) observado durante el incidente.",
+        "properties": {
+          "kind": {
+            "$ref": "#/$defs/IndicatorKind",
+            "description": "Tipo de indicador."
+          },
+          "value": {
+            "description": "Valor literal del indicador tal como aparece en el informe (IP, dominio, SHA-256, CVE-XXXX-XXXX, etc.). Sin modificar.",
+            "title": "Value",
+            "type": "string"
+          },
+          "first_seen": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Fecha en formato ISO en que se observó el indicador por primera vez durante el incidente. Null si el informe no la fecha.",
+            "title": "First Seen"
+          }
+        },
+        "required": [
+          "kind",
+          "value"
+        ],
+        "title": "Indicator",
+        "type": "object"
+      },
+      "IndicatorKind": {
+        "enum": [
+          "ip",
+          "dominio",
+          "url",
+          "hash",
+          "correo",
+          "cve",
+          "regla_yara"
+        ],
+        "title": "IndicatorKind",
+        "type": "string"
+      },
+      "Severity": {
+        "enum": [
+          "baja",
+          "media",
+          "alta",
+          "crítica"
+        ],
+        "title": "Severity",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Post-mortem o informe de respuesta a un incidente de ciberseguridad: IoCs\nobservados, reconstrucción de la cadena de ataque en fases ordenadas\ncronológicamente, sistemas afectados y acciones de contención con su estado.\nLa extracción debe diferenciar fases ATT&CK por su semántica (no por\nel orden literal en el informe, que puede mezclar narrativa y análisis), y\nasociar cada IoC con su tipo correcto a partir de su forma.\n\nComplejidad: L9 — cadena causal con vocabulario técnico denso, taxonomía\nrígida (fases ATT&CK), pluralidad de listas heterogéneas y enlazado\nentre acciones y sistemas.",
+    "properties": {
+      "incident_id": {
+        "description": "Identificador interno del incidente tal como aparece en el informe (p. ej. 'INC-2026-0042').",
+        "title": "Incident Id",
+        "type": "string"
+      },
+      "detection_date": {
+        "description": "Fecha de detección del incidente en formato ISO 8601 ('YYYY-MM-DDTHH:MM' o 'YYYY-MM-DD' si no hay hora).",
+        "title": "Detection Date",
+        "type": "string"
+      },
+      "severity": {
+        "$ref": "#/$defs/Severity",
+        "description": "Severidad declarada del incidente según la clasificación del informe."
+      },
+      "affected_systems": {
+        "description": "Nombres o identificadores de los sistemas, aplicaciones o redes afectados (p. ej. 'CRM corporativo', 'Active Directory', 'VPN'). Un sistema por entrada.",
+        "items": {
+          "type": "string"
+        },
+        "minItems": 1,
+        "title": "Affected Systems",
+        "type": "array"
+      },
+      "indicators": {
+        "description": "IoCs observados durante el incidente. Lista vacía si el informe declara que no se identificaron indicadores accionables.",
+        "items": {
+          "$ref": "#/$defs/Indicator"
+        },
+        "title": "Indicators",
+        "type": "array"
+      },
+      "attack_chain": {
+        "description": "Cadena de ataque reconstruida, en orden cronológico. Cada paso asignado a una única fase ATT&CK.",
+        "items": {
+          "$ref": "#/$defs/AttackStep"
+        },
+        "minItems": 1,
+        "title": "Attack Chain",
+        "type": "array"
+      },
+      "containment_actions": {
+        "description": "Acciones de contención y remediación, en el orden en que fueron ejecutadas o planificadas.",
+        "items": {
+          "$ref": "#/$defs/ContainmentAction"
+        },
+        "minItems": 1,
+        "title": "Containment Actions",
+        "type": "array"
+      },
+      "root_cause": {
+        "description": "Causa raíz declarada por el informe en una o dos frases (p. ej. 'Configuración por defecto del servidor expuesto a internet sin autenticación').",
+        "title": "Root Cause",
+        "type": "string"
+      }
+    },
+    "required": [
+      "incident_id",
+      "detection_date",
+      "severity",
+      "affected_systems",
+      "attack_chain",
+      "containment_actions",
+      "root_cause"
+    ],
+    "title": "SecurityIncident",
+    "type": "object"
+  },
+  "output": {
+    "incident_id": "INC-2026-0317",
+    "detection_date": "2026-05-23T03:42",
+    "severity": "crítica",
+    "affected_systems": [
+      "Portal Ciudadano (front-end público)",
+      "api-tramites (back-end Node.js)",
+      "Base de datos PostgreSQL padron_db",
+      "Balanceador NGINX (lb-front-02)"
+    ],
+    "indicators": [
+      {
+        "kind": "ip",
+        "value": "185.220.101.47",
+        "first_seen": "2026-05-22T21:14"
+      },
+      {
+        "kind": "url",
+        "value": "https://sede.ayuntamiento.example/api/v1/tramites/buscar?q=x%27%20UNION%20SELECT%20table_name,NULL%20FROM%20information_schema.tables--",
+        "first_seen": "2026-05-23T00:05"
+      },
+      {
+        "kind": "dominio",
+        "value": "paste.deepunknown.cc",
+        "first_seen": "2026-05-23T02:55"
+      },
+      {
+        "kind": "regla_yara",
+        "value": "WAF_PADRON_SQLI_UNION_SELECT_V1",
+        "first_seen": "2026-05-23T05:30"
+      }
+    ],
+    "attack_chain": [
+      {
+        "phase": "reconocimiento",
+        "description": "Escaneo automatizado del endpoint /api/v1/tramites/buscar con cadenas alfabéticas cortas desde un nodo de salida Tor.",
+        "timestamp": "2026-05-22T21:14",
+        "technique_id": null
+      },
+      {
+        "phase": "acceso_inicial",
+        "description": "Inyección de tanteo q=cert' OR 1=1-- que confirma la vulnerabilidad SQLi en el buscador de trámites.",
+        "timestamp": "2026-05-22T22:03",
+        "technique_id": null
+      },
+      {
+        "phase": "ejecución",
+        "description": "Uso de UNION-based SQLi para enumerar el esquema consultando information_schema.tables.",
+        "timestamp": "2026-05-23T00:05",
+        "technique_id": null
+      },
+      {
+        "phase": "exfiltración",
+        "description": "Extracción paginada (LIMIT 500 OFFSET) de la tabla padron_habitantes con respuesta codificada en base64.",
+        "timestamp": "2026-05-23T00:42",
+        "technique_id": null
+      },
+      {
+        "phase": "escalada_de_privilegios",
+        "description": "Intento fallido de leer pg_shadow mediante COPY ... TO PROGRAM; bloqueado por falta del rol pg_execute_server_program.",
+        "timestamp": "2026-05-23T01:18",
+        "technique_id": null
+      },
+      {
+        "phase": "exfiltración",
+        "description": "Redirección de lotes de registros extraídos hacia el dominio externo paste.deepunknown.cc controlado por el atacante.",
+        "timestamp": "2026-05-23T02:55",
+        "technique_id": null
+      }
+    ],
+    "containment_actions": [
+      {
+        "description": "Bloqueo de la IP de origen en WAF y balanceador.",
+        "status": "completada",
+        "owner": "SOC externo"
+      },
+      {
+        "description": "Despliegue de regla WAF específica anti-SQLi para el endpoint /api/v1/tramites/buscar.",
+        "status": "completada",
+        "owner": "CERT-Municipal"
+      },
+      {
+        "description": "Parche en código: reescritura de la consulta con prepared statements.",
+        "status": "completada",
+        "owner": "Equipo de Desarrollo Portal"
+      },
+      {
+        "description": "Revocación y rotación del usuario PostgreSQL app_portal y reducción de sus privilegios (eliminación de cualquier permiso sobre information_schema ampliado).",
+        "status": "completada",
+        "owner": "DBA"
+      },
+      {
+        "description": "Notificación a la AEPD vía sede electrónica.",
+        "status": "completada",
+        "owner": "DPO"
+      },
+      {
+        "description": "Notificación individualizada a las personas afectadas por carta postal y, donde se disponga, por correo electrónico.",
+        "status": "en_curso",
+        "owner": "DPO + Atención Ciudadana"
+      },
+      {
+        "description": "Auditoría SAST completa del repositorio api-tramites y revisión del inventario de \"endpoints no sensibles\".",
+        "status": "pendiente",
+        "owner": "CISO"
+      },
+      {
+        "description": "Habilitación completa de pgaudit con captura de sentencias SELECT en padron_db (actualmente parcial).",
+        "status": "en_curso",
+        "owner": "DBA"
+      }
+    ],
+    "root_cause": "Uso de concatenación de strings en la construcción de una consulta SQL alimentada con entrada directa del usuario, en un endpoint público clasificado erróneamente como no sensible y por tanto excluido del ciclo de revisión de seguridad estática (SAST)."
+  },
+  "metadata": {
+    "source": "synthetic_20260601_003.md",
+    "domain": "technical",
+    "subdomain": "security_incident"
+  }
+}

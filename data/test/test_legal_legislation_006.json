@@ -1,0 +1,67 @@
+{
+  "id": "test_legal_legislation_006",
+  "input_text": "Como consecuencia de la desestimación por el Pleno del Consejo General del Poder Judicial el 22 de abril de 2026, del recurso de alzada número 371/2025, interpuesto por el Magistrado Francisco Javier Menéndez Estébanez contra el acuerdo adoptado por la Comisión Permanente del Consejo General del Poder Judicial de 18 de agosto de 2025, y, de conformidad con lo establecido en el artículo 340 de la Ley Orgánica 6/1985, de 1 de julio, del Poder Judicial, y en ejecución de dicho acuerdo,\nVengo en adjudicar en propiedad a don Francisco Javier Menéndez Estébanez la plaza de Magistrado de la Audiencia Provincial de Pontevedra, correspondiente al orden civil, conservando la preferencia prevista en el artículo 340 de la Ley Orgánica 6/1985, de 1 de julio, del Poder Judicial.",
+  "instruction": "Según el texto, ¿se adjudica la plaza de Magistrado de la Audiencia Provincial de Pontevedra a don Francisco Javier Menéndez Estébanez en virtud del artículo 340 de la Ley Orgánica 6/1985?",
+  "target_schema": {
+    "additionalProperties": false,
+    "description": "Performs binary legal reasoning based on a legislative text.\nComplexity: L8 (Logical Inference & Evidence Aggregation).",
+    "properties": {
+      "question": {
+        "description": "The specific question to be answered (e.g., 'Is the death penalty prohibited?')",
+        "title": "Question",
+        "type": "string"
+      },
+      "is_applicable": {
+        "description": "True if the condition described in the question is met or permitted by the text",
+        "title": "Is Applicable",
+        "type": "boolean"
+      },
+      "evidence_quotes": {
+        "description": "Direct verbatim fragments from the text that support the answer",
+        "items": {
+          "type": "string"
+        },
+        "title": "Evidence Quotes",
+        "type": "array"
+      },
+      "cited_articles": {
+        "description": "List of article identifiers involved (e.g., 'Art. 1', 'Art. 15')",
+        "items": {
+          "type": "string"
+        },
+        "title": "Cited Articles",
+        "type": "array"
+      },
+      "is_explicit": {
+        "description": "True if the answer is literally stated; False if it requires inference or synthesis",
+        "title": "Is Explicit",
+        "type": "boolean"
+      }
+    },
+    "required": [
+      "question",
+      "is_applicable",
+      "evidence_quotes",
+      "is_explicit"
+    ],
+    "title": "LegalInquiry",
+    "type": "object"
+  },
+  "output": {
+    "question": "¿Se adjudica la plaza de Magistrado de la Audiencia Provincial de Pontevedra a don Francisco Javier Menéndez Estébanez en virtud del artículo 340 de la Ley Orgánica 6/1985?",
+    "is_applicable": true,
+    "evidence_quotes": [
+      "de conformidad con lo establecido en el artículo 340 de la Ley Orgánica 6/1985, de 1 de julio, del Poder Judicial, y en ejecución de dicho acuerdo,",
+      "Vengo en adjudicar en propiedad a don Francisco Javier Menéndez Estébanez la plaza de Magistrado de la Audiencia Provincial de Pontevedra, correspondiente al orden civil, conservando la preferencia prevista en el artículo 340 de la Ley Orgánica 6/1985, de 1 de julio, del Poder Judicial."
+    ],
+    "cited_articles": [
+      "Art. 340"
+    ],
+    "is_explicit": true
+  },
+  "metadata": {
+    "source": "BOE-A-2026-10123.md",
+    "domain": "legal",
+    "subdomain": "legislation"
+  }
+}

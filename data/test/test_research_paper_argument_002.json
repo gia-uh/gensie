@@ -1,0 +1,326 @@
+{
+  "id": "research_paper_argument_002",
+  "input_text": "# Salario mínimo y empleo juvenil rural: evidencia cuasi-experimental del incremento del SMI 2024-2025 en municipios pequeños de Andalucía [...] Este artículo evalúa el efecto causal del incremento del Salario Mínimo Interprofesional (SMI) español aprobado para 2024 y 2025 sobre la afiliación a la Seguridad Social de los trabajadores jóvenes (16-29 años) residentes en municipios rurales de Andalucía con menos de 5 000 habitantes. Mediante un diseño de diferencias en diferencias (DiD) que explota la heterogeneidad territorial en la incidencia del SMI —medida como la fracción de afiliados cuyo salario bruto se situaba por debajo del nuevo umbral antes de la reforma—, comparamos municipios con alta y baja exposición a lo largo del periodo enero 2022 - diciembre 2025. Nuestros resultados, basados en microdatos administrativos de la Muestra Continua de Vidas Laborales (MCVL) y datos agregados del Servicio Público de Empleo Estatal (SEPE), indican que el incremento del SMI redujo la afiliación juvenil en los municipios rurales de alta exposición en 2,7 puntos porcentuales respecto al grupo de control, equivalente a una pérdida neta estimada de 4 380 puestos de trabajo en el conjunto del territorio analizado. El efecto se concentra de manera nítida en los contratos a tiempo parcial menos cualificados (Grupo de Cotización 9 y 10), mientras que no encontramos un impacto estadísticamente significativo sobre los contratos indefinidos a tiempo completo. Discutimos las implicaciones de política pública: el SMI parece haber funcionado como un instrumento eficaz de mejora salarial para los trabajadores que conservan el empleo, pero a costa de una contracción modesta del margen extensivo en los segmentos más vulnerables del mercado de trabajo rural andaluz. [...] El Salario Mínimo Interprofesional español ha experimentado entre 2018 y 2025 el incremento acumulado más pronunciado de su historia reciente, pasando de 735,90 euros mensuales en 14 pagas en 2018 a 1 184 euros en 2025, lo que representa una subida nominal del 60,9% en siete años. El último tramo de esta trayectoria —los incrementos del 5,0% para 2024 (situando el SMI en 1 134 euros) y del 4,4% para 2025— se produjo en un contexto macroeconómico de desaceleración de la inflación pero con tasas de desempleo juvenil aún superiores al 25% en el conjunto de España y por encima del 31% en Andalucía según los datos de la Encuesta de Población Activa (EPA) del cuarto trimestre de 2024.\n\nLa pregunta de si las subidas del SMI destruyen empleo, y en qué segmentos del mercado de trabajo, lleva décadas en el centro del debate de la economía laboral aplicada, desde los trabajos seminales de Card y Krueger (1994) hasta las revisiones recientes de Cengiz et al. (2019) y Dube (2019). En el caso español, el incremento del 22,3% aprobado en 2019 abrió una nueva generación de estudios cuasi-experimentales: el informe del Banco de España coordinado por Lacuesta et al. (2019) estimó una destrucción de entre 92 000 y 173 000 empleos atribuible a aquella subida; los trabajos posteriores de Galán y Puente (2022) y de la Comisión Asesora para el Análisis del SMI (2023) refinaron a la baja esas cifras al incorporar márgenes de ajuste no contemplados inicialmente y datos administrativos más granulares.\n\nLa tesis que defendemos en este artículo es que el efecto del SMI sobre el empleo no es uniforme en el territorio español: se concentra de manera desproporcionada en el mercado de trabajo rural de las regiones meridionales, donde la incidencia previa del salario mínimo es estructuralmente mayor por la composición sectorial (agricultura, hostelería estacional, servicios personales) y por la menor productividad media de la mano de obra. Más concretamente, sostenemos que el incremento del SMI aprobado para 2024 y 2025 redujo la afiliación juvenil rural en 2,7 puntos porcentuales en los municipios andaluces con menos de 5 000 habitantes con alta exposición a la reforma, pero que este efecto se concentra exclusivamente en los contratos a tiempo parcial menos cualificados, sin impacto detectable sobre los contratos indefinidos a tiempo completo. Esta heterogeneidad por tipo de contrato es, a nuestro juicio, el hallazgo más relevante del estudio: sugiere que el SMI español ha actuado en este último tramo como un filtro selectivo que recorta el margen más precario del empleo juvenil rural sin desplazar a los trabajadores con vínculos contractuales más estables.\n\nEl resto del artículo se estructura como sigue. La sección 2 revisa la literatura previa sobre los efectos del SMI en España y sitúa nuestra contribución en el debate. La sección 3 describe los datos administrativos utilizados (MCVL y SEPE) y la construcción del panel municipal. La sección 4 presenta el diseño cuasi-experimental de diferencias en diferencias y discute la identificación causal. La sección 5 expone los resultados principales y los análisis de robustez. La sección 6 discute las implicaciones de política pública, las objeciones potenciales y las limitaciones del trabajo. La sección 7 concluye. [...] El consenso clásico de la economía laboral, formalizado en los manuales de Borjas (2020), predice que un salario mínimo fijado por encima del salario de equilibrio reduce el empleo en mercados competitivos. Sin embargo, desde el influyente trabajo de Card y Krueger (1994) sobre las cadenas de comida rápida en Nueva Jersey y Pensilvania, una larga tradición de estudios cuasi-experimentales ha matizado esta predicción, mostrando que en mercados con poder de monopsonio o con fricciones de búsqueda los efectos sobre el empleo pueden ser pequeños o incluso positivos. La revisión meta-analítica de Dube (2019) para el Reino Unido y Estados Unidos cifra la elasticidad del empleo respecto al SMI en un rango entre -0,04 y -0,17, claramente por debajo de las estimaciones clásicas.\n\nEn el caso español, el debate ha estado marcado por la subida del 22,3% aprobada por el Real Decreto-ley 8/2019. Lacuesta et al. (2019), en el informe oficial del Banco de España, estimaron una destrucción de entre 92 000 y 173 000 empleos, concentrada en jóvenes, mayores de 45 años y trabajadores con contratos a tiempo parcial. Galán y Puente (2022) revisaron a la baja esa cifra utilizando la MCVL y un diseño DiD a nivel individual, situándola en torno a los 50 000 empleos no creados. Cebrián, Moreno y Toharia (2021), por su parte, sostuvieron que el efecto neto sobre el empleo fue prácticamente nulo en términos agregados, pero documentaron una recomposición sustancial entre tipos de contrato. Más recientemente, Hidalgo-Pérez y Conde-Ruiz (2024) han argumentado que los efectos del SMI sobre el empleo en España han disminuido a medida que el indicador se acerca al 60% del salario medio recomendado por la Carta Social Europea, sugiriendo una saturación del margen de ajuste.\n\nNuestro trabajo se posiciona como una **extensión** matizada de esta literatura: aceptamos el marco metodológico DiD desarrollado por Galán y Puente (2022) y los resultados agregados de Hidalgo-Pérez y Conde-Ruiz (2024), pero proponemos que la unidad de análisis adecuada para captar los efectos del SMI más reciente no es el conjunto nacional ni la comunidad autónoma, sino el municipio rural pequeño, donde la incidencia previa del SMI es estructuralmente mayor y donde el margen de ajuste extensivo es más visible. En este sentido, complementamos los trabajos de Bande y Karanassou (2023) sobre la dimensión territorial del desempleo en España y de Pérez-Domínguez y Sánchez-Galán (2024) sobre los mercados de trabajo rurales en Andalucía. [...] donde $Y_{mt}$ es la tasa de afiliación juvenil en el municipio $m$ y mes $t$ (afiliados de 16-29 años dividido por población residente en el mismo tramo), $\\alpha_m$ son efectos fijos municipales, $\\tau_t$ son efectos fijos temporales mensuales, $Tratado_m$ indica pertenencia al grupo de alta exposición, $Post_t$ indica el periodo posterior al 1 de febrero de 2024 (fecha de entrada en vigor del nuevo SMI), $X_{mt}$ es un vector de controles que incluye la estructura sectorial del empleo y el log de la población, y $\\epsilon_{mt}$ es el término de error. Los errores estándar se agrupan a nivel municipal para acomodar correlación serial.\n\nLa identificación causal descansa sobre el supuesto de **tendencias paralelas**: en ausencia de la reforma, la tasa de afiliación juvenil en municipios tratados y de control habría evolucionado de manera análoga. Validamos este supuesto con un análisis de estudio de evento (event study) que estima coeficientes separados para cada uno de los 24 meses anteriores y posteriores a la reforma, mostrando ausencia de tendencias diferenciales pre-tratamiento (todos los coeficientes pre-reforma son estadísticamente indistinguibles de cero al 5%).\n\nComo ejercicios de robustez ejecutamos: (i) una especificación con controles sintéticos a la Abadie y Gardeazabal (2003); (ii) una estimación a nivel individual con el panel de la MCVL controlando por características del trabajador; (iii) una variante que excluye los municipios con alta dependencia del turismo estacional para descartar contaminación por la recuperación post-pandemia; y (iv) un placebo con la reforma del SMI de 2022 (un incremento menor) que arroja coeficientes pequeños y no significativos, reforzando la interpretación causal. [...] El coeficiente $\\beta$ de la especificación principal es **-2,73 puntos porcentuales** (error estándar: 0,68; p < 0,001), implicando que la tasa de afiliación juvenil en los municipios tratados se redujo en 2,73 pp adicionales respecto a los de control tras la entrada en vigor de la reforma. Aplicado a la población juvenil residente en los municipios tratados (160 425 personas), esta estimación equivale a una pérdida neta de aproximadamente 4 380 puestos de trabajo. Las estimaciones son robustas a las cuatro especificaciones alternativas mencionadas, con coeficientes en el rango -2,4 a -3,1 pp. [...] La descomposición del efecto por tipo de contrato es el hallazgo más relevante del estudio. Separamos los afiliados en cuatro categorías: (a) contratos indefinidos a tiempo completo; (b) contratos indefinidos a tiempo parcial; (c) contratos temporales a tiempo completo; (d) contratos temporales a tiempo parcial. La estimación de $\\beta$ para cada categoría arroja:\n\n- Indefinidos a tiempo completo: -0,18 pp (e.e.: 0,31), **no significativo**.\n- Indefinidos a tiempo parcial: -0,94 pp (e.e.: 0,29), p < 0,01.\n- Temporales a tiempo completo: -0,42 pp (e.e.: 0,38), no significativo al 10%.\n- Temporales a tiempo parcial: -1,19 pp (e.e.: 0,41), p < 0,01.\n\nLa suma de los efectos significativos (-2,13 pp) representa el 78% del efecto total estimado. Cuando además restringimos el análisis a los grupos de cotización 9 y 10 (los menos cualificados, donde se concentran peones agrícolas, ayudantes de hostelería y empleadas domésticas), el efecto se intensifica hasta -3,84 pp. Estos resultados son coherentes con la idea de que el SMI presiona el margen extensivo del empleo en su segmento más vulnerable, sin desplazar a los trabajadores con vínculos contractuales más sólidos. [...] ### 5.3 Heterogeneidad por sector\n\nUna descomposición sectorial adicional indica que el efecto se concentra en agricultura (-1,42 pp) y hostelería (-0,87 pp), mientras que servicios personales y comercio minorista presentan coeficientes pequeños y no significativos. Esta distribución sectorial coincide con la estructura productiva esperada en municipios rurales pequeños andaluces y refuerza la plausibilidad del mecanismo.\n\n### 5.4 Análisis de salarios\n\nComo contrapartida, los trabajadores que mantuvieron el empleo en los municipios tratados experimentaron un incremento salarial bruto medio del 6,3% respecto a los controles, frente a una subida del 2,1% en el grupo de control. La elasticidad salario-empleo implícita en nuestras estimaciones se sitúa en torno a -0,21, ligeramente por encima de la mediana de los estudios internacionales recientes recopilados por Dube (2019). [...] Nuestros resultados respaldan una lectura matizada del efecto del SMI español en su tramo más reciente. La reforma de 2024-2025 ha producido un trasvase de renta hacia los trabajadores juveniles rurales que conservaron el empleo, pero a costa de una contracción modesta del margen extensivo en los segmentos más precarios del mercado de trabajo. La política redistribuye, pero también selecciona. Cuantitativamente, la pérdida estimada de 4 380 empleos en el conjunto del territorio analizado representa el 2,6% del empleo juvenil rural andaluz; en términos agregados es una cifra contenida, pero geográficamente concentrada.\n\nUna implicación operativa sería complementar el SMI con políticas activas focalizadas en los municipios rurales pequeños del cuartil superior de incidencia, especialmente en agricultura y hostelería estacional, para amortiguar el efecto desplazamiento sobre los contratos a tiempo parcial menos cualificados.\n\n### 6.2 Contra-argumentos\n\nAnticipamos al menos dos objeciones serias a nuestra interpretación.\n\n**Primera objeción.** Podría argumentarse que la diferencia observada entre municipios tratados y de control no refleja un efecto causal del SMI sino una continuación de tendencias de despoblación y envejecimiento que afectan más a los municipios con mayor incidencia previa del salario mínimo. **Respuesta.** El análisis de estudio de evento descarta esta interpretación: los coeficientes para los 24 meses pre-reforma son estadísticamente indistinguibles de cero y no muestran tendencia decreciente sistemática, mientras que la caída de la afiliación juvenil emerge nítidamente a partir del mes de febrero de 2024 (mes de entrada en vigor del nuevo SMI). Además, el placebo con la reforma de 2022 produce coeficientes pequeños y no significativos, consistente con el carácter más moderado de aquella subida.\n\n**Segunda objeción.** El efecto que documentamos podría estar contaminado por la entrada en vigor simultánea de otras medidas de política laboral, en particular la reforma del subsidio por desempleo para mayores de 52 años y los cambios en la cotización de los contratos formativos aprobados en el primer trimestre de 2024. Una parte de la caída de la afiliación juvenil podría reflejar la sustitución por trabajadores adultos beneficiados por estas reformas paralelas. **No tenemos una respuesta concluyente a esta objeción**: nuestro diseño no permite aislar el efecto puro del SMI de los efectos potencialmente confundidos por estas reformas concurrentes. Sería preciso un estudio complementario que incorporara datos sobre la composición etaria del flujo de altas y bajas en cada municipio para descartar esta posibilidad. [...] Reconocemos cuatro limitaciones principales en nuestro trabajo.\n\n**Primera (validez externa).** Nuestros resultados se circunscriben a los municipios rurales andaluces de menos de 5 000 habitantes y no son directamente extrapolables a otras comunidades autónomas, ni siquiera a otras zonas rurales del sur peninsular. La estructura sectorial particular de Andalucía —con un peso muy alto de la agricultura y la hostelería estacional— condiciona la magnitud del efecto. Trabajos futuros deberían replicar este diseño en Extremadura, Castilla-La Mancha y Murcia para evaluar la robustez territorial del hallazgo.\n\n**Segunda (calidad de los datos).** La MCVL, aunque es la mejor fuente disponible para el análisis longitudinal del mercado laboral español, tiene limitaciones conocidas en la asignación municipal de la cuenta de cotización: cuando un trabajador presta servicios en un municipio distinto al de su empleador, la afiliación se computa en el municipio del empleador. Esto puede generar una subestimación del empleo juvenil rural si parte de los trabajadores residentes en estos municipios cotiza por cuentas situadas en cabeceras comarcales o capitales de provincia.\n\n**Tercera (metodología).** Nuestro diseño DiD descansa sobre la elección discreta de tratamiento (cuartil superior frente a cuartil inferior de incidencia), lo cual introduce arbitrariedad. Hemos verificado la robustez con una especificación continua en la que la incidencia entra como variable continua y los resultados son cualitativamente equivalentes, pero la elección del umbral del cuartil podría sobreestimar el contraste.\n\n**Cuarta (alcance temporal).** Nuestra ventana post-reforma cubre 22 meses (febrero 2024 - diciembre 2025), lo cual permite captar efectos de corto y medio plazo pero no efectos dinámicos a más largo horizonte. Es plausible que los mecanismos de ajuste del mercado de trabajo (sustitución capital-trabajo, reorganización productiva, migración) operen en plazos superiores y modifiquen las magnitudes estimadas a la baja o al alza. [...] ## 7. Conclusiones\n\nEste artículo aporta evidencia cuasi-experimental sobre el efecto del incremento del SMI español aprobado para 2024 y 2025 en el mercado de trabajo juvenil rural andaluz. Documentamos una reducción del empleo de 2,73 puntos porcentuales en los municipios de menos de 5 000 habitantes con alta exposición a la reforma, equivalente a aproximadamente 4 380 puestos de trabajo en el conjunto del territorio analizado. El efecto se concentra de forma nítida en los contratos a tiempo parcial menos cualificados —especialmente en agricultura y hostelería—, mientras que los contratos indefinidos a tiempo completo no muestran un impacto significativo.\n\nLa principal contribución de este trabajo es matizar la lectura agregada de los estudios previos sobre los efectos del SMI español: el impacto no es uniforme en el territorio ni en los tipos de contrato, y la dimensión local rural emerge como un margen crítico que estudios basados en agregados nacionales tienden a invisibilizar. Esto sugiere que el diseño futuro de la política de salario mínimo en España debería contemplar mecanismos compensatorios focalizados en los segmentos territoriales y contractuales más expuestos.",
+  "instruction": "Extrae la estructura argumental completa del artículo: tesis principal, sub-afirmaciones con su evidencia, contra-afirmaciones reconocidas (con su respuesta si la hay), limitaciones declaradas por los autores y posicionamiento respecto al estado del arte.",
+  "target_schema": {
+    "$defs": {
+      "CounterClaim": {
+        "additionalProperties": false,
+        "description": "Una objeción o contra-afirmación que el artículo reconoce y responde.",
+        "properties": {
+          "statement": {
+            "description": "Enunciado de la objeción en voz declarativa (p. ej. 'La correlación observada podría explicarse por el sesgo de selección de la muestra').",
+            "title": "Statement",
+            "type": "string"
+          },
+          "response": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Respuesta o concesión del artículo a la objeción si la incluye (p. ej. 'Los autores controlan este sesgo estratificando por edad y nivel socioeconómico'). Null si el artículo presenta la objeción sin responderla.",
+            "title": "Response"
+          }
+        },
+        "required": [
+          "statement"
+        ],
+        "title": "CounterClaim",
+        "type": "object"
+      },
+      "Evidence": {
+        "additionalProperties": false,
+        "description": "Una pieza de evidencia que apoya una afirmación del artículo.",
+        "properties": {
+          "kind": {
+            "$ref": "#/$defs/EvidenceKind",
+            "description": "Tipo de evidencia."
+          },
+          "description": {
+            "description": "Descripción literal o casi literal de la evidencia en una frase (p. ej. 'experimento controlado con N=240 hablantes nativos de español').",
+            "title": "Description",
+            "type": "string"
+          },
+          "quoted_passage": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Cita literal del artículo (sin comillas) que presenta esta evidencia, si el extractor la conserva. Null si el extractor solo parafrasea.",
+            "title": "Quoted Passage"
+          }
+        },
+        "required": [
+          "kind",
+          "description"
+        ],
+        "title": "Evidence",
+        "type": "object"
+      },
+      "EvidenceKind": {
+        "enum": [
+          "estudio_empírico",
+          "análisis_datos",
+          "demostración_teórica",
+          "literatura_citada",
+          "ejemplo_caso",
+          "simulación"
+        ],
+        "title": "EvidenceKind",
+        "type": "string"
+      },
+      "Limitation": {
+        "additionalProperties": false,
+        "description": "Una limitación del trabajo declarada por los propios autores.",
+        "properties": {
+          "kind": {
+            "$ref": "#/$defs/LimitationKind",
+            "description": "Categoría de la limitación."
+          },
+          "description": {
+            "description": "Descripción literal o casi literal de la limitación tal como la consignan los autores.",
+            "title": "Description",
+            "type": "string"
+          }
+        },
+        "required": [
+          "kind",
+          "description"
+        ],
+        "title": "Limitation",
+        "type": "object"
+      },
+      "LimitationKind": {
+        "enum": [
+          "tamaño_muestral",
+          "validez_externa",
+          "validez_de_constructo",
+          "metodología",
+          "calidad_datos",
+          "alcance"
+        ],
+        "title": "LimitationKind",
+        "type": "string"
+      },
+      "PositioningStance": {
+        "enum": [
+          "extiende",
+          "matiza",
+          "cuestiona",
+          "sintetiza",
+          "introduce_novedoso"
+        ],
+        "title": "PositioningStance",
+        "type": "string"
+      },
+      "SubClaim": {
+        "additionalProperties": false,
+        "description": "Una afirmación de apoyo subordinada a la tesis principal.",
+        "properties": {
+          "statement": {
+            "description": "Enunciado de la afirmación en una frase, en voz declarativa (p. ej. 'La frecuencia de uso del subjuntivo decrece con la edad de exposición al inglés').",
+            "title": "Statement",
+            "type": "string"
+          },
+          "supporting_evidence": {
+            "description": "Pieza(s) de evidencia que el artículo aporta para esta afirmación. Al menos una.",
+            "items": {
+              "$ref": "#/$defs/Evidence"
+            },
+            "minItems": 1,
+            "title": "Supporting Evidence",
+            "type": "array"
+          }
+        },
+        "required": [
+          "statement",
+          "supporting_evidence"
+        ],
+        "title": "SubClaim",
+        "type": "object"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Estructura argumental completa de un artículo académico (humanidades,\nciencias sociales, ciencia o medicina) en español: tesis central,\nsub-afirmaciones con sus evidencias, contra-afirmaciones reconocidas y\ncontestadas, limitaciones declaradas y posicionamiento explícito en el\nestado del arte.\n\nLa extracción debe distinguir entre la tesis principal y las sub-afirmaciones\nque la sostienen, asociar cada evidencia a la afirmación que apoya, y\ndiferenciar las contra-afirmaciones que el propio artículo plantea de las\nlimitaciones que sus autores reconocen. Requiere lectura holística del\nartículo completo, no solo del resumen.\n\nComplejidad: L10 — razonamiento argumentativo sobre el conjunto del\ndocumento con jerarquías retóricas, enlazado evidencia↔afirmación, y\ndistinciones semánticas finas (limitación vs. contra-afirmación vs.\nposicionamiento).",
+    "properties": {
+      "title": {
+        "description": "Título del artículo tal como aparece en la portada.",
+        "title": "Title",
+        "type": "string"
+      },
+      "discipline": {
+        "description": "Disciplina principal del artículo según el propio texto (p. ej. 'sociolingüística', 'bioquímica', 'historia económica').",
+        "title": "Discipline",
+        "type": "string"
+      },
+      "main_thesis": {
+        "description": "Tesis central del artículo en una o dos frases. Captura lo que el artículo afirma de novedoso o controvertido, no su objeto de estudio.",
+        "title": "Main Thesis",
+        "type": "string"
+      },
+      "sub_claims": {
+        "description": "Afirmaciones de apoyo a la tesis principal, en el orden en que el artículo las desarrolla. Cada una debe ir acompañada de su evidencia.",
+        "items": {
+          "$ref": "#/$defs/SubClaim"
+        },
+        "minItems": 1,
+        "title": "Sub Claims",
+        "type": "array"
+      },
+      "counter_claims": {
+        "description": "Objeciones o contra-afirmaciones que el artículo plantea explícitamente y a las que (idealmente) responde. Lista vacía si el artículo no reconoce contra-argumentos.",
+        "items": {
+          "$ref": "#/$defs/CounterClaim"
+        },
+        "title": "Counter Claims",
+        "type": "array"
+      },
+      "limitations": {
+        "description": "Limitaciones que los autores reconocen sobre su propio trabajo, típicamente en una sección 'Limitaciones' o 'Discusión'. Lista vacía si el artículo no las declara.",
+        "items": {
+          "$ref": "#/$defs/Limitation"
+        },
+        "title": "Limitations",
+        "type": "array"
+      },
+      "positioning": {
+        "$ref": "#/$defs/PositioningStance",
+        "description": "Cómo se posiciona el artículo respecto al estado del arte: 'extiende' un marco anterior, 'matiza' resultados previos, 'cuestiona' una tesis recibida, 'sintetiza' tradiciones distintas, o 'introduce_novedoso' un objeto/método no tratado antes."
+      },
+      "cited_predecessors": {
+        "description": "Trabajos o autores anteriores que el artículo cita como antecedentes directos de su tesis (p. ej. 'Labov (1972)', 'la escuela de Praga'). Solo los citados explícitamente como antecedentes de la tesis principal, no toda la bibliografía.",
+        "items": {
+          "type": "string"
+        },
+        "title": "Cited Predecessors",
+        "type": "array"
+      }
+    },
+    "required": [
+      "title",
+      "discipline",
+      "main_thesis",
+      "sub_claims",
+      "positioning"
+    ],
+    "title": "PaperArgument",
+    "type": "object"
+  },
+  "output": {
+    "title": "Salario mínimo y empleo juvenil rural: evidencia cuasi-experimental del incremento del SMI 2024-2025 en municipios pequeños de Andalucía",
+    "discipline": "economía laboral aplicada",
+    "main_thesis": "El incremento del SMI aprobado para 2024 y 2025 redujo la afiliación juvenil rural en 2,7 puntos porcentuales en los municipios andaluces con menos de 5 000 habitantes con alta exposición a la reforma, pero este efecto se concentra exclusivamente en los contratos a tiempo parcial menos cualificados, sin impacto detectable sobre los contratos indefinidos a tiempo completo.",
+    "sub_claims": [
+      {
+        "statement": "El efecto promedio del incremento del SMI sobre la afiliación juvenil en los municipios rurales andaluces tratados fue una caída de 2,73 puntos porcentuales respecto al grupo de control.",
+        "supporting_evidence": [
+          {
+            "kind": "análisis_datos",
+            "description": "Estimación DiD con efectos fijos de municipio y tiempo sobre microdatos administrativos arroja un coeficiente de -2,73 pp con error estándar de 0,68 y p<0,001.",
+            "quoted_passage": "El coeficiente $\\beta$ de la especificación principal es **-2,73 puntos porcentuales** (error estándar: 0,68; p < 0,001), implicando que la tasa de afiliación juvenil en los municipios tratados se redujo en 2,73 pp adicionales respecto a los de control tras la entrada en vigor de la reforma."
+          },
+          {
+            "kind": "estudio_empírico",
+            "description": "La pérdida neta se estima en aproximadamente 4 380 puestos de trabajo aplicando el coeficiente a la población juvenil residente en los municipios tratados.",
+            "quoted_passage": "Aplicado a la población juvenil residente en los municipios tratados (160 425 personas), esta estimación equivale a una pérdida neta de aproximadamente 4 380 puestos de trabajo."
+          }
+        ]
+      },
+      {
+        "statement": "El efecto del SMI se concentra en los contratos a tiempo parcial y es nulo en los contratos indefinidos a tiempo completo.",
+        "supporting_evidence": [
+          {
+            "kind": "análisis_datos",
+            "description": "La descomposición por tipo de contrato muestra coeficientes significativos solo en indefinidos a tiempo parcial (-0,94 pp) y temporales a tiempo parcial (-1,19 pp), mientras que los indefinidos a tiempo completo no son significativos (-0,18 pp).",
+            "quoted_passage": "- Indefinidos a tiempo completo: -0,18 pp (e.e.: 0,31), **no significativo**.\n- Indefinidos a tiempo parcial: -0,94 pp (e.e.: 0,29), p < 0,01.\n- Temporales a tiempo completo: -0,42 pp (e.e.: 0,38), no significativo al 10%.\n- Temporales a tiempo parcial: -1,19 pp (e.e.: 0,41), p < 0,01."
+          }
+        ]
+      },
+      {
+        "statement": "El efecto es especialmente intenso en los grupos de cotización menos cualificados (9 y 10), concentrados en peones agrícolas, ayudantes de hostelería y empleadas domésticas.",
+        "supporting_evidence": [
+          {
+            "kind": "análisis_datos",
+            "description": "Restringiendo el análisis a los grupos de cotización 9 y 10, el efecto se intensifica hasta -3,84 pp.",
+            "quoted_passage": "Cuando además restringimos el análisis a los grupos de cotización 9 y 10 (los menos cualificados, donde se concentran peones agrícolas, ayudantes de hostelería y empleadas domésticas), el efecto se intensifica hasta -3,84 pp."
+          }
+        ]
+      },
+      {
+        "statement": "Sectorialmente, el efecto se concentra en agricultura y hostelería, sin impacto significativo en servicios personales ni comercio minorista.",
+        "supporting_evidence": [
+          {
+            "kind": "análisis_datos",
+            "description": "La descomposición sectorial arroja coeficientes de -1,42 pp en agricultura y -0,87 pp en hostelería, frente a coeficientes no significativos en otros sectores.",
+            "quoted_passage": "Una descomposición sectorial adicional indica que el efecto se concentra en agricultura (-1,42 pp) y hostelería (-0,87 pp), mientras que servicios personales y comercio minorista presentan coeficientes pequeños y no significativos."
+          }
+        ]
+      },
+      {
+        "statement": "Los trabajadores que conservaron el empleo en los municipios tratados experimentaron un incremento salarial superior al de los controles, con una elasticidad salario-empleo en línea con la literatura internacional reciente.",
+        "supporting_evidence": [
+          {
+            "kind": "análisis_datos",
+            "description": "El incremento salarial bruto medio fue del 6,3% en municipios tratados frente al 2,1% en controles, con elasticidad implícita de -0,21.",
+            "quoted_passage": "Como contrapartida, los trabajadores que mantuvieron el empleo en los municipios tratados experimentaron un incremento salarial bruto medio del 6,3% respecto a los controles, frente a una subida del 2,1% en el grupo de control. La elasticidad salario-empleo implícita en nuestras estimaciones se sitúa en torno a -0,21"
+          }
+        ]
+      }
+    ],
+    "counter_claims": [
+      {
+        "statement": "La diferencia observada entre municipios tratados y de control podría no reflejar un efecto causal del SMI sino una continuación de tendencias de despoblación y envejecimiento que afectan más a los municipios con mayor incidencia previa del salario mínimo.",
+        "response": "El análisis de estudio de evento descarta esta interpretación: los coeficientes para los 24 meses pre-reforma son estadísticamente indistinguibles de cero y no muestran tendencia decreciente sistemática, mientras que la caída de la afiliación juvenil emerge nítidamente a partir del mes de febrero de 2024; además, el placebo con la reforma de 2022 produce coeficientes pequeños y no significativos."
+      },
+      {
+        "statement": "El efecto documentado podría estar contaminado por la entrada en vigor simultánea de otras medidas de política laboral, en particular la reforma del subsidio por desempleo para mayores de 52 años y los cambios en la cotización de los contratos formativos aprobados en el primer trimestre de 2024.",
+        "response": null
+      }
+    ],
+    "limitations": [
+      {
+        "kind": "validez_externa",
+        "description": "Los resultados se circunscriben a los municipios rurales andaluces de menos de 5 000 habitantes y no son directamente extrapolables a otras comunidades autónomas, ni siquiera a otras zonas rurales del sur peninsular."
+      },
+      {
+        "kind": "calidad_datos",
+        "description": "La MCVL tiene limitaciones en la asignación municipal de la cuenta de cotización: cuando un trabajador presta servicios en un municipio distinto al de su empleador, la afiliación se computa en el municipio del empleador, lo que puede generar una subestimación del empleo juvenil rural."
+      },
+      {
+        "kind": "metodología",
+        "description": "El diseño DiD descansa sobre la elección discreta de tratamiento (cuartil superior frente a cuartil inferior de incidencia), lo cual introduce arbitrariedad y la elección del umbral del cuartil podría sobreestimar el contraste."
+      },
+      {
+        "kind": "alcance",
+        "description": "La ventana post-reforma cubre 22 meses (febrero 2024 - diciembre 2025), lo cual permite captar efectos de corto y medio plazo pero no efectos dinámicos a más largo horizonte."
+      }
+    ],
+    "positioning": "extiende",
+    "cited_predecessors": [
+      "Card y Krueger (1994)",
+      "Cengiz et al. (2019)",
+      "Dube (2019)",
+      "Lacuesta et al. (2019)",
+      "Galán y Puente (2022)",
+      "Cebrián, Moreno y Toharia (2021)",
+      "Hidalgo-Pérez y Conde-Ruiz (2024)",
+      "Bande y Karanassou (2023)",
+      "Pérez-Domínguez y Sánchez-Galán (2024)"
+    ]
+  },
+  "metadata": {
+    "source": "synthetic_20260601_002.md",
+    "domain": "research",
+    "subdomain": "paper_argument"
+  }
+}

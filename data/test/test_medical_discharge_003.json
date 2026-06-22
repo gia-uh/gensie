@@ -1,0 +1,319 @@
+{
+  "id": "medical_discharge_003",
+  "input_text": "**Servicio:** Cirugía General y del Aparato Digestivo\n**Unidad:** Hospitalización de Cirugía, Planta 4ª-B\n**Médico responsable:** Dra. M. Ferrer Quintana (col. nº 28-XXXXX)\n**Fecha de ingreso:** 25/05/2026, 03:42 h\n**Fecha de alta:** 31/05/2026, 11:20 h\n**Episodio:** EP-2026-04-7714 (desidentificado) [...] ## Motivo de consulta\n\nAcude al Servicio de Urgencias por dolor abdominal continuo en hipocondrio derecho de aproximadamente 36 horas de evolución, irradiado a región interescapular, acompañado de náuseas, dos vómitos biliosos y sensación distérmica. Refiere haber presentado episodios autolimitados similares, de menor intensidad, en los últimos cuatro meses tras ingestas copiosas, que no consultó. [...] ## Diagnósticos al alta\n\n- **Principal:** Colecistitis aguda litiásica (K80.0).\n- **Secundario:** Colelitiasis múltiple.\n- **Comorbilidades activas:** Diabetes mellitus tipo 2 (E11.9); Hipertensión arterial esencial (I10).\n- **Complicación intrahospitalaria:** Íleo paralítico postoperatorio, resuelto con tratamiento conservador. [...] ## Tratamiento al alta\n\n- **Paracetamol** 1 g vía oral cada 8 horas durante 5 días, pautado para control del dolor postoperatorio.\n- **Metamizol** 575 mg vía oral cada 8 horas si dolor irruptivo, máximo 5 días.\n- **Omeprazol** 20 mg vía oral cada 24 horas, durante el periodo de analgesia.\n- **Enoxaparina** 40 mg subcutáneos cada 24 horas durante 7 días como profilaxis tromboembólica.\n- **Metformina** 850 mg vía oral cada 12 horas, continuando su pauta habitual.\n- **Enalapril** 10 mg vía oral cada 24 horas, manteniendo su tratamiento crónico previo.\n\nSe entrega receta electrónica y se recuerda la importancia de no suspender la profilaxis antitrombótica antes de completar la pauta. [...] ## Recomendaciones y restricciones\n\nSe indica dieta blanda y baja en grasas durante las primeras dos semanas, con introducción progresiva de alimentos según tolerancia. Debe **evitar esfuerzos físicos intensos y levantar pesos superiores a 5 kg durante 4 semanas**, así como **no conducir vehículos durante al menos 7 días tras el alta** o hasta encontrarse libre de dolor abdominal con los movimientos bruscos. Puede ducharse a partir de las 48 horas del alta; debe mantener las heridas limpias y secas, sin sumergirlas en bañera o piscina hasta la retirada de puntos. Se aconseja deambulación progresiva diaria.\n\n## Signos de alarma\n\nSe instruye al paciente y a su pareja para que acudan de nuevo a Urgencias si aparece **fiebre superior a 38 °C**, **dolor abdominal intenso o progresivo**, **vómitos persistentes**, **distensión abdominal con ausencia de deposición o gases más de 48 horas**, **ictericia** o **secreción purulenta o sangrado activo por las heridas quirúrgicas**. [...] ## Plan de seguimiento\n\n- Retirada de puntos en su Centro de Salud (Atención Primaria) **a los 10 días del alta**.\n- Revisión en **Consultas Externas de Cirugía General en un mes**, para valoración clínica y entrega del informe anatomopatológico definitivo.\n- Control habitual con su endocrinólogo de referencia, **en el plazo aproximado de tres meses**, para reevaluación de la diabetes tras el episodio agudo.\n\nSe entrega el presente informe por duplicado al paciente, junto con receta electrónica e instrucciones por escrito. El paciente y su pareja comprenden la información proporcionada y manifiestan su conformidad con el alta.",
+  "instruction": "Extrae el resumen del alta hospitalaria: servicio, estancia, motivo de consulta, diagnósticos al alta con su papel, medicación al alta, restricciones, signos de alarma y plan de seguimiento.",
+  "target_schema": {
+    "$defs": {
+      "Diagnosis": {
+        "additionalProperties": false,
+        "description": "Diagnóstico al alta del paciente.",
+        "properties": {
+          "description": {
+            "description": "Descripción literal del diagnóstico tal como aparece en la sección 'Diagnósticos al alta' o equivalente (p. ej. 'Neumonía adquirida en la comunidad por S. pneumoniae').",
+            "title": "Description",
+            "type": "string"
+          },
+          "icd10_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Código CIE-10 entre paréntesis o adyacente al diagnóstico, si el informe lo incluye (p. ej. 'J18.1'). Null si no aparece.",
+            "title": "Icd10 Code"
+          },
+          "role": {
+            "$ref": "#/$defs/DiagnosisRole",
+            "description": "Papel del diagnóstico en la hospitalización: 'principal' = motivo de ingreso; 'secundario' = diagnóstico adicional relevante; 'comorbilidad' = condición preexistente activa; 'complicación' = evento surgido durante el ingreso."
+          }
+        },
+        "required": [
+          "description",
+          "role"
+        ],
+        "title": "Diagnosis",
+        "type": "object"
+      },
+      "DiagnosisRole": {
+        "enum": [
+          "principal",
+          "secundario",
+          "comorbilidad",
+          "complicación"
+        ],
+        "title": "DiagnosisRole",
+        "type": "string"
+      },
+      "DischargeMedication": {
+        "additionalProperties": false,
+        "description": "Medicación prescrita al alta para continuar en domicilio.",
+        "properties": {
+          "name": {
+            "description": "Nombre del principio activo o del medicamento comercial, tal como aparece en la prescripción (p. ej. 'Amoxicilina', 'Eliquis').",
+            "title": "Name",
+            "type": "string"
+          },
+          "dose": {
+            "description": "Dosis y vía tal como aparece (p. ej. '500 mg vía oral cada 8 horas', '40 UI subcutáneas cada 12 horas').",
+            "title": "Dose",
+            "type": "string"
+          },
+          "duration": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Duración total del tratamiento si el informe la especifica (p. ej. 'durante 7 días', 'hasta nueva valoración'). Null si no.",
+            "title": "Duration"
+          },
+          "indication": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Indicación clínica del fármaco si el informe la asocia (p. ej. 'para el control tensional'). Null si la indicación no se explicita.",
+            "title": "Indication"
+          }
+        },
+        "required": [
+          "name",
+          "dose"
+        ],
+        "title": "DischargeMedication",
+        "type": "object"
+      },
+      "FollowUpInstruction": {
+        "additionalProperties": false,
+        "description": "Una instrucción de seguimiento tras el alta.",
+        "properties": {
+          "description": {
+            "description": "Descripción literal del control o cita (p. ej. 'Revisión en consulta de cardiología', 'Analítica de control').",
+            "title": "Description",
+            "type": "string"
+          },
+          "urgency": {
+            "$ref": "#/$defs/FollowUpUrgency",
+            "description": "Urgencia del seguimiento: 'urgente_24h' si el informe dice acudir en 24 horas; 'en_una_semana' / 'en_un_mes' según ventana mencionada; 'rutinaria' si no se da plazo apremiante."
+          },
+          "responsible_service": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Servicio responsable del seguimiento (p. ej. 'Cardiología', 'Atención Primaria'). Null si no se especifica.",
+            "title": "Responsible Service"
+          }
+        },
+        "required": [
+          "description",
+          "urgency"
+        ],
+        "title": "FollowUpInstruction",
+        "type": "object"
+      },
+      "FollowUpUrgency": {
+        "enum": [
+          "urgente_24h",
+          "en_una_semana",
+          "en_un_mes",
+          "rutinaria"
+        ],
+        "title": "FollowUpUrgency",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Informe de alta hospitalaria desidentificado. La información se reparte\nentre la cabecera (servicio, días de ingreso), motivos de consulta,\ndiagnósticos, evolución, medicación al alta, recomendaciones y plan de\nseguimiento. La extracción debe vincular cada medicación a su indicación\nclínica cuando aparezca, y clasificar diagnósticos por su papel.\n\nComplejidad: L8 — síntesis con listas heterogéneas, jerarquía implícita\nentre diagnósticos y enlace transversal medicamento↔indicación.",
+    "properties": {
+      "admitting_service": {
+        "description": "Servicio hospitalario responsable del ingreso (p. ej. 'Medicina Interna', 'Urgencias', 'UCI').",
+        "title": "Admitting Service",
+        "type": "string"
+      },
+      "length_of_stay_days": {
+        "description": "Duración total del ingreso en días, calculada a partir de las fechas de ingreso y alta del informe.",
+        "minimum": 0,
+        "title": "Length Of Stay Days",
+        "type": "integer"
+      },
+      "chief_complaint": {
+        "description": "Motivo principal de consulta o ingreso tal como lo refiere el paciente, en la sección 'Motivo de consulta' o equivalente.",
+        "title": "Chief Complaint",
+        "type": "string"
+      },
+      "diagnoses": {
+        "description": "Diagnósticos consignados al alta. Debe incluir al menos uno con rol 'principal'.",
+        "items": {
+          "$ref": "#/$defs/Diagnosis"
+        },
+        "minItems": 1,
+        "title": "Diagnoses",
+        "type": "array"
+      },
+      "discharge_medications": {
+        "description": "Medicación prescrita para continuar en domicilio. Lista vacía si el informe declara explícitamente que se mantiene la medicación previa.",
+        "items": {
+          "$ref": "#/$defs/DischargeMedication"
+        },
+        "title": "Discharge Medications",
+        "type": "array"
+      },
+      "activity_restrictions": {
+        "description": "Restricciones de actividad indicadas al paciente (p. ej. 'evitar esfuerzos físicos intensos durante 2 semanas', 'no conducir hasta revisión'). Una entrada por restricción literal.",
+        "items": {
+          "type": "string"
+        },
+        "title": "Activity Restrictions",
+        "type": "array"
+      },
+      "red_flag_symptoms": {
+        "description": "Síntomas o signos por los que el paciente debe volver a urgencias (p. ej. 'fiebre > 38.5 ºC', 'sangrado activo'). Solo los nombrados.",
+        "items": {
+          "type": "string"
+        },
+        "title": "Red Flag Symptoms",
+        "type": "array"
+      },
+      "follow_up": {
+        "description": "Plan de seguimiento ambulatorio. Cada cita o control va como una instrucción separada.",
+        "items": {
+          "$ref": "#/$defs/FollowUpInstruction"
+        },
+        "title": "Follow Up",
+        "type": "array"
+      }
+    },
+    "required": [
+      "admitting_service",
+      "length_of_stay_days",
+      "chief_complaint",
+      "diagnoses"
+    ],
+    "title": "DischargeSummary",
+    "type": "object"
+  },
+  "output": {
+    "admitting_service": "Cirugía General y del Aparato Digestivo",
+    "length_of_stay_days": 6,
+    "chief_complaint": "dolor abdominal continuo en hipocondrio derecho de aproximadamente 36 horas de evolución, irradiado a región interescapular, acompañado de náuseas, dos vómitos biliosos y sensación distérmica",
+    "diagnoses": [
+      {
+        "description": "Colecistitis aguda litiásica",
+        "icd10_code": "K80.0",
+        "role": "principal"
+      },
+      {
+        "description": "Colelitiasis múltiple",
+        "icd10_code": null,
+        "role": "secundario"
+      },
+      {
+        "description": "Diabetes mellitus tipo 2",
+        "icd10_code": "E11.9",
+        "role": "comorbilidad"
+      },
+      {
+        "description": "Hipertensión arterial esencial",
+        "icd10_code": "I10",
+        "role": "comorbilidad"
+      },
+      {
+        "description": "Íleo paralítico postoperatorio",
+        "icd10_code": null,
+        "role": "complicación"
+      }
+    ],
+    "discharge_medications": [
+      {
+        "name": "Paracetamol",
+        "dose": "1 g vía oral cada 8 horas",
+        "duration": "durante 5 días",
+        "indication": "para control del dolor postoperatorio"
+      },
+      {
+        "name": "Metamizol",
+        "dose": "575 mg vía oral cada 8 horas si dolor irruptivo",
+        "duration": "máximo 5 días",
+        "indication": null
+      },
+      {
+        "name": "Omeprazol",
+        "dose": "20 mg vía oral cada 24 horas",
+        "duration": "durante el periodo de analgesia",
+        "indication": null
+      },
+      {
+        "name": "Enoxaparina",
+        "dose": "40 mg subcutáneos cada 24 horas",
+        "duration": "durante 7 días",
+        "indication": "como profilaxis tromboembólica"
+      },
+      {
+        "name": "Metformina",
+        "dose": "850 mg vía oral cada 12 horas",
+        "duration": null,
+        "indication": null
+      },
+      {
+        "name": "Enalapril",
+        "dose": "10 mg vía oral cada 24 horas",
+        "duration": null,
+        "indication": null
+      }
+    ],
+    "activity_restrictions": [
+      "evitar esfuerzos físicos intensos y levantar pesos superiores a 5 kg durante 4 semanas",
+      "no conducir vehículos durante al menos 7 días tras el alta"
+    ],
+    "red_flag_symptoms": [
+      "fiebre superior a 38 °C",
+      "dolor abdominal intenso o progresivo",
+      "vómitos persistentes",
+      "distensión abdominal con ausencia de deposición o gases más de 48 horas",
+      "ictericia",
+      "secreción purulenta o sangrado activo por las heridas quirúrgicas"
+    ],
+    "follow_up": [
+      {
+        "description": "Retirada de puntos en su Centro de Salud (Atención Primaria)",
+        "urgency": "en_una_semana",
+        "responsible_service": "Atención Primaria"
+      },
+      {
+        "description": "Revisión en Consultas Externas de Cirugía General",
+        "urgency": "en_un_mes",
+        "responsible_service": "Cirugía General"
+      },
+      {
+        "description": "Control habitual con su endocrinólogo de referencia, para reevaluación de la diabetes tras el episodio agudo",
+        "urgency": "rutinaria",
+        "responsible_service": "Endocrinología"
+      }
+    ]
+  },
+  "metadata": {
+    "source": "synthetic_20260601_003.md",
+    "domain": "medical",
+    "subdomain": "discharge"
+  },
+  "revalued_at": "2026-06-02T11:49:32"
+}

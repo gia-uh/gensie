@@ -1,0 +1,211 @@
+{
+  "id": "test_stem_biology_005",
+  "input_text": "# Lynx pardinus\n\n## Resumen\nEl lince ibérico (Lynx pardinus) es una especie de mamífero carnívoro de la familia Felidae, endémico de la península ibérica, conocido internacionalmente​ por su recuperación tras haber estado en peligro crítico de extinción a principios del siglo XXI. Actualmente se considera especie vulnerable.​\nEn 2002 tan solo se pudieron contar noventa y cuatro individuos, de los cuales cincuenta y ocho adultos y apenas veintisiete hembras en situación reproductiva, repartidos en dos poblaciones, en Andalucía, aisladas entre sí.​ Tras numerosos esfuerzos de conservación y recuperación, en 2013 se calculó algo más de trescientos individuos en aumento,​ más otra en los Montes de Toledo de unos quince individuos y por ello escasamente viable, lo que lo convertía en la especie de felino más amenazada del mundo.​\nEn el año 2023 se estimó una población de 1668 ejemplares en libertad distribuidos principalmente en España por Andalucía (en los parques de Doñana, Sierra de Andújar, Sierra de Cardeña y Montoro y Sierra de Cazorla), Castilla-La Mancha (en los Montes de Toledo) y por Extremadura y en Portugal, en el parque natural del Valle del Guadiana.​​​​\n\n## Taxonomía (taxobox)\n\n- **Reino**: Animalia\n- **Filo**: Chordata\n- **Subfilo**: Vertebrata\n- **Clase**: Mammalia\n- **Orden**: Carnivora\n- **Familia**: Felidae\n- **Subfamilia**: Felinae\n- **Género**: Lynx\n- **Especie**: L. pardinus Temminck , 1827",
+  "instruction": "Construye el árbol taxonómico jerárquico completo del lince ibérico a partir del taxobox del artículo, desde el reino hasta la especie, anidando cada rango como hijo del anterior. Indica el nombre común y el estado de conservación si el texto los enuncia explícitamente. Ignora prefijos como sub-, super-, infra-.",
+  "target_schema": {
+    "$defs": {
+      "ConservationStatus": {
+        "enum": [
+          "extinto",
+          "en_peligro_crítico",
+          "en_peligro",
+          "vulnerable",
+          "casi_amenazado",
+          "preocupación_menor",
+          "datos_insuficientes",
+          "no_evaluado"
+        ],
+        "title": "ConservationStatus",
+        "type": "string"
+      },
+      "Taxon": {
+        "additionalProperties": false,
+        "description": "A single node in a taxonomic tree. May contain nested child taxa of a\nlower rank, forming an arbitrarily deep hierarchy from dominio down to\nsubespecie.",
+        "properties": {
+          "rank": {
+            "$ref": "#/$defs/TaxonomicRank",
+            "description": "Categoría taxonómica del nodo. Usar uno de los rangos principales: dominio, reino, filo, clase, orden, familia, género, especie, subespecie. Ignorar prefijos como sub-, super-, infra-: por ejemplo 'Subfilo' se mapea a 'filo'."
+          },
+          "scientific_name": {
+            "description": "Nombre científico literal del taxón tal como aparece en el texto (p. ej. 'Mammalia', 'Carnivora', 'Panthera leo'). Sin autoría ni fechas.",
+            "title": "Scientific Name",
+            "type": "string"
+          },
+          "common_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Nombre común en español si el texto lo indica explícitamente para este taxón. Devolver null si no se menciona — la mayoría de los rangos superiores no tienen nombre común.",
+            "title": "Common Name"
+          },
+          "extinct": {
+            "default": false,
+            "description": "True solo si el texto afirma de forma explícita que el taxón está extinto (p. ej. 'extinguido', '†', 'desapareció en el Pleistoceno'). False en caso contrario.",
+            "title": "Extinct",
+            "type": "boolean"
+          },
+          "children": {
+            "description": "Lista de taxones inmediatamente subordinados a éste en la jerarquía. Vacía si el nodo es una hoja (típicamente la especie o subespecie). El orden refleja la cadena taxonómica del texto.",
+            "items": {
+              "$ref": "#/$defs/Taxon"
+            },
+            "title": "Children",
+            "type": "array"
+          }
+        },
+        "required": [
+          "rank",
+          "scientific_name"
+        ],
+        "title": "Taxon",
+        "type": "object"
+      },
+      "TaxonomicRank": {
+        "enum": [
+          "dominio",
+          "reino",
+          "filo",
+          "clase",
+          "orden",
+          "familia",
+          "género",
+          "especie",
+          "subespecie"
+        ],
+        "title": "TaxonomicRank",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Clasificación taxonómica jerárquica de un organismo a partir de su artículo\nde Wikipedia (taxobox + sección de Taxonomía). El árbol parte del rango más\nalto presente en el texto y desciende, anidando cada rango como hijo del\nanterior.\nComplejidad: L6 — profundidad estructural recursiva.",
+    "properties": {
+      "canonical_name": {
+        "description": "Nombre científico canónico del organismo objeto del artículo (la hoja del árbol o el binomio más específico citado).",
+        "title": "Canonical Name",
+        "type": "string"
+      },
+      "common_name": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Nombre común en español del organismo principal si el artículo lo indica (p. ej. 'león' para Panthera leo). Null si no se menciona.",
+        "title": "Common Name"
+      },
+      "conservation_status": {
+        "anyOf": [
+          {
+            "$ref": "#/$defs/ConservationStatus"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Estado de conservación según la UICN si el texto lo enuncia para el organismo principal. Null si no aparece o solo se menciona de forma genérica sin categoría."
+      },
+      "classification_tree": {
+        "$ref": "#/$defs/Taxon",
+        "description": "Raíz del árbol taxonómico: el rango más alto citado en el texto (típicamente 'dominio' o 'reino'). Sus descendientes encadenan recursivamente los rangos hasta la especie o subespecie del organismo."
+      }
+    },
+    "required": [
+      "canonical_name",
+      "classification_tree"
+    ],
+    "title": "TaxonomicClassification",
+    "type": "object"
+  },
+  "output": {
+    "canonical_name": "Lynx pardinus",
+    "common_name": "lince ibérico",
+    "conservation_status": "vulnerable",
+    "classification_tree": {
+      "rank": "reino",
+      "scientific_name": "Animalia",
+      "common_name": null,
+      "extinct": false,
+      "children": [
+        {
+          "rank": "filo",
+          "scientific_name": "Chordata",
+          "common_name": null,
+          "extinct": false,
+          "children": [
+            {
+              "rank": "filo",
+              "scientific_name": "Vertebrata",
+              "common_name": null,
+              "extinct": false,
+              "children": [
+                {
+                  "rank": "clase",
+                  "scientific_name": "Mammalia",
+                  "common_name": null,
+                  "extinct": false,
+                  "children": [
+                    {
+                      "rank": "orden",
+                      "scientific_name": "Carnivora",
+                      "common_name": null,
+                      "extinct": false,
+                      "children": [
+                        {
+                          "rank": "familia",
+                          "scientific_name": "Felidae",
+                          "common_name": null,
+                          "extinct": false,
+                          "children": [
+                            {
+                              "rank": "familia",
+                              "scientific_name": "Felinae",
+                              "common_name": null,
+                              "extinct": false,
+                              "children": [
+                                {
+                                  "rank": "género",
+                                  "scientific_name": "Lynx",
+                                  "common_name": null,
+                                  "extinct": false,
+                                  "children": [
+                                    {
+                                      "rank": "especie",
+                                      "scientific_name": "L. pardinus",
+                                      "common_name": "lince ibérico",
+                                      "extinct": false,
+                                      "children": []
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "metadata": {
+    "source": "wiki_lynx_pardinus.md",
+    "domain": "stem",
+    "subdomain": "biology"
+  }
+}

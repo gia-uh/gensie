@@ -1,0 +1,319 @@
+{
+  "id": "research_paper_argument_006",
+  "input_text": "# Del ceceo al seseo en las hablas urbanas occidentales: un cambio en curso en Sevilla, Cádiz y Málaga [...] ## Resumen\n\nEste trabajo presenta un análisis variacionista del comportamiento de los fonemas\n/s/ y /θ/ en el habla espontánea de 144 informantes urbanos nacidos entre 1940 y\n2005 en las ciudades de Sevilla, Cádiz y Málaga. A partir de entrevistas\nsociolingüísticas de corte PRESEEA, codificadas según una versión adaptada del\nprotocolo de Moya Corral y García Wiedemann (2009) y analizadas mediante\nregresión logística mixta en R (paquete `lme4`) y validación cruzada con\nGoldvarb X, se documenta un proceso acelerado de retroceso del ceceo histórico\nen favor del seseo y, secundariamente, de variantes distinguidoras. El cambio\nopera asimétricamente: en los estratos socioeconómicos medios y medio-altos las\nhablantes jóvenes muestran una caída del ceceo del 71 % respecto a sus mayores,\nmientras que en los estratos populares la caída se reduce al 19 %. La edad, el\nnivel de instrucción y el barrio (operacionalizado como índice compuesto de renta\ny densidad de redes locales) emergen como factores significativos (p < 0,001), en\ntanto que el sexo no alcanza significación. La interpretación que aquí se defiende\nes que el ceceo está siendo reanalizado en estos núcleos como variante estigmatizada\nlocal, mientras el seseo se consolida como variante de prestigio andaluz urbano de\nclase media, sin que el avance del distinción castellana llegue a romper la cohesión\nde la norma meridional.\n\n**Palabras clave**: ceceo, seseo, andaluz occidental, cambio en curso, sociolingüística\nvariacionista, PRESEEA, prestigio.\n\n--- [...] ## 1. Introducción\n\nLa oposición tradicional entre las modalidades /s/-/θ/ y sus realizaciones\nneutralizadoras —seseo y ceceo— ha sido uno de los problemas mejor descritos\nde la dialectología hispánica desde Navarro Tomás (1939) y, muy especialmente,\ndesde la síntesis canónica de Lapesa (1981) y los estudios de campo de Alvar (1973)\ny Narbona, Cano y Morillo (1998). Esa literatura, sin embargo, fijó un retrato\nsincrónico que las hablas urbanas de Andalucía occidental han desbordado en las\ndos últimas generaciones. Lo que aquí se sostiene, y lo que el presente trabajo\nviene a documentar empíricamente, es que ese cuadro está experimentando un\ncambio en curso (en el sentido laboviano de *change in progress*) de magnitud\nconsiderable: el ceceo, descrito todavía en los años noventa como rasgo dominante\nen buena parte de Sevilla, Cádiz y Málaga, retrocede aceleradamente entre las\ngeneraciones nacidas después de 1985, sustituido en lo fundamental por el seseo\ny, en mucha menor medida, por la distinción.\n\nEste retroceso, lejos de ser uniforme, presenta una distribución social\nfuertemente estratificada que constituye el principal aporte del trabajo. La\ntesis central que defenderemos es la siguiente: **el ceceo histórico está\nreculando hacia el seseo en las nuevas generaciones urbanas de Andalucía\noccidental, de manera asimétrica según el estrato socioeconómico, de modo que\nel seseo se está consolidando como variante de prestigio andaluz urbano de\nclase media mientras el ceceo se reanaliza como variante local estigmatizada,\nsin que la distinción castellana logre desplazar a ninguna de las dos como norma\nregional**. Esta hipótesis matiza —sin contradecirla frontalmente— la tesis\nclásica del avance generalizado de la distinción que sostuvieron, con datos de\nlos años setenta y ochenta, López Morales (1983) y Moya Corral (1979) para\notras zonas de Andalucía oriental. La diferencia clave es que el desplazamiento\ndocumentado en nuestros datos no va en la dirección de la norma del centro\npeninsular, sino que reorganiza internamente la norma meridional.\n\nEl artículo se estructura como sigue. En la sección 2 se sintetiza el marco\nteórico variacionista y se revisan los antecedentes andaluces. La sección 3\ndescribe el corpus, el protocolo de transcripción y la codificación\nsociolingüística. La sección 4 presenta los resultados cuantitativos. La 5\ndiscute las objeciones más previsibles y consigna las limitaciones del estudio.\nLa sección 6 concluye y abre líneas de continuación. [...] ### 2.2 Andaluz occidental: el estado de la cuestión\n\nLa descripción canónica del andaluz occidental como zona mayoritariamente\nceceante, con focos seseantes urbanos delimitados (Sevilla capital, el casco\ngaditano), procede de los trabajos de Alvar (1973) y se consolidó en el\n*Atlas Lingüístico y Etnográfico de Andalucía*. Penny (2000) sintetizó los\ndatos disponibles en su manual de variación, manteniendo el cuadro de\ndistribución areal. Narbona, Cano y Morillo (1998) ya advertían, no obstante,\nde \"indicios incipientes\" de retroceso del ceceo urbano, sin disponer aún de\ndatos cuantitativos sistemáticos. Villena Ponsoda y Ávila Muñoz (2012) ofrecieron\nel primer estudio variacionista sólido para Málaga, documentando una pérdida del\nceceo del 30 % en la generación más joven respecto de la mayor, y vincularon ese\ndescenso al ascenso de las clases medias urbanas.\n\nNuestro trabajo se sitúa en continuidad directa con Villena Ponsoda y Ávila\nMuñoz (2012) y con los datos preliminares de Lasarte Cervantes (2010) para\nJerez, y extiende su análisis a tres ciudades y a una cohorte generacional más\namplia, incorporando además la variable barrio que aquellos trabajos no\ndesagregaban.\n\n--- [...] ### 3.1 Corpus y muestreo\n\nEl corpus está compuesto por 144 entrevistas semidirigidas de unos 45 minutos\nde duración media, realizadas entre marzo de 2022 y diciembre de 2024 en las\nciudades de Sevilla (n=52), Cádiz (n=44) y Málaga (n=48). La muestra se\nestratificó por edad (tres cohortes: 1940-1964, 1965-1984, 1985-2005), sexo\n(equilibrado al 50 %) y nivel de instrucción (tres niveles, según el protocolo\nPRESEEA). Todas las personas informantes nacieron y residen en la ciudad en\ncuestión y mantienen contactos primarios en su barrio de residencia. El\nreclutamiento se efectuó por el método de redes (Milroy 1980) a partir de\ntres núcleos iniciales por ciudad, sin que ninguna de las investigadoras\nfuera natural de las ciudades estudiadas, para minimizar el efecto del\nacomodamiento al entrevistador, sobre el que volveremos en la sección 5.\n\n### 3.2 Transcripción y codificación\n\nLas entrevistas fueron transcritas ortográficamente por dos asistentes\nformados y revisadas independientemente por las autoras (acuerdo\ninter-anotador de Cohen κ = 0,87 sobre una submuestra de 18 entrevistas). Los\ntokens relevantes —toda aparición de /s/ o /θ/ etimológicas en posición de\nataque silábico, excluyendo posición implosiva por razones de comparabilidad—\nfueron codificados como **seseo**, **ceceo**, **distinción** o **realización\nintermedia/dudosa**. Esta última categoría se incluyó tras la fase de pilotaje\npara no forzar una asignación binaria en realizaciones acústicamente ambiguas,\nque constituyeron el 7,2 % del total de tokens analizados.\n\nEl total de tokens codificados fue de 27.418 (media de 190 por informante,\nmediana 184, rango 92-318). Se descartaron los tokens en estilo lectura (que\nsuelen sobrerrepresentar la distinción por efecto del texto escrito) y los\nproducidos durante los primeros cinco minutos de cada entrevista (período de\ncalibración estilística).\n\n### 3.3 Análisis estadístico\n\nEl análisis principal se ejecutó en R 4.3 (R Core Team 2023) mediante\nmodelos de regresión logística mixta (paquete `lme4`, Bates et al. 2015) con\ninformante y palabra como efectos aleatorios y con edad, sexo, nivel de\ninstrucción, barrio (índice compuesto), ciudad y estilo como efectos fijos. La\nsignificación de cada factor se evaluó mediante test de razón de verosimilitud.\nLos resultados se validaron cruzadamente con Goldvarb X (Sankoff, Tagliamonte\ny Smith 2005), siguiendo la tradición variacionista anglosajona, sin que se\nobservaran discrepancias relevantes entre ambos análisis. Los pesos de Varbrul\nse reportan junto a las probabilidades del modelo mixto en la sección\nsiguiente.\n\n--- [...] ## 4. Resultados\n\n### 4.1 Distribución global\n\nSobre los 27.418 tokens analizados, la distribución agregada es la siguiente:\nseseo 58,4 %, ceceo 26,1 %, distinción 8,3 %, intermedia 7,2 %. Este reparto\noculta, sin embargo, una enorme variación entre cohortes generacionales que\nconstituye el núcleo del hallazgo.\n\n### 4.2 Caída generacional del ceceo\n\nCuando se desagregan los datos por cohorte de edad y nivel de instrucción, se\nobserva el patrón fundamental que motivó este trabajo. En la cohorte más\njoven (1985-2005) y de instrucción media-alta, el ceceo representa solo el\n9,4 % de las realizaciones, frente al 32,1 % observado en la cohorte\nintermedia (1965-1984) y al 71,8 % en la cohorte mayor (1940-1964) con\nidéntico nivel de instrucción. La caída acumulada en este estrato es por\ntanto del 71 % respecto del nivel histórico.\n\nEn contraste, en el estrato de instrucción baja la caída es marcadamente\nmenor: el ceceo pasa del 79,3 % en la cohorte mayor al 64,1 % en la\nintermedia y al 60,2 % en la joven, lo que arroja una caída acumulada de\nsolo el 19 %. La diferencia entre estratos resulta significativa al nivel\np < 0,001 en el modelo mixto, con una interacción edad × instrucción que\nexplica una proporción sustancial de la varianza residual (Δ AIC = 142\nrespecto al modelo sin interacción).\n\n### 4.3 Factores significativos\n\nEl modelo final identifica cuatro factores significativos (p < 0,001 salvo\nindicación contraria): edad (β = -0,84 por cohorte hacia el seseo), nivel de\ninstrucción (β = -0,61 por nivel ascendente hacia el seseo), barrio\n(operacionalizado como índice compuesto de renta del distrito y densidad de\nredes locales medida por las preguntas 14-19 del cuestionario adaptado de\nVilla Galán 2011, β = -0,38) y ciudad, con Sevilla mostrando una pérdida\nalgo más rápida del ceceo que Cádiz y Málaga (p = 0,006). El sexo no resultó\nsignificativo (p = 0,21), lo que contrasta con lo esperado bajo la\ngeneralización laboviana de liderazgo femenino del cambio desde arriba, y\nsugiere que el desplazamiento aquí documentado no se ajusta limpiamente a\nese patrón. Volveremos sobre este punto en la discusión.\n\n### 4.4 Avance discreto de la distinción\n\nLa distinción castellana, aunque presente, no muestra un avance comparable\nal del seseo: solo el 8,3 % de los tokens agregados y el 12,1 % en la\ncohorte joven de instrucción alta. Su distribución se concentra en\ncontextos formales y en hablantes con estudios universitarios completos y\ncontacto profesional sostenido con interlocutores no andaluces, lo que\npermite interpretarla como acomodamiento estilístico antes que como cambio\nestructural en curso.\n\n--- [...] ## 5. Discusión\n\n### 5.1 Una reorganización interna de la norma meridional\n\nLos datos apoyan la interpretación de que lo que está ocurriendo no es la\npenetración de la norma del centro peninsular en el andaluz urbano, sino\nuna reorganización interna de la norma meridional misma. El seseo, que en\nla descripción tradicional aparecía como variante local de prestigio urbano\nacotada a determinados focos, se está consolidando como la variante andaluza\nde prestigio supralocal en las clases medias urbanas, mientras el ceceo se\nreanaliza —en consonancia con observaciones cualitativas recogidas durante\nel trabajo de campo, en las que varios informantes jóvenes calificaron el\nceceo de \"basto\" o \"de pueblo\"— como variante estigmatizada de las\nperiferias urbanas y los estratos populares.\n\n### 5.2 Contra-argumentos\n\n**Objeción 1: el efecto observado podría deberse a acomodación al\nentrevistador**. Dado que ninguna de las entrevistadoras era natural de\nlas ciudades estudiadas, podría argumentarse que las hablantes jóvenes,\nmás sensibles a la presencia de un interlocutor no local, habrían\nsustituido sus realizaciones ceceantes habituales por seseantes durante\nla entrevista, inflando artificialmente la caída observada. Aceptamos la\nplausibilidad parcial de esta objeción: el efecto está sin duda presente,\ny los datos del estilo lectura —que descartamos del análisis principal—\nmuestran efectivamente una proporción de seseo todavía más alta. Sin\nembargo, el efecto acomodativo no puede dar cuenta por sí solo de la\nasimetría por estrato socioeconómico: si lo único en juego fuera el\nacomodamiento, esperaríamos una caída comparable en todos los estratos, y\nmuy especialmente en el estrato bajo —cuyas hablantes deberían sentir,\nsi acaso, mayor presión acomodativa frente a una entrevistadora con\nacento culto—. Observamos lo contrario.\n\n**Objeción 2: la muestra mezcla informantes con redes de contacto muy\ndistintas con el centro peninsular**. La objeción es justa y la afrontamos\nparcialmente mediante la variable barrio (que captura densidad de redes\nlocales) y mediante un análisis post-hoc en el que excluimos las 23\ninformantes con experiencia migratoria al centro peninsular superior a dos\naños: la magnitud de la caída del ceceo en estrato medio-alto se mantiene\nen el 67 % (frente al 71 % con la muestra completa), lo que indica que el\ncontacto migratorio explica solo una fracción menor del efecto.\n\n**Objeción 3: el sexo no aparece como significativo, lo cual contradice\nel patrón laboviano**. No ofrecemos aquí una respuesta satisfactoria. El\npatrón no se ajusta a la generalización clásica de liderazgo femenino, y\nno creemos prudente forzar una interpretación post-hoc. Una hipótesis\nplausible —que dejamos para trabajo ulterior— es que la variante en\nascenso (seseo) no es percibida como variante \"de arriba\" en el sentido\nlaboviano, sino como variante andaluza de clase media, lo que neutralizaría\nel liderazgo femenino esperable en cambios desde arriba. Pero esto requiere\nun estudio actitudinal específico que excede el presente trabajo.\n\n### 5.3 Limitaciones\n\nReconocemos cuatro limitaciones del estudio. **Primero**, la muestra, aunque\nestratificada con cuidado, se limita a tres ciudades y no incluye núcleos\nintermedios (Jerez, Huelva, El Puerto de Santa María) en los que los procesos\npodrían diferir; la **validez externa** del hallazgo más allá de las tres\ncapitales debe por tanto considerarse provisional. **Segundo**, el tamaño\nmuestral por celda demográfica más fina (cohorte × instrucción × ciudad) es\nen algunos casos de solo seis informantes, lo que limita la potencia\nestadística de análisis interactivos más detallados; este es un problema de\n**tamaño muestral** que solo un corpus mayor puede paliar. **Tercero**, la\n**metodología** de codificación, pese al elevado acuerdo inter-anotador,\nmantiene una zona gris (la categoría \"intermedia/dudosa\") cuyo tratamiento\nhomogéneo en cohortes podría enmascarar diferencias acústicas reales que\nun análisis instrumental detectaría. **Cuarto**, la operacionalización del\nbarrio como índice compuesto descansa sobre datos de renta de 2021 que\npodrían no reflejar bien la situación socioeconómica del momento del\ncontacto primario de las hablantes mayores, lo que constituye un problema\nde **calidad de datos** para la cohorte 1940-1964.\n\n--- [...] ## 6. Conclusiones\n\nEl análisis variacionista de 27.418 tokens en 144 entrevistas urbanas en\nSevilla, Cádiz y Málaga documenta un cambio en curso de gran magnitud: el\nceceo histórico retrocede aceleradamente en favor del seseo en las\ngeneraciones nacidas después de 1985, de manera asimétrica según el estrato\nsocioeconómico. La interpretación que defendemos es que el seseo se está\nconsolidando como variante andaluza urbana de prestigio de clase media,\nmientras el ceceo se reanaliza como variante estigmatizada local; la\ndistinción castellana, aunque presente en contextos formales, no aparece\ncomo motor del cambio.\n\nQuedan abiertas al menos dos líneas de continuación: un estudio actitudinal\nsistemático que mida directamente las representaciones sociales de cada\nvariante, y un trabajo paralelo en núcleos urbanos intermedios para\ncontrastar la generalización del patrón observado.\n\n---",
+  "instruction": "Extrae la estructura argumental del artículo: título, disciplina, tesis principal, sub-afirmaciones con su evidencia, contra-afirmaciones (con respuesta si la hay), limitaciones declaradas, posicionamiento frente al estado del arte y antecedentes citados como tales.",
+  "target_schema": {
+    "$defs": {
+      "CounterClaim": {
+        "additionalProperties": false,
+        "description": "Una objeción o contra-afirmación que el artículo reconoce y responde.",
+        "properties": {
+          "statement": {
+            "description": "Enunciado de la objeción en voz declarativa (p. ej. 'La correlación observada podría explicarse por el sesgo de selección de la muestra').",
+            "title": "Statement",
+            "type": "string"
+          },
+          "response": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Respuesta o concesión del artículo a la objeción si la incluye (p. ej. 'Los autores controlan este sesgo estratificando por edad y nivel socioeconómico'). Null si el artículo presenta la objeción sin responderla.",
+            "title": "Response"
+          }
+        },
+        "required": [
+          "statement"
+        ],
+        "title": "CounterClaim",
+        "type": "object"
+      },
+      "Evidence": {
+        "additionalProperties": false,
+        "description": "Una pieza de evidencia que apoya una afirmación del artículo.",
+        "properties": {
+          "kind": {
+            "$ref": "#/$defs/EvidenceKind",
+            "description": "Tipo de evidencia."
+          },
+          "description": {
+            "description": "Descripción literal o casi literal de la evidencia en una frase (p. ej. 'experimento controlado con N=240 hablantes nativos de español').",
+            "title": "Description",
+            "type": "string"
+          },
+          "quoted_passage": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Cita literal del artículo (sin comillas) que presenta esta evidencia, si el extractor la conserva. Null si el extractor solo parafrasea.",
+            "title": "Quoted Passage"
+          }
+        },
+        "required": [
+          "kind",
+          "description"
+        ],
+        "title": "Evidence",
+        "type": "object"
+      },
+      "EvidenceKind": {
+        "enum": [
+          "estudio_empírico",
+          "análisis_datos",
+          "demostración_teórica",
+          "literatura_citada",
+          "ejemplo_caso",
+          "simulación"
+        ],
+        "title": "EvidenceKind",
+        "type": "string"
+      },
+      "Limitation": {
+        "additionalProperties": false,
+        "description": "Una limitación del trabajo declarada por los propios autores.",
+        "properties": {
+          "kind": {
+            "$ref": "#/$defs/LimitationKind",
+            "description": "Categoría de la limitación."
+          },
+          "description": {
+            "description": "Descripción literal o casi literal de la limitación tal como la consignan los autores.",
+            "title": "Description",
+            "type": "string"
+          }
+        },
+        "required": [
+          "kind",
+          "description"
+        ],
+        "title": "Limitation",
+        "type": "object"
+      },
+      "LimitationKind": {
+        "enum": [
+          "tamaño_muestral",
+          "validez_externa",
+          "validez_de_constructo",
+          "metodología",
+          "calidad_datos",
+          "alcance"
+        ],
+        "title": "LimitationKind",
+        "type": "string"
+      },
+      "PositioningStance": {
+        "enum": [
+          "extiende",
+          "matiza",
+          "cuestiona",
+          "sintetiza",
+          "introduce_novedoso"
+        ],
+        "title": "PositioningStance",
+        "type": "string"
+      },
+      "SubClaim": {
+        "additionalProperties": false,
+        "description": "Una afirmación de apoyo subordinada a la tesis principal.",
+        "properties": {
+          "statement": {
+            "description": "Enunciado de la afirmación en una frase, en voz declarativa (p. ej. 'La frecuencia de uso del subjuntivo decrece con la edad de exposición al inglés').",
+            "title": "Statement",
+            "type": "string"
+          },
+          "supporting_evidence": {
+            "description": "Pieza(s) de evidencia que el artículo aporta para esta afirmación. Al menos una.",
+            "items": {
+              "$ref": "#/$defs/Evidence"
+            },
+            "minItems": 1,
+            "title": "Supporting Evidence",
+            "type": "array"
+          }
+        },
+        "required": [
+          "statement",
+          "supporting_evidence"
+        ],
+        "title": "SubClaim",
+        "type": "object"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Estructura argumental completa de un artículo académico (humanidades,\nciencias sociales, ciencia o medicina) en español: tesis central,\nsub-afirmaciones con sus evidencias, contra-afirmaciones reconocidas y\ncontestadas, limitaciones declaradas y posicionamiento explícito en el\nestado del arte.\n\nLa extracción debe distinguir entre la tesis principal y las sub-afirmaciones\nque la sostienen, asociar cada evidencia a la afirmación que apoya, y\ndiferenciar las contra-afirmaciones que el propio artículo plantea de las\nlimitaciones que sus autores reconocen. Requiere lectura holística del\nartículo completo, no solo del resumen.\n\nComplejidad: L10 — razonamiento argumentativo sobre el conjunto del\ndocumento con jerarquías retóricas, enlazado evidencia↔afirmación, y\ndistinciones semánticas finas (limitación vs. contra-afirmación vs.\nposicionamiento).",
+    "properties": {
+      "title": {
+        "description": "Título del artículo tal como aparece en la portada.",
+        "title": "Title",
+        "type": "string"
+      },
+      "discipline": {
+        "description": "Disciplina principal del artículo según el propio texto (p. ej. 'sociolingüística', 'bioquímica', 'historia económica').",
+        "title": "Discipline",
+        "type": "string"
+      },
+      "main_thesis": {
+        "description": "Tesis central del artículo en una o dos frases. Captura lo que el artículo afirma de novedoso o controvertido, no su objeto de estudio.",
+        "title": "Main Thesis",
+        "type": "string"
+      },
+      "sub_claims": {
+        "description": "Afirmaciones de apoyo a la tesis principal, en el orden en que el artículo las desarrolla. Cada una debe ir acompañada de su evidencia.",
+        "items": {
+          "$ref": "#/$defs/SubClaim"
+        },
+        "minItems": 1,
+        "title": "Sub Claims",
+        "type": "array"
+      },
+      "counter_claims": {
+        "description": "Objeciones o contra-afirmaciones que el artículo plantea explícitamente y a las que (idealmente) responde. Lista vacía si el artículo no reconoce contra-argumentos.",
+        "items": {
+          "$ref": "#/$defs/CounterClaim"
+        },
+        "title": "Counter Claims",
+        "type": "array"
+      },
+      "limitations": {
+        "description": "Limitaciones que los autores reconocen sobre su propio trabajo, típicamente en una sección 'Limitaciones' o 'Discusión'. Lista vacía si el artículo no las declara.",
+        "items": {
+          "$ref": "#/$defs/Limitation"
+        },
+        "title": "Limitations",
+        "type": "array"
+      },
+      "positioning": {
+        "$ref": "#/$defs/PositioningStance",
+        "description": "Cómo se posiciona el artículo respecto al estado del arte: 'extiende' un marco anterior, 'matiza' resultados previos, 'cuestiona' una tesis recibida, 'sintetiza' tradiciones distintas, o 'introduce_novedoso' un objeto/método no tratado antes."
+      },
+      "cited_predecessors": {
+        "description": "Trabajos o autores anteriores que el artículo cita como antecedentes directos de su tesis (p. ej. 'Labov (1972)', 'la escuela de Praga'). Solo los citados explícitamente como antecedentes de la tesis principal, no toda la bibliografía.",
+        "items": {
+          "type": "string"
+        },
+        "title": "Cited Predecessors",
+        "type": "array"
+      }
+    },
+    "required": [
+      "title",
+      "discipline",
+      "main_thesis",
+      "sub_claims",
+      "positioning"
+    ],
+    "title": "PaperArgument",
+    "type": "object"
+  },
+  "output": {
+    "title": "Del ceceo al seseo en las hablas urbanas occidentales: un cambio en curso en Sevilla, Cádiz y Málaga",
+    "discipline": "sociolingüística variacionista",
+    "main_thesis": "El ceceo histórico está reculando hacia el seseo en las nuevas generaciones urbanas de Andalucía occidental, de manera asimétrica según el estrato socioeconómico, de modo que el seseo se está consolidando como variante de prestigio andaluz urbano de clase media mientras el ceceo se reanaliza como variante local estigmatizada, sin que la distinción castellana logre desplazar a ninguna de las dos como norma regional.",
+    "sub_claims": [
+      {
+        "statement": "El ceceo retrocede aceleradamente entre las generaciones nacidas después de 1985 y es sustituido en lo fundamental por el seseo.",
+        "supporting_evidence": [
+          {
+            "kind": "análisis_datos",
+            "description": "En la cohorte joven (1985-2005) y de instrucción media-alta el ceceo representa solo el 9,4 % de las realizaciones, frente al 71,8 % en la cohorte mayor (1940-1964) con idéntico nivel de instrucción.",
+            "quoted_passage": "En la cohorte más\njoven (1985-2005) y de instrucción media-alta, el ceceo representa solo el\n9,4 % de las realizaciones, frente al 32,1 % observado en la cohorte\nintermedia (1965-1984) y al 71,8 % en la cohorte mayor (1940-1964) con\nidéntico nivel de instrucción."
+          },
+          {
+            "kind": "estudio_empírico",
+            "description": "Corpus de 144 entrevistas semidirigidas con 27.418 tokens codificados en Sevilla, Cádiz y Málaga.",
+            "quoted_passage": "El corpus está compuesto por 144 entrevistas semidirigidas de unos 45 minutos\nde duración media, realizadas entre marzo de 2022 y diciembre de 2024 en las\nciudades de Sevilla (n=52), Cádiz (n=44) y Málaga (n=48)."
+          }
+        ]
+      },
+      {
+        "statement": "La caída del ceceo opera asimétricamente según el estrato socioeconómico: muy fuerte en clases medias y medio-altas, mucho menor en estratos populares.",
+        "supporting_evidence": [
+          {
+            "kind": "análisis_datos",
+            "description": "Caída acumulada del ceceo del 71 % en el estrato medio-alto frente a solo el 19 % en el estrato de instrucción baja.",
+            "quoted_passage": "en los estratos socioeconómicos medios y medio-altos las\nhablantes jóvenes muestran una caída del ceceo del 71 % respecto a sus mayores,\nmientras que en los estratos populares la caída se reduce al 19 %"
+          }
+        ]
+      },
+      {
+        "statement": "Edad, nivel de instrucción y barrio son factores significativos del cambio, mientras que el sexo no alcanza significación.",
+        "supporting_evidence": [
+          {
+            "kind": "análisis_datos",
+            "description": "Modelo de regresión logística mixta identifica edad, instrucción y barrio como significativos (p < 0,001) y el sexo como no significativo (p = 0,21).",
+            "quoted_passage": "El modelo final identifica cuatro factores significativos (p < 0,001 salvo\nindicación contraria): edad (β = -0,84 por cohorte hacia el seseo), nivel de\ninstrucción (β = -0,61 por nivel ascendente hacia el seseo), barrio"
+          }
+        ]
+      },
+      {
+        "statement": "La distinción castellana no constituye el motor del cambio: solo aparece en contextos formales y entre hablantes con contacto profesional con interlocutores no andaluces.",
+        "supporting_evidence": [
+          {
+            "kind": "análisis_datos",
+            "description": "La distinción representa solo el 8,3 % del agregado y el 12,1 % en la cohorte joven de instrucción alta, concentrándose en contextos formales.",
+            "quoted_passage": "La distinción castellana, aunque presente, no muestra un avance comparable\nal del seseo: solo el 8,3 % de los tokens agregados y el 12,1 % en la\ncohorte joven de instrucción alta."
+          }
+        ]
+      }
+    ],
+    "counter_claims": [
+      {
+        "statement": "El efecto observado podría deberse a acomodación al entrevistador, ya que ninguna de las entrevistadoras era natural de las ciudades estudiadas.",
+        "response": "El efecto acomodativo no puede dar cuenta por sí solo de la asimetría por estrato socioeconómico: si lo único en juego fuera el acomodamiento, esperaríamos una caída comparable en todos los estratos, y muy especialmente en el estrato bajo, y observamos lo contrario."
+      },
+      {
+        "statement": "La muestra mezcla informantes con redes de contacto muy distintas con el centro peninsular, lo que podría explicar el avance del seseo.",
+        "response": "Un análisis post-hoc excluyendo las 23 informantes con experiencia migratoria al centro peninsular superior a dos años mantiene la magnitud de la caída del ceceo en el 67 % (frente al 71 % con la muestra completa), lo que indica que el contacto migratorio explica solo una fracción menor del efecto."
+      },
+      {
+        "statement": "El sexo no aparece como significativo, lo cual contradice el patrón laboviano de liderazgo femenino del cambio desde arriba.",
+        "response": null
+      }
+    ],
+    "limitations": [
+      {
+        "kind": "validez_externa",
+        "description": "La muestra se limita a tres ciudades y no incluye núcleos intermedios (Jerez, Huelva, El Puerto de Santa María) en los que los procesos podrían diferir."
+      },
+      {
+        "kind": "tamaño_muestral",
+        "description": "El tamaño muestral por celda demográfica más fina (cohorte × instrucción × ciudad) es en algunos casos de solo seis informantes, lo que limita la potencia estadística de análisis interactivos más detallados."
+      },
+      {
+        "kind": "metodología",
+        "description": "La codificación mantiene una zona gris (la categoría 'intermedia/dudosa') cuyo tratamiento homogéneo en cohortes podría enmascarar diferencias acústicas reales que un análisis instrumental detectaría."
+      },
+      {
+        "kind": "calidad_datos",
+        "description": "La operacionalización del barrio como índice compuesto descansa sobre datos de renta de 2021 que podrían no reflejar bien la situación socioeconómica del momento del contacto primario de las hablantes mayores."
+      }
+    ],
+    "positioning": "matiza",
+    "cited_predecessors": [
+      "Villena Ponsoda y Ávila Muñoz (2012)",
+      "Lasarte Cervantes (2010)",
+      "Narbona, Cano y Morillo (1998)",
+      "López Morales (1983)",
+      "Moya Corral (1979)",
+      "Alvar (1973)",
+      "Lapesa (1981)",
+      "Penny (2000)"
+    ]
+  },
+  "metadata": {
+    "source": "synthetic_20260601_006.md",
+    "domain": "research",
+    "subdomain": "paper_argument"
+  }
+}

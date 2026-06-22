@@ -1,0 +1,117 @@
+{
+  "id": "test_legal_judicial_003",
+  "input_text": "# Acusan a un médico por los ataques de Glasgow\n\n_Fuente: https://es.wikinews.org/wiki/Acusan_a_un_m%C3%A9dico_por_los_ataques_de_Glasgow_\n\n== Noticias relacionadas ==\n«Nivel de amenaza en el Reino Unido reducido a 'severo'» — Wikinoticias, 4 de julio, 2007.\n«Capturan al octavo sospechoso por los atentados fallidos en el Reino Unido» — Wikinoticias, 3 de julio, 2007.\n«Gordon Brown: \"Al Qaeda no socavará el estilo de vida británico\"» — Wikinoticias, 1 de julio, 2007.\n«Un auto en llamas choca contra el Aeropuerto Internacional de Glasgow» — Wikinoticias, 30 de junio, 2007.\n«Desactivan un explosivo en Londres» — Wikinoticias, 29 de junio, 2007.\n\n\n== Fuentes ==\n((es))  EFE “Acusan a uno de los médicos detenidos de los ataques fallidos de Londres y Glasgow” — El Mundo (España), 6 de julio, 2007.\n((es))  EFE y DPA “Acusan a médico por el frutrado ataque en Glasgow” — La Nación (Argentina), 6 de julio, 2007.\n((es))  EFE “Acusado de terrorismo uno de los médicos detenidos por los atentados de Londres y Glasgow” — El País, 6 de julio, 2007.\n((es))  EFE “Presentan cargos contra a uno de los médicos detenidos por los atetados fallidos de Londres y Glasgow” — 20 minutos, 6 de julio, 2007.\n((es))  “Difunden un video inédito que muestra la detención de un terrorista tras el fallido ataque en Glasgow” — Diario Clarín, 6 de julio, 2007.\n((en))  “Man charged over 'airport bomb'” — BBC News, 6 de julio, 2007.\n((es))  “Primera inculpación contra un implicado en los atentados de Gran Bretaña” — Agence France-Presse, 6 de julio, 2007.\n((en))  Mark Trevelyan “Man charged over UK bomb attacks” — Reuters, 6 de julio, 2007.\n((en))  “Suspect charged in UK bomb attempts” — CNN, 6 de julio, 2007.",
+  "instruction": "Extrae la lógica de sentencia (verdict, hechos probados, base legal y penas finales) del texto. Solo incluye información explícitamente confirmada por el tribunal; distingue acusaciones de hechos probados.",
+  "target_schema": {
+    "$defs": {
+      "Penalty": {
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "description": "e.g., 'Prison', 'Fine', 'Disqualification'",
+            "title": "Type",
+            "type": "string"
+          },
+          "quantity": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Numeric value (years, euros)",
+            "title": "Quantity"
+          },
+          "unit": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Unit for the quantity (e.g., 'months', 'EUR')",
+            "title": "Unit"
+          }
+        },
+        "required": [
+          "type"
+        ],
+        "title": "Penalty",
+        "type": "object"
+      },
+      "VerdictCategory": {
+        "enum": [
+          "GUILTY",
+          "NOT_GUILTY",
+          "PARTIALLY_GUILTY",
+          "DISMISSED",
+          "REMANDED"
+        ],
+        "title": "VerdictCategory",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Extracts the reasoning and outcome. Requires aggregating scattered facts.",
+    "properties": {
+      "defendant_anonymized": {
+        "description": "True if the name is hidden (e.g., 'J.D.S.')",
+        "title": "Defendant Anonymized",
+        "type": "boolean"
+      },
+      "verdict": {
+        "$ref": "#/$defs/VerdictCategory"
+      },
+      "proven_facts": {
+        "description": "List of key facts accepted as true by the court",
+        "items": {
+          "type": "string"
+        },
+        "title": "Proven Facts",
+        "type": "array"
+      },
+      "legal_basis": {
+        "description": "List of laws or articles cited as justification",
+        "items": {
+          "type": "string"
+        },
+        "title": "Legal Basis",
+        "type": "array"
+      },
+      "final_penalties": {
+        "description": "Structured list of imposed sanctions",
+        "items": {
+          "$ref": "#/$defs/Penalty"
+        },
+        "title": "Final Penalties",
+        "type": "array"
+      }
+    },
+    "required": [
+      "defendant_anonymized",
+      "verdict",
+      "proven_facts",
+      "legal_basis"
+    ],
+    "title": "SentencingLogic",
+    "type": "object"
+  },
+  "output": {
+    "defendant_anonymized": true,
+    "verdict": "REMANDED",
+    "proven_facts": [],
+    "legal_basis": [],
+    "final_penalties": []
+  },
+  "metadata": {
+    "source": "fresh_testset_acusan_a_un_médico_por_los_ataques_de_glasgow.md",
+    "domain": "legal",
+    "subdomain": "judicial"
+  }
+}

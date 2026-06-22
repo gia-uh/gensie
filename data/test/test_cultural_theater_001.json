@@ -1,0 +1,304 @@
+{
+  "id": "cultural_theater_001",
+  "input_text": "# ANTÍGONA, DESPUÉS DEL FUEGO\n\n### Versión libre sobre Sófocles\n### Sala Beckett · Temporada 2026 [...] Del 14 de septiembre al 22 de noviembre de 2026 [...] Tras una guerra civil que ha arrasado la ciudad, Antígona desafía el decreto del nuevo gobernante Creonte y reclama el derecho a enterrar a su hermano caído en el bando perdedor. [...] | Antígona | Júlia Bonastre |\n| Creonte | Ferran Vilamala |\n| Ismene | Noa Restrepo-García |\n| Hemón | Iker Salaverri |\n| Tiresias | Lluís Comella |\n| Eurídice | Mercè Anglada |\n| Guardia | Daniel Hinojosa |\n| Mensajero | Pau Ribera |\n| Corifeo | Andrea Subirats |\n| Coro de mujeres de Tebas | Aitana Castedo, Olalla Mendiburu, Saray Pinilla |\n\nEn el papel de Antígona, Júlia Bonastre cuenta con la suplencia de Carlota Iruretagoyena para las funciones del 10, 17 y 24 de octubre. El resto del reparto no dispone de cobertura asignada en esta temporada: en caso de indisposición, la función se reprograma. [...] - **Dirección:** Mireia Vall-Llobregat\n- **Versión y dramaturgia:** Mireia Vall-Llobregat y Bru Sansalvador\n- **Escenografía:** Estudi Petit-Format (Helena Quílez y Roc Esteva)\n- **Iluminación:** Txema Beascoa\n- **Espacio sonoro:** Lucía Pagola\n- **Vestuario:** Inma Castejón\n- **Caracterización:** Mar Trénor\n- **Movimiento escénico:** Andreu Felipe\n- **Asesoría de verso:** Roser Cantenys\n- **Ayudantía de dirección:** Olatz Bidegain\n- **Producción ejecutiva:** Sala Beckett y La Sotrac Produccions [...] Porque no la hemos terminado nunca. Cada generación cree haberla cerrado y cada generación se la encuentra encima de la mesa. La pieza no envejece porque el conflicto entre la ley que se escribe y la ley que se hereda no se resuelve nunca. Y porque hay un duelo en el centro, y los duelos colectivos siguen siendo el gran tema no resuelto de nuestras sociedades.\n\n**Ha hablado mucho del *duelo* y de la *memoria histórica* en los ensayos abiertos. ¿Son esos los ejes de su versión?**\nSí, los dos. El duelo como pulsión íntima de Antígona y la memoria histórica como su prolongación política. Lo que Antígona reclama —enterrar al hermano— es, hoy, lo que reclaman las familias que siguen buscando huesos en cunetas. No queríamos que la analogía fuera explícita en el texto, pero está en el aire del montaje.\n\n**¿Y la violencia? El subtítulo ya avisa.**\nHay violencia, sí, y se ve. Hemos optado por no edulcorarla. También hay tabaco en escena: Creonte fuma durante el monólogo del segundo acto. Conviene saberlo si se viene con criaturas o con personas sensibles. [...] - La función contiene escenas de violencia explícita y tabaquismo en escena.\n- Se recomienda la entrada a partir de catorce años.\n- No se permitirá el acceso a sala una vez iniciada la representación. La organización podrá habilitar una segunda entrada a discreción tras la primera mutación de escena.\n- Se ruega silenciar los dispositivos móviles antes del comienzo.\n- La sala dispone de bucle magnético para personas con audífono. Para reserva de plaza adaptada, contactar con taquilla con 48 h de antelación.",
+  "instruction": "Extrae los datos del programa de mano de esta producción teatral: título, sala, fechas, sinopsis, reparto, equipo creativo y avisos al público.",
+  "target_schema": {
+    "$defs": {
+      "CastMember": {
+        "additionalProperties": false,
+        "description": "Una intervención del reparto, con su rol y la persona que lo interpreta.",
+        "properties": {
+          "role": {
+            "description": "Nombre literal del personaje o función dramatúrgica (p. ej. 'Hamlet', 'Coro', 'Bailarín solista').",
+            "title": "Role",
+            "type": "string"
+          },
+          "actor": {
+            "description": "Nombre del intérprete que asume el rol, en el formato en que el programa lo presenta.",
+            "title": "Actor",
+            "type": "string"
+          },
+          "understudy": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Nombre del suplente para este rol si el programa lo nombra. Null si no aparece o si el programa no asigna suplentes.",
+            "title": "Understudy"
+          }
+        },
+        "required": [
+          "role",
+          "actor"
+        ],
+        "title": "CastMember",
+        "type": "object"
+      },
+      "ContentAdvisory": {
+        "enum": [
+          "ninguna",
+          "violencia",
+          "lenguaje_fuerte",
+          "contenido_sexual",
+          "tabaquismo",
+          "efectos_sonoros_intensos",
+          "luces_estroboscópicas"
+        ],
+        "title": "ContentAdvisory",
+        "type": "string"
+      },
+      "CreativeRole": {
+        "additionalProperties": false,
+        "description": "Una persona en el equipo creativo de la producción, con su función.",
+        "properties": {
+          "role": {
+            "description": "Función dentro del equipo creativo, tal como aparece en el programa (p. ej. 'Dirección', 'Dramaturgia', 'Escenografía', 'Música', 'Iluminación', 'Vestuario').",
+            "title": "Role",
+            "type": "string"
+          },
+          "name": {
+            "description": "Nombre de la persona o colectivo.",
+            "title": "Name",
+            "type": "string"
+          }
+        },
+        "required": [
+          "role",
+          "name"
+        ],
+        "title": "CreativeRole",
+        "type": "object"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Programa de mano (playbill) de una producción teatral, danza o lírica. La\ninformación se reparte entre cabecera (título + sala + fechas), reparto,\nequipo creativo, sinopsis y notas de aviso al público. La extracción debe\ndiferenciar entre intérpretes (CastMember) y equipo creativo (CreativeRole),\naunque ambos aparezcan en listados similares.\n\nComplejidad: L7 — síntesis de varias secciones con listas paralelas y\ndistinción de roles semánticamente cercanos.",
+    "properties": {
+      "title": {
+        "description": "Título de la obra tal como aparece en portada del programa.",
+        "title": "Title",
+        "type": "string"
+      },
+      "venue": {
+        "description": "Nombre de la sala o teatro donde se representa.",
+        "title": "Venue",
+        "type": "string"
+      },
+      "city": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Ciudad de la sala si el programa la menciona. Null si no aparece.",
+        "title": "City"
+      },
+      "opening_date": {
+        "description": "Fecha de estreno de esta producción en formato ISO 'YYYY-MM-DD' o, si el programa solo da mes y año, 'YYYY-MM'.",
+        "title": "Opening Date",
+        "type": "string"
+      },
+      "closing_date": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Fecha del último pase de la temporada en formato ISO. Null si la temporada está abierta o el programa no la cierra.",
+        "title": "Closing Date"
+      },
+      "runtime_minutes": {
+        "anyOf": [
+          {
+            "exclusiveMinimum": 0,
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Duración total del espectáculo en minutos, incluido intermedio si lo hay. Null si el programa no la indica.",
+        "title": "Runtime Minutes"
+      },
+      "synopsis": {
+        "description": "Resumen literal del argumento como aparece en la sección 'Sinopsis' o equivalente. Una o dos frases.",
+        "title": "Synopsis",
+        "type": "string"
+      },
+      "themes": {
+        "description": "Temas explícitamente nombrados en la nota de programa o la entrevista al director (p. ej. 'memoria histórica', 'feminismo', 'duelo'). Solo temas literalmente mencionados, no inferidos.",
+        "items": {
+          "type": "string"
+        },
+        "title": "Themes",
+        "type": "array"
+      },
+      "cast": {
+        "description": "Reparto en el orden en que aparece en el programa. Cada entrada asocia un rol dramatúrgico con su intérprete.",
+        "items": {
+          "$ref": "#/$defs/CastMember"
+        },
+        "title": "Cast",
+        "type": "array"
+      },
+      "creative_team": {
+        "description": "Equipo creativo (dirección, dramaturgia, diseño escenográfico, música, iluminación, etc.) en el orden de aparición.",
+        "items": {
+          "$ref": "#/$defs/CreativeRole"
+        },
+        "title": "Creative Team",
+        "type": "array"
+      },
+      "content_advisory": {
+        "description": "Avisos para el público presentes en el programa. 'ninguna' solo si el programa declara explícitamente apto para todos los públicos.",
+        "items": {
+          "$ref": "#/$defs/ContentAdvisory"
+        },
+        "title": "Content Advisory",
+        "type": "array"
+      }
+    },
+    "required": [
+      "title",
+      "venue",
+      "opening_date",
+      "synopsis",
+      "cast"
+    ],
+    "title": "TheaterPlaybill",
+    "type": "object"
+  },
+  "output": {
+    "title": "ANTÍGONA, DESPUÉS DEL FUEGO",
+    "venue": "Sala Beckett",
+    "city": null,
+    "opening_date": "2026-09-14",
+    "closing_date": "2026-11-22",
+    "runtime_minutes": null,
+    "synopsis": "Tras una guerra civil que ha arrasado la ciudad, Antígona desafía el decreto del nuevo gobernante Creonte y reclama el derecho a enterrar a su hermano caído en el bando perdedor.",
+    "themes": [
+      "duelo",
+      "memoria histórica"
+    ],
+    "cast": [
+      {
+        "role": "Antígona",
+        "actor": "Júlia Bonastre",
+        "understudy": "Carlota Iruretagoyena"
+      },
+      {
+        "role": "Creonte",
+        "actor": "Ferran Vilamala",
+        "understudy": null
+      },
+      {
+        "role": "Ismene",
+        "actor": "Noa Restrepo-García",
+        "understudy": null
+      },
+      {
+        "role": "Hemón",
+        "actor": "Iker Salaverri",
+        "understudy": null
+      },
+      {
+        "role": "Tiresias",
+        "actor": "Lluís Comella",
+        "understudy": null
+      },
+      {
+        "role": "Eurídice",
+        "actor": "Mercè Anglada",
+        "understudy": null
+      },
+      {
+        "role": "Guardia",
+        "actor": "Daniel Hinojosa",
+        "understudy": null
+      },
+      {
+        "role": "Mensajero",
+        "actor": "Pau Ribera",
+        "understudy": null
+      },
+      {
+        "role": "Corifeo",
+        "actor": "Andrea Subirats",
+        "understudy": null
+      },
+      {
+        "role": "Coro de mujeres de Tebas",
+        "actor": "Aitana Castedo, Olalla Mendiburu, Saray Pinilla",
+        "understudy": null
+      }
+    ],
+    "creative_team": [
+      {
+        "role": "Dirección",
+        "name": "Mireia Vall-Llobregat"
+      },
+      {
+        "role": "Versión y dramaturgia",
+        "name": "Mireia Vall-Llobregat y Bru Sansalvador"
+      },
+      {
+        "role": "Escenografía",
+        "name": "Estudi Petit-Format (Helena Quílez y Roc Esteva)"
+      },
+      {
+        "role": "Iluminación",
+        "name": "Txema Beascoa"
+      },
+      {
+        "role": "Espacio sonoro",
+        "name": "Lucía Pagola"
+      },
+      {
+        "role": "Vestuario",
+        "name": "Inma Castejón"
+      },
+      {
+        "role": "Caracterización",
+        "name": "Mar Trénor"
+      },
+      {
+        "role": "Movimiento escénico",
+        "name": "Andreu Felipe"
+      },
+      {
+        "role": "Asesoría de verso",
+        "name": "Roser Cantenys"
+      },
+      {
+        "role": "Ayudantía de dirección",
+        "name": "Olatz Bidegain"
+      },
+      {
+        "role": "Producción ejecutiva",
+        "name": "Sala Beckett y La Sotrac Produccions"
+      }
+    ],
+    "content_advisory": [
+      "violencia",
+      "tabaquismo"
+    ]
+  },
+  "metadata": {
+    "source": "synthetic_20260601_001.md",
+    "domain": "cultural",
+    "subdomain": "theater"
+  }
+}

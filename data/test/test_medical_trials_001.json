@@ -1,0 +1,194 @@
+{
+  "id": "test_medical_trials_001",
+  "input_text": "# El Hospital Clínic de Barcelona lidera un ensayo en Fase 2 con una nueva terapia dirigida contra el cáncer de mama HER2 positivo\n\nEl **Hospital Clínic de Barcelona**, en colaboración con el Institut d'Investigacions Biomèdiques August Pi i Sunyer (IDIBAPS) y la **Fundación Oncológica Catalana**, ha anunciado el inicio de un ensayo clínico en Fase 2 para evaluar la eficacia y seguridad de **trastuzumab-deruxtecán bioconjugado con un nuevo inhibidor selectivo de PI3K**, denominado provisionalmente *CLN-217*, en pacientes con cáncer de mama metastásico HER2 positivo (clasificado en la CIE-10 como **C50.9**, tumor maligno de la mama, parte no especificada).\n\nEl estudio, registrado en el portal europeo de ensayos con el identificador **EudraCT 2026-001874-32**, se encuentra actualmente en fase de **reclutamiento activo** de pacientes en cinco centros hospitalarios distribuidos por España. Además del Clínic, participan como centros colaboradores el **Hospital Universitari Vall d'Hebron** (Barcelona), el **Hospital Universitario 12 de Octubre** (Madrid), el **Hospital Universitario La Paz** (Madrid) y el **Hospital Universitario Virgen del Rocío** (Sevilla). Se prevé incluir a un total de **184 participantes** mayores de 18 años, con un periodo de reclutamiento estimado de catorce meses desde la fecha de apertura del primer centro. [...] ## Diseño del estudio: dos brazos paralelos\n\nEl ensayo está diseñado como un estudio **multicéntrico, aleatorizado, abierto, de dos brazos paralelos** con asignación 1:1 mediante aleatorización estratificada por número de líneas previas de tratamiento (dos versus tres o más) y por presencia de metástasis cerebrales tratadas.\n\nEl **brazo experimental** recibirá *CLN-217* a dosis de 5,4 mg/kg por vía intravenosa cada tres semanas, en combinación con una dosis fija de 200 mg diarios por vía oral del inhibidor selectivo de PI3K-α, durante un máximo de dieciocho ciclos o hasta progresión documentada de la enfermedad, toxicidad inaceptable o retirada del consentimiento.\n\nEl **brazo comparador** recibirá el tratamiento estándar actual basado en trastuzumab-emtansina (T-DM1) a 3,6 mg/kg por vía intravenosa cada tres semanas, conforme a la ficha técnica aprobada por la Agencia Europea de Medicamentos.\n\nEl **objetivo primario** del estudio es la **supervivencia libre de progresión** (SLP) evaluada por comité independiente de revisión radiológica ciega, conforme a los criterios RECIST 1.1. Los objetivos secundarios incluyen la tasa de respuesta objetiva, la duración de la respuesta, la supervivencia global, el perfil de seguridad y la calidad de vida medida mediante los cuestionarios EORTC QLQ-C30 y QLQ-BR45. [...] ## Calendario y próximos pasos\n\nEl primer paciente fue incluido el **14 de abril de 2026** en el Hospital Clínic de Barcelona. Está previsto un primer análisis intermedio de seguridad tras el reclutamiento de los primeros 40 pacientes, supervisado por un comité independiente de monitorización de datos (IDMC). Las pacientes interesadas en participar pueden solicitar información a través de las consultas externas de oncología médica de los centros participantes o mediante el correo institucional habilitado por la Fundación Oncológica Catalana.",
+  "instruction": "Extrae el registro estructurado del ensayo clínico descrito en la nota de prensa. Incluye identificador de registro, fase, estado actual, condición clínica, código CIE-10 si se cita, tamaño muestral previsto, brazos del ensayo con sus intervenciones, variable principal de eficacia, fecha de finalización y resumen de resultados. Respeta la restricción: si el ensayo no está completado ni terminado, completion_date y result_summary deben ser null.",
+  "target_schema": {
+    "$defs": {
+      "TrialArm": {
+        "additionalProperties": false,
+        "description": "Un brazo del ensayo: grupo experimental o comparador.",
+        "properties": {
+          "name": {
+            "description": "Etiqueta del brazo tal como aparece en el texto (p. ej. 'brazo experimental', 'brazo comparador', 'placebo', 'control').",
+            "title": "Name",
+            "type": "string"
+          },
+          "intervention": {
+            "description": "Intervención administrada al brazo: fármaco, dosis y vía si se explicitan (p. ej. 'CLN-217 5,4 mg/kg IV cada 3 semanas').",
+            "title": "Intervention",
+            "type": "string"
+          },
+          "n": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Número de participantes asignados o reclutados a este brazo concreto. Null si el texto no lo desglosa por brazo.",
+            "title": "N"
+          }
+        },
+        "required": [
+          "name",
+          "intervention"
+        ],
+        "title": "TrialArm",
+        "type": "object"
+      },
+      "TrialPhase": {
+        "enum": [
+          "fase_1",
+          "fase_2",
+          "fase_3",
+          "fase_4",
+          "no_aplica"
+        ],
+        "title": "TrialPhase",
+        "type": "string"
+      },
+      "TrialStatus": {
+        "enum": [
+          "reclutando",
+          "activo",
+          "completado",
+          "terminado",
+          "suspendido"
+        ],
+        "title": "TrialStatus",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Registro estructurado de un ensayo clínico a partir de una nota de prensa,\ncomunicado institucional o ficha de registro en español.\n\nRestricción inter-campo crítica (trampa de null):\n- `completion_date` y `result_summary` SOLO pueden tener valor cuando\n  `status` ∈ {completado, terminado}. Si el ensayo está reclutando, activo\n  o suspendido, ambos campos deben ser null aunque el texto especule sobre\n  fechas previstas o resultados parciales.\n\nComplejidad: L7 — rigidez de restricciones inter-campo + regex de IDs.",
+    "properties": {
+      "registry_id": {
+        "description": "Identificador del ensayo en su registro. Acepta tres formatos: ClinicalTrials.gov ('NCTxxxxxxxx', 8 dígitos), EudraCT ('YYYY-NNNNNN-NN') o REec ('REec-YYYY-NNNN'). Devolver exactamente como aparece, sin prefijos descriptivos ('EudraCT', 'nº').",
+        "pattern": "^(?:NCT\\d{8}|\\d{4}-\\d{6}-\\d{2}|REec-\\d{4}-\\d{4})$",
+        "title": "Registry Id",
+        "type": "string"
+      },
+      "phase": {
+        "$ref": "#/$defs/TrialPhase",
+        "description": "Fase del ensayo. 'fase_1' a 'fase_4' para fases clásicas; 'no_aplica' para ensayos exploratorios, observacionales o sin fase declarada."
+      },
+      "status": {
+        "$ref": "#/$defs/TrialStatus",
+        "description": "Estado actual del ensayo: 'reclutando' (inclusión abierta), 'activo' (reclutamiento cerrado, seguimiento en curso), 'completado' (finalizado según protocolo), 'terminado' (finalizado prematuramente con resultados), 'suspendido' (pausa por seguridad o regulatoria)."
+      },
+      "condition": {
+        "description": "Patología, síndrome o indicación clínica que el ensayo estudia, en lenguaje del texto (p. ej. 'cáncer de mama metastásico HER2 positivo').",
+        "title": "Condition",
+        "type": "string"
+      },
+      "icd10_code": {
+        "anyOf": [
+          {
+            "pattern": "^[A-Z]\\d{2}(?:\\.\\d{1,2})?$",
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Código CIE-10 (ICD-10) de la indicación si el texto lo cita literalmente, formato 'L99' o 'L99.9'. Null si no aparece.",
+        "title": "Icd10 Code"
+      },
+      "enrollment": {
+        "anyOf": [
+          {
+            "minimum": 1,
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Tamaño muestral total previsto o reclutado, como entero. Null si el texto no lo especifica.",
+        "title": "Enrollment"
+      },
+      "arms": {
+        "description": "Lista de brazos del ensayo en el orden en que se describen. Vacía solo si el diseño es de un único brazo no etiquetado.",
+        "items": {
+          "$ref": "#/$defs/TrialArm"
+        },
+        "title": "Arms",
+        "type": "array"
+      },
+      "primary_endpoint": {
+        "description": "Variable principal de eficacia del estudio (p. ej. 'supervivencia libre de progresión', 'ACR50 a la semana 24'). Texto literal del objetivo primario.",
+        "title": "Primary Endpoint",
+        "type": "string"
+      },
+      "completion_date": {
+        "anyOf": [
+          {
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Fecha real de finalización del ensayo en formato YYYY-MM-DD. DEBE ser null salvo que status sea 'completado' o 'terminado'. Para ensayos en curso o suspendidos, ignorar fechas previstas.",
+        "title": "Completion Date"
+      },
+      "result_summary": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Resumen narrativo de los resultados del ensayo. DEBE ser null salvo que status sea 'completado' o 'terminado'. No incluir resultados intermedios ni hallazgos de seguridad parciales de ensayos en curso.",
+        "title": "Result Summary"
+      }
+    },
+    "required": [
+      "registry_id",
+      "phase",
+      "status",
+      "condition",
+      "primary_endpoint"
+    ],
+    "title": "ClinicalTrialRecord",
+    "type": "object"
+  },
+  "output": {
+    "registry_id": "2026-001874-32",
+    "phase": "fase_2",
+    "status": "reclutando",
+    "condition": "cáncer de mama metastásico HER2 positivo",
+    "icd10_code": "C50.9",
+    "enrollment": 184,
+    "arms": [
+      {
+        "name": "brazo experimental",
+        "intervention": "CLN-217 (trastuzumab-deruxtecán bioconjugado con inhibidor selectivo de PI3K) 5,4 mg/kg IV cada 3 semanas + inhibidor selectivo de PI3K-α 200 mg/día vía oral",
+        "n": null
+      },
+      {
+        "name": "brazo comparador",
+        "intervention": "trastuzumab-emtansina (T-DM1) 3,6 mg/kg IV cada 3 semanas",
+        "n": null
+      }
+    ],
+    "primary_endpoint": "supervivencia libre de progresión (SLP) evaluada por comité independiente de revisión radiológica ciega conforme a criterios RECIST 1.1",
+    "completion_date": null,
+    "result_summary": null
+  },
+  "metadata": {
+    "source": "synthetic_20260512_001.md",
+    "domain": "medical",
+    "subdomain": "trials"
+  }
+}

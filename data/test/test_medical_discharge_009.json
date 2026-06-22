@@ -1,0 +1,290 @@
+{
+  "id": "medical_discharge_009",
+  "input_text": "**Servicio:** Pediatría — Lactantes\n**Unidad:** Hospitalización Pediátrica, Planta 6ª (con estancia breve en UCIP)\n**Médico responsable:** Dra. L. Otero Caamaño (col. nº 15-XXXXX)\n**Fecha de ingreso:** 26/05/2026, 23:14 h\n**Fecha de alta:** 31/05/2026, 12:40 h\n**Episodio:** EP-2026-05-9921 (desidentificado) [...] Los padres acuden al Servicio de Urgencias Pediátricas refiriendo que el lactante presenta, desde hace aproximadamente 72 horas, cuadro catarral con rinorrea acuosa abundante y tos seca progresiva, que en las últimas 24 horas se ha asociado a dificultad respiratoria creciente, rechazo parcial de las tomas (menos del 50 % de la ingesta habitual) y dos episodios de pausas respiratorias breves observadas por la madre durante el sueño, con coloración levemente azulada perioral autolimitada. [...] - **Principal:** Bronquiolitis aguda por Virus Respiratorio Sincitial (J21.0).\n- **Secundario:** Insuficiencia respiratoria aguda parcial, resuelta.\n- **Secundario:** Apneas asociadas a bronquiolitis en lactante menor de 6 meses, resueltas. [...] - **Suero salino fisiológico** en lavados nasales, 1–2 mL por fosa nasal antes de cada toma y antes del sueño, durante el periodo sintomático.\n- **Paracetamol** 60 mg (correspondiente a 10 mg/kg) por vía oral cada 6 horas si presenta fiebre superior a 38 °C o malestar evidente.\n- **Ibuprofeno** 50 mg (correspondiente a 7 mg/kg) por vía oral cada 8 horas como alternativa antitérmica si paracetamol resulta insuficiente; no administrar antes de los 6 meses sin valoración previa por su pediatra si la fiebre reaparece tras el alta. [...] Se aconseja mantener al lactante en **posición incorporada (decúbito supino con cabecera elevada unos 30°)** durante el sueño y tras las tomas, así como realizar **lavados nasales frecuentes antes de comer y dormir**. Se recomienda fraccionar las tomas en menor volumen y mayor frecuencia mientras persista la congestión. Debe **evitarse la exposición al humo de tabaco** en el domicilio y en el vehículo familiar. Se indica expresamente que el lactante **no debe acudir a guardería ni a entornos con otros niños pequeños durante al menos 7 días tras el alta**, hasta resolución completa del cuadro y reevaluación por su pediatra. Se aconseja, en la medida de lo posible, **limitar las visitas en el domicilio** durante la primera semana y reforzar la higiene de manos de los convivientes. [...] Se instruye a los padres para que acudan de inmediato al Servicio de Urgencias si el lactante presenta cualquiera de los siguientes signos: **pausas respiratorias o apneas**, **coloración azulada de labios o cara (cianosis)**, **respiración muy rápida o con marcado tiraje (hundimiento de costillas, aleteo nasal)**, **rechazo del alimento de más de dos tomas consecutivas o ingesta inferior al 50 % de lo habitual**, **decaimiento intenso o irritabilidad inconsolable**, **fiebre superior a 38,5 °C que no cede con antitérmicos**, o **disminución del número de pañales mojados** (signo de deshidratación). [...] - Revisión por su **pediatra de Atención Primaria en un plazo de 48–72 horas** tras el alta, para valoración clínica, control de la auscultación pulmonar y supervisión de la curva ponderal.\n- Continuar con los controles habituales del programa del niño sano según calendario.",
+  "instruction": "Extrae el resumen del alta hospitalaria: servicio, estancia, motivo de consulta, diagnósticos al alta con su papel, medicación al alta, restricciones, signos de alarma y plan de seguimiento.",
+  "target_schema": {
+    "$defs": {
+      "Diagnosis": {
+        "additionalProperties": false,
+        "description": "Diagnóstico al alta del paciente.",
+        "properties": {
+          "description": {
+            "description": "Descripción literal del diagnóstico tal como aparece en la sección 'Diagnósticos al alta' o equivalente (p. ej. 'Neumonía adquirida en la comunidad por S. pneumoniae').",
+            "title": "Description",
+            "type": "string"
+          },
+          "icd10_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Código CIE-10 entre paréntesis o adyacente al diagnóstico, si el informe lo incluye (p. ej. 'J18.1'). Null si no aparece.",
+            "title": "Icd10 Code"
+          },
+          "role": {
+            "$ref": "#/$defs/DiagnosisRole",
+            "description": "Papel del diagnóstico en la hospitalización: 'principal' = motivo de ingreso; 'secundario' = diagnóstico adicional relevante; 'comorbilidad' = condición preexistente activa; 'complicación' = evento surgido durante el ingreso."
+          }
+        },
+        "required": [
+          "description",
+          "role"
+        ],
+        "title": "Diagnosis",
+        "type": "object"
+      },
+      "DiagnosisRole": {
+        "enum": [
+          "principal",
+          "secundario",
+          "comorbilidad",
+          "complicación"
+        ],
+        "title": "DiagnosisRole",
+        "type": "string"
+      },
+      "DischargeMedication": {
+        "additionalProperties": false,
+        "description": "Medicación prescrita al alta para continuar en domicilio.",
+        "properties": {
+          "name": {
+            "description": "Nombre del principio activo o del medicamento comercial, tal como aparece en la prescripción (p. ej. 'Amoxicilina', 'Eliquis').",
+            "title": "Name",
+            "type": "string"
+          },
+          "dose": {
+            "description": "Dosis y vía tal como aparece (p. ej. '500 mg vía oral cada 8 horas', '40 UI subcutáneas cada 12 horas').",
+            "title": "Dose",
+            "type": "string"
+          },
+          "duration": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Duración total del tratamiento si el informe la especifica (p. ej. 'durante 7 días', 'hasta nueva valoración'). Null si no.",
+            "title": "Duration"
+          },
+          "indication": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Indicación clínica del fármaco si el informe la asocia (p. ej. 'para el control tensional'). Null si la indicación no se explicita.",
+            "title": "Indication"
+          }
+        },
+        "required": [
+          "name",
+          "dose"
+        ],
+        "title": "DischargeMedication",
+        "type": "object"
+      },
+      "FollowUpInstruction": {
+        "additionalProperties": false,
+        "description": "Una instrucción de seguimiento tras el alta.",
+        "properties": {
+          "description": {
+            "description": "Descripción literal del control o cita (p. ej. 'Revisión en consulta de cardiología', 'Analítica de control').",
+            "title": "Description",
+            "type": "string"
+          },
+          "urgency": {
+            "$ref": "#/$defs/FollowUpUrgency",
+            "description": "Urgencia del seguimiento: 'urgente_24h' si el informe dice acudir en 24 horas; 'en_una_semana' / 'en_un_mes' según ventana mencionada; 'rutinaria' si no se da plazo apremiante."
+          },
+          "responsible_service": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Servicio responsable del seguimiento (p. ej. 'Cardiología', 'Atención Primaria'). Null si no se especifica.",
+            "title": "Responsible Service"
+          }
+        },
+        "required": [
+          "description",
+          "urgency"
+        ],
+        "title": "FollowUpInstruction",
+        "type": "object"
+      },
+      "FollowUpUrgency": {
+        "enum": [
+          "urgente_24h",
+          "en_una_semana",
+          "en_un_mes",
+          "rutinaria"
+        ],
+        "title": "FollowUpUrgency",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Informe de alta hospitalaria desidentificado. La información se reparte\nentre la cabecera (servicio, días de ingreso), motivos de consulta,\ndiagnósticos, evolución, medicación al alta, recomendaciones y plan de\nseguimiento. La extracción debe vincular cada medicación a su indicación\nclínica cuando aparezca, y clasificar diagnósticos por su papel.\n\nComplejidad: L8 — síntesis con listas heterogéneas, jerarquía implícita\nentre diagnósticos y enlace transversal medicamento↔indicación.",
+    "properties": {
+      "admitting_service": {
+        "description": "Servicio hospitalario responsable del ingreso (p. ej. 'Medicina Interna', 'Urgencias', 'UCI').",
+        "title": "Admitting Service",
+        "type": "string"
+      },
+      "length_of_stay_days": {
+        "description": "Duración total del ingreso en días, calculada a partir de las fechas de ingreso y alta del informe.",
+        "minimum": 0,
+        "title": "Length Of Stay Days",
+        "type": "integer"
+      },
+      "chief_complaint": {
+        "description": "Motivo principal de consulta o ingreso tal como lo refiere el paciente, en la sección 'Motivo de consulta' o equivalente.",
+        "title": "Chief Complaint",
+        "type": "string"
+      },
+      "diagnoses": {
+        "description": "Diagnósticos consignados al alta. Debe incluir al menos uno con rol 'principal'.",
+        "items": {
+          "$ref": "#/$defs/Diagnosis"
+        },
+        "minItems": 1,
+        "title": "Diagnoses",
+        "type": "array"
+      },
+      "discharge_medications": {
+        "description": "Medicación prescrita para continuar en domicilio. Lista vacía si el informe declara explícitamente que se mantiene la medicación previa.",
+        "items": {
+          "$ref": "#/$defs/DischargeMedication"
+        },
+        "title": "Discharge Medications",
+        "type": "array"
+      },
+      "activity_restrictions": {
+        "description": "Restricciones de actividad indicadas al paciente (p. ej. 'evitar esfuerzos físicos intensos durante 2 semanas', 'no conducir hasta revisión'). Una entrada por restricción literal.",
+        "items": {
+          "type": "string"
+        },
+        "title": "Activity Restrictions",
+        "type": "array"
+      },
+      "red_flag_symptoms": {
+        "description": "Síntomas o signos por los que el paciente debe volver a urgencias (p. ej. 'fiebre > 38.5 ºC', 'sangrado activo'). Solo los nombrados.",
+        "items": {
+          "type": "string"
+        },
+        "title": "Red Flag Symptoms",
+        "type": "array"
+      },
+      "follow_up": {
+        "description": "Plan de seguimiento ambulatorio. Cada cita o control va como una instrucción separada.",
+        "items": {
+          "$ref": "#/$defs/FollowUpInstruction"
+        },
+        "title": "Follow Up",
+        "type": "array"
+      }
+    },
+    "required": [
+      "admitting_service",
+      "length_of_stay_days",
+      "chief_complaint",
+      "diagnoses"
+    ],
+    "title": "DischargeSummary",
+    "type": "object"
+  },
+  "output": {
+    "admitting_service": "Pediatría — Lactantes",
+    "length_of_stay_days": 5,
+    "chief_complaint": "cuadro catarral con rinorrea acuosa abundante y tos seca progresiva, que en las últimas 24 horas se ha asociado a dificultad respiratoria creciente, rechazo parcial de las tomas (menos del 50 % de la ingesta habitual) y dos episodios de pausas respiratorias breves observadas por la madre durante el sueño, con coloración levemente azulada perioral autolimitada",
+    "diagnoses": [
+      {
+        "description": "Bronquiolitis aguda por Virus Respiratorio Sincitial",
+        "icd10_code": "J21.0",
+        "role": "principal"
+      },
+      {
+        "description": "Insuficiencia respiratoria aguda parcial, resuelta",
+        "icd10_code": null,
+        "role": "secundario"
+      },
+      {
+        "description": "Apneas asociadas a bronquiolitis en lactante menor de 6 meses, resueltas",
+        "icd10_code": null,
+        "role": "secundario"
+      }
+    ],
+    "discharge_medications": [
+      {
+        "name": "Suero salino fisiológico",
+        "dose": "1–2 mL por fosa nasal antes de cada toma y antes del sueño, en lavados nasales",
+        "duration": "durante el periodo sintomático",
+        "indication": "lavados nasales"
+      },
+      {
+        "name": "Paracetamol",
+        "dose": "60 mg (correspondiente a 10 mg/kg) por vía oral cada 6 horas",
+        "duration": null,
+        "indication": "si presenta fiebre superior a 38 °C o malestar evidente"
+      },
+      {
+        "name": "Ibuprofeno",
+        "dose": "50 mg (correspondiente a 7 mg/kg) por vía oral cada 8 horas",
+        "duration": null,
+        "indication": "alternativa antitérmica si paracetamol resulta insuficiente"
+      }
+    ],
+    "activity_restrictions": [
+      "mantener al lactante en posición incorporada (decúbito supino con cabecera elevada unos 30°) durante el sueño y tras las tomas",
+      "realizar lavados nasales frecuentes antes de comer y dormir",
+      "fraccionar las tomas en menor volumen y mayor frecuencia mientras persista la congestión",
+      "evitarse la exposición al humo de tabaco en el domicilio y en el vehículo familiar",
+      "no debe acudir a guardería ni a entornos con otros niños pequeños durante al menos 7 días tras el alta",
+      "limitar las visitas en el domicilio durante la primera semana y reforzar la higiene de manos de los convivientes"
+    ],
+    "red_flag_symptoms": [
+      "pausas respiratorias o apneas",
+      "coloración azulada de labios o cara (cianosis)",
+      "respiración muy rápida o con marcado tiraje (hundimiento de costillas, aleteo nasal)",
+      "rechazo del alimento de más de dos tomas consecutivas o ingesta inferior al 50 % de lo habitual",
+      "decaimiento intenso o irritabilidad inconsolable",
+      "fiebre superior a 38,5 °C que no cede con antitérmicos",
+      "disminución del número de pañales mojados"
+    ],
+    "follow_up": [
+      {
+        "description": "Revisión por su pediatra de Atención Primaria en un plazo de 48–72 horas tras el alta, para valoración clínica, control de la auscultación pulmonar y supervisión de la curva ponderal",
+        "urgency": "en_una_semana",
+        "responsible_service": "Atención Primaria"
+      },
+      {
+        "description": "Continuar con los controles habituales del programa del niño sano según calendario",
+        "urgency": "rutinaria",
+        "responsible_service": "Atención Primaria"
+      }
+    ]
+  },
+  "metadata": {
+    "source": "synthetic_20260601_009.md",
+    "domain": "medical",
+    "subdomain": "discharge"
+  }
+}

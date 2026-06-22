@@ -1,0 +1,323 @@
+{
+  "id": "research_paper_argument_008",
+  "input_text": "---\ntitle: \"El efecto del bilingüismo de larga trayectoria sobre la función ejecutiva en adultos mayores hispano-catalanes: evidencia desde una muestra equilibrada en uso bilingüe diario\"\nauthors: \"Marta Vilanova-Roig, Joan Esteve i Pujol, Ana Bermúdez-Salas, Carles Fontán-Mora\"\njournal: \"Anales de Psicología\"\nvolume: \"42(2)\"\nyear: \"2026\"\ndoi: \"10.6018/analesps.42.2.589631\"\nreceived: \"2025-09-14\"\naccepted: \"2026-02-03\"\n---\n\n# El efecto del bilingüismo de larga trayectoria sobre la función ejecutiva en adultos mayores hispano-catalanes: evidencia desde una muestra equilibrada en uso bilingüe diario\n\n## Resumen\n\n**Introducción.** La hipótesis de que el bilingüismo confiere ventajas en función ejecutiva ha sido objeto de un intenso debate en la última década. Mientras Bialystok y colaboradores han defendido sistemáticamente esta ventaja, trabajos críticos liderados por Paap, Antón y Duñabeitia han cuestionado la robustez del fenómeno, atribuyendo los efectos observados a artefactos metodológicos. La discrepancia podría explicarse, al menos en parte, por la heterogeneidad en la operacionalización del bilingüismo, especialmente respecto al uso bilingüe diario actual.\n\n**Objetivo.** Examinar si el efecto bilingüe sobre dos componentes de la función ejecutiva (inhibición y switching) emerge en una muestra de adultos mayores hispano-catalanes equilibrada en términos de uso bilingüe diario actual, medido objetivamente y no solo declarativamente.\n\n**Método.** Se reclutaron 184 adultos mayores (60-85 años) en el área metropolitana de Barcelona, clasificados en dos grupos: bilingües activos (n=94; uso diario de ambas lenguas >40% según muestreo ecológico momentáneo durante 14 días) y bilingües desbalanceados/monolingües funcionales (n=90). Todos completaron una tarea Flanker para inhibición y una tarea de switching de cartas tipo Wisconsin adaptada. Se controlaron edad, nivel educativo, estatus socioeconómico y puntuación en MoCA.\n\n**Resultados.** Los bilingües activos mostraron un efecto Flanker menor que el grupo control (d de Cohen = 0.46, p = 0.002, IC95% [0.16, 0.76]) y un coste de cambio reducido en la tarea de switching (d = 0.38, p = 0.011, IC95% [0.09, 0.67]). El efecto se mantuvo tras controlar por covariables.\n\n**Conclusiones.** El efecto bilingüe sobre la función ejecutiva, ampliamente cuestionado en la literatura reciente, sí emerge cuando la muestra está equilibrada en uso bilingüe diario actual. Esto sugiere que parte de la heterogeneidad de resultados previos refleja diferencias reales en la práctica bilingüe, no artefactos. Se discute la implicación para el diseño de estudios futuros.\n\n**Palabras clave:** bilingüismo, función ejecutiva, envejecimiento, inhibición, switching, reserva cognitiva, Flanker, control inhibitorio.\n\n## 1. Introducción\n\nLa hipótesis de la ventaja bilingüe sostiene que la gestión simultánea y crónica de dos sistemas lingüísticos en competencia entrena los mecanismos de control ejecutivo, dando lugar a un beneficio cognitivo medible en tareas no lingüísticas que requieren inhibición, monitorización del conflicto o cambio de tarea (Bialystok, 2017). En adultos mayores, esta ventaja se ha vinculado además a una reserva cognitiva que retrasaría la aparición de síntomas de demencia entre cuatro y cinco años (Bialystok, Craik y Freedman, 2007).\n\nSin embargo, la última década ha visto una proliferación de estudios que no replican el efecto, junto con meta-análisis que cuestionan su robustez. Paap, Johnson y Sawi (2015) revisaron sistemáticamente más de un centenar de estudios y concluyeron que la ventaja bilingüe es, en el mejor de los casos, restringida a circunstancias específicas. De Bruin, Treccani y Della Sala (2015) documentaron un sesgo de publicación notable: los estudios con resultados nulos quedaban infrarrepresentados en la literatura. Más recientemente, Antón et al. (2014) y Duñabeitia et al. (2014), trabajando con muestras grandes de niños catalano-castellanos y vascos, no encontraron diferencias significativas entre bilingües y monolingües en tareas Flanker ni Simon.\n\nEsta discrepancia, lejos de cerrarse, se ha endurecido en posiciones contrarias. La pregunta deja de ser \"¿existe el efecto?\" para convertirse en \"¿bajo qué condiciones, si alguna, se observa?\". Una posibilidad es que la operacionalización del bilingüismo en muchos estudios sea insuficiente. Si el grupo \"bilingüe\" incluye participantes que en su vida diaria operan funcionalmente como monolingües —porque su lengua minoritaria solo se activa esporádicamente— el contraste con el grupo control pierde poder y los efectos se diluyen. Esta crítica ha sido formulada teóricamente por Kroll y Bialystok (2013) pero rara vez se ha llevado a un diseño con muestreo ecológico momentáneo del uso real.\n\n**Tesis.** Sostenemos que el efecto bilingüe sobre la función ejecutiva, ampliamente cuestionado en la literatura reciente, sí emerge cuando la muestra está suficientemente equilibrada en uso bilingüe diario actual, medido objetivamente. La hipótesis escéptica, derivada de estudios con muestras heterogéneas en práctica bilingüe efectiva, no es generalizable a poblaciones donde ambas lenguas se ejercitan a diario en proporciones comparables.\n\nEl presente trabajo examina esta tesis en una muestra de adultos mayores hispano-catalanes del área metropolitana de Barcelona, una población especialmente adecuada porque (a) el contacto entre ambas lenguas es ubicuo y multigeneracional, y (b) la variabilidad en uso diario real es suficiente para construir grupos contrastantes sin depender exclusivamente de autoinformes retrospectivos.\n\n## 2. Método\n\n### 2.1. Participantes\n\nSe reclutaron 184 adultos mayores residentes en el área metropolitana de Barcelona (Barcelonès, Baix Llobregat, Vallès Occidental) mediante convocatoria abierta en centros cívicos y aulas universitarias para mayores. Criterios de inclusión: edad entre 60 y 85 años, escolarización mínima de 6 años, sin diagnóstico previo de deterioro cognitivo, puntuación MoCA ≥ 24, audición y visión corregidas adecuadas para las tareas. Criterios de exclusión: monolingüismo funcional total (uso de una sola lengua >95% en evaluación inicial), antecedentes psiquiátricos relevantes, uso actual de psicofármacos con efecto sobre la atención.\n\nLos participantes se asignaron post-hoc a dos grupos según el uso bilingüe diario medido por muestreo ecológico momentáneo (EMA) durante 14 días consecutivos (ver 2.2.1):\n\n- **Grupo bilingüe activo (BA):** n = 94, uso diario de ambas lenguas entre el 40% y el 60% (es decir, ninguna lengua dominando por encima del 60% en interacciones diarias).\n- **Grupo bilingüe desbalanceado (BD):** n = 90, uso de la lengua dominante > 70% en interacciones diarias.\n\nAmbos grupos eran comparables en edad (BA: M = 71.3, DT = 6.4; BD: M = 72.1, DT = 6.9; t(182) = 0.81, p = .42), años de escolarización (BA: M = 11.2; BD: M = 10.8; t = 0.93, p = .35), estatus socioeconómico (índice de Hollingshead) y puntuación MoCA (BA: M = 27.3; BD: M = 27.1; t = 0.62, p = .54).\n\n### 2.2. Materiales y procedimiento\n\n#### 2.2.1. Evaluación del uso bilingüe diario (EMA)\n\nDurante 14 días consecutivos antes de la sesión experimental, los participantes recibieron seis avisos diarios aleatorios (entre 9:00 y 21:00) a través de una aplicación móvil instalada en sus dispositivos. En cada aviso debían reportar, en menos de 30 segundos, qué lengua estaban utilizando en ese momento (catalán, castellano, ambas, ninguna). Se incluyeron además ítems sobre tipo de interacción (cara a cara, telefónica, lectura, escritura) y número de interlocutores. La adhesión media fue del 87% de los avisos respondidos (rango 71-98%). Esta medida supera a los autoinformes retrospectivos en validez ecológica (Shiffman, Stone y Hufford, 2008).\n\n#### 2.2.2. Tarea Flanker\n\nVersión computarizada presentada en PsychoPy. En cada ensayo se mostraba una flecha central rodeada por cuatro flechas distractoras (dos a cada lado), congruentes (todas en la misma dirección) o incongruentes (distractoras en dirección opuesta a la central). Los participantes debían indicar la dirección de la flecha central pulsando una de dos teclas. 96 ensayos por bloque, 4 bloques, intervalo entre ensayos jitterizado 1000-1500 ms. La medida principal de inhibición fue el **efecto Flanker**, calculado como diferencia de tiempo de reacción (TR) entre ensayos incongruentes y congruentes, con TR transformados log para análisis. Se excluyeron ensayos con errores y TR fuera del rango 200-2000 ms.\n\n#### 2.2.3. Tarea de switching de cartas\n\nAdaptación de la Berg Card Sorting Task con instrucciones explícitas de cambio. En cada ensayo se presentaba una carta-estímulo (variando en color, forma y número) y se indicaba la dimensión sobre la que clasificar. La dimensión cambiaba aleatoriamente cada 4-8 ensayos. La medida principal fue el **coste de cambio**, calculado como diferencia de TR entre ensayos de cambio y ensayos de mantenimiento. 240 ensayos en total, divididos en 3 bloques.\n\n#### 2.2.4. Procedimiento\n\nSesión única de aproximadamente 90 minutos en laboratorio insonorizado en la Universitat de Barcelona. Orden de tareas contrabalanceado. Pausas de 5 minutos entre tareas. Sesión precedida por consentimiento informado, cuestionario sociodemográfico, MoCA y entrevista breve de historia lingüística.\n\n### 2.3. Análisis estadístico\n\nSe realizaron análisis de covarianza (ANCOVA) con grupo (BA vs BD) como factor entre-sujetos, las medidas principales como variables dependientes y edad, escolarización, estatus socioeconómico y MoCA como covariables. Se calculó la d de Cohen para los efectos principales con intervalos de confianza al 95% mediante bootstrap (10 000 iteraciones). Se reporta también el factor de Bayes (BF10) como medida complementaria. Análisis con R 4.3.2 (paquetes BayesFactor, effsize, lme4).\n\n## 3. Resultados\n\n### 3.1. Efecto Flanker\n\nEl efecto Flanker fue significativamente menor en el grupo BA (M = 64.8 ms, DT = 23.1) que en el grupo BD (M = 79.2 ms, DT = 25.7). El ANCOVA mostró un efecto principal del grupo, F(1, 178) = 9.71, p = .002, η²p = .052, **d = 0.46, IC95% [0.16, 0.76]**, BF10 = 12.4 (evidencia fuerte). La ventaja del grupo BA se mantuvo tras controlar por todas las covariables.\n\n### 3.2. Coste de cambio\n\nEl coste de cambio fue menor en el grupo BA (M = 142.5 ms, DT = 47.3) que en el grupo BD (M = 162.8 ms, DT = 52.1). ANCOVA: F(1, 178) = 6.62, p = .011, η²p = .036, **d = 0.38, IC95% [0.09, 0.67]**, BF10 = 5.8 (evidencia moderada).\n\n### 3.3. Análisis de moderación\n\nUn modelo de regresión adicional con el porcentaje de uso bilingüe diario como predictor continuo (en lugar de la dicotomización) replicó los resultados: a mayor equilibrio en el uso diario, menor efecto Flanker (β = -0.27, p < .001) y menor coste de cambio (β = -0.19, p = .009). La relación se mantuvo monótona y aproximadamente lineal entre el 30% y el 70% de uso de la lengua minoritaria.\n\n### 3.4. Análisis exploratorio: variables lingüísticas tradicionales\n\nCuando se sustituyó el grupo basado en EMA por la clasificación bilingüe/monolingüe basada en autoinforme retrospectivo (edad de adquisición de la segunda lengua y autoevaluación de competencia), los efectos desaparecieron: efecto Flanker, F(1, 178) = 0.82, p = .37; coste de cambio, F(1, 178) = 1.14, p = .29. Este hallazgo es crítico para la interpretación.\n\n## 4. Discusión\n\nLos resultados respaldan la tesis: cuando la muestra se equilibra en uso bilingüe diario actual medido objetivamente, el efecto bilingüe sobre la función ejecutiva en adultos mayores emerge con tamaños de efecto moderados (d = 0.38-0.46) y evidencia bayesiana de moderada a fuerte. Esto contrasta con la conclusión escéptica derivada de la literatura reciente (Paap et al., 2015; Antón et al., 2014; Duñabeitia et al., 2014) y matiza —sin descartar— las críticas metodológicas que esa literatura ha formulado.\n\nEl hallazgo del análisis 3.4 es particularmente relevante: aplicar a nuestra propia muestra la clasificación bilingüe/monolingüe basada en autoinforme retrospectivo —el procedimiento estándar en gran parte de la literatura crítica— hace desaparecer los efectos. Esto sugiere que la heterogeneidad de la literatura no se explica únicamente por sesgos de publicación o azar muestral, sino también por la insensibilidad de las medidas tradicionales de bilingüismo a la práctica bilingüe efectiva en la vida cotidiana.\n\n### 4.1. Contra-argumentos\n\nReconocemos varias objeciones plausibles a nuestra interpretación.\n\n**Primera objeción.** Los efectos observados podrían deberse a artefactos de muestreo o publicación selectiva. Si nuestra dicotomización EMA captura una variable distinta del bilingüismo (p. ej., extraversión, actividad social), el efecto reflejaría esto y no el bilingüismo per se. **Respuesta.** Los análisis incluyeron como covariables medidas de actividad social y red de contactos (cuestionario LSNS-6) y los resultados se mantuvieron sustancialmente inalterados. No descartamos completamente esta posibilidad pero la consideramos atenuada.\n\n**Segunda objeción.** El tamaño de efecto observado (d ≈ 0.4) está en el rango bajo-moderado y podría no ser robusto a una replicación en una muestra independiente. **Respuesta.** Coincidimos en que la replicación directa es imprescindible. Hemos pre-registrado un estudio de réplica en Valencia (n proyectada = 220) con el mismo protocolo EMA-Flanker-switching.\n\n**Tercera objeción.** La población hispano-catalana del área metropolitana de Barcelona puede no ser representativa de otras poblaciones bilingües, dada la peculiaridad sociolingüística de Cataluña. Esta objeción no recibe en este trabajo una respuesta empírica; queda planteada como una limitación.\n\n### 4.2. Limitaciones\n\nReconocemos las siguientes limitaciones del presente trabajo:\n\n1. **Validez externa.** La población hispano-catalana del área metropolitana de Barcelona puede no ser representativa de otros pares lingüísticos ni de comunidades bilingües con estatus social distinto entre las lenguas. La generalización a contextos de bilingüismo minoritario (p. ej., euskera-castellano en zonas rurales) requiere replicación específica.\n\n2. **Tamaño muestral.** Aunque N = 184 es adecuado para detectar efectos moderados, queda corto para análisis de subgrupos (p. ej., por rango de edad estrecho) y para detectar interacciones de orden superior.\n\n3. **Metodología de la EMA.** La adhesión del 87% es buena pero introduce datos faltantes no completamente aleatorios; los participantes pueden haber respondido más cuando estaban menos ocupados, sesgando la estimación hacia ciertos contextos comunicativos.\n\n4. **Validez de constructo.** El coste de cambio y el efecto Flanker capturan aspectos parciales de la función ejecutiva; otros componentes (memoria de trabajo, actualización) no se evaluaron.\n\n### 4.3. Implicaciones\n\nPara investigación futura: las medidas tradicionales de bilingüismo (edad de adquisición, autoevaluación de competencia) son insuficientes para caracterizar el bilingüismo funcional adulto. Recomendamos que los estudios sobre ventaja bilingüe incorporen al menos una medida objetiva de uso diario actual.\n\nPara la controversia teórica: nuestros resultados no demuestran que la ventaja bilingüe sea universal, pero sí que su no-detección en estudios previos puede deberse parcialmente a heterogeneidad real en la práctica bilingüe. La pregunta \"¿existe el efecto?\" debe reemplazarse por \"¿bajo qué condiciones de uso bilingüe activo emerge, y con qué magnitud?\".\n\n## 5. Conclusiones\n\nUna muestra de adultos mayores hispano-catalanes equilibrada en uso bilingüe diario actual presenta efectos significativos del bilingüismo sobre dos componentes de la función ejecutiva (inhibición medida con Flanker y switching de tarea), con tamaños de efecto moderados (d = 0.38-0.46). El efecto desaparece cuando los mismos participantes se clasifican mediante autoinforme retrospectivo, lo que sugiere que parte sustancial de la controversia previa puede explicarse por la insensibilidad de las medidas tradicionales de bilingüismo a la práctica diaria efectiva. El trabajo cuestiona —sin negar por completo— la posición escéptica reciente sobre la ventaja bilingüe.\n\n## Referencias\n\nAntón, E., Duñabeitia, J. A., Estévez, A., Hernández, J. A., Castillo, A., Fuentes, L. J., Davidson, D. J., y Carreiras, M. (2014). Is there a bilingual advantage in the ANT task? Evidence from children. *Frontiers in Psychology*, 5, 398.\n\nBialystok, E. (2017). The bilingual adaptation: How minds accommodate experience. *Psychological Bulletin*, 143(3), 233-262.\n\nBialystok, E., Craik, F. I. M., y Freedman, M. (2007). Bilingualism as a protection against the onset of symptoms of dementia. *Neuropsychologia*, 45(2), 459-464.\n\nDe Bruin, A., Treccani, B., y Della Sala, S. (2015). Cognitive advantage in bilingualism: An example of publication bias? *Psychological Science*, 26(1), 99-107.\n\nDuñabeitia, J. A., Hernández, J. A., Antón, E., Macizo, P., Estévez, A., Fuentes, L. J., y Carreiras, M. (2014). The inhibitory advantage in bilingual children revisited: Myth or reality? *Experimental Psychology*, 61(3), 234-251.\n\nKroll, J. F., y Bialystok, E. (2013). Understanding the consequences of bilingualism for language processing and cognition. *Journal of Cognitive Psychology*, 25(5), 497-514.\n\nPaap, K. R., Johnson, H. A., y Sawi, O. (2015). Bilingual advantages in executive functioning either do not exist or are restricted to very specific and undetermined circumstances. *Cortex*, 69, 265-278.\n\nShiffman, S., Stone, A. A., y Hufford, M. R. (2008). Ecological momentary assessment. *Annual Review of Clinical Psychology*, 4, 1-32.",
+  "instruction": "Extrae la estructura argumental completa del artículo: tesis principal, sub-afirmaciones con sus evidencias, contra-afirmaciones reconocidas y sus respuestas, limitaciones declaradas, posicionamiento respecto al estado del arte y antecedentes citados.",
+  "target_schema": {
+    "$defs": {
+      "CounterClaim": {
+        "additionalProperties": false,
+        "description": "Una objeción o contra-afirmación que el artículo reconoce y responde.",
+        "properties": {
+          "statement": {
+            "description": "Enunciado de la objeción en voz declarativa (p. ej. 'La correlación observada podría explicarse por el sesgo de selección de la muestra').",
+            "title": "Statement",
+            "type": "string"
+          },
+          "response": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Respuesta o concesión del artículo a la objeción si la incluye (p. ej. 'Los autores controlan este sesgo estratificando por edad y nivel socioeconómico'). Null si el artículo presenta la objeción sin responderla.",
+            "title": "Response"
+          }
+        },
+        "required": [
+          "statement"
+        ],
+        "title": "CounterClaim",
+        "type": "object"
+      },
+      "Evidence": {
+        "additionalProperties": false,
+        "description": "Una pieza de evidencia que apoya una afirmación del artículo.",
+        "properties": {
+          "kind": {
+            "$ref": "#/$defs/EvidenceKind",
+            "description": "Tipo de evidencia."
+          },
+          "description": {
+            "description": "Descripción literal o casi literal de la evidencia en una frase (p. ej. 'experimento controlado con N=240 hablantes nativos de español').",
+            "title": "Description",
+            "type": "string"
+          },
+          "quoted_passage": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Cita literal del artículo (sin comillas) que presenta esta evidencia, si el extractor la conserva. Null si el extractor solo parafrasea.",
+            "title": "Quoted Passage"
+          }
+        },
+        "required": [
+          "kind",
+          "description"
+        ],
+        "title": "Evidence",
+        "type": "object"
+      },
+      "EvidenceKind": {
+        "enum": [
+          "estudio_empírico",
+          "análisis_datos",
+          "demostración_teórica",
+          "literatura_citada",
+          "ejemplo_caso",
+          "simulación"
+        ],
+        "title": "EvidenceKind",
+        "type": "string"
+      },
+      "Limitation": {
+        "additionalProperties": false,
+        "description": "Una limitación del trabajo declarada por los propios autores.",
+        "properties": {
+          "kind": {
+            "$ref": "#/$defs/LimitationKind",
+            "description": "Categoría de la limitación."
+          },
+          "description": {
+            "description": "Descripción literal o casi literal de la limitación tal como la consignan los autores.",
+            "title": "Description",
+            "type": "string"
+          }
+        },
+        "required": [
+          "kind",
+          "description"
+        ],
+        "title": "Limitation",
+        "type": "object"
+      },
+      "LimitationKind": {
+        "enum": [
+          "tamaño_muestral",
+          "validez_externa",
+          "validez_de_constructo",
+          "metodología",
+          "calidad_datos",
+          "alcance"
+        ],
+        "title": "LimitationKind",
+        "type": "string"
+      },
+      "PositioningStance": {
+        "enum": [
+          "extiende",
+          "matiza",
+          "cuestiona",
+          "sintetiza",
+          "introduce_novedoso"
+        ],
+        "title": "PositioningStance",
+        "type": "string"
+      },
+      "SubClaim": {
+        "additionalProperties": false,
+        "description": "Una afirmación de apoyo subordinada a la tesis principal.",
+        "properties": {
+          "statement": {
+            "description": "Enunciado de la afirmación en una frase, en voz declarativa (p. ej. 'La frecuencia de uso del subjuntivo decrece con la edad de exposición al inglés').",
+            "title": "Statement",
+            "type": "string"
+          },
+          "supporting_evidence": {
+            "description": "Pieza(s) de evidencia que el artículo aporta para esta afirmación. Al menos una.",
+            "items": {
+              "$ref": "#/$defs/Evidence"
+            },
+            "minItems": 1,
+            "title": "Supporting Evidence",
+            "type": "array"
+          }
+        },
+        "required": [
+          "statement",
+          "supporting_evidence"
+        ],
+        "title": "SubClaim",
+        "type": "object"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Estructura argumental completa de un artículo académico (humanidades,\nciencias sociales, ciencia o medicina) en español: tesis central,\nsub-afirmaciones con sus evidencias, contra-afirmaciones reconocidas y\ncontestadas, limitaciones declaradas y posicionamiento explícito en el\nestado del arte.\n\nLa extracción debe distinguir entre la tesis principal y las sub-afirmaciones\nque la sostienen, asociar cada evidencia a la afirmación que apoya, y\ndiferenciar las contra-afirmaciones que el propio artículo plantea de las\nlimitaciones que sus autores reconocen. Requiere lectura holística del\nartículo completo, no solo del resumen.\n\nComplejidad: L10 — razonamiento argumentativo sobre el conjunto del\ndocumento con jerarquías retóricas, enlazado evidencia↔afirmación, y\ndistinciones semánticas finas (limitación vs. contra-afirmación vs.\nposicionamiento).",
+    "properties": {
+      "title": {
+        "description": "Título del artículo tal como aparece en la portada.",
+        "title": "Title",
+        "type": "string"
+      },
+      "discipline": {
+        "description": "Disciplina principal del artículo según el propio texto (p. ej. 'sociolingüística', 'bioquímica', 'historia económica').",
+        "title": "Discipline",
+        "type": "string"
+      },
+      "main_thesis": {
+        "description": "Tesis central del artículo en una o dos frases. Captura lo que el artículo afirma de novedoso o controvertido, no su objeto de estudio.",
+        "title": "Main Thesis",
+        "type": "string"
+      },
+      "sub_claims": {
+        "description": "Afirmaciones de apoyo a la tesis principal, en el orden en que el artículo las desarrolla. Cada una debe ir acompañada de su evidencia.",
+        "items": {
+          "$ref": "#/$defs/SubClaim"
+        },
+        "minItems": 1,
+        "title": "Sub Claims",
+        "type": "array"
+      },
+      "counter_claims": {
+        "description": "Objeciones o contra-afirmaciones que el artículo plantea explícitamente y a las que (idealmente) responde. Lista vacía si el artículo no reconoce contra-argumentos.",
+        "items": {
+          "$ref": "#/$defs/CounterClaim"
+        },
+        "title": "Counter Claims",
+        "type": "array"
+      },
+      "limitations": {
+        "description": "Limitaciones que los autores reconocen sobre su propio trabajo, típicamente en una sección 'Limitaciones' o 'Discusión'. Lista vacía si el artículo no las declara.",
+        "items": {
+          "$ref": "#/$defs/Limitation"
+        },
+        "title": "Limitations",
+        "type": "array"
+      },
+      "positioning": {
+        "$ref": "#/$defs/PositioningStance",
+        "description": "Cómo se posiciona el artículo respecto al estado del arte: 'extiende' un marco anterior, 'matiza' resultados previos, 'cuestiona' una tesis recibida, 'sintetiza' tradiciones distintas, o 'introduce_novedoso' un objeto/método no tratado antes."
+      },
+      "cited_predecessors": {
+        "description": "Trabajos o autores anteriores que el artículo cita como antecedentes directos de su tesis (p. ej. 'Labov (1972)', 'la escuela de Praga'). Solo los citados explícitamente como antecedentes de la tesis principal, no toda la bibliografía.",
+        "items": {
+          "type": "string"
+        },
+        "title": "Cited Predecessors",
+        "type": "array"
+      }
+    },
+    "required": [
+      "title",
+      "discipline",
+      "main_thesis",
+      "sub_claims",
+      "positioning"
+    ],
+    "title": "PaperArgument",
+    "type": "object"
+  },
+  "output": {
+    "title": "El efecto del bilingüismo de larga trayectoria sobre la función ejecutiva en adultos mayores hispano-catalanes: evidencia desde una muestra equilibrada en uso bilingüe diario",
+    "discipline": "psicología cognitiva",
+    "main_thesis": "El efecto bilingüe sobre la función ejecutiva, ampliamente cuestionado en la literatura reciente, sí emerge cuando la muestra está suficientemente equilibrada en uso bilingüe diario actual, medido objetivamente.",
+    "sub_claims": [
+      {
+        "statement": "Los bilingües activos muestran un efecto Flanker significativamente menor que los bilingües desbalanceados, con tamaño de efecto moderado.",
+        "supporting_evidence": [
+          {
+            "kind": "estudio_empírico",
+            "description": "ANCOVA con grupo (BA vs BD) como factor mostró un efecto principal del grupo en la magnitud del efecto Flanker, d = 0.46, IC95% [0.16, 0.76], BF10 = 12.4.",
+            "quoted_passage": "El efecto Flanker fue significativamente menor en el grupo BA (M = 64.8 ms, DT = 23.1) que en el grupo BD (M = 79.2 ms, DT = 25.7). El ANCOVA mostró un efecto principal del grupo, F(1, 178) = 9.71, p = .002, η²p = .052, **d = 0.46, IC95% [0.16, 0.76]**, BF10 = 12.4 (evidencia fuerte)."
+          }
+        ]
+      },
+      {
+        "statement": "Los bilingües activos muestran un coste de cambio reducido en la tarea de switching de cartas respecto al grupo desbalanceado.",
+        "supporting_evidence": [
+          {
+            "kind": "estudio_empírico",
+            "description": "El coste de cambio fue menor en el grupo BA (M = 142.5 ms) que en el grupo BD (M = 162.8 ms); ANCOVA F(1, 178) = 6.62, p = .011, d = 0.38, IC95% [0.09, 0.67], BF10 = 5.8.",
+            "quoted_passage": "El coste de cambio fue menor en el grupo BA (M = 142.5 ms, DT = 47.3) que en el grupo BD (M = 162.8 ms, DT = 52.1). ANCOVA: F(1, 178) = 6.62, p = .011, η²p = .036, **d = 0.38, IC95% [0.09, 0.67]**, BF10 = 5.8 (evidencia moderada)."
+          }
+        ]
+      },
+      {
+        "statement": "Cuanto mayor es el equilibrio en uso bilingüe diario, menores son tanto el efecto Flanker como el coste de cambio, con relación aproximadamente lineal.",
+        "supporting_evidence": [
+          {
+            "kind": "análisis_datos",
+            "description": "Modelo de regresión con porcentaje de uso bilingüe diario como predictor continuo: β = -0.27 (p < .001) para efecto Flanker y β = -0.19 (p = .009) para coste de cambio.",
+            "quoted_passage": "a mayor equilibrio en el uso diario, menor efecto Flanker (β = -0.27, p < .001) y menor coste de cambio (β = -0.19, p = .009). La relación se mantuvo monótona y aproximadamente lineal entre el 30% y el 70% de uso de la lengua minoritaria."
+          }
+        ]
+      },
+      {
+        "statement": "Cuando los mismos participantes se clasifican mediante autoinforme retrospectivo en lugar de uso diario medido objetivamente, los efectos desaparecen.",
+        "supporting_evidence": [
+          {
+            "kind": "análisis_datos",
+            "description": "Al sustituir el grupo basado en EMA por la clasificación bilingüe/monolingüe basada en autoinforme retrospectivo, los efectos desaparecen: Flanker F(1, 178) = 0.82, p = .37; coste de cambio F(1, 178) = 1.14, p = .29.",
+            "quoted_passage": "Cuando se sustituyó el grupo basado en EMA por la clasificación bilingüe/monolingüe basada en autoinforme retrospectivo (edad de adquisición de la segunda lengua y autoevaluación de competencia), los efectos desaparecieron: efecto Flanker, F(1, 178) = 0.82, p = .37; coste de cambio, F(1, 178) = 1.14, p = .29."
+          }
+        ]
+      },
+      {
+        "statement": "La literatura crítica reciente que no replica la ventaja bilingüe ha empleado mayoritariamente medidas tradicionales de bilingüismo insensibles a la práctica diaria efectiva.",
+        "supporting_evidence": [
+          {
+            "kind": "literatura_citada",
+            "description": "Paap, Johnson y Sawi (2015) revisaron más de un centenar de estudios concluyendo que la ventaja bilingüe está restringida a circunstancias específicas; Antón et al. (2014) y Duñabeitia et al. (2014) no encontraron diferencias en muestras catalano-castellanas y vascas.",
+            "quoted_passage": "Paap, Johnson y Sawi (2015) revisaron sistemáticamente más de un centenar de estudios y concluyeron que la ventaja bilingüe es, en el mejor de los casos, restringida a circunstancias específicas. De Bruin, Treccani y Della Sala (2015) documentaron un sesgo de publicación notable: los estudios con resultados nulos quedaban infrarrepresentados en la literatura. Más recientemente, Antón et al. (2014) y Duñabeitia et al. (2014), trabajando con muestras grandes de niños catalano-castellanos y vascos, no encontraron diferencias significativas entre bilingües y monolingües en tareas Flanker ni Simon."
+          }
+        ]
+      }
+    ],
+    "counter_claims": [
+      {
+        "statement": "Los efectos observados podrían deberse a que la dicotomización EMA captura una variable distinta del bilingüismo (extraversión, actividad social) en lugar del bilingüismo per se.",
+        "response": "Los análisis incluyeron como covariables medidas de actividad social y red de contactos (cuestionario LSNS-6) y los resultados se mantuvieron sustancialmente inalterados; los autores reconocen que no se descarta completamente pero la consideran atenuada."
+      },
+      {
+        "statement": "El tamaño de efecto observado (d ≈ 0.4) está en el rango bajo-moderado y podría no ser robusto a una replicación en una muestra independiente.",
+        "response": "Los autores coinciden en que la replicación directa es imprescindible y han pre-registrado un estudio de réplica en Valencia (n proyectada = 220) con el mismo protocolo EMA-Flanker-switching."
+      },
+      {
+        "statement": "La población hispano-catalana del área metropolitana de Barcelona puede no ser representativa de otras poblaciones bilingües, dada la peculiaridad sociolingüística de Cataluña.",
+        "response": null
+      }
+    ],
+    "limitations": [
+      {
+        "kind": "validez_externa",
+        "description": "La población hispano-catalana del área metropolitana de Barcelona puede no ser representativa de otros pares lingüísticos ni de comunidades bilingües con estatus social distinto entre las lenguas; la generalización a contextos de bilingüismo minoritario requiere replicación específica."
+      },
+      {
+        "kind": "tamaño_muestral",
+        "description": "Aunque N = 184 es adecuado para detectar efectos moderados, queda corto para análisis de subgrupos (p. ej., por rango de edad estrecho) y para detectar interacciones de orden superior."
+      },
+      {
+        "kind": "metodología",
+        "description": "La adhesión del 87% en la EMA es buena pero introduce datos faltantes no completamente aleatorios; los participantes pueden haber respondido más cuando estaban menos ocupados, sesgando la estimación hacia ciertos contextos comunicativos."
+      },
+      {
+        "kind": "validez_de_constructo",
+        "description": "El coste de cambio y el efecto Flanker capturan aspectos parciales de la función ejecutiva; otros componentes (memoria de trabajo, actualización) no se evaluaron."
+      }
+    ],
+    "positioning": "cuestiona",
+    "cited_predecessors": [
+      "Bialystok (2017)",
+      "Bialystok, Craik y Freedman (2007)",
+      "Paap, Johnson y Sawi (2015)",
+      "De Bruin, Treccani y Della Sala (2015)",
+      "Antón et al. (2014)",
+      "Duñabeitia et al. (2014)",
+      "Kroll y Bialystok (2013)"
+    ]
+  },
+  "metadata": {
+    "source": "synthetic_20260601_008.md",
+    "domain": "research",
+    "subdomain": "paper_argument"
+  }
+}
