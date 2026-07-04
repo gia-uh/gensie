@@ -1,0 +1,88 @@
+{
+  "id": "cultural_literature_003",
+  "input_text": "# La vida de Lazarillo de Tormes\n\n## Introducción\nLa vida de Lazarillo de Tormes y de sus fortunas y adversidades (más conocida como Lazarillo de Tormes) es una novela española anónima, escrita en primera persona y en estilo epistolar (como una sola y larga carta), cuyas ediciones conocidas más antiguas datan de 1554.​ En ella se cuenta de forma autobiográfica la vida de un niño, Lázaro de Tormes, en el siglo XVI, desde su nacimiento y su miserable infancia hasta su matrimonio, ya en su edad adulta. Es considerada precursora de la novela picaresca​ por elementos como el realismo, la narración en primera persona, la estructura itinerante, el servicio a varios amos y la ideología moralizante y pesimista.\nLazarillo de Tormes es un esbozo irónico y despiadado de la sociedad del momento, de la que se muestran sus vicios y actitudes hipócritas, sobre todo las de los clérigos y religiosos. Hay diferentes hipótesis sobre su autoría. Probablemente el autor fue simpatizante de las ideas erasmistas. Esto motivó que la Inquisición la prohibiera y que, más tarde, permitiera su publicación, una vez expurgada. La obra no volvió a ser publicada íntegramente hasta el siglo XIX.\n\n## Argumento\nLa obra es, en realidad, una larga epístola que el \"autor\" envía a un corresponsal anónimo (a quien trata de \"Vuestra Merced\"), quien podría identificarse con un visitador o su notario eclesiástico, si se acepta que el contexto de la novela es una visita pastoral a la parroquia de San Salvador de Toledo, durante la que se investiga el famoso \"caso\". Las visitas pastorales tenían por objeto tanto examinar la observancia religiosa como las costumbres y la moral, entre otras, del bajo clero y de los feligreses a su cargo. En consecuencia, la relación que hace Lázaro de su vida formaría parte del acostumbrado proceso indagatorio impulsado por el visitador a cuento de los pecados públicos que se le achacan al arcipreste y en los que el propio Lázaro aparece relacionado.​ Está dividida en siete tratados y cuenta en primera persona la historia de Lázaro, un niño de origen muy humilde; aunque sin honra, nació en un río de Salamanca, el Tormes, como el gran héroe Amadís; quedó huérfano de su padre, un molinero ladrón llamado Tomé González, y fue puesto al servicio de un ciego por su madre, Antona Pérez, una mujer amancebada con un negro, Zaide, que le da a Lazarillo un bonito hermanastro mulato.\nEntre \"fortunas y adversidades\", Lázaro evoluciona desde su ingenuidad inicial hasta desarrollar un instinto de supervivencia. Es despertado a la maldad del mundo por la cornada de un toro de piedra, embuste con el que el ciego le saca de su simpleza; después rivaliza en astucia con él en diversos célebres episodios como el de las uvas o el jarro de vino (un modelo de narración clásica) hasta que se venga devolviéndole la cornada de piedra con otro embuste, que le vale al cruel ciego descalabrarse contra un pilar.\n\nPasa luego a servir a un tacaño clérigo de Maqueda que lo mata de hambre, y al que sisa algo de pan de un arca que tiene; el clérigo lo confunde a oscuras (en su boca silba accidentalmente la llave del arca, escondida mientras duerme) y, tomándolo por culebra, descubre el engaño, le da una tremenda paliza y lo despide.\nDespués entra a servir a un hidalgo arruinado cuyo único tesoro son sus recuerdos de hidalguía y de dignidad; Lazarillo simpatiza con él, ya que aunque no tiene nada que darle, por lo menos le trata bien, si bien recurre a esa simpatía que despierta para conseguir que le dé parte de los mendrugos que consigue el muchacho al pedir limosna, ya que él no posee la dignidad de la hidalguía. El patético escudero termina por abandonar la ciudad y Lazarillo se encuentra de nuevo solo en el mundo. \nMás adelante sirve Lázaro a un sospechoso fraile mercedario, tan amante del mundo que apenas para en su convento y le hace reventar los zapatos. Según Aldo Ruffinatto, habría una alusión a las reformas monásticas por entonces de moda, en el sentido de \"descalzar\" o hacer más rigurosos los estatutos del clero regular, o quizás alusión a actividades sexuales hetero u homoeróticas.​ Sin embargo, Francisco Rico asegura que «no hay el menor indicio para suponer tal escabrosidad», pues el sentido del texto es una simple abbreviatio o reticencia, procedimiento abundantemente usado antes, como cuando relatando sus aventuras con el ciego, Lázaro dice «por no ser prolijo, dejo de contar muchas cosas [...]», en elipsis que era común para terminar las cartas, teniendo en cuenta que todo el Lazarillo es una larga epístola.​\nEl tratado quinto es más extenso: narra una estafa realizada por parte de un vendedor de bulas o buldero. Lazarillo sirve al buldero y asiste como espectador, sin opinar, al desarrollo del timo, en el cual finge el buldero que alguien que piensa que las bulas no sirven para nada, está poseído por el diablo, cuando en realidad está compinchado o conchabado con él; esto se descubre a posteriori, con una hábil técnica de suspensión. También este tratado sufrió la poda de la censura.\nLos restantes y breves tratados narran cómo Lázaro se asienta con otros amos, un capellán, un maestro de hacer panderos y un alguacil y se hace aguador. Por último consigue el cargo de pregonero gracias al arcipreste de la iglesia toledana de San Salvador, quien además le ofrece una casa y la oportunidad de casarse con una de sus criadas, con la finalidad de disipar los rumores que se ciernen sobre él, ya que era acusado de mantener una relación con su criada. Sin embargo, tras la boda los rumores no desaparecen y Lázaro comienza a ser objeto de burla por parte del pueblo. Lázaro sufre la infidelidad con paciencia, después de toda una vida de ver qué es el honor y la hipocresía que encubre la dignidad realmente, ya que eso al menos le permite vivir, y con ello termina la carta, un cínico alegato autojustificativo que ridiculiza la literatura idealista del momento. Lázaro afirma que ha alcanzado la felicidad, pero para ello ha debido perder su honra, pues los rumores afirman que su mujer es la amante del arcipreste. Para mantener su posición, Lázaro hace oídos sordos a dichos rumores.",
+  "instruction": "Extrae los metadatos bibliográficos y temas principales de la obra literaria descrita.",
+  "target_schema": {
+    "additionalProperties": false,
+    "description": "Extracts basic bibliographic metadata and key themes from a book description or encyclopedia entry.\nComplexity: L2 (Explicit Information Retrieval).",
+    "properties": {
+      "title": {
+        "description": "The official title of the literary work",
+        "title": "Title",
+        "type": "string"
+      },
+      "author": {
+        "description": "The primary author or creator of the work",
+        "title": "Author",
+        "type": "string"
+      },
+      "publication_year": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "The year the work was first published",
+        "title": "Publication Year"
+      },
+      "genres": {
+        "description": "Literary genres associated with the work (e.g., 'Science Fiction', 'Romance')",
+        "items": {
+          "type": "string"
+        },
+        "title": "Genres",
+        "type": "array"
+      },
+      "key_themes": {
+        "description": "Main topics or themes explored in the work",
+        "items": {
+          "type": "string"
+        },
+        "title": "Key Themes",
+        "type": "array"
+      },
+      "original_language": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "The language in which the work was originally written",
+        "title": "Original Language"
+      }
+    },
+    "required": [
+      "title",
+      "author"
+    ],
+    "title": "LiteraryWork",
+    "type": "object"
+  },
+  "output": {
+    "title": "Lazarillo de Tormes",
+    "author": "Anónimo",
+    "publication_year": 1554,
+    "genres": [
+      "novela picaresca"
+    ],
+    "key_themes": [
+      "hambre",
+      "hipocresía",
+      "sociedad"
+    ],
+    "original_language": "español"
+  },
+  "metadata": {
+    "source": "lazarillo_de_tormes.md",
+    "domain": "cultural",
+    "subdomain": "literature"
+  }
+}

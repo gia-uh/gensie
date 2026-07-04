@@ -1,0 +1,307 @@
+{
+  "id": "cultural_theater_008",
+  "input_text": "# Teatro de la Zarzuela\n## Temporada Lírica 2026\n\n---\n\n### LA VERBENA DE SAN BERNARDINO\n**Sainete lírico en un acto y tres cuadros**\n\nLibreto de Eulogio Casaverde y Manuel Trías-Bonet\nMúsica de Jacinto Otaola Iturralde (1858–1921)\n\nNueva producción del Teatro de la Zarzuela de Madrid, en coproducción con el Teatro Campoamor de Oviedo y el Festival de Verano de Cuenca. Reestreno en versión crítica recuperada por el Instituto Complutense de Musicología tras setenta y ocho años fuera de los escenarios.\n\n**Sala principal — Calle de Jovellanos, 4 · Madrid**\n\nDel 14 de marzo al 6 de abril de 2026.\nVeinte funciones, con doble función los sábados.\n\nDuración aproximada: 95 minutos con un intermedio de quince minutos. [...] ## Sinopsis\n\nLa acción transcurre en una calurosa noche de agosto de 1897 en el madrileño barrio de Lavapiés, durante la verbena en honor a San Bernardino. Casilda, joven planchadora, espera a su prometido Saturnino, sereno de la calle del Olivar, mientras se ve cortejada por don Hilario Pidal, contador del Banco Hipotecario, hombre maduro de fortuna y bigote teñido. La irrupción del organillero Pepe el Chuli, antiguo enamorado de Casilda recién llegado de las Américas con dudosos caudales, desata una serie de equívocos en los que intervienen la portera doña Brígida, el aguador Frasquito y un sereno suplente que confunde a unos con otros. Tras un cuadro nocturno en la pradera, donde se entrecruzan chulapos, manolas y un grupo de húsares de paso por la Villa, el malentendido se resuelve con la reconciliación de los novios y la huida de don Hilario, hazmerreír del vecindario.\n\n### Números musicales destacados\n\n- **Preludio orquestal** sobre temas populares madrileños.\n- **N.º 3 — Romanza de Casilda**: «No me digas que me olvidas».\n- **N.º 5 — Dúo cómico** de don Hilario y doña Brígida.\n- **N.º 7 — Pasodoble de los faroleros** (recuperado).\n- **N.º 9 — Habanera de la florista** (recuperada).\n- **N.º 11 — Concertante final** con coro general y banda interna.\n\nTemas explícitos abordados en el cuaderno de dirección: la nostalgia indiana, la honra popular, el cortejo desigual entre clases. [...] ## Reparto\n\n| Personaje | Intérprete | Suplente |\n|---|---|---|\n| Casilda, planchadora (soprano lírica) | Marisol Argüelles Berrocal | Inés Quintanapalla Romeu |\n| Saturnino, sereno (tenor) | Damián Pradós Lecumberri | Ovidio Heras-Mantilla |\n| Don Hilario Pidal, contador (barítono cómico) | Régulo Anchústegui Vidal | — |\n| Pepe el Chuli, organillero (barítono lírico) | Cándido Vélez-Pruna | Aitor Mendizábal Oroz |\n| Doña Brígida, portera (mezzosoprano característica) | Encarnación Lobatón Cifuentes | — |\n| Frasquito, aguador (tenor cómico) | Belarmino Tagle Soutullo | — |\n| Teniente Robledo, de húsares (papel hablado) | Galo Pertierra Naveda | — |\n| Una vendedora de avellanas | Sira Cantalapiedra Egozcue | — |\n| Un sereno viejo | Honorato Quiroz Bárcena | — |\n\n**Coro del Teatro de la Zarzuela**\nDirector del coro: Joaquín Vidal-Cibrián\n(36 voces; sopranos, contraltos, tenores y bajos)\n\n**Cuerpo de baile del Teatro de la Zarzuela**\nMaestro de baile: Anselmo Pereda Iruretagoyena\nPrimera pareja: Lorena Salcedillo Antón y Borja Echevarrieta Lasa\n(12 bailarines y bailarinas)\n\n**Orquesta de la Comunidad de Madrid** [...] ## Equipo creativo\n\n- **Dirección musical**: Maestro Estanislao Murúa Iribarren\n- **Dirección de escena**: Pilar Antuñano Cuevas\n- **Ayudante de dirección**: Tristán Cobo-Hernáiz\n- **Escenografía**: Estudio Carballeda & Vasconcellos\n- **Vestuario**: Águeda Pellicer Lomba\n- **Iluminación**: Nicasio Trueba Larrínaga\n- **Coreografía**: Anselmo Pereda Iruretagoyena\n- **Dramaturgia y edición crítica**: Pilar Antuñano Cuevas\n- **Caracterización**: Taller Mª Dolores Sanchidrián\n- **Sobretítulos**: Equipo del Centro Nacional de Difusión Musical [...] ## Avisos al público\n\n- La función incluye **efectos pirotécnicos de bengala fría** durante el cuadro segundo (verbena), así como detonaciones controladas en la escena del altercado del cuarto cuadro. Estos efectos producen **destellos luminosos intensos**; se recomienda precaución a personas sensibles a estímulos visuales.\n- Se emplea **humo escénico** de glicerina vegetal de baja densidad.\n- En el cuadro tercero un personaje **fuma un puro** sobre la escena.\n- Espectáculo apto para mayores de doce años por el lenguaje desenfadado propio del sainete madrileño y por ciertas alusiones de doble sentido propias del libreto original.",
+  "instruction": "Extrae los datos del programa de mano de esta producción teatral: título, sala, fechas, sinopsis, reparto, equipo creativo y avisos al público.",
+  "target_schema": {
+    "$defs": {
+      "CastMember": {
+        "additionalProperties": false,
+        "description": "Una intervención del reparto, con su rol y la persona que lo interpreta.",
+        "properties": {
+          "role": {
+            "description": "Nombre literal del personaje o función dramatúrgica (p. ej. 'Hamlet', 'Coro', 'Bailarín solista').",
+            "title": "Role",
+            "type": "string"
+          },
+          "actor": {
+            "description": "Nombre del intérprete que asume el rol, en el formato en que el programa lo presenta.",
+            "title": "Actor",
+            "type": "string"
+          },
+          "understudy": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Nombre del suplente para este rol si el programa lo nombra. Null si no aparece o si el programa no asigna suplentes.",
+            "title": "Understudy"
+          }
+        },
+        "required": [
+          "role",
+          "actor"
+        ],
+        "title": "CastMember",
+        "type": "object"
+      },
+      "ContentAdvisory": {
+        "enum": [
+          "ninguna",
+          "violencia",
+          "lenguaje_fuerte",
+          "contenido_sexual",
+          "tabaquismo",
+          "efectos_sonoros_intensos",
+          "luces_estroboscópicas"
+        ],
+        "title": "ContentAdvisory",
+        "type": "string"
+      },
+      "CreativeRole": {
+        "additionalProperties": false,
+        "description": "Una persona en el equipo creativo de la producción, con su función.",
+        "properties": {
+          "role": {
+            "description": "Función dentro del equipo creativo, tal como aparece en el programa (p. ej. 'Dirección', 'Dramaturgia', 'Escenografía', 'Música', 'Iluminación', 'Vestuario').",
+            "title": "Role",
+            "type": "string"
+          },
+          "name": {
+            "description": "Nombre de la persona o colectivo.",
+            "title": "Name",
+            "type": "string"
+          }
+        },
+        "required": [
+          "role",
+          "name"
+        ],
+        "title": "CreativeRole",
+        "type": "object"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Programa de mano (playbill) de una producción teatral, danza o lírica. La\ninformación se reparte entre cabecera (título + sala + fechas), reparto,\nequipo creativo, sinopsis y notas de aviso al público. La extracción debe\ndiferenciar entre intérpretes (CastMember) y equipo creativo (CreativeRole),\naunque ambos aparezcan en listados similares.\n\nComplejidad: L7 — síntesis de varias secciones con listas paralelas y\ndistinción de roles semánticamente cercanos.",
+    "properties": {
+      "title": {
+        "description": "Título de la obra tal como aparece en portada del programa.",
+        "title": "Title",
+        "type": "string"
+      },
+      "venue": {
+        "description": "Nombre de la sala o teatro donde se representa.",
+        "title": "Venue",
+        "type": "string"
+      },
+      "city": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Ciudad de la sala si el programa la menciona. Null si no aparece.",
+        "title": "City"
+      },
+      "opening_date": {
+        "description": "Fecha de estreno de esta producción en formato ISO 'YYYY-MM-DD' o, si el programa solo da mes y año, 'YYYY-MM'.",
+        "title": "Opening Date",
+        "type": "string"
+      },
+      "closing_date": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Fecha del último pase de la temporada en formato ISO. Null si la temporada está abierta o el programa no la cierra.",
+        "title": "Closing Date"
+      },
+      "runtime_minutes": {
+        "anyOf": [
+          {
+            "exclusiveMinimum": 0,
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Duración total del espectáculo en minutos, incluido intermedio si lo hay. Null si el programa no la indica.",
+        "title": "Runtime Minutes"
+      },
+      "synopsis": {
+        "description": "Resumen literal del argumento como aparece en la sección 'Sinopsis' o equivalente. Una o dos frases.",
+        "title": "Synopsis",
+        "type": "string"
+      },
+      "themes": {
+        "description": "Temas explícitamente nombrados en la nota de programa o la entrevista al director (p. ej. 'memoria histórica', 'feminismo', 'duelo'). Solo temas literalmente mencionados, no inferidos.",
+        "items": {
+          "type": "string"
+        },
+        "title": "Themes",
+        "type": "array"
+      },
+      "cast": {
+        "description": "Reparto en el orden en que aparece en el programa. Cada entrada asocia un rol dramatúrgico con su intérprete.",
+        "items": {
+          "$ref": "#/$defs/CastMember"
+        },
+        "title": "Cast",
+        "type": "array"
+      },
+      "creative_team": {
+        "description": "Equipo creativo (dirección, dramaturgia, diseño escenográfico, música, iluminación, etc.) en el orden de aparición.",
+        "items": {
+          "$ref": "#/$defs/CreativeRole"
+        },
+        "title": "Creative Team",
+        "type": "array"
+      },
+      "content_advisory": {
+        "description": "Avisos para el público presentes en el programa. 'ninguna' solo si el programa declara explícitamente apto para todos los públicos.",
+        "items": {
+          "$ref": "#/$defs/ContentAdvisory"
+        },
+        "title": "Content Advisory",
+        "type": "array"
+      }
+    },
+    "required": [
+      "title",
+      "venue",
+      "opening_date",
+      "synopsis",
+      "cast"
+    ],
+    "title": "TheaterPlaybill",
+    "type": "object"
+  },
+  "output": {
+    "title": "La verbena de San Bernardino",
+    "venue": "Teatro de la Zarzuela",
+    "city": "Madrid",
+    "opening_date": "2026-03-14",
+    "closing_date": "2026-04-06",
+    "runtime_minutes": 95,
+    "synopsis": "La acción transcurre en una calurosa noche de agosto de 1897 en el madrileño barrio de Lavapiés, durante la verbena en honor a San Bernardino.",
+    "themes": [
+      "la nostalgia indiana",
+      "la honra popular",
+      "el cortejo desigual entre clases"
+    ],
+    "cast": [
+      {
+        "role": "Casilda, planchadora (soprano lírica)",
+        "actor": "Marisol Argüelles Berrocal",
+        "understudy": "Inés Quintanapalla Romeu"
+      },
+      {
+        "role": "Saturnino, sereno (tenor)",
+        "actor": "Damián Pradós Lecumberri",
+        "understudy": "Ovidio Heras-Mantilla"
+      },
+      {
+        "role": "Don Hilario Pidal, contador (barítono cómico)",
+        "actor": "Régulo Anchústegui Vidal",
+        "understudy": null
+      },
+      {
+        "role": "Pepe el Chuli, organillero (barítono lírico)",
+        "actor": "Cándido Vélez-Pruna",
+        "understudy": "Aitor Mendizábal Oroz"
+      },
+      {
+        "role": "Doña Brígida, portera (mezzosoprano característica)",
+        "actor": "Encarnación Lobatón Cifuentes",
+        "understudy": null
+      },
+      {
+        "role": "Frasquito, aguador (tenor cómico)",
+        "actor": "Belarmino Tagle Soutullo",
+        "understudy": null
+      },
+      {
+        "role": "Teniente Robledo, de húsares (papel hablado)",
+        "actor": "Galo Pertierra Naveda",
+        "understudy": null
+      },
+      {
+        "role": "Una vendedora de avellanas",
+        "actor": "Sira Cantalapiedra Egozcue",
+        "understudy": null
+      },
+      {
+        "role": "Un sereno viejo",
+        "actor": "Honorato Quiroz Bárcena",
+        "understudy": null
+      },
+      {
+        "role": "Coro del Teatro de la Zarzuela",
+        "actor": "Director del coro: Joaquín Vidal-Cibrián",
+        "understudy": null
+      },
+      {
+        "role": "Cuerpo de baile del Teatro de la Zarzuela",
+        "actor": "Primera pareja: Lorena Salcedillo Antón y Borja Echevarrieta Lasa",
+        "understudy": null
+      }
+    ],
+    "creative_team": [
+      {
+        "role": "Dirección musical",
+        "name": "Maestro Estanislao Murúa Iribarren"
+      },
+      {
+        "role": "Dirección de escena",
+        "name": "Pilar Antuñano Cuevas"
+      },
+      {
+        "role": "Ayudante de dirección",
+        "name": "Tristán Cobo-Hernáiz"
+      },
+      {
+        "role": "Escenografía",
+        "name": "Estudio Carballeda & Vasconcellos"
+      },
+      {
+        "role": "Vestuario",
+        "name": "Águeda Pellicer Lomba"
+      },
+      {
+        "role": "Iluminación",
+        "name": "Nicasio Trueba Larrínaga"
+      },
+      {
+        "role": "Coreografía",
+        "name": "Anselmo Pereda Iruretagoyena"
+      },
+      {
+        "role": "Dramaturgia y edición crítica",
+        "name": "Pilar Antuñano Cuevas"
+      },
+      {
+        "role": "Caracterización",
+        "name": "Taller Mª Dolores Sanchidrián"
+      },
+      {
+        "role": "Sobretítulos",
+        "name": "Equipo del Centro Nacional de Difusión Musical"
+      }
+    ],
+    "content_advisory": [
+      "luces_estroboscópicas",
+      "tabaquismo",
+      "efectos_sonoros_intensos"
+    ]
+  },
+  "metadata": {
+    "source": "synthetic_20260601_008.md",
+    "domain": "cultural",
+    "subdomain": "theater"
+  }
+}

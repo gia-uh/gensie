@@ -1,0 +1,195 @@
+{
+  "id": "medical_diseases_04",
+  "input_text": "# Angiostrongiliasis\n\nSource: https://es.wikipedia.org/wiki/Angiostrongiliasis\n\nLa angiostrongiliasis es una zoonosis emergente, de difícil diagnóstico y prevención, producida por un nemátodo del género Angiostrongylus. La fase infectiva para el ser humano es la tercera fase larvaria (L3) que se desarrolla en gasterópodos terrestres. La transmisión al hombre es por su consumo crudo, por contaminación de agua o alimentos con ellos o sus mucosidades o por manipulación de los moluscos o de vegetales.\n\nAngiostrongylus cantonensis (Chen, 1935) causa en el hombre meningitis eosinofílica.\nAngiostrongylus costaricensis (Morera y Céspedes, 1971) causa angiostrongiliasis abdominal. [...] Manifestaciones clínicas\nAngiostrongiliasis abdominal\nLa angiostrongiliasis abdominal cursa con dolor localizado en la fosa ilíaca y/o flanco derecho, dolor al tacto rectal en un 50% de los casos, fiebre (en los casos crónicos puede persistir una febrícula por varias semanas), anorexia, vómitos y alteraciones intestinales. La eosinofília puede llegar al 20-50%.\nPuede haber tanto perforación intestinal como oclusión.\nEl estudio radiológico denota daños en el íleon terminal, ciego, apéndice y colon ascendente, así como lumen intestinal reducido.\nEl hígado se afecta siempre.\nA nivel histológico se aprecian reacciones granulomatosas debidas a la respuesta inflamatoria frente a huevos y larvas.\nObstrucción de vasos sanguíneos que lleva a falta de riego y necrosis tisular, pudiendo afectarse especialmente testículos y vagina.\n\nAngiostrongiliasis cerebral\nSe puede presentar en varias formas, pudiendo ser tanto grave como asintomática:\n\nMeningitis eosinofíla (inducida por la respuesta de los eosinófilos hacia las larvas L3). Cursa con fiebre, parestesias, vómitos, cefaleas, convulsiones, rigidez de nuca, aumento de la presión intracraneal y parálisis facial.\nForma ocular. La larva L3 se aloja en la cámara anterior del ojo. Ello puede manifestarse como pérdida visión, dolor ocular, blefaroespasmo, glaucoma y desprendimiento de retina.\nForma pulmonar. Una o varias larvas L3 se alojan en pulmón causando neumonía grave, exudados y hemorragia.\n\nDiagnóstico\nA. costaricensis\nSe basa en la historia clínica del paciente, zona endémica del parásito, grupo de riesgo (niños o expuestos profesionalmente, contacto con gasterópodos, consumo de caracoles crudos, de crustáceos de agua dulce, manipulación de fruta, verdura o flores cortadas, inspectores de alimentos, etc.)\nSe ha desarrollado una técnica de aglutinación de partículas de látex que es barata, rápida y tiene alta sensibilidad y especificidad. No existen pruebas serológicas comercializadas.\n\nA. cantonensis\nLa historia clínica en este caso también puede ofrecer datos indicativos.\nSerológico: los eosinófilos están elevados. La serología, si se dispone de ella, confirma el diagnóstico de angiostrongiliasis. Las pruebas serológicas se encuentran disponibles en pocos laboratorios, sólo en algunos de áreas endémicas.\nPunción lumbar: se practica cuando existe sospecha de meningitis eosinófila. El líquido cefalorraquídeo (LCR) muestra un aumento de eosinófilos (20-90%), proteínas elevadas (inmunoglobulinas), glucosa normal o baja, presencia de cristales de Charcot-Leyden. Hay aumento de la presión intracraneal. Las probabilidades de encontrar larvas en el LCR son escasas.",
+  "instruction": "Extrae el perfil de la enfermedad",
+  "target_schema": {
+    "$defs": {
+      "EtiologyType": {
+        "enum": [
+          "INFECTIOUS",
+          "GENETIC",
+          "AUTOIMMUNE",
+          "DEGENERATIVE",
+          "UNKNOWN",
+          "OTHER"
+        ],
+        "title": "EtiologyType",
+        "type": "string"
+      },
+      "Symptom": {
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "description": "Verbatim name of the symptom",
+            "title": "Name",
+            "type": "string"
+          },
+          "severity_level": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Inferred severity if mentioned (Mild, Moderate, Severe)",
+            "title": "Severity Level"
+          },
+          "is_primary": {
+            "default": true,
+            "description": "True if this is a defining symptom of the disease",
+            "title": "Is Primary",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "name"
+        ],
+        "title": "Symptom",
+        "type": "object"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Hierarchical extraction of pathology details from medical summaries.\nComplexity: L5 (Hierarchical Grouping).",
+    "properties": {
+      "pathology_name": {
+        "description": "The medical name of the disease or disorder",
+        "title": "Pathology Name",
+        "type": "string"
+      },
+      "etiology_type": {
+        "$ref": "#/$defs/EtiologyType",
+        "description": "The primary origin or cause of the disease"
+      },
+      "etiology_description": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "A brief summary of how the disease is caused",
+        "title": "Etiology Description"
+      },
+      "symptoms": {
+        "description": "Structured list of reported symptoms",
+        "items": {
+          "$ref": "#/$defs/Symptom"
+        },
+        "title": "Symptoms",
+        "type": "array"
+      },
+      "diagnosis_methods": {
+        "description": "Clinical tests or methods mentioned for identifying the pathology",
+        "items": {
+          "type": "string"
+        },
+        "title": "Diagnosis Methods",
+        "type": "array"
+      },
+      "is_chronic": {
+        "anyOf": [
+          {
+            "type": "boolean"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "True if the text explicitly defines the disease as chronic or long-term",
+        "title": "Is Chronic"
+      }
+    },
+    "required": [
+      "pathology_name",
+      "etiology_type"
+    ],
+    "title": "DiseaseProfile",
+    "type": "object"
+  },
+  "output": {
+    "pathology_name": "Angiostrongiliasis",
+    "etiology_type": "INFECTIOUS",
+    "etiology_description": "Zoonosis emergente producida por un nemátodo del género Angiostrongylus, cuya fase infectiva (L3) se desarrolla en gasterópodos terrestres",
+    "symptoms": [
+      {
+        "name": "fiebre",
+        "severity_level": null,
+        "is_primary": true
+      },
+      {
+        "name": "vómitos",
+        "severity_level": null,
+        "is_primary": true
+      },
+      {
+        "name": "dolor localizado en la fosa ilíaca y/o flanco derecho",
+        "severity_level": null,
+        "is_primary": true
+      },
+      {
+        "name": "anorexia",
+        "severity_level": null,
+        "is_primary": true
+      },
+      {
+        "name": "parestesias",
+        "severity_level": null,
+        "is_primary": true
+      },
+      {
+        "name": "cefaleas",
+        "severity_level": null,
+        "is_primary": true
+      },
+      {
+        "name": "convulsiones",
+        "severity_level": null,
+        "is_primary": true
+      },
+      {
+        "name": "rigidez de nuca",
+        "severity_level": null,
+        "is_primary": true
+      },
+      {
+        "name": "parálisis facial",
+        "severity_level": null,
+        "is_primary": false
+      },
+      {
+        "name": "pérdida visión",
+        "severity_level": null,
+        "is_primary": false
+      },
+      {
+        "name": "dolor ocular",
+        "severity_level": null,
+        "is_primary": false
+      },
+      {
+        "name": "neumonía grave",
+        "severity_level": "Severe",
+        "is_primary": false
+      }
+    ],
+    "diagnosis_methods": [
+      "historia clínica",
+      "técnica de aglutinación de partículas de látex",
+      "serología",
+      "punción lumbar"
+    ],
+    "is_chronic": null
+  },
+  "metadata": {
+    "source": "wiki_diseases_20260414_angiostrongiliasis.md",
+    "domain": "medical",
+    "subdomain": "diseases"
+  }
+}

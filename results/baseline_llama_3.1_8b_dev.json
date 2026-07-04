@@ -1,0 +1,1067 @@
+{
+  "participant": {
+    "team_name": "GenSIE Baseline Team",
+    "institution": "Official",
+    "pipelines": [
+      {
+        "name": "baseline",
+        "description": "Standard OpenAI agent using structured outputs."
+      }
+    ]
+  },
+  "config": {
+    "model": "meta-llama/llama-3.1-8b-instruct",
+    "pipeline": "baseline",
+    "data_source": "/home/apiad/Projects/matcom/gensie-internal/gensie/data/dev"
+  },
+  "metrics": {
+    "precision": 0.0924811139715403,
+    "recall": 0.002133548325874044,
+    "f1": 0.0041708741773808285
+  },
+  "tasks": [
+    {
+      "task_id": "technical_entities_001",
+      "tps": 0.8461538461538461,
+      "gold_keys": 1,
+      "system_keys": 1,
+      "status": "PASS"
+    },
+    {
+      "task_id": "environmental_ecology_009",
+      "tps": 0.4628220235658893,
+      "gold_keys": 10,
+      "system_keys": 10,
+      "status": "PASS"
+    },
+    {
+      "task_id": "medical_drug_001",
+      "tps": 0.6178416056715429,
+      "gold_keys": 6,
+      "system_keys": 6,
+      "status": "PASS"
+    },
+    {
+      "task_id": "legal_contracts_003",
+      "tps": 0.4776914878687691,
+      "gold_keys": 9,
+      "system_keys": 9,
+      "status": "PASS"
+    },
+    {
+      "task_id": "stem_astronomy_detailed_014",
+      "tps": 0.0,
+      "gold_keys": 9,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "legal_entities_001",
+      "tps": 0.0,
+      "gold_keys": 1,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "cultural_media_009",
+      "tps": 0.0,
+      "gold_keys": 10,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "general_disasters_003",
+      "tps": 0.0,
+      "gold_keys": 10,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "lifestyle_recipes_02",
+      "tps": 0.0,
+      "gold_keys": 7,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "cultural_literature_008",
+      "tps": 0.0,
+      "gold_keys": 6,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "technical_software_016",
+      "tps": 0.0,
+      "gold_keys": 9,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "medical_diseases_04",
+      "tps": 0.0,
+      "gold_keys": 6,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "medical_diseases_6",
+      "tps": 0.0,
+      "gold_keys": 6,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "legal_judicial_006",
+      "tps": 0.0,
+      "gold_keys": 10,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "technical_software_010",
+      "tps": 0.0,
+      "gold_keys": 9,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "medical_diseases_02",
+      "tps": 0.0,
+      "gold_keys": 6,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "medical_extraction_003",
+      "tps": 0.0,
+      "gold_keys": 1,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "medical_health_news_006",
+      "tps": 0.0,
+      "gold_keys": 10,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "cultural_literature_002",
+      "tps": 0.0,
+      "gold_keys": 6,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "cultural_media_001",
+      "tps": 0.0,
+      "gold_keys": 10,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "cultural_media_010",
+      "tps": 0.0,
+      "gold_keys": 10,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "medical_drug_003",
+      "tps": 0.0,
+      "gold_keys": 6,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "technical_software_009",
+      "tps": 0.0,
+      "gold_keys": 9,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "stem_astronomy_detailed_005",
+      "tps": 0.0,
+      "gold_keys": 9,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "cultural_media_008",
+      "tps": 0.0,
+      "gold_keys": 10,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "medical_extraction_001",
+      "tps": 0.0,
+      "gold_keys": 1,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "cultural_extraction_001",
+      "tps": 0.0,
+      "gold_keys": 1,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "stem_astronomy_detailed_017",
+      "tps": 0.0,
+      "gold_keys": 9,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "stem_astronomy_detailed_013",
+      "tps": 0.0,
+      "gold_keys": 9,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "stem_astronomy_detailed_018",
+      "tps": 0.0,
+      "gold_keys": 9,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "medical_diseases_07",
+      "tps": 0.0,
+      "gold_keys": 6,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "legal_judicial_004",
+      "tps": 0.0,
+      "gold_keys": 10,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "cultural_monuments_5",
+      "tps": 0.0,
+      "gold_keys": 6,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "lifestyle_recipes_01",
+      "tps": 0.0,
+      "gold_keys": 7,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "general_disasters_005",
+      "tps": 0.0,
+      "gold_keys": 10,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "technical_software_011",
+      "tps": 0.0,
+      "gold_keys": 9,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "lifestyle_recipes_03",
+      "tps": 0.0,
+      "gold_keys": 7,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "environmental_ecology_001",
+      "tps": 0.0,
+      "gold_keys": 10,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "stem_astronomy_detailed_001",
+      "tps": 0.0,
+      "gold_keys": 9,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "medical_health_news_008",
+      "tps": 0.0,
+      "gold_keys": 10,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "cultural_literature_010",
+      "tps": 0.0,
+      "gold_keys": 6,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "lifestyle_recipes_10",
+      "tps": 0.0,
+      "gold_keys": 7,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "legal_judicial_010",
+      "tps": 0.0,
+      "gold_keys": 10,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "legal_legislation_001",
+      "tps": 0.0,
+      "gold_keys": 6,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "technical_software_013",
+      "tps": 0.0,
+      "gold_keys": 9,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "technical_software_003",
+      "tps": 0.0,
+      "gold_keys": 9,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "environmental_ecology_003",
+      "tps": 0.0,
+      "gold_keys": 10,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "legal_judicial_003",
+      "tps": 0.0,
+      "gold_keys": 10,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "cultural_literature_009",
+      "tps": 0.0,
+      "gold_keys": 6,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "medical_entities_001",
+      "tps": 0.0,
+      "gold_keys": 1,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "medical_diseases_05",
+      "tps": 0.0,
+      "gold_keys": 6,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "technical_software_012",
+      "tps": 0.0,
+      "gold_keys": 9,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "stem_astronomy_detailed_020",
+      "tps": 0.0,
+      "gold_keys": 9,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "general_disasters_006",
+      "tps": 0.0,
+      "gold_keys": 10,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "lifestyle_recipes_07",
+      "tps": 0.0,
+      "gold_keys": 7,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "cultural_literature_004",
+      "tps": 0.0,
+      "gold_keys": 6,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "technical_software_008",
+      "tps": 0.0,
+      "gold_keys": 9,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "environmental_ecology_005",
+      "tps": 0.0,
+      "gold_keys": 10,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "cultural_literature_005",
+      "tps": 0.0,
+      "gold_keys": 6,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "general_disasters_004",
+      "tps": 0.0,
+      "gold_keys": 10,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "cultural_media_002",
+      "tps": 0.0,
+      "gold_keys": 10,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "legal_legislation_003",
+      "tps": 0.0,
+      "gold_keys": 6,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "stem_astronomy_detailed_010",
+      "tps": 0.0,
+      "gold_keys": 9,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "cultural_media_003",
+      "tps": 0.0,
+      "gold_keys": 10,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "cultural_monuments_2",
+      "tps": 0.0,
+      "gold_keys": 6,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "medical_diseases_10",
+      "tps": 0.0,
+      "gold_keys": 6,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "legal_contracts_001",
+      "tps": 0.0,
+      "gold_keys": 9,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "cultural_monuments_3",
+      "tps": 0.0,
+      "gold_keys": 6,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "stem_astronomy_detailed_009",
+      "tps": 0.0,
+      "gold_keys": 9,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "medical_health_news_002",
+      "tps": 0.0,
+      "gold_keys": 10,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "legal_judicial_008",
+      "tps": 0.0,
+      "gold_keys": 10,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "medical_health_news_009",
+      "tps": 0.0,
+      "gold_keys": 10,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "medical_drug_005",
+      "tps": 0.0,
+      "gold_keys": 6,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "environmental_ecology_007",
+      "tps": 0.0,
+      "gold_keys": 10,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "legal_contracts_005",
+      "tps": 0.0,
+      "gold_keys": 9,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "technical_entities_003",
+      "tps": 0.0,
+      "gold_keys": 1,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "medical_diseases_01",
+      "tps": 0.0,
+      "gold_keys": 6,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "medical_diseases_08",
+      "tps": 0.0,
+      "gold_keys": 6,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "technical_extraction_001",
+      "tps": 0.0,
+      "gold_keys": 1,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "cultural_monuments_4",
+      "tps": 0.0,
+      "gold_keys": 6,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "lifestyle_recipes_05",
+      "tps": 0.0,
+      "gold_keys": 7,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "legal_legislation_002",
+      "tps": 0.0,
+      "gold_keys": 6,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "medical_diseases_03",
+      "tps": 0.0,
+      "gold_keys": 6,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "legal_judicial_007",
+      "tps": 0.0,
+      "gold_keys": 10,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "stem_astronomy_detailed_002",
+      "tps": 0.0,
+      "gold_keys": 9,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "legal_contracts_002",
+      "tps": 0.0,
+      "gold_keys": 9,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "stem_astronomy_detailed_003",
+      "tps": 0.0,
+      "gold_keys": 9,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "cultural_literature_001",
+      "tps": 0.0,
+      "gold_keys": 6,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "lifestyle_recipes_04",
+      "tps": 0.0,
+      "gold_keys": 7,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "general_disasters_008",
+      "tps": 0.0,
+      "gold_keys": 10,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "general_disasters_007",
+      "tps": 0.0,
+      "gold_keys": 10,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "stem_astronomy_detailed_004",
+      "tps": 0.0,
+      "gold_keys": 9,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "general_disasters_002",
+      "tps": 0.0,
+      "gold_keys": 10,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "legal_extraction_002",
+      "tps": 0.0,
+      "gold_keys": 1,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "stem_astronomy_detailed_012",
+      "tps": 0.0,
+      "gold_keys": 9,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "medical_drug_002",
+      "tps": 0.0,
+      "gold_keys": 6,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "technical_extraction_002",
+      "tps": 0.0,
+      "gold_keys": 1,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "environmental_ecology_006",
+      "tps": 0.0,
+      "gold_keys": 10,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "environmental_ecology_010",
+      "tps": 0.0,
+      "gold_keys": 10,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "medical_health_news_010",
+      "tps": 0.0,
+      "gold_keys": 10,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "medical_health_news_004",
+      "tps": 0.0,
+      "gold_keys": 10,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "cultural_extraction_002",
+      "tps": 0.0,
+      "gold_keys": 1,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "legal_judicial_005",
+      "tps": 0.0,
+      "gold_keys": 10,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "medical_diseases_06",
+      "tps": 0.0,
+      "gold_keys": 6,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "stem_astronomy_detailed_006",
+      "tps": 0.0,
+      "gold_keys": 9,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "lifestyle_recipes_08",
+      "tps": 0.0,
+      "gold_keys": 7,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "medical_health_news_005",
+      "tps": 0.0,
+      "gold_keys": 10,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "legal_legislation_004",
+      "tps": 0.0,
+      "gold_keys": 6,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "cultural_media_004",
+      "tps": 0.0,
+      "gold_keys": 10,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "legal_judicial_009",
+      "tps": 0.0,
+      "gold_keys": 10,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "technical_software_006",
+      "tps": 0.0,
+      "gold_keys": 9,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "legal_judicial_001",
+      "tps": 0.0,
+      "gold_keys": 10,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "environmental_ecology_008",
+      "tps": 0.0,
+      "gold_keys": 10,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "lifestyle_recipes_06",
+      "tps": 0.0,
+      "gold_keys": 7,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "environmental_ecology_002",
+      "tps": 0.0,
+      "gold_keys": 10,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "cultural_monuments_1",
+      "tps": 0.0,
+      "gold_keys": 6,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "technical_extraction_003",
+      "tps": 0.0,
+      "gold_keys": 1,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "general_disasters_009",
+      "tps": 0.0,
+      "gold_keys": 10,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "stem_astronomy_detailed_019",
+      "tps": 0.0,
+      "gold_keys": 9,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "legal_legislation_005",
+      "tps": 0.0,
+      "gold_keys": 6,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "stem_astronomy_detailed_015",
+      "tps": 0.0,
+      "gold_keys": 9,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "medical_health_news_003",
+      "tps": 0.0,
+      "gold_keys": 10,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "cultural_literature_003",
+      "tps": 0.0,
+      "gold_keys": 6,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "technical_software_015",
+      "tps": 0.0,
+      "gold_keys": 9,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "stem_astronomy_detailed_008",
+      "tps": 0.0,
+      "gold_keys": 9,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "cultural_entities_001",
+      "tps": 0.0,
+      "gold_keys": 1,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "cultural_literature_006",
+      "tps": 0.0,
+      "gold_keys": 6,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "general_disasters_010",
+      "tps": 0.0,
+      "gold_keys": 10,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "stem_astronomy_detailed_011",
+      "tps": 0.0,
+      "gold_keys": 9,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "cultural_media_007",
+      "tps": 0.0,
+      "gold_keys": 10,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "medical_extraction_002",
+      "tps": 0.0,
+      "gold_keys": 1,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "stem_astronomy_detailed_007",
+      "tps": 0.0,
+      "gold_keys": 9,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "legal_judicial_002",
+      "tps": 0.0,
+      "gold_keys": 10,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "cultural_media_006",
+      "tps": 0.0,
+      "gold_keys": 10,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "cultural_entities_002",
+      "tps": 0.0,
+      "gold_keys": 1,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "cultural_literature_007",
+      "tps": 0.0,
+      "gold_keys": 6,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "medical_health_news_001",
+      "tps": 0.0,
+      "gold_keys": 10,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "technical_software_014",
+      "tps": 0.0,
+      "gold_keys": 9,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "medical_entities_002",
+      "tps": 0.0,
+      "gold_keys": 1,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "stem_astronomy_detailed_016",
+      "tps": 0.0,
+      "gold_keys": 9,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "lifestyle_recipes_09",
+      "tps": 0.0,
+      "gold_keys": 7,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "medical_diseases_09",
+      "tps": 0.0,
+      "gold_keys": 6,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "medical_health_news_007",
+      "tps": 0.0,
+      "gold_keys": 10,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "environmental_ecology_004",
+      "tps": 0.0,
+      "gold_keys": 10,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "legal_contracts_004",
+      "tps": 0.0,
+      "gold_keys": 9,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "cultural_media_005",
+      "tps": 0.0,
+      "gold_keys": 10,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "technical_entities_002",
+      "tps": 0.0,
+      "gold_keys": 1,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "medical_diseases_2",
+      "tps": 0.0,
+      "gold_keys": 6,
+      "system_keys": 0,
+      "status": "FAIL"
+    },
+    {
+      "task_id": "general_disasters_001",
+      "tps": 0.0,
+      "gold_keys": 10,
+      "system_keys": 0,
+      "status": "FAIL"
+    }
+  ]
+}

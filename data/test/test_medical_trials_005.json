@@ -1,0 +1,194 @@
+{
+  "id": "test_medical_trials_005",
+  "input_text": "# El Hospital Universitario La Paz comunica la suspensión del ensayo de fase II con el anticuerpo monoclonal LZB-204 en artritis reumatoide moderada a grave [...] La Unidad de Investigación Clínica del Servicio de Reumatología del Hospital Universitario La Paz, en Madrid, ha emitido una nota informativa para anunciar la suspensión temporal del ensayo clínico de fase II \"Eficacia y seguridad de LZB-204, un anticuerpo monoclonal humanizado anti-GM-CSF, en pacientes adultos con artritis reumatoide moderada a grave con respuesta inadecuada a metotrexato\", inscrito en el registro europeo bajo el código EudraCT 2025-001784-43. La decisión de suspensión fue adoptada el 28 de abril de 2026 por el promotor de manera concertada con la Agencia Española de Medicamentos y Productos Sanitarios (AEMPS), tras la notificación y revisión de varios hallazgos de seguridad detectados durante el análisis intermedio programado. [...] Concretamente, el Comité Independiente de Monitorización de Datos (DSMB) del estudio comunicó la aparición de cinco casos de proteinosis alveolar pulmonar y dos episodios de neumonía intersticial grave entre los participantes asignados al brazo experimental, lo que motivó la activación inmediata del protocolo de suspensión previsto en el plan estadístico. La AEMPS ha confirmado mediante resolución administrativa la pausa del reclutamiento, la interrupción de la administración del producto en investigación y la activación del seguimiento prolongado de seguridad de los pacientes ya expuestos. El estudio se encuentra actualmente en estado suspendido, a la espera de una decisión definitiva sobre su eventual reanudación o cancelación. [...] El protocolo previó la inclusión de 168 pacientes adultos diagnosticados de artritis reumatoide según los criterios ACR/EULAR 2010, con la codificación M05.9 de la CIE-10 (artritis reumatoide seropositiva, sin otra especificación). En el momento de la suspensión se habían reclutado 94 participantes, de los cuales 48 habían sido aleatorizados al brazo experimental y 46 al brazo control. El reclutamiento se inició el 4 de junio de 2025, y se preveía un seguimiento individual de 52 semanas. [...] El diseño contempla dos brazos paralelos con aleatorización 1:1 doble ciego. El brazo experimental recibía LZB-204 a dosis de 150 mg subcutáneos cada dos semanas durante 24 semanas, mientras que el brazo control recibía placebo subcutáneo con el mismo esquema. Ambos brazos mantenían la pauta estable de metotrexato como tratamiento de fondo. El endpoint primario establecido era la proporción de pacientes que alcanzaban la respuesta ACR50 a la semana 24 respecto al valor basal. Como endpoints secundarios se planteaban la respuesta ACR20 y ACR70, la variación del DAS28-VSG, la evolución del HAQ-DI como medida de discapacidad funcional, y la incidencia y gravedad de eventos adversos.",
+  "instruction": "Extrae el registro estructurado del ensayo clínico descrito en la nota informativa. Incluye identificador de registro, fase, estado actual, condición clínica, código CIE-10 si se cita, tamaño muestral previsto, brazos del ensayo con sus intervenciones y número de participantes asignados a cada brazo cuando se desglose, variable principal de eficacia, fecha de finalización y resumen de resultados. Respeta la restricción: si el ensayo no está completado ni terminado, completion_date y result_summary deben ser null.",
+  "target_schema": {
+    "$defs": {
+      "TrialArm": {
+        "additionalProperties": false,
+        "description": "Un brazo del ensayo: grupo experimental o comparador.",
+        "properties": {
+          "name": {
+            "description": "Etiqueta del brazo tal como aparece en el texto (p. ej. 'brazo experimental', 'brazo comparador', 'placebo', 'control').",
+            "title": "Name",
+            "type": "string"
+          },
+          "intervention": {
+            "description": "Intervención administrada al brazo: fármaco, dosis y vía si se explicitan (p. ej. 'CLN-217 5,4 mg/kg IV cada 3 semanas').",
+            "title": "Intervention",
+            "type": "string"
+          },
+          "n": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Número de participantes asignados o reclutados a este brazo concreto. Null si el texto no lo desglosa por brazo.",
+            "title": "N"
+          }
+        },
+        "required": [
+          "name",
+          "intervention"
+        ],
+        "title": "TrialArm",
+        "type": "object"
+      },
+      "TrialPhase": {
+        "enum": [
+          "fase_1",
+          "fase_2",
+          "fase_3",
+          "fase_4",
+          "no_aplica"
+        ],
+        "title": "TrialPhase",
+        "type": "string"
+      },
+      "TrialStatus": {
+        "enum": [
+          "reclutando",
+          "activo",
+          "completado",
+          "terminado",
+          "suspendido"
+        ],
+        "title": "TrialStatus",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Registro estructurado de un ensayo clínico a partir de una nota de prensa,\ncomunicado institucional o ficha de registro en español.\n\nRestricción inter-campo crítica (trampa de null):\n- `completion_date` y `result_summary` SOLO pueden tener valor cuando\n  `status` ∈ {completado, terminado}. Si el ensayo está reclutando, activo\n  o suspendido, ambos campos deben ser null aunque el texto especule sobre\n  fechas previstas o resultados parciales.\n\nComplejidad: L7 — rigidez de restricciones inter-campo + regex de IDs.",
+    "properties": {
+      "registry_id": {
+        "description": "Identificador del ensayo en su registro. Acepta tres formatos: ClinicalTrials.gov ('NCTxxxxxxxx', 8 dígitos), EudraCT ('YYYY-NNNNNN-NN') o REec ('REec-YYYY-NNNN'). Devolver exactamente como aparece, sin prefijos descriptivos ('EudraCT', 'nº').",
+        "pattern": "^(?:NCT\\d{8}|\\d{4}-\\d{6}-\\d{2}|REec-\\d{4}-\\d{4})$",
+        "title": "Registry Id",
+        "type": "string"
+      },
+      "phase": {
+        "$ref": "#/$defs/TrialPhase",
+        "description": "Fase del ensayo. 'fase_1' a 'fase_4' para fases clásicas; 'no_aplica' para ensayos exploratorios, observacionales o sin fase declarada."
+      },
+      "status": {
+        "$ref": "#/$defs/TrialStatus",
+        "description": "Estado actual del ensayo: 'reclutando' (inclusión abierta), 'activo' (reclutamiento cerrado, seguimiento en curso), 'completado' (finalizado según protocolo), 'terminado' (finalizado prematuramente con resultados), 'suspendido' (pausa por seguridad o regulatoria)."
+      },
+      "condition": {
+        "description": "Patología, síndrome o indicación clínica que el ensayo estudia, en lenguaje del texto (p. ej. 'cáncer de mama metastásico HER2 positivo').",
+        "title": "Condition",
+        "type": "string"
+      },
+      "icd10_code": {
+        "anyOf": [
+          {
+            "pattern": "^[A-Z]\\d{2}(?:\\.\\d{1,2})?$",
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Código CIE-10 (ICD-10) de la indicación si el texto lo cita literalmente, formato 'L99' o 'L99.9'. Null si no aparece.",
+        "title": "Icd10 Code"
+      },
+      "enrollment": {
+        "anyOf": [
+          {
+            "minimum": 1,
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Tamaño muestral total previsto o reclutado, como entero. Null si el texto no lo especifica.",
+        "title": "Enrollment"
+      },
+      "arms": {
+        "description": "Lista de brazos del ensayo en el orden en que se describen. Vacía solo si el diseño es de un único brazo no etiquetado.",
+        "items": {
+          "$ref": "#/$defs/TrialArm"
+        },
+        "title": "Arms",
+        "type": "array"
+      },
+      "primary_endpoint": {
+        "description": "Variable principal de eficacia del estudio (p. ej. 'supervivencia libre de progresión', 'ACR50 a la semana 24'). Texto literal del objetivo primario.",
+        "title": "Primary Endpoint",
+        "type": "string"
+      },
+      "completion_date": {
+        "anyOf": [
+          {
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Fecha real de finalización del ensayo en formato YYYY-MM-DD. DEBE ser null salvo que status sea 'completado' o 'terminado'. Para ensayos en curso o suspendidos, ignorar fechas previstas.",
+        "title": "Completion Date"
+      },
+      "result_summary": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Resumen narrativo de los resultados del ensayo. DEBE ser null salvo que status sea 'completado' o 'terminado'. No incluir resultados intermedios ni hallazgos de seguridad parciales de ensayos en curso.",
+        "title": "Result Summary"
+      }
+    },
+    "required": [
+      "registry_id",
+      "phase",
+      "status",
+      "condition",
+      "primary_endpoint"
+    ],
+    "title": "ClinicalTrialRecord",
+    "type": "object"
+  },
+  "output": {
+    "registry_id": "2025-001784-43",
+    "phase": "fase_2",
+    "status": "suspendido",
+    "condition": "artritis reumatoide moderada a grave con respuesta inadecuada a metotrexato",
+    "icd10_code": "M05.9",
+    "enrollment": 168,
+    "arms": [
+      {
+        "name": "brazo experimental",
+        "intervention": "LZB-204 150 mg subcutáneos cada 2 semanas durante 24 semanas + metotrexato de fondo",
+        "n": 48
+      },
+      {
+        "name": "brazo control",
+        "intervention": "placebo subcutáneo cada 2 semanas durante 24 semanas + metotrexato de fondo",
+        "n": 46
+      }
+    ],
+    "primary_endpoint": "proporción de pacientes que alcanzan la respuesta ACR50 a la semana 24 respecto al valor basal",
+    "completion_date": null,
+    "result_summary": null
+  },
+  "metadata": {
+    "source": "synthetic_20260512_005.md",
+    "domain": "medical",
+    "subdomain": "trials"
+  }
+}

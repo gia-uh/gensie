@@ -1,0 +1,148 @@
+{
+  "id": "stem_astronomy_detailed_006",
+  "input_text": "# Saturno\n\nSaturno es el sexto planeta del sistema solar contando desde el Sol, el segundo en tamaño y masa después de Júpiter y el único con un sistema de anillos visible desde la Tierra. Su nombre proviene del dios romano Saturno. Forma parte de los denominados planetas exteriores o gaseosos. El aspecto más característico de Saturno son sus brillantes y grandes anillos. Antes de la invención del telescopio, Saturno era el más lejano de los planetas conocidos y, a simple vista, no parecía luminoso ni interesante.\nEl primero en observar los anillos fue Galileo en 1610,​ pero la baja inclinación de los anillos y la baja resolución de su telescopio le hicieron pensar en un principio que se trataba de grandes satélites. Christiaan Huygens, con mejores medios de observación, pudo en 1659 observar con claridad los anillos. James Clerk Maxwell, en 1859, demostró matemáticamente que los anillos no podían ser un único objeto sólido sino que debían ser la agrupación de millones de partículas de menor tamaño.​ Las partículas que componen los anillos de Saturno giran a una velocidad de 48 000 km/h, 15 veces más rápido que una bala.",
+  "instruction": "Extrae las propiedades físicas y orbitales del cuerpo celeste descrito en el texto, incluyendo su nombre oficial, tipo, y cualquier dato de descubrimiento disponible.",
+  "target_schema": {
+    "$defs": {
+      "CelestialBodyType": {
+        "enum": [
+          "ASTEROIDE",
+          "COMETA",
+          "PLANETA",
+          "LUNA",
+          "PLANETA ENANO",
+          "OBJETO INTERESTELAR",
+          "OTRO"
+        ],
+        "title": "CelestialBodyType",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Extracts physical and orbital parameters of celestial bodies.\nComplexity: L5 (Precision Extraction & Normalization).",
+    "properties": {
+      "official_name": {
+        "description": "The primary scientific designation or name",
+        "title": "Official Name",
+        "type": "string"
+      },
+      "body_type": {
+        "$ref": "#/$defs/CelestialBodyType",
+        "description": "The classification of the celestial object"
+      },
+      "mass_kg": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Mass in kilograms (scientific notation or float)",
+        "title": "Mass Kg"
+      },
+      "diameter_km": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Mean diameter in kilometers",
+        "title": "Diameter Km"
+      },
+      "eccentricity": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Orbital eccentricity (e.g., 1.199)",
+        "title": "Eccentricity"
+      },
+      "orbital_period_days": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Time to complete one orbit in Earth days",
+        "title": "Orbital Period Days"
+      },
+      "semi_major_axis_au": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Average distance from the sun in AU",
+        "title": "Semi Major Axis Au"
+      },
+      "discovery_date": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Date of discovery in YYYY-MM-DD format",
+        "title": "Discovery Date"
+      },
+      "discoverer": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Name of the person or observatory that found the object",
+        "title": "Discoverer"
+      }
+    },
+    "required": [
+      "official_name",
+      "body_type"
+    ],
+    "title": "CelestialObjectProperties",
+    "type": "object"
+  },
+  "output": {
+    "official_name": "Saturno",
+    "body_type": "PLANETA",
+    "mass_kg": null,
+    "diameter_km": null,
+    "eccentricity": null,
+    "orbital_period_days": null,
+    "semi_major_axis_au": null,
+    "discovery_date": null,
+    "discoverer": null
+  },
+  "metadata": {
+    "source": "solar_system_06_saturno.md",
+    "domain": "stem",
+    "subdomain": "astronomy_detailed"
+  }
+}

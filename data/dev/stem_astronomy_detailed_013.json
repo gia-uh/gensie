@@ -1,0 +1,148 @@
+{
+  "id": "stem_astronomy_detailed_013",
+  "input_text": "# Haumea (planeta enano)\n\nHaumea (símbolo: ),​ designado por el Centro de Planetas Menores (MPC) como (136108) Haumea,​ es un planeta enano que se encuentra más allá de la órbita de Neptuno, en el cinturón de Kuiper. Su designación provisional fue «2003 EL61».​ El 17 de septiembre de 2008 la Unión Astronómica Internacional (UAI) lo clasificó como planeta enano y plutoide y le dio el nombre en honor de la diosa hawaiana de la natalidad.​​\nFue descubierto en 2003 por un equipo dirigido por José Luis Ortiz Moreno en el Observatorio de Sierra Nevada en España y en 2004 por un equipo dirigido por Mike Brown del Caltech en el Observatorio Palomar en los Estados Unidos. Las circunstancias en torno a su descubrimiento generaron gran controversia, por lo que la UAI no nombró un descubridor oficial,​ aunque en su base de datos y en otras páginas oficiales se indica que el observatorio responsable del hallazgo fue «Sierra Nevada».​​​ En contrapartida, el nombre elegido fue el propuesto por el equipo del Caltech, en lugar de Ataecina, que había sugerido el de España. Esto generó sospechas de amiguismo por la relación entre Brown y el director del Centro de Planetas Menores (MPC), Brian Marsden, miembro del comité encargado de asignar los nombres a los objetos catalogados por la institución.​\nAunque su forma no se ha observado directamente, los cálculos de su curva de luz sugieren que es elipsoidal, con el eje mayor el doble de largo que el menor. Su masa es un tercio de la de Plutón y la superficie, que está cubierta de una capa de hielo, es muy brillante y presenta una gran mancha roja. Estas características lo hacen único entre los planetas enanos conocidos. Existen varias hipótesis para explicar el alargamiento, su rotación inusualmente rápida y los altos valores de densidad y de albedo. La mayoría incluye un impacto gigante que hizo de Haumea el mayor miembro de una familia de colisión formada por varios objetos transneptunianos (TNO, por sus siglas en inglés) grandes y sus dos lunas conocidas. Sin embargo, casi todas implican una única colisión con baja probabilidad de ocurrir. En 2010 se postuló la formación de un protoplaneta a partir de muchos impactos, que habría sido a su vez fracturado, dando origen a los demás elementos de la familia de Haumea. Esta hipótesis, comprobada por simulaciones por computadora, plantea el escenario más probable.​\nEn octubre de 2017 se descubrió que el planeta posee anillos. Es el primer planeta enano en el que se verifica tal característica.​​\nLa forma elongada de Haumea y su corto periodo de rotación pueden limpiar el material inicialmente en un disco ecuatorial mediante resonancias entre la rotación del cuerpo y las partículas del disco. Este mecanismo explica por qué los anillos se encuentran relativamente lejos del cuerpo principal.​",
+  "instruction": "Extrae las propiedades físicas y orbitales del cuerpo celeste descrito en el texto, incluyendo su nombre oficial, clasificación, y los datos disponibles sobre su descubrimiento. Usa null para las propiedades que no se mencionan explícitamente con valores numéricos.",
+  "target_schema": {
+    "$defs": {
+      "CelestialBodyType": {
+        "enum": [
+          "ASTEROIDE",
+          "COMETA",
+          "PLANETA",
+          "LUNA",
+          "PLANETA ENANO",
+          "OBJETO INTERESTELAR",
+          "OTRO"
+        ],
+        "title": "CelestialBodyType",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Extracts physical and orbital parameters of celestial bodies.\nComplexity: L5 (Precision Extraction & Normalization).",
+    "properties": {
+      "official_name": {
+        "description": "The primary scientific designation or name",
+        "title": "Official Name",
+        "type": "string"
+      },
+      "body_type": {
+        "$ref": "#/$defs/CelestialBodyType",
+        "description": "The classification of the celestial object"
+      },
+      "mass_kg": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Mass in kilograms (scientific notation or float)",
+        "title": "Mass Kg"
+      },
+      "diameter_km": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Mean diameter in kilometers",
+        "title": "Diameter Km"
+      },
+      "eccentricity": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Orbital eccentricity (e.g., 1.199)",
+        "title": "Eccentricity"
+      },
+      "orbital_period_days": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Time to complete one orbit in Earth days",
+        "title": "Orbital Period Days"
+      },
+      "semi_major_axis_au": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Average distance from the sun in AU",
+        "title": "Semi Major Axis Au"
+      },
+      "discovery_date": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Date of discovery in YYYY-MM-DD format",
+        "title": "Discovery Date"
+      },
+      "discoverer": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Name of the person or observatory that found the object",
+        "title": "Discoverer"
+      }
+    },
+    "required": [
+      "official_name",
+      "body_type"
+    ],
+    "title": "CelestialObjectProperties",
+    "type": "object"
+  },
+  "output": {
+    "official_name": "(136108) Haumea",
+    "body_type": "PLANETA ENANO",
+    "mass_kg": null,
+    "diameter_km": null,
+    "eccentricity": null,
+    "orbital_period_days": null,
+    "semi_major_axis_au": null,
+    "discovery_date": null,
+    "discoverer": "Observatorio de Sierra Nevada"
+  },
+  "metadata": {
+    "source": "solar_system_13_haumea.md",
+    "domain": "stem",
+    "subdomain": "astronomy_detailed"
+  }
+}

@@ -1,0 +1,310 @@
+{
+  "id": "stem_observations_002",
+  "input_text": "**Sitio**: Robledal de Sierra de la Demanda, sector La Hayedo-Cañada Vieja (Burgos)\n**Fecha**: 2026-05-22\n**Observador**: Marta Cisneros Aguilar (técnica de inventario, equipo BotaniBur)\n**Método**: transecto lineal de 250 m, banda de 5 m a cada lado, orientación N-S (azimut 178°)\n**Hora de inicio**: 09:15 — **Hora de cierre**: 13:40\n**Coordenadas del punto 0**: 42.2103° N, 3.0421° W (GPS Garmin eTrex 32x, error ±4 m)\n**Altitud**: 1180 m s. n. m. [...] Mañana cubierta, cielo completamente encapotado desde el amanecer; nubosidad estratiforme baja con techo\nestimado por debajo de los 1400 m. Llovizna intermitente durante la primera hora del muestreo, que cesa\nhacia las 10:30 dejando el sotobosque empapado y con goteo persistente del dosel. Temperatura ambiente al\niniciar la sesión: 11.4 °C medida con termohigrómetro Testo 410-2 a 1.5 m del suelo, en claro abierto.\nHumedad relativa del aire: 92 %. Viento prácticamente nulo en el fondo del valle, racheado a 6-8 km/h en\nlas cumbres visibles desde el punto 120 m del transecto. Predomino la condición de cielo cubierto durante\ntoda la jornada; no aparece sol en ningún momento. [...] - **Fagus sylvatica** (haya): 38 individuos. Comportamiento: dominante en U1-U2, codominante en U3. Notas:\n  varios ejemplares con quemaduras antiguas de rayo en el fuste; tres con horquilla baja.\n- **Quercus petraea** (roble albar): 27 individuos. Comportamiento: dominante en U4-U5. Notas: copa bien\n  desarrollada en los ejemplares de borde.\n- **Quercus pyrenaica** (rebollo): 14 individuos. Notas: mayoritariamente en el extremo sur del transecto,\n  varios rebrotes de cepa.\n- **Ilex aquifolium** (acebo): 9 individuos. Comportamiento: estrato dominado, formando matas densas.\n- **Sorbus aucuparia** (serbal de cazadores): 4 individuos. Notas: floración recién terminada en dos de\n  ellos.\n- **Corylus avellana** (avellano): 11 rodales. Comportamiento: en linde de la charca y bordes de claros.\n- **Crataegus monogyna** (majuelo): 6 rodales. Notas: en floración plena, abundantes flores blancas.\n- **Erica arborea** (brezo blanco): 5 rodales. Notas: porte alto, casi arbóreo, en U5. [...] - DBH medio de Fagus sylvatica en U1: 42.5 cm, forcípula Haglöf Mantax Blue.\n- DBH medio de Quercus petraea en U4: 36.8 cm, forcípula Haglöf Mantax Blue.\n- Altura media del estrato arbóreo en U2: 24.0 m, hipsómetro Vertex IV.\n- Altura media del estrato arbóreo en U5: 19.5 m, hipsómetro Vertex IV.\n- Cobertura arbustiva en U3: 35 %, estimación visual sobre cuadrante de 4 m².\n- pH del suelo en U2: 5.2, pHmetro Hanna HI-991001 (suelo en suspensión 1:2.5 con agua destilada).\n- Humedad volumétrica del suelo en U3: 41 %, sonda TDR Fieldscout TDR-150.\n\nNo se registra temperatura del suelo en esta campaña: el sensor PT-100 se quedó en el laboratorio. Se\ndeja anotación para incorporarlo en la siguiente visita. [...] - El transecto confirma la transición fitosociológica esperada entre el hayedo mesofítico de la cara norte\n  y el robledal subatlántico que ocupa la ladera media-baja, sin evidencia de mezcla con coníferas\n  alóctonas dentro de la banda de muestreo.\n- La regeneración asimétrica entre haya (abundante) y roble (escasa) sugiere una presión de herbivoría\n  selectiva sobre las plántulas de Quercus que merece seguimiento mediante exclusión experimental en\n  futuras campañas.\n- El pH ligeramente ácido (5.2) y la elevada humedad del suelo (41 %) son consistentes con el carácter\n  silicícola y oceánico del enclave; conviene replicar las mediciones en estación seca para caracterizar\n  la variabilidad estacional.",
+  "instruction": "Extrae los datos de esta entrada de cuaderno de campo: sitio, fecha, observador, método y meteorología, registros de especies, mediciones cuantitativas y conclusiones.",
+  "target_schema": {
+    "$defs": {
+      "Measurement": {
+        "additionalProperties": false,
+        "description": "Una medición numérica registrada durante la observación.",
+        "properties": {
+          "name": {
+            "description": "Nombre literal de la magnitud medida (p. ej. 'temperatura del agua', 'profundidad', 'altura del árbol', 'pH del suelo').",
+            "title": "Name",
+            "type": "string"
+          },
+          "value": {
+            "description": "Valor numérico tal como aparece en el cuaderno de campo.",
+            "title": "Value",
+            "type": "number"
+          },
+          "unit": {
+            "description": "Unidad de medida tal como aparece (p. ej. '°C', 'cm', 'mg/L', 'lux').",
+            "title": "Unit",
+            "type": "string"
+          },
+          "instrument": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Instrumento o sensor con el que se tomó la medición si el texto lo menciona (p. ej. 'termómetro digital', 'GPS Garmin'). Null si no.",
+            "title": "Instrument"
+          }
+        },
+        "required": [
+          "name",
+          "value",
+          "unit"
+        ],
+        "title": "Measurement",
+        "type": "object"
+      },
+      "SpeciesObservation": {
+        "additionalProperties": false,
+        "description": "Una entrada del registro de un taxón observado en el sitio.",
+        "properties": {
+          "species_name": {
+            "description": "Nombre científico binomial o nombre común consistentemente usado en el log (p. ej. 'Quercus ilex', 'pinzón vulgar').",
+            "title": "Species Name",
+            "type": "string"
+          },
+          "count": {
+            "description": "Número de individuos observados o estimados. Para presencia/ausencia sin conteo usar 1 y aclarar en 'notes'.",
+            "minimum": 0,
+            "title": "Count",
+            "type": "integer"
+          },
+          "behavior": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Comportamiento observado si el log lo describe (p. ej. 'forrajeando', 'en reposo', 'reproduciendo'). Null si no se describe.",
+            "title": "Behavior"
+          },
+          "notes": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Observación adicional literal del cuaderno (p. ej. 'juveniles', 'plumaje invernal'). Null si no hay notas.",
+            "title": "Notes"
+          }
+        },
+        "required": [
+          "species_name",
+          "count"
+        ],
+        "title": "SpeciesObservation",
+        "type": "object"
+      },
+      "StudyMethod": {
+        "enum": [
+          "transecto",
+          "cuadrante",
+          "conteo_por_punto",
+          "marcaje_recaptura",
+          "registro_acústico",
+          "fototrampeo",
+          "muestreo_oportunista"
+        ],
+        "title": "StudyMethod",
+        "type": "string"
+      },
+      "WeatherCondition": {
+        "enum": [
+          "soleado",
+          "parcialmente_nublado",
+          "cubierto",
+          "lluvia",
+          "llovizna",
+          "niebla",
+          "nieve"
+        ],
+        "title": "WeatherCondition",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Entrada de cuaderno de campo de un estudio biológico, ecológico o\ngeológico: sitio, fecha, condiciones, registros de taxones, mediciones y\nconclusiones del observador. La extracción debe distinguir entre\nobservaciones cualitativas de taxones y mediciones cuantitativas, y debe\nenlazar las condiciones ambientales con la sesión completa.\n\nComplejidad: L8 — dispersión informativa con listas heterogéneas paralelas\n(especies + mediciones) y vocabulario técnico moderado.",
+    "properties": {
+      "site_name": {
+        "description": "Nombre del sitio de observación tal como aparece en la cabecera (p. ej. 'Estación Biológica de Doñana, Lagunas del Acebuche').",
+        "title": "Site Name",
+        "type": "string"
+      },
+      "observation_date": {
+        "description": "Fecha de la sesión en formato ISO 'YYYY-MM-DD'.",
+        "title": "Observation Date",
+        "type": "string"
+      },
+      "observer": {
+        "description": "Nombre del observador o equipo que firma la entrada del cuaderno.",
+        "title": "Observer",
+        "type": "string"
+      },
+      "method": {
+        "$ref": "#/$defs/StudyMethod",
+        "description": "Método principal de muestreo declarado para la sesión. 'muestreo_oportunista' si el texto no formaliza un método estándar."
+      },
+      "weather": {
+        "$ref": "#/$defs/WeatherCondition",
+        "description": "Condición meteorológica predominante durante la sesión, según el texto."
+      },
+      "temperature_celsius": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Temperatura ambiente registrada al iniciar la sesión, en °C. Null si el log no la registra.",
+        "title": "Temperature Celsius"
+      },
+      "species_observed": {
+        "description": "Registro de taxones observados en el orden del cuaderno. Una entrada por especie / morfotipo distinto.",
+        "items": {
+          "$ref": "#/$defs/SpeciesObservation"
+        },
+        "title": "Species Observed",
+        "type": "array"
+      },
+      "measurements": {
+        "description": "Mediciones cuantitativas tomadas durante la sesión, distintas de la temperatura general (que va en su campo dedicado). Una entrada por medición.",
+        "items": {
+          "$ref": "#/$defs/Measurement"
+        },
+        "title": "Measurements",
+        "type": "array"
+      },
+      "conclusions": {
+        "description": "Conclusiones o hipótesis explícitamente formuladas por el observador al cierre de la entrada. Una conclusión por elemento.",
+        "items": {
+          "type": "string"
+        },
+        "title": "Conclusions",
+        "type": "array"
+      }
+    },
+    "required": [
+      "site_name",
+      "observation_date",
+      "observer",
+      "method",
+      "weather"
+    ],
+    "title": "ObservationLog",
+    "type": "object"
+  },
+  "output": {
+    "site_name": "Robledal de Sierra de la Demanda, sector La Hayedo-Cañada Vieja (Burgos)",
+    "observation_date": "2026-05-22",
+    "observer": "Marta Cisneros Aguilar (técnica de inventario, equipo BotaniBur)",
+    "method": "transecto",
+    "weather": "cubierto",
+    "temperature_celsius": 11.4,
+    "species_observed": [
+      {
+        "species_name": "Fagus sylvatica",
+        "count": 38,
+        "behavior": "dominante en U1-U2, codominante en U3",
+        "notes": "varios ejemplares con quemaduras antiguas de rayo en el fuste; tres con horquilla baja"
+      },
+      {
+        "species_name": "Quercus petraea",
+        "count": 27,
+        "behavior": "dominante en U4-U5",
+        "notes": "copa bien desarrollada en los ejemplares de borde"
+      },
+      {
+        "species_name": "Quercus pyrenaica",
+        "count": 14,
+        "behavior": null,
+        "notes": "mayoritariamente en el extremo sur del transecto, varios rebrotes de cepa"
+      },
+      {
+        "species_name": "Ilex aquifolium",
+        "count": 9,
+        "behavior": "estrato dominado, formando matas densas",
+        "notes": null
+      },
+      {
+        "species_name": "Sorbus aucuparia",
+        "count": 4,
+        "behavior": null,
+        "notes": "floración recién terminada en dos de ellos"
+      },
+      {
+        "species_name": "Corylus avellana",
+        "count": 11,
+        "behavior": "en linde de la charca y bordes de claros",
+        "notes": null
+      },
+      {
+        "species_name": "Crataegus monogyna",
+        "count": 6,
+        "behavior": null,
+        "notes": "en floración plena, abundantes flores blancas"
+      },
+      {
+        "species_name": "Erica arborea",
+        "count": 5,
+        "behavior": null,
+        "notes": "porte alto, casi arbóreo, en U5"
+      }
+    ],
+    "measurements": [
+      {
+        "name": "DBH medio de Fagus sylvatica en U1",
+        "value": 42.5,
+        "unit": "cm",
+        "instrument": "forcípula Haglöf Mantax Blue"
+      },
+      {
+        "name": "DBH medio de Quercus petraea en U4",
+        "value": 36.8,
+        "unit": "cm",
+        "instrument": "forcípula Haglöf Mantax Blue"
+      },
+      {
+        "name": "Altura media del estrato arbóreo en U2",
+        "value": 24.0,
+        "unit": "m",
+        "instrument": "hipsómetro Vertex IV"
+      },
+      {
+        "name": "Altura media del estrato arbóreo en U5",
+        "value": 19.5,
+        "unit": "m",
+        "instrument": "hipsómetro Vertex IV"
+      },
+      {
+        "name": "Cobertura arbustiva en U3",
+        "value": 35.0,
+        "unit": "%",
+        "instrument": "estimación visual sobre cuadrante de 4 m²"
+      },
+      {
+        "name": "pH del suelo en U2",
+        "value": 5.2,
+        "unit": "pH",
+        "instrument": "pHmetro Hanna HI-991001"
+      },
+      {
+        "name": "Humedad volumétrica del suelo en U3",
+        "value": 41.0,
+        "unit": "%",
+        "instrument": "sonda TDR Fieldscout TDR-150"
+      }
+    ],
+    "conclusions": [
+      "El transecto confirma la transición fitosociológica esperada entre el hayedo mesofítico de la cara norte y el robledal subatlántico que ocupa la ladera media-baja, sin evidencia de mezcla con coníferas alóctonas dentro de la banda de muestreo.",
+      "La regeneración asimétrica entre haya (abundante) y roble (escasa) sugiere una presión de herbivoría selectiva sobre las plántulas de Quercus que merece seguimiento mediante exclusión experimental en futuras campañas.",
+      "El pH ligeramente ácido (5.2) y la elevada humedad del suelo (41 %) son consistentes con el carácter silicícola y oceánico del enclave; conviene replicar las mediciones en estación seca para caracterizar la variabilidad estacional."
+    ]
+  },
+  "metadata": {
+    "source": "synthetic_20260601_002.md",
+    "domain": "stem",
+    "subdomain": "observations"
+  }
+}

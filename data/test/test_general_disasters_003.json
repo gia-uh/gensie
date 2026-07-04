@@ -1,0 +1,151 @@
+{
+  "id": "test_general_disasters_003",
+  "input_text": "# Accidente aéreo en China deja 43 muertos\n\n_Fuente: https://es.wikinews.org/wiki/Accidente_a%C3%A9reo_en_China_deja_43_muertos_\n\nUn avión de la aerolínea china Hainan Airlines se estrelló este martes con sus 96 ocupantes, de los cuales 43 han muerto y los restantes 53 han sido llevados a los hospitales, tres de ellos en estado delicado luego que la aeronave se partiera en dos y posteriormente explotara en las afueras de la pista de aterrizaje, por causas que aún no han sido esclarecidas, aunque se sospecha que el mal tiempo fue detonante de la tragedia.\nEl accidente se produjo en el aeropuerto Yichun en la provincia de Heilongjiang, al noroeste de China, cuando la aeronave sobrepasó la pista y al hacer contacto con el suelo se partió en dos. Según los rescatistas, varios pasajeros salieron expulsados del avión y posteriormente este explotara. Los equipos de rescate se acercaron al siniestro rápidamente y se podían contabilizar unos 500 socorristas.\nLa aeronave Embraer E190 de fabricación brasileña despegó a las 21:00 horas locales (13:00 UTC) de la ciudad de Harbin, con destino a Yichun, a pocos kilómetros de la frontera con Rusia y a las 22:10 (14:10 UTC) se precipitó a tierra.\nInformes preliminares dan como causa del accidente a la mala visibilidad, ya que había una densa niebla cuando ocurrió el hecho. [...] == Fuentes ==\n((es))  dpa “Accidente de avión en China deja 43 muertos y numerosos heridos” — elpais.cr, 24 de agosto,2010.\n((es))  “China: Accidente aéreo deja 43 muertos” — generaccion.com, 24 de agosto,2010.",
+  "instruction": "Extrae información estructurada del siguiente artículo de noticias sobre un accidente aéreo según el esquema NewsArticle.",
+  "target_schema": {
+    "$defs": {
+      "NewsCategory": {
+        "enum": [
+          "JUDICIAL",
+          "DISASTER",
+          "HEALTH",
+          "ENVIRONMENT",
+          "POLITICS",
+          "ECONOMY",
+          "SCIENCE",
+          "CULTURE",
+          "SPORTS",
+          "OTHER"
+        ],
+        "title": "NewsCategory",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Extracts structured information from general news articles.\nComplexity: L4 (Sparse Extraction) - Some fields may be null/missing.",
+    "properties": {
+      "headline": {
+        "description": "The main headline or title of the news article",
+        "title": "Headline",
+        "type": "string"
+      },
+      "summary": {
+        "description": "A brief summary of the main facts reported (1-3 sentences)",
+        "title": "Summary",
+        "type": "string"
+      },
+      "category": {
+        "$ref": "#/$defs/NewsCategory",
+        "description": "The thematic category of the news story"
+      },
+      "location": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Geographic location where the event occurred (city, country, or region)",
+        "title": "Location"
+      },
+      "date": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Date mentioned in the article (may be implicit or explicit)",
+        "title": "Date"
+      },
+      "key_people": {
+        "description": "Names of key individuals mentioned in the article",
+        "items": {
+          "type": "string"
+        },
+        "title": "Key People",
+        "type": "array"
+      },
+      "key_organizations": {
+        "description": "Names of organizations, companies, or governments mentioned",
+        "items": {
+          "type": "string"
+        },
+        "title": "Key Organizations",
+        "type": "array"
+      },
+      "casualties": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of deaths mentioned, if any",
+        "title": "Casualties"
+      },
+      "injured": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of people injured, if any",
+        "title": "Injured"
+      },
+      "affected_count": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of people affected or displaced, if applicable",
+        "title": "Affected Count"
+      }
+    },
+    "required": [
+      "headline",
+      "summary",
+      "category"
+    ],
+    "title": "NewsArticle",
+    "type": "object"
+  },
+  "output": {
+    "headline": "Accidente aéreo en China deja 43 muertos",
+    "summary": "Un avión de Hainan Airlines con 96 ocupantes se estrelló al sobrepasar la pista del aeropuerto Yichun, en la provincia de Heilongjiang, China. El accidente dejó 43 muertos y 53 heridos hospitalizados, tres en estado delicado. Se sospecha que la mala visibilidad por densa niebla fue la causa.",
+    "category": "DISASTER",
+    "location": "Aeropuerto Yichun, provincia de Heilongjiang, China",
+    "date": "24 de agosto de 2010",
+    "key_people": [],
+    "key_organizations": [
+      "Hainan Airlines",
+      "Embraer"
+    ],
+    "casualties": 43,
+    "injured": 53,
+    "affected_count": 96
+  },
+  "metadata": {
+    "source": "fresh_testset_accidente_aéreo_en_china_deja_43_muertos.md",
+    "domain": "general",
+    "subdomain": "disasters"
+  }
+}

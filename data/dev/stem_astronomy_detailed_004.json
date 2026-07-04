@@ -1,0 +1,148 @@
+{
+  "id": "stem_astronomy_detailed_004",
+  "input_text": "# Marte\n\nMarte es el cuarto planeta en orden de distancia al Sol y el segundo más pequeño del sistema solar, después de Mercurio. Recibió su nombre en homenaje al homónimo dios de la guerra de la mitología romana (Ares en la mitología griega), y también es conocido como «el planeta rojo»​​ debido a la apariencia rojiza​ que le confiere el óxido de hierro predominante en su superficie. Marte es el planeta interior más alejado del Sol. Es un planeta telúrico con una atmósfera delgada de dióxido de carbono, y tiene dos satélites pequeños y de forma irregular, Fobos y Deimos (hijos del dios griego), que podrían ser asteroides capturados​​ similares al asteroide troyano (5261) Eureka. Sus características superficiales recuerdan tanto a los cráteres de la Luna como a los valles, desiertos y casquetes polares de la Tierra.\nEl periodo de rotación y los ciclos estacionales son similares a los de la Tierra, ya que la inclinación es lo que genera las estaciones. Marte alberga el Monte Olimpo, la montaña y el volcán más grande y alto conocido en el sistema solar, y los Valles Marineris, uno de los mayores cañones del sistema solar. La llana cuenca Boreal en el hemisferio norte cubre el 40 % del planeta y puede ser característica de un gigantesco impacto.​​ Aunque en apariencia podría parecer un planeta muerto, no lo es. Sus campos de dunas siguen siendo mecidos por el viento marciano, sus casquetes polares cambian con las estaciones e incluso parece que hay algunos pequeños flujos estacionales de agua.​\nLas investigaciones en curso estudian la habitabilidad pasada del planeta y su potencial para albergar vida en la actualidad. Se planean futuras investigaciones astrobiológicas, entre ellas, la Mars 2020 de la NASA y ExoMars de la ESA.​​​​ El agua en estado líquido no puede existir en la superficie de Marte debido a su baja presión atmosférica, que es unas 100 veces inferior a la de la Tierra,​ excepto en las zonas menos elevadas durante cortos periodos de tiempo.​​ Sus dos casquetes polares parecen estar formados en su mayor parte por agua.​​ El volumen de agua helada del casquete polar sur, si se derritiera, sería suficiente como para cubrir la superficie planetaria al completo con una profundidad de 11 metros (36 pies).​\nMarte se puede observar fácilmente a simple vista desde la Tierra, así como su coloración rojiza. Su magnitud aparente alcanza −2.97,​ y es solamente superada por Júpiter, Venus, la Luna y el Sol. Los telescopios ópticos terrestres suelen estar limitados por la atmósfera terrestre​ a una resolución aproximada de 300 km (190 millas) cuando la Tierra y Marte se encuentran en su máxima cercanía.\nEl astrónomo danés del siglo XVI Tycho Brahe midió con gran precisión el movimiento de Marte en el cielo. Los datos sobre el movimiento retrógrado aparente (los llamados «lazos»)​ permitieron a Kepler hallar la naturaleza elíptica de su órbita y determinar las leyes del movimiento planetario conocidas como leyes de Kepler.\nMarte forma parte de los planetas superiores a la Tierra, ya que su órbita nunca atraviesa la de la Tierra alrededor del Sol. Sus fases (porción iluminada vista desde la Tierra) están poco marcadas, hecho que es fácil de demostrar geométricamente. Considerando el triángulo Sol-Tierra-Marte, el ángulo de fase es el que forman el Sol y la Tierra vistos desde Marte; este alcanza su valor máximo en las cuadraturas cuando el triángulo STM es rectángulo en la Tierra. Si llamamos [...] UA al radio medio orbital de la Tierra y\n\n\n\n\n          a\n\n            2\n\n\n        =\n        1.5237\n\n\n    {\\displaystyle a_{2}=1.5237}\n\n UA al radio medio orbital de Marte el ángulo de fase máximo se calcula mediante​ :",
+  "instruction": "Extrae las propiedades físicas y orbitales del cuerpo celeste descrito en el texto, incluyendo su nombre oficial, tipo de cuerpo, y parámetros orbitales cuando estén disponibles.",
+  "target_schema": {
+    "$defs": {
+      "CelestialBodyType": {
+        "enum": [
+          "ASTEROIDE",
+          "COMETA",
+          "PLANETA",
+          "LUNA",
+          "PLANETA ENANO",
+          "OBJETO INTERESTELAR",
+          "OTRO"
+        ],
+        "title": "CelestialBodyType",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Extracts physical and orbital parameters of celestial bodies.\nComplexity: L5 (Precision Extraction & Normalization).",
+    "properties": {
+      "official_name": {
+        "description": "The primary scientific designation or name",
+        "title": "Official Name",
+        "type": "string"
+      },
+      "body_type": {
+        "$ref": "#/$defs/CelestialBodyType",
+        "description": "The classification of the celestial object"
+      },
+      "mass_kg": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Mass in kilograms (scientific notation or float)",
+        "title": "Mass Kg"
+      },
+      "diameter_km": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Mean diameter in kilometers",
+        "title": "Diameter Km"
+      },
+      "eccentricity": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Orbital eccentricity (e.g., 1.199)",
+        "title": "Eccentricity"
+      },
+      "orbital_period_days": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Time to complete one orbit in Earth days",
+        "title": "Orbital Period Days"
+      },
+      "semi_major_axis_au": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Average distance from the sun in AU",
+        "title": "Semi Major Axis Au"
+      },
+      "discovery_date": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Date of discovery in YYYY-MM-DD format",
+        "title": "Discovery Date"
+      },
+      "discoverer": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Name of the person or observatory that found the object",
+        "title": "Discoverer"
+      }
+    },
+    "required": [
+      "official_name",
+      "body_type"
+    ],
+    "title": "CelestialObjectProperties",
+    "type": "object"
+  },
+  "output": {
+    "official_name": "Marte",
+    "body_type": "PLANETA",
+    "mass_kg": null,
+    "diameter_km": null,
+    "eccentricity": null,
+    "orbital_period_days": null,
+    "semi_major_axis_au": 1.5237,
+    "discovery_date": null,
+    "discoverer": null
+  },
+  "metadata": {
+    "source": "solar_system_04_marte.md",
+    "domain": "stem",
+    "subdomain": "astronomy_detailed"
+  }
+}

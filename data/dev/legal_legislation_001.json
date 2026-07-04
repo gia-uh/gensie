@@ -1,0 +1,100 @@
+{
+  "id": "legal_legislation_001",
+  "input_text": "# Ley antitabaco de España de 2011\n\nSource: https://es.wikipedia.org/wiki/Ley_antitabaco_de_Espa%C3%B1a_de_2011\n\nLa Ley 42/2010, de 30 de diciembre de 2010, por la que se modifica la Ley 28/2005, de 26 de diciembre, de medidas sanitarias frente al tabaquismo y reguladora de la venta, el suministro, el consumo y la publicidad de los productos del tabaco, más conocida como nueva ley antitabaco, entró en vigor el 2 de enero de 2011, como modificación de la anterior ley antitabaco de 2006, y cuyas medidas de mayor repercusión social son la extensión de la prohibición de fumar a cualquier tipo espacio de uso colectivo, local abierto al público, que no esté al aire libre, con una única excepción otorgada a centros de internamiento penitenciario y psiquiátrico y en zonas y habitaciones delimitadas en centros residenciales de mayores. Está ley se verá reforzada con una nueva en 2024, actualmente pendiente de aprobación que incorpora más restricciones en beneficio social. ​  \nLa modificación legislativa introdujo, entre otros, cambios dirigidos a la lucha contra el tabaquismo (deshabituación tabáquica), a la protección de los ciudadanos —particularmente de los menores— y los no fumadores, especialmente mediante la redacción de sus artículos 12 y 13. Aunque muchos menores de edad consumen tabaco al margen de la ley, lo cual el responsable de la distribución de estos elementos podría ser sancionado al ser el responsable de que un menor tenga acceso al tabaco. \nCon respecto a la prohibición de fumar en ciertos espacios públicos, se modifica el artículo 2 de la ley anterior​ delimitando la definición de espacio al aire libre, lo que reduce la ambigüedad existente a este respecto.\nCon esta modificación, España pasó a prohibir fumar en espacios al aire libre de centros educativos (excepto universitarios), recintos de centros sanitarios y las zonas acotadas para parques infantiles y zonas de juego para la infancia.​​ Hasta la entrada en vigor de esta ley, únicamente tenían esta restricción algunos estados de Estados Unidos y Japón, además de Bután, donde está prohibido fumar en toda la nación desde 2004.\n\nModificaciones incluidas en esta Ley\nSe añade la letra «e)» al artículo 2, cuyo contenido pasa a ser el apartado 1 de dicho artículo, definiendo los espacios de uso público con independencia de su titularidad.\nSe añade un nuevo apartado 2 a dicho artículo 2 que establece la definición de espacio al aire libre a efectos de esta ley como «todo espacio no cubierto o todo espacio que estando cubierto esté rodeado lateralmente por un máximo de dos paredes, muros o paramentos.»​\nConsiderándose espacios al aire libre los espacios redondos o semicírculo como plazas de toros, algunos bares, restaurantes, cines, teatros y óperas, entre otros.\nEl artículo 8 de la ley establece la  prohibición de fumar en una lista exhaustiva de lugares señalados, además de los definidos en la normativa de las comunidades autónomas.​\nEl artículo 8 establece la normativa específica sobre las condiciones que deben cumplir las habitaciones de hostelería que pueden estar reservadas a usuarios fumadores.​\n\nClubes privados de fumadores\nLa ley contempla en su disposición adicional novena la figura del club privado de fumadores como aquel establecimiento donde se puede consumir tabaco. \nLos clubes privados de fumadores legalmente constituidos quedan exentos de aplicar esta ley siempre que ello se realice en el interior de su sede social y mientras en sus instalaciones solamente haya presencia única y exclusiva de socios. Un club privado de fumadores deberá ser una entidad con personalidad jurídica, carecer de ánimo de lucro y excluir de sus actividades y objeto social la comercialización y la compraventa de bienes y productos consumibles. Finalmente, en los clubes privados de fumadores no se permitirá la entrada de menores.​\nAdemás, el club privado de fumadores ha de disponer de estatutos y de un censo de socios.​\n\nSanciones\nSegún la nueva ley: fumar donde está prohibido se considerará infracción leve. La acumulación de tres infracciones de este tipo se considerará como falta grave. Asimismo se considerará falta grave por parte del titular de un establecimiento: habilitar zonas para fumar donde no esté permitido o permitir fumar en los lugares en los que aplica la prohibición de hacerlo.​\nEn la redacción de la nueva ley se estipula la graduación de las sanciones: las infracciones leves conllevan una multa entre 30 y 600 € (salvo el hecho de fumar en lugares prohibidos, cuya sanción llegará hasta 30 € si la infracción se realiza de forma aislada); las graves conllevan una multa entre 601 y 10 000 €, y las infracciones muy graves, multas desde 10.001 hasta los 600.000 €.​\n\nArgumentos\nA favor\nTabaco como problema sanitario: el problema del tabaquismo en España es bastante grave para la salud. Según datos publicados por el Ministerio de Sanidad mueren 50 000 personas al año por ser fumadores,​\nPrácticas de las compañías tabaqueras contra la salud de los jóvenes: reflejan y comentan las actividades de investigación, propaganda, diseño de campañas y financiación que llevan a cabo las compañías tabaqueras para promocionar el consumo del tabaco en España entre los jóvenes y el impacto consecuente en el mantenimiento del tabaquismo entre la población española.​\nExtensión de la prohibición de fumar en el centro de trabajo: la ley anterior ya prohíbe el consumo de tabaco en los centros de trabajo. Se puede argumentar que la ley de 2011 toma en consideración que los bares y restaurantes también son un centro de trabajo, el de los empleados (camareros, personal de limpieza...) que trabajan en él. La ley plantea la posibilidad de fumar en salas habilitadas, en determinados establecimientos con personal empleado, tales como centros psiquiátricos de larga duración y cárceles, pero son en esencia centros de los cuales los internos no pueden salir (o tienen muy restringida la libertad para salir) y que se pueden asimilar a su vivienda habitual.​\nProtección de la salud: la defensa de los derechos individuales a la salud individual y pública, y el derecho de todos los ciudadanos a respirar aire limpio y salubre, libre de polución por sustancias nocivas. Con motivo del malogrado proyecto Eurovegas en Madrid, se muestran argumentos que utilizando pruebas científicas y económicas demuestran que los ambientes totalmente libres de humo son inocuos tanto para el negocio como para la salud de todos sus trabajadores y clientes, sean o no fumadores.\"​",
+  "instruction": "Extrae el resumen del contrato o acto legislativo",
+  "target_schema": {
+    "$defs": {
+      "JurisdictionScope": {
+        "enum": [
+          "NACIONAL",
+          "AUTONÓMICO",
+          "LOCAL",
+          "EUROPEO"
+        ],
+        "title": "JurisdictionScope",
+        "type": "string"
+      },
+      "LawRange": {
+        "enum": [
+          "LEY ORGÁNICA",
+          "LEY ORDINARIA",
+          "REAL DECRETO",
+          "REAL DECRETO-LEY",
+          "CONSTITUCIÓN",
+          "OTRA"
+        ],
+        "title": "LawRange",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Aggregates dispersed metadata and status of a Spanish law.\nComplexity: L7 (Dispersed Aggregation).",
+    "properties": {
+      "official_title": {
+        "description": "Full official title of the law",
+        "title": "Official Title",
+        "type": "string"
+      },
+      "law_range": {
+        "$ref": "#/$defs/LawRange",
+        "description": "The legal rank of the norm"
+      },
+      "sanction_date": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Date of sanction in YYYY-MM-DD",
+        "title": "Sanction Date"
+      },
+      "jurisdiction": {
+        "$ref": "#/$defs/JurisdictionScope",
+        "description": "The scope of application"
+      },
+      "is_repealed": {
+        "description": "True if the text mentions the law is no longer in effect or has been replaced",
+        "title": "Is Repealed",
+        "type": "boolean"
+      },
+      "affected_articles": {
+        "description": "List of specific articles mentioned as modified or relevant",
+        "items": {
+          "type": "string"
+        },
+        "title": "Affected Articles",
+        "type": "array"
+      }
+    },
+    "required": [
+      "official_title",
+      "law_range",
+      "jurisdiction",
+      "is_repealed"
+    ],
+    "title": "LegislativeAct",
+    "type": "object"
+  },
+  "output": {
+    "official_title": "Ley 42/2010, de 30 de diciembre de 2010, por la que se modifica la Ley 28/2005, de 26 de diciembre, de medidas sanitarias frente al tabaquismo y reguladora de la venta, el suministro, el consumo y la publicidad de los productos del tabaco",
+    "law_range": "LEY ORDINARIA",
+    "sanction_date": "2010-12-30",
+    "jurisdiction": "NACIONAL",
+    "is_repealed": false,
+    "affected_articles": [
+      "artículo 2",
+      "artículo 8",
+      "artículo 12",
+      "artículo 13"
+    ]
+  },
+  "metadata": {
+    "source": "wiki_legislation_20260414_ley_antitabaco_de_españa_de_2011.md",
+    "domain": "legal",
+    "subdomain": "legislation"
+  }
+}

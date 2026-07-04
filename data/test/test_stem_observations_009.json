@@ -1,0 +1,318 @@
+{
+  "id": "stem_observations_009",
+  "input_text": "# Cuaderno de campo — Polinizadores en Finca Agroecológica La Almazara\n\n**Sitio:** Finca Agroecológica La Almazara, parcela alta de almendros y banda perimetral de lavanda, t.m. de Caravaca de la Cruz (Murcia, España).\n**Fecha:** 2026-04-22\n**Hora de inicio:** 09:40 h (hora local CEST). Hora de cierre: 13:15 h.\n**Observador/Equipo:** Rosa María Pérez Aguilar, responsable de seguimiento agroecológico de la cooperativa, acompañada por Ignacio Sáez (técnico becario, en formación).\n**Método declarado:** conteo por punto, con cuatro estaciones de muestreo fijas pre-establecidas (E1: extremo norte del bancal de almendros, variedad 'Vairo' en plena floración; E2: centro del mismo bancal, variedad 'Marinada' con floración más tardía y menos abierta; E3: linde sur, primera fila de lavandín 'Grosso' con cabezuelas todavía a medio abrir; E4: rincón sureste, lavanda fina (Lavandula angustifolia) en plena floración). Duración por estación: 15 minutos efectivos de observación, precedidos por 2 minutos de acomodo silencioso. Radio de detección estimado: 3 m, restringido a las inflorescencias accesibles. Se contabilizan visitantes posados sobre flor; los individuos en vuelo de paso a más de 2 m no se computan.\n\n## Condiciones meteorológicas\n\nCielo parcialmente nublado durante toda la sesión, con nubes altas cirriformes y algún cúmulo disperso. Sin precipitación ni amenaza inmediata. Viento del oeste suave a moderado, oscilando entre rachas tranquilas y golpes que mueven las cabezuelas de lavandín en E3. Humedad relativa media. Temperatura ambiente en ascenso desde el inicio hasta el cierre. La intensidad lumínica disminuyó visiblemente entre 11:20 y 11:55 por una banda nubosa más espesa, lo que coincidió con una caída perceptible de visitas en E2 (anotado en libreta). Recuperación lumínica posterior. No se observa rocío al inicio: el almendral está seco al tacto.\n\n## Narrativa de la sesión\n\nLlegamos al camino de servicio a las 09:25 y aprovechamos los primeros minutos para calibrar el luxómetro a la sombra y verificar la lectura del anemómetro de copa portátil. Comenzamos en E1 a las 09:42, con la floración del 'Vairo' aún a pleno rendimiento; abundante actividad de abejas melíferas desde el primer minuto, y dos avistamientos tempranos de abejorros grandes que se desplazan ruidosamente entre ramas bajas. Ignacio anota; Rosa cronometra y dicta.\n\nPasamos a E2 a las 10:05. La actividad es claramente menor que en E1, probablemente por la menor proporción de flor abierta del 'Marinada' y por el efecto de la banda nubosa que entró a media observación. Hacia las 11:40 una pareja de blanquitas (Pieris rapae) sobrevuela el bancal sin posarse en almendro: se anotan como avistamiento pero no como visita.\n\nTraslado a E3 (lavandín 'Grosso') entre 11:55 y 12:05. Aquí domina con claridad el abejorro común (Bombus terrestris); se ven al menos tres individuos simultáneos libando en distintas cabezuelas dentro del radio. Una mariposa más oscura, identificada con razonable seguridad como Macroglossum stellatarum (esfinge colibrí), se acerca brevemente a una inflorescencia pero no llega a libar dentro del tiempo de medición; se anota fuera del conteo formal. El viento incomoda a algún visitante: dos abejas melíferas se desprenden por una racha y reposicionan.\n\nCerramos en E4 (lavanda angustifolia) entre 12:35 y 12:50. Floración muy abierta y aroma intenso. Predominan abejas melíferas, con presencia constante pero más discreta de un abejorro pequeño que no se identifica con certeza a nivel de especie y se registra como morfotipo. Sorprende la ausencia total de sírfidos durante toda la sesión; se discute si el momento del día (mediodía ya cálido) puede explicarla parcialmente. Se cierra cuaderno a las 13:15 sin incidencias.\n\n## Registro de especies\n\nA continuación, visitantes confirmados dentro de las estaciones, agregados para la sesión completa:\n\n- **Apis mellifera** (abeja melífera) — 38 individuos contabilizados como visitas. Comportamiento: libando en flores de almendro ('Vairo' y 'Marinada') y en cabezuelas de lavanda; mayoría en E1 y E4. Notas: se aprecia carga visible de polen amarillo claro en las corbículas de varias obreras en E1.\n- **Bombus terrestris** (abejorro común) — 11 individuos. Comportamiento: libando en lavandín 'Grosso' (E3) principalmente, con algunas visitas en almendro 'Vairo'. Notas: vocalización audible (zumbido grave) acompañando el forrajeo.\n- **Bombus pascuorum** (abejorro de campo) — 3 individuos. Comportamiento: libando en lavanda angustifolia (E4) con desplazamientos cortos entre cabezuelas adyacentes.\n- **Pieris rapae** (blanquita de la col) — 2 individuos. Comportamiento: patrullando el bancal de almendros sin visita confirmada a flor dentro del tiempo de medición. Notas: sólo avistamiento, no computa como visita efectiva.\n- **Anthophora plumipes** (abeja peluda de patas largas) — 1 hembra. Comportamiento: libando rápidamente en E1, una sola visita confirmada antes de marchar fuera del radio.\n- **Macroglossum stellatarum** (esfinge colibrí) — 0 visitas confirmadas dentro del tiempo de medición. Notas: avistamiento próximo a E3 anotado fuera del conteo formal; se registra con count=0 para dejar constancia del esfuerzo de búsqueda.\n- **Morfotipo abejorro pequeño no identificado** — 2 individuos. Comportamiento: libando en lavanda angustifolia (E4). Notas: no se determina especie con seguridad de campo; muestreo fotográfico para revisión posterior.\n\nTotal provisional de la jornada: 57 visitas confirmadas dentro de las estaciones, en al menos 6 taxones identificados.\n\n## Mediciones cuantitativas\n\nSe anotan en orden de toma:\n\n- Temperatura ambiente al inicio en E1 = 16.8 °C, termohigrómetro digital Testo 605i.\n- Temperatura ambiente al cierre en E4 = 22.4 °C, termohigrómetro digital Testo 605i.\n- Humedad relativa al inicio en E1 = 54 %, termohigrómetro digital Testo 605i.\n- Humedad relativa al cierre en E4 = 41 %, termohigrómetro digital Testo 605i.\n- Intensidad lumínica media en E1 (almendro 'Vairo') = 48000 lux, luxómetro Extech LT300.\n- Intensidad lumínica en E2 durante la banda nubosa (11:30) = 19500 lux, luxómetro Extech LT300.\n- Intensidad lumínica en E4 al cierre = 62000 lux, luxómetro Extech LT300.\n- Velocidad media del viento en E3 = 9.4 km/h, anemómetro de copa portátil Kestrel 3000.\n- Ráfaga máxima registrada en E3 = 17.1 km/h, anemómetro de copa portátil Kestrel 3000.\n- Distancia recorrida entre E1 y E4 a lo largo de los bancales = 0.46 km, podómetro GPS del teléfono (estimación, no instrumento dedicado).\n\n## Conclusiones del observador\n\n1. La fenología del bancal alto está desfasada entre variedades: 'Vairo' ya en pleno mientras 'Marinada' va con retraso, lo que se traduce en una concentración clara de visitas de abeja melífera en E1 frente a E2 dentro de la misma jornada.\n2. La banda nubosa de las 11:20–11:55 coincide con una caída perceptible de visitas y con la lectura de luxómetro más baja del día en E2; conviene incorporar la intensidad lumínica como covariable explícita en próximos análisis de la serie.\n3. El predominio de Bombus terrestris en el lavandín 'Grosso' (E3) refuerza la utilidad de mantener la banda perimetral de lavandín como recurso complementario para abejorros, especialmente en días ventosos donde la abeja melífera reduce visitas.\n4. La ausencia total de sírfidos durante toda la sesión es llamativa y debería contrastarse con la sesión equivalente de la próxima semana antes de extraer conclusiones; podría tratarse de un efecto horario o de un episodio puntual.\n5. Se recomienda que en próximas sesiones el técnico becario lleve cámara con macro para resolver el morfotipo de abejorro pequeño no identificado en E4.",
+  "instruction": "Extrae los datos de esta entrada de cuaderno de campo: sitio, fecha, observador, método y meteorología, registros de especies, mediciones cuantitativas y conclusiones.",
+  "target_schema": {
+    "$defs": {
+      "Measurement": {
+        "additionalProperties": false,
+        "description": "Una medición numérica registrada durante la observación.",
+        "properties": {
+          "name": {
+            "description": "Nombre literal de la magnitud medida (p. ej. 'temperatura del agua', 'profundidad', 'altura del árbol', 'pH del suelo').",
+            "title": "Name",
+            "type": "string"
+          },
+          "value": {
+            "description": "Valor numérico tal como aparece en el cuaderno de campo.",
+            "title": "Value",
+            "type": "number"
+          },
+          "unit": {
+            "description": "Unidad de medida tal como aparece (p. ej. '°C', 'cm', 'mg/L', 'lux').",
+            "title": "Unit",
+            "type": "string"
+          },
+          "instrument": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Instrumento o sensor con el que se tomó la medición si el texto lo menciona (p. ej. 'termómetro digital', 'GPS Garmin'). Null si no.",
+            "title": "Instrument"
+          }
+        },
+        "required": [
+          "name",
+          "value",
+          "unit"
+        ],
+        "title": "Measurement",
+        "type": "object"
+      },
+      "SpeciesObservation": {
+        "additionalProperties": false,
+        "description": "Una entrada del registro de un taxón observado en el sitio.",
+        "properties": {
+          "species_name": {
+            "description": "Nombre científico binomial o nombre común consistentemente usado en el log (p. ej. 'Quercus ilex', 'pinzón vulgar').",
+            "title": "Species Name",
+            "type": "string"
+          },
+          "count": {
+            "description": "Número de individuos observados o estimados. Para presencia/ausencia sin conteo usar 1 y aclarar en 'notes'.",
+            "minimum": 0,
+            "title": "Count",
+            "type": "integer"
+          },
+          "behavior": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Comportamiento observado si el log lo describe (p. ej. 'forrajeando', 'en reposo', 'reproduciendo'). Null si no se describe.",
+            "title": "Behavior"
+          },
+          "notes": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Observación adicional literal del cuaderno (p. ej. 'juveniles', 'plumaje invernal'). Null si no hay notas.",
+            "title": "Notes"
+          }
+        },
+        "required": [
+          "species_name",
+          "count"
+        ],
+        "title": "SpeciesObservation",
+        "type": "object"
+      },
+      "StudyMethod": {
+        "enum": [
+          "transecto",
+          "cuadrante",
+          "conteo_por_punto",
+          "marcaje_recaptura",
+          "registro_acústico",
+          "fototrampeo",
+          "muestreo_oportunista"
+        ],
+        "title": "StudyMethod",
+        "type": "string"
+      },
+      "WeatherCondition": {
+        "enum": [
+          "soleado",
+          "parcialmente_nublado",
+          "cubierto",
+          "lluvia",
+          "llovizna",
+          "niebla",
+          "nieve"
+        ],
+        "title": "WeatherCondition",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Entrada de cuaderno de campo de un estudio biológico, ecológico o\ngeológico: sitio, fecha, condiciones, registros de taxones, mediciones y\nconclusiones del observador. La extracción debe distinguir entre\nobservaciones cualitativas de taxones y mediciones cuantitativas, y debe\nenlazar las condiciones ambientales con la sesión completa.\n\nComplejidad: L8 — dispersión informativa con listas heterogéneas paralelas\n(especies + mediciones) y vocabulario técnico moderado.",
+    "properties": {
+      "site_name": {
+        "description": "Nombre del sitio de observación tal como aparece en la cabecera (p. ej. 'Estación Biológica de Doñana, Lagunas del Acebuche').",
+        "title": "Site Name",
+        "type": "string"
+      },
+      "observation_date": {
+        "description": "Fecha de la sesión en formato ISO 'YYYY-MM-DD'.",
+        "title": "Observation Date",
+        "type": "string"
+      },
+      "observer": {
+        "description": "Nombre del observador o equipo que firma la entrada del cuaderno.",
+        "title": "Observer",
+        "type": "string"
+      },
+      "method": {
+        "$ref": "#/$defs/StudyMethod",
+        "description": "Método principal de muestreo declarado para la sesión. 'muestreo_oportunista' si el texto no formaliza un método estándar."
+      },
+      "weather": {
+        "$ref": "#/$defs/WeatherCondition",
+        "description": "Condición meteorológica predominante durante la sesión, según el texto."
+      },
+      "temperature_celsius": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Temperatura ambiente registrada al iniciar la sesión, en °C. Null si el log no la registra.",
+        "title": "Temperature Celsius"
+      },
+      "species_observed": {
+        "description": "Registro de taxones observados en el orden del cuaderno. Una entrada por especie / morfotipo distinto.",
+        "items": {
+          "$ref": "#/$defs/SpeciesObservation"
+        },
+        "title": "Species Observed",
+        "type": "array"
+      },
+      "measurements": {
+        "description": "Mediciones cuantitativas tomadas durante la sesión, distintas de la temperatura general (que va en su campo dedicado). Una entrada por medición.",
+        "items": {
+          "$ref": "#/$defs/Measurement"
+        },
+        "title": "Measurements",
+        "type": "array"
+      },
+      "conclusions": {
+        "description": "Conclusiones o hipótesis explícitamente formuladas por el observador al cierre de la entrada. Una conclusión por elemento.",
+        "items": {
+          "type": "string"
+        },
+        "title": "Conclusions",
+        "type": "array"
+      }
+    },
+    "required": [
+      "site_name",
+      "observation_date",
+      "observer",
+      "method",
+      "weather"
+    ],
+    "title": "ObservationLog",
+    "type": "object"
+  },
+  "output": {
+    "site_name": "Finca Agroecológica La Almazara, parcela alta de almendros y banda perimetral de lavanda, t.m. de Caravaca de la Cruz (Murcia, España)",
+    "observation_date": "2026-04-22",
+    "observer": "Rosa María Pérez Aguilar, responsable de seguimiento agroecológico de la cooperativa, acompañada por Ignacio Sáez (técnico becario, en formación)",
+    "method": "conteo_por_punto",
+    "weather": "parcialmente_nublado",
+    "temperature_celsius": 16.8,
+    "species_observed": [
+      {
+        "species_name": "Apis mellifera",
+        "count": 38,
+        "behavior": "libando en flores de almendro ('Vairo' y 'Marinada') y en cabezuelas de lavanda; mayoría en E1 y E4",
+        "notes": "se aprecia carga visible de polen amarillo claro en las corbículas de varias obreras en E1"
+      },
+      {
+        "species_name": "Bombus terrestris",
+        "count": 11,
+        "behavior": "libando en lavandín 'Grosso' (E3) principalmente, con algunas visitas en almendro 'Vairo'",
+        "notes": "vocalización audible (zumbido grave) acompañando el forrajeo"
+      },
+      {
+        "species_name": "Bombus pascuorum",
+        "count": 3,
+        "behavior": "libando en lavanda angustifolia (E4) con desplazamientos cortos entre cabezuelas adyacentes",
+        "notes": null
+      },
+      {
+        "species_name": "Pieris rapae",
+        "count": 2,
+        "behavior": "patrullando el bancal de almendros sin visita confirmada a flor dentro del tiempo de medición",
+        "notes": "sólo avistamiento, no computa como visita efectiva"
+      },
+      {
+        "species_name": "Anthophora plumipes",
+        "count": 1,
+        "behavior": "libando rápidamente en E1, una sola visita confirmada antes de marchar fuera del radio",
+        "notes": null
+      },
+      {
+        "species_name": "Macroglossum stellatarum",
+        "count": 0,
+        "behavior": null,
+        "notes": "avistamiento próximo a E3 anotado fuera del conteo formal; se registra con count=0 para dejar constancia del esfuerzo de búsqueda"
+      },
+      {
+        "species_name": "Morfotipo abejorro pequeño no identificado",
+        "count": 2,
+        "behavior": "libando en lavanda angustifolia (E4)",
+        "notes": "no se determina especie con seguridad de campo; muestreo fotográfico para revisión posterior"
+      }
+    ],
+    "measurements": [
+      {
+        "name": "Temperatura ambiente al cierre en E4",
+        "value": 22.4,
+        "unit": "°C",
+        "instrument": "termohigrómetro digital Testo 605i"
+      },
+      {
+        "name": "Humedad relativa al inicio en E1",
+        "value": 54,
+        "unit": "%",
+        "instrument": "termohigrómetro digital Testo 605i"
+      },
+      {
+        "name": "Humedad relativa al cierre en E4",
+        "value": 41,
+        "unit": "%",
+        "instrument": "termohigrómetro digital Testo 605i"
+      },
+      {
+        "name": "Intensidad lumínica media en E1 (almendro 'Vairo')",
+        "value": 48000,
+        "unit": "lux",
+        "instrument": "luxómetro Extech LT300"
+      },
+      {
+        "name": "Intensidad lumínica en E2 durante la banda nubosa (11:30)",
+        "value": 19500,
+        "unit": "lux",
+        "instrument": "luxómetro Extech LT300"
+      },
+      {
+        "name": "Intensidad lumínica en E4 al cierre",
+        "value": 62000,
+        "unit": "lux",
+        "instrument": "luxómetro Extech LT300"
+      },
+      {
+        "name": "Velocidad media del viento en E3",
+        "value": 9.4,
+        "unit": "km/h",
+        "instrument": "anemómetro de copa portátil Kestrel 3000"
+      },
+      {
+        "name": "Ráfaga máxima registrada en E3",
+        "value": 17.1,
+        "unit": "km/h",
+        "instrument": "anemómetro de copa portátil Kestrel 3000"
+      },
+      {
+        "name": "Distancia recorrida entre E1 y E4 a lo largo de los bancales",
+        "value": 0.46,
+        "unit": "km",
+        "instrument": "podómetro GPS del teléfono (estimación, no instrumento dedicado)"
+      }
+    ],
+    "conclusions": [
+      "La fenología del bancal alto está desfasada entre variedades: 'Vairo' ya en pleno mientras 'Marinada' va con retraso, lo que se traduce en una concentración clara de visitas de abeja melífera en E1 frente a E2 dentro de la misma jornada.",
+      "La banda nubosa de las 11:20–11:55 coincide con una caída perceptible de visitas y con la lectura de luxómetro más baja del día en E2; conviene incorporar la intensidad lumínica como covariable explícita en próximos análisis de la serie.",
+      "El predominio de Bombus terrestris en el lavandín 'Grosso' (E3) refuerza la utilidad de mantener la banda perimetral de lavandín como recurso complementario para abejorros, especialmente en días ventosos donde la abeja melífera reduce visitas.",
+      "La ausencia total de sírfidos durante toda la sesión es llamativa y debería contrastarse con la sesión equivalente de la próxima semana antes de extraer conclusiones; podría tratarse de un efecto horario o de un episodio puntual.",
+      "Se recomienda que en próximas sesiones el técnico becario lleve cámara con macro para resolver el morfotipo de abejorro pequeño no identificado en E4."
+    ]
+  },
+  "metadata": {
+    "source": "synthetic_20260601_009.md",
+    "domain": "stem",
+    "subdomain": "observations"
+  }
+}

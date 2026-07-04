@@ -1,0 +1,199 @@
+{
+  "id": "test_medical_trials_002",
+  "input_text": "# El estudio HEFRIBE-3 demuestra una reducción significativa de hospitalizaciones en pacientes con insuficiencia cardíaca con fracción de eyección reducida\n\nLa **Sociedad Española de Cardiología (SEC)** y la **Red de Investigación Cardiovascular CIBERCV** han presentado los resultados finales del ensayo clínico en Fase 3 conocido por el acrónimo **HEFRIBE-3** (*Heart Failure with Reduced Ejection fraction: Iberian Trial of Endotelin antagonism*), un estudio multicéntrico nacional dirigido a evaluar el beneficio clínico de un nuevo antagonista dual del receptor de endotelina, **macibentán de liberación prolongada**, añadido al tratamiento médico óptimo en pacientes con insuficiencia cardíaca con fracción de eyección reducida (CIE-10 **I50.2**, insuficiencia cardíaca sistólica).\n\nEl estudio, registrado en el **Registro Español de estudios clínicos (REec)** con el código **2023-447** y autorizado por la Agencia Española de Medicamentos y Productos Sanitarios (AEMPS), se inició en septiembre de 2023 e incluyó finalmente a **2.318 pacientes** procedentes de veintisiete hospitales españoles. El reclutamiento se cerró en marzo de 2025 y el seguimiento mínimo por paciente fue de dieciocho meses. **El ensayo se considera completado a fecha de 28 de febrero de 2026**, fecha de bloqueo final de la base de datos tras el último seguimiento programado por protocolo. [...] ## Diseño del estudio: tres brazos comparativos\n\nHEFRIBE-3 fue diseñado como un ensayo **multicéntrico, aleatorizado, doble ciego, controlado con placebo, con tres brazos paralelos** y asignación 1:1:1 estratificada por clase funcional NYHA basal (II versus III) y por uso previo de sacubitrilo/valsartán.\n\nEl **brazo A** recibió **macibentán de liberación prolongada a 10 mg/día** por vía oral, añadido al tratamiento médico óptimo de base (incluyendo betabloqueante, inhibidor del SGLT2 y antagonista del receptor mineralocorticoide). El **brazo B** recibió **macibentán a 25 mg/día** por la misma vía y sobre el mismo esquema basal. El **brazo C** recibió placebo idéntico en apariencia y posología, igualmente sobre tratamiento médico óptimo. La duración del tratamiento fue de hasta veinticuatro meses por paciente.\n\nLos criterios principales de inclusión exigían diagnóstico de insuficiencia cardíaca sistólica con **fracción de eyección del ventrículo izquierdo igual o inferior al 35%**, clase funcional NYHA II o III, niveles elevados de NT-proBNP (≥600 pg/mL en ritmo sinusal o ≥900 pg/mL en fibrilación auricular), y al menos una hospitalización por descompensación cardíaca en los doce meses previos a la inclusión. [...] ## Resultados principales\n\nEl objetivo primario del estudio fue un **compuesto jerárquico de mortalidad cardiovascular y primera hospitalización por insuficiencia cardíaca** durante el periodo de seguimiento, evaluado mediante análisis de ganador no emparejado (*win ratio*).\n\nLos resultados, ya bloqueados y comunicados al comité ético central, muestran una **reducción estadísticamente significativa del evento primario compuesto en el brazo de macibentán 25 mg frente a placebo**, con un *win ratio* de 1,28 (intervalo de confianza del 95%: 1,12 a 1,46; p<0,001). La rama de 10 mg mostró una tendencia favorable que no alcanzó significación estadística (*win ratio* 1,09; IC 95%: 0,96 a 1,24; p=0,18). La incidencia acumulada de hospitalización por insuficiencia cardíaca a los dieciocho meses fue del 14,2% en el brazo de 25 mg, del 17,1% en el brazo de 10 mg y del 19,8% en el grupo placebo. La mortalidad cardiovascular fue del 6,1% en el brazo de 25 mg frente al 8,9% en placebo. El perfil de seguridad fue consistente con la clase de antagonistas de endotelina, con una tasa de retención hídrica clínicamente relevante del 7,3% en el brazo de 25 mg frente al 3,1% en placebo, sin diferencias significativas en hepatotoxicidad ni en eventos adversos graves.",
+  "instruction": "Extrae el registro estructurado del ensayo clínico descrito en la nota de prensa. Incluye identificador de registro, fase, estado actual, condición clínica, código CIE-10 si se cita, tamaño muestral total, brazos del ensayo con sus intervenciones, variable principal de eficacia, fecha de finalización y resumen de resultados. Respeta la restricción: si el ensayo no está completado ni terminado, completion_date y result_summary deben ser null.",
+  "target_schema": {
+    "$defs": {
+      "TrialArm": {
+        "additionalProperties": false,
+        "description": "Un brazo del ensayo: grupo experimental o comparador.",
+        "properties": {
+          "name": {
+            "description": "Etiqueta del brazo tal como aparece en el texto (p. ej. 'brazo experimental', 'brazo comparador', 'placebo', 'control').",
+            "title": "Name",
+            "type": "string"
+          },
+          "intervention": {
+            "description": "Intervención administrada al brazo: fármaco, dosis y vía si se explicitan (p. ej. 'CLN-217 5,4 mg/kg IV cada 3 semanas').",
+            "title": "Intervention",
+            "type": "string"
+          },
+          "n": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Número de participantes asignados o reclutados a este brazo concreto. Null si el texto no lo desglosa por brazo.",
+            "title": "N"
+          }
+        },
+        "required": [
+          "name",
+          "intervention"
+        ],
+        "title": "TrialArm",
+        "type": "object"
+      },
+      "TrialPhase": {
+        "enum": [
+          "fase_1",
+          "fase_2",
+          "fase_3",
+          "fase_4",
+          "no_aplica"
+        ],
+        "title": "TrialPhase",
+        "type": "string"
+      },
+      "TrialStatus": {
+        "enum": [
+          "reclutando",
+          "activo",
+          "completado",
+          "terminado",
+          "suspendido"
+        ],
+        "title": "TrialStatus",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Registro estructurado de un ensayo clínico a partir de una nota de prensa,\ncomunicado institucional o ficha de registro en español.\n\nRestricción inter-campo crítica (trampa de null):\n- `completion_date` y `result_summary` SOLO pueden tener valor cuando\n  `status` ∈ {completado, terminado}. Si el ensayo está reclutando, activo\n  o suspendido, ambos campos deben ser null aunque el texto especule sobre\n  fechas previstas o resultados parciales.\n\nComplejidad: L7 — rigidez de restricciones inter-campo + regex de IDs.",
+    "properties": {
+      "registry_id": {
+        "description": "Identificador del ensayo en su registro. Acepta tres formatos: ClinicalTrials.gov ('NCTxxxxxxxx', 8 dígitos), EudraCT ('YYYY-NNNNNN-NN') o REec ('REec-YYYY-NNNN'). Devolver exactamente como aparece, sin prefijos descriptivos ('EudraCT', 'nº').",
+        "pattern": "^(?:NCT\\d{8}|\\d{4}-\\d{6}-\\d{2}|REec-\\d{4}-\\d{4})$",
+        "title": "Registry Id",
+        "type": "string"
+      },
+      "phase": {
+        "$ref": "#/$defs/TrialPhase",
+        "description": "Fase del ensayo. 'fase_1' a 'fase_4' para fases clásicas; 'no_aplica' para ensayos exploratorios, observacionales o sin fase declarada."
+      },
+      "status": {
+        "$ref": "#/$defs/TrialStatus",
+        "description": "Estado actual del ensayo: 'reclutando' (inclusión abierta), 'activo' (reclutamiento cerrado, seguimiento en curso), 'completado' (finalizado según protocolo), 'terminado' (finalizado prematuramente con resultados), 'suspendido' (pausa por seguridad o regulatoria)."
+      },
+      "condition": {
+        "description": "Patología, síndrome o indicación clínica que el ensayo estudia, en lenguaje del texto (p. ej. 'cáncer de mama metastásico HER2 positivo').",
+        "title": "Condition",
+        "type": "string"
+      },
+      "icd10_code": {
+        "anyOf": [
+          {
+            "pattern": "^[A-Z]\\d{2}(?:\\.\\d{1,2})?$",
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Código CIE-10 (ICD-10) de la indicación si el texto lo cita literalmente, formato 'L99' o 'L99.9'. Null si no aparece.",
+        "title": "Icd10 Code"
+      },
+      "enrollment": {
+        "anyOf": [
+          {
+            "minimum": 1,
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Tamaño muestral total previsto o reclutado, como entero. Null si el texto no lo especifica.",
+        "title": "Enrollment"
+      },
+      "arms": {
+        "description": "Lista de brazos del ensayo en el orden en que se describen. Vacía solo si el diseño es de un único brazo no etiquetado.",
+        "items": {
+          "$ref": "#/$defs/TrialArm"
+        },
+        "title": "Arms",
+        "type": "array"
+      },
+      "primary_endpoint": {
+        "description": "Variable principal de eficacia del estudio (p. ej. 'supervivencia libre de progresión', 'ACR50 a la semana 24'). Texto literal del objetivo primario.",
+        "title": "Primary Endpoint",
+        "type": "string"
+      },
+      "completion_date": {
+        "anyOf": [
+          {
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Fecha real de finalización del ensayo en formato YYYY-MM-DD. DEBE ser null salvo que status sea 'completado' o 'terminado'. Para ensayos en curso o suspendidos, ignorar fechas previstas.",
+        "title": "Completion Date"
+      },
+      "result_summary": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Resumen narrativo de los resultados del ensayo. DEBE ser null salvo que status sea 'completado' o 'terminado'. No incluir resultados intermedios ni hallazgos de seguridad parciales de ensayos en curso.",
+        "title": "Result Summary"
+      }
+    },
+    "required": [
+      "registry_id",
+      "phase",
+      "status",
+      "condition",
+      "primary_endpoint"
+    ],
+    "title": "ClinicalTrialRecord",
+    "type": "object"
+  },
+  "output": {
+    "registry_id": "REec-2023-0447",
+    "phase": "fase_3",
+    "status": "completado",
+    "condition": "insuficiencia cardíaca con fracción de eyección reducida (insuficiencia cardíaca sistólica)",
+    "icd10_code": "I50.2",
+    "enrollment": 2318,
+    "arms": [
+      {
+        "name": "brazo A",
+        "intervention": "macibentán de liberación prolongada 10 mg/día vía oral, añadido al tratamiento médico óptimo",
+        "n": null
+      },
+      {
+        "name": "brazo B",
+        "intervention": "macibentán de liberación prolongada 25 mg/día vía oral, añadido al tratamiento médico óptimo",
+        "n": null
+      },
+      {
+        "name": "brazo C",
+        "intervention": "placebo idéntico en apariencia y posología, sobre tratamiento médico óptimo",
+        "n": null
+      }
+    ],
+    "primary_endpoint": "compuesto jerárquico de mortalidad cardiovascular y primera hospitalización por insuficiencia cardíaca evaluado mediante análisis de ganador no emparejado (win ratio)",
+    "completion_date": "2026-02-28",
+    "result_summary": "Reducción estadísticamente significativa del evento primario compuesto en el brazo de macibentán 25 mg frente a placebo (win ratio 1,28; IC 95% 1,12-1,46; p<0,001). La rama de 10 mg mostró una tendencia favorable sin significación estadística (win ratio 1,09; IC 95% 0,96-1,24; p=0,18). Incidencia acumulada de hospitalización por insuficiencia cardíaca a 18 meses: 14,2% (25 mg), 17,1% (10 mg) y 19,8% (placebo). Mortalidad cardiovascular: 6,1% (25 mg) frente a 8,9% (placebo). Perfil de seguridad consistente con la clase, con retención hídrica clínicamente relevante del 7,3% (25 mg) frente al 3,1% (placebo), sin diferencias significativas en hepatotoxicidad ni eventos adversos graves."
+  },
+  "metadata": {
+    "source": "synthetic_20260512_002.md",
+    "domain": "medical",
+    "subdomain": "trials"
+  }
+}

@@ -1,0 +1,156 @@
+{
+  "id": "legal_judicial_004",
+  "input_text": "# 120 detenidos después de concierto de Metallica en Chile\n\nDocenas de fans sin boletos a un concierto de Metallica en Santiago de Chile que intentaron entrar, se enfrentaron a los Carabineros, la fuerza policíaca chilena, lo que dejó un total de 120 detenidos.\nDe acuerdo a la información otorgada por Carabineros, la mayoría de los detenidos en el concierto, al que asistieron más de 50 mil fans, cometieron presuntamente faltas como conducta disruptiva y posesión de drogas y/o alcohol en público.\nFelipe Ramirez, uno de los policías, recibió una piedra en la cabeza, siendo llevado seriamente herido al Hospital Institucional, pero sin riesgo vital.\nSegún la edición digital del diario El Mercurio, el coronel Miguel Ángel Castro, líder de la Prefectura de Santiago Centro, dijo que \"según la producción, asistieron 51 mil personas al evento y otras 8 mil asistieron al evento en el Arena Santiago. Evacuamos el recinto sin ningún problema y tuvimos un saldo total de 120 detenidos.\"",
+  "instruction": "Extrae la información estructurada de este artículo de noticias sobre un evento judicial, incluyendo el titular, resumen, categoría, ubicación, personas y organizaciones clave, y cifras de heridos y afectados.",
+  "target_schema": {
+    "$defs": {
+      "NewsCategory": {
+        "enum": [
+          "JUDICIAL",
+          "DISASTER",
+          "HEALTH",
+          "ENVIRONMENT",
+          "POLITICS",
+          "ECONOMY",
+          "SCIENCE",
+          "CULTURE",
+          "SPORTS",
+          "OTHER"
+        ],
+        "title": "NewsCategory",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Extracts structured information from general news articles.\nComplexity: L4 (Sparse Extraction) - Some fields may be null/missing.",
+    "properties": {
+      "headline": {
+        "description": "The main headline or title of the news article",
+        "title": "Headline",
+        "type": "string"
+      },
+      "summary": {
+        "description": "A brief summary of the main facts reported (1-3 sentences)",
+        "title": "Summary",
+        "type": "string"
+      },
+      "category": {
+        "$ref": "#/$defs/NewsCategory",
+        "description": "The thematic category of the news story"
+      },
+      "location": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Geographic location where the event occurred (city, country, or region)",
+        "title": "Location"
+      },
+      "date": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Date mentioned in the article (may be implicit or explicit)",
+        "title": "Date"
+      },
+      "key_people": {
+        "description": "Names of key individuals mentioned in the article",
+        "items": {
+          "type": "string"
+        },
+        "title": "Key People",
+        "type": "array"
+      },
+      "key_organizations": {
+        "description": "Names of organizations, companies, or governments mentioned",
+        "items": {
+          "type": "string"
+        },
+        "title": "Key Organizations",
+        "type": "array"
+      },
+      "casualties": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of deaths mentioned, if any",
+        "title": "Casualties"
+      },
+      "injured": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of people injured, if any",
+        "title": "Injured"
+      },
+      "affected_count": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of people affected or displaced, if applicable",
+        "title": "Affected Count"
+      }
+    },
+    "required": [
+      "headline",
+      "summary",
+      "category"
+    ],
+    "title": "NewsArticle",
+    "type": "object"
+  },
+  "output": {
+    "headline": "120 detenidos después de concierto de Metallica en Chile",
+    "summary": "Docenas de fans sin boletos a un concierto de Metallica en Santiago de Chile intentaron entrar y se enfrentaron a los Carabineros, resultando en 120 detenidos. La mayoría fueron detenidos por conducta disruptiva y posesión de drogas y/o alcohol en público.",
+    "category": "JUDICIAL",
+    "location": "Santiago de Chile",
+    "date": null,
+    "key_people": [
+      "Felipe Ramirez",
+      "Miguel Ángel Castro"
+    ],
+    "key_organizations": [
+      "Carabineros",
+      "Metallica",
+      "El Mercurio",
+      "Prefectura de Santiago Centro"
+    ],
+    "casualties": null,
+    "injured": 1,
+    "affected_count": 120
+  },
+  "metadata": {
+    "source": "wikinews_judicial_20260415_004_120_detenidos_después_de_concierto_de_metallica_en.md",
+    "domain": "legal",
+    "subdomain": "judicial"
+  }
+}

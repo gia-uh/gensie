@@ -1,0 +1,88 @@
+{
+  "id": "cultural_literature_010",
+  "input_text": "# Los santos inocentes (novela)\n\n## Introducción\nLos santos inocentes es una novela de Miguel Delibes publicada en 1981, que está ambientada en los terrenos de un cortijo en la Raya de Extremadura (España) a principios de la década de 1960.\n\n## Argumento\nUna familia de campesinos formada por Paco \"el Bajo\", Régula y sus cuatro hijos, Nieves, Quirce, Rogelio y Charito (\"la niña chica\"), viven en una humilde casa al servicio de los señores del cortijo, trabajando, obedeciendo y soportando humillaciones sin queja alguna.\nSu única aspiración es que sus hijos estudien para abandonar la vida que llevan. Charito, su hija mayor, a la que llaman la niña chica, tiene parálisis cerebral y permanece siempre acostada o en brazos. A la familia pronto se suma Azarías, hermano de Régula, al ser despedido de su trabajo en otro cortijo cercano. Azarías es un inocente con dificultad de expresión y deficiencia cognitiva, cuya única preocupación es la cría de una pequeña grajilla, su milana bonita.\nLa vida en el cortijo sigue la misma rutina de siempre: unos mandan y otros obedecen; acontecimientos familiares, cacerías y fiestas se suceden en la casa grande. En una de estas cacerías, el señorito Iván mata con su escopeta al pájaro de Azarías, lo que provoca una respuesta de parte de este, que acaba ahorcando al señorito.\nLos santos inocentes constituye una denuncia moral contra el latifundio, la injusticia social que provoca y las consecuencias que tiene sobre la vida de los individuos, la jerarquización brutal de la sociedad que provoca la deshumanización.",
+  "instruction": "Extrae los metadatos bibliográficos y temas principales de la obra literaria descrita.",
+  "target_schema": {
+    "additionalProperties": false,
+    "description": "Extracts basic bibliographic metadata and key themes from a book description or encyclopedia entry.\nComplexity: L2 (Explicit Information Retrieval).",
+    "properties": {
+      "title": {
+        "description": "The official title of the literary work",
+        "title": "Title",
+        "type": "string"
+      },
+      "author": {
+        "description": "The primary author or creator of the work",
+        "title": "Author",
+        "type": "string"
+      },
+      "publication_year": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "The year the work was first published",
+        "title": "Publication Year"
+      },
+      "genres": {
+        "description": "Literary genres associated with the work (e.g., 'Science Fiction', 'Romance')",
+        "items": {
+          "type": "string"
+        },
+        "title": "Genres",
+        "type": "array"
+      },
+      "key_themes": {
+        "description": "Main topics or themes explored in the work",
+        "items": {
+          "type": "string"
+        },
+        "title": "Key Themes",
+        "type": "array"
+      },
+      "original_language": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "The language in which the work was originally written",
+        "title": "Original Language"
+      }
+    },
+    "required": [
+      "title",
+      "author"
+    ],
+    "title": "LiteraryWork",
+    "type": "object"
+  },
+  "output": {
+    "title": "Los santos inocentes",
+    "author": "Miguel Delibes",
+    "publication_year": 1981,
+    "genres": [
+      "novela"
+    ],
+    "key_themes": [
+      "injusticia social",
+      "latifundio",
+      "deshumanización"
+    ],
+    "original_language": null
+  },
+  "metadata": {
+    "source": "los_santos_inocentes_(novela).md",
+    "domain": "cultural",
+    "subdomain": "literature"
+  }
+}

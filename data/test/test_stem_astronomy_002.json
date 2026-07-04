@@ -1,0 +1,148 @@
+{
+  "id": "test_stem_astronomy_002",
+  "input_text": "1I/2017 U1 (ʻOumuamua)\nUn objeto oscuro fue descubierto el 19 de octubre de 2017 por el telescopio Pan-STARRS, con una magnitud aparente de 20. Las observaciones mostraron que sigue una trayectoria fuertemente hiperbólica alrededor del Sol, a una velocidad mayor que la velocidad de escape solar. Esto significa que no está gravitacionalmente ligado al sistema solar y que es probable que sea un objeto interestelar.​ El 25 de octubre, se encontró que el objeto era de naturaleza completamente asteroidal​ y como consecuencia ha sido designado como 1I/2017 U1, el primero de una nueva clase 'I' de objetos astronómicos. 1I/2017 U1 fue nombrado 'Oumuamua.\nLa falta de actividad cometaria de 'Oumuamua sugiere que tiene su origen en la región interna del sistema estelar del que proviene, habiendo perdido todos los materiales volátiles de su superficie en el interior de la línea de congelamiento, al igual que los asteroides rocosos, cometas extintos y damocloides que se conocen en el sistema solar. Esto es solo una suposición, ya que 'Oumuamua también podría haber perdido todos los volátiles de su superficie debido a eones de exposición a la radiación cósmica en el espacio interestelar, desarrollando una capa gruesa de corteza después de haber sido expulsado de su sistema original.\n'Oumuamua tiene una excentricidad de 1.199, que es la excentricidad más alta observada para un objeto en el sistema solar por un amplio margen.",
+  "instruction": "Extrae las propiedades físicas y orbitales del objeto interestelar 1I/'Oumuamua descrito en el texto, incluyendo su nombre oficial, tipo, parámetros orbitales, fecha de descubrimiento y descubridor.",
+  "target_schema": {
+    "$defs": {
+      "CelestialBodyType": {
+        "enum": [
+          "ASTEROIDE",
+          "COMETA",
+          "PLANETA",
+          "LUNA",
+          "PLANETA ENANO",
+          "OBJETO INTERESTELAR",
+          "OTRO"
+        ],
+        "title": "CelestialBodyType",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Extracts physical and orbital parameters of celestial bodies.\nComplexity: L5 (Precision Extraction & Normalization).",
+    "properties": {
+      "official_name": {
+        "description": "The primary scientific designation or name",
+        "title": "Official Name",
+        "type": "string"
+      },
+      "body_type": {
+        "$ref": "#/$defs/CelestialBodyType",
+        "description": "The classification of the celestial object"
+      },
+      "mass_kg": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Mass in kilograms (scientific notation or float)",
+        "title": "Mass Kg"
+      },
+      "diameter_km": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Mean diameter in kilometers",
+        "title": "Diameter Km"
+      },
+      "eccentricity": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Orbital eccentricity (e.g., 1.199)",
+        "title": "Eccentricity"
+      },
+      "orbital_period_days": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Time to complete one orbit in Earth days",
+        "title": "Orbital Period Days"
+      },
+      "semi_major_axis_au": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Average distance from the sun in AU",
+        "title": "Semi Major Axis Au"
+      },
+      "discovery_date": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Date of discovery in YYYY-MM-DD format",
+        "title": "Discovery Date"
+      },
+      "discoverer": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Name of the person or observatory that found the object",
+        "title": "Discoverer"
+      }
+    },
+    "required": [
+      "official_name",
+      "body_type"
+    ],
+    "title": "CelestialObjectProperties",
+    "type": "object"
+  },
+  "output": {
+    "official_name": "1I/2017 U1 (ʻOumuamua)",
+    "body_type": "OBJETO INTERESTELAR",
+    "mass_kg": null,
+    "diameter_km": null,
+    "eccentricity": 1.199,
+    "orbital_period_days": null,
+    "semi_major_axis_au": null,
+    "discovery_date": "2017-10-19",
+    "discoverer": "Pan-STARRS"
+  },
+  "metadata": {
+    "source": "wiki_astronomy_20260414_objeto_interestelar.md",
+    "domain": "stem",
+    "subdomain": "astronomy"
+  }
+}

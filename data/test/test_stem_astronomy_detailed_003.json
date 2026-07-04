@@ -1,0 +1,148 @@
+{
+  "id": "test_stem_astronomy_detailed_003",
+  "input_text": "# Kepler-186f\n\nKepler-186f es el primer planeta de tamaño similar a la Tierra que ha sido descubierto en la zona habitable de una estrella. Es el último de los cinco planetas que orbitan esa estrella (tras Kepler-186b, Kepler-186c, Kepler-186d y Kepler-186e), todos ellos descubiertos por el telescopio Kepler de la NASA.\nHasta abril de 2014, Kepler-186f es el planeta más pequeño encontrado dentro de la zona habitable de una estrella y se cree que pueda albergar agua en forma líquida. Se encuentra a unos 492,3 años luz de nuestro planeta y su radio es tan sólo un 11 % más grande que el del planeta azul.​ [...] La única propiedad física derivable directamente de las observaciones (además del período orbital) es la razón entre el radio del planeta y el de la estrella central, que se deriva de la cantidad de ocultación de la luz estelar durante un tránsito. Esta proporción se midió que era 0,021.​​ Esto produce un radio planetario de 1,11 ± 0,14 veces la de la Tierra,​​ teniendo en cuenta la incertidumbre en el diámetro de la estrella y el grado de ocultación. Por lo tanto, el planeta es aproximadamente 11 % más grande en el radio que la Tierra (entre el 4,5 % más pequeño y un 26,5 % más grande), dando un volumen de aproximadamente 1,37 veces el de la Tierra (entre 0,87 y 2,03 veces mayor).\nSu masa solo puede ser estimada mediante la combinación del radio y una estimación de la densidad derivada de una composición planetaria supuesta; que podría ser un planeta terrestre rocoso o un planeta océano de menor densidad con una atmósfera densa. Sin embargo, se cree poco probable una atmósfera masiva de helio/hidrógeno (H/He)   en un planeta con un radio inferior a 1,5  R ⊕. Los planetas con un radio de más de 1,5 veces el de la Tierra tienden a acumular esas gruesas atmósferas que los harían menos probables de ser habitables.​ Las enanas rojas emiten un flujo ultravioleta extremo ( XUV ) mucho más fuerte cuando son jóvenes que más adelante en su vida; la atmósfera primordial del planeta habría sido sometida a elevada fotoevaporación durante ese período, lo que probablemente habría eliminado en gran medida cualquier dotación rica en H/He a través de la  pérdida de masa hidrodinámica.​\nLas estimaciones de masa varían desde 0,32  M ⊕ para una composición de agua/hielo puro a 3,77 M ⊕ si se compone enteramente de hierro (ambos extremos inverosímiles). Para un cuerpo con un radio de 1,11 R  ⊕ , una composición similar a la (1/3 de hierro, 2/3 rocas de silicatos) de la Tierra produce una masa de 1,44 M ⊕,​ teniendo en cuenta la densidad más alta debido al mayor promedio de presión en comparación con la Tierra.",
+  "instruction": "Extrae las propiedades físicas, orbitales y metadatos de descubrimiento del cuerpo celeste descrito en el texto siguiendo el esquema. Usa null para los campos que no aparezcan explícitamente en el texto.",
+  "target_schema": {
+    "$defs": {
+      "CelestialBodyType": {
+        "enum": [
+          "ASTEROIDE",
+          "COMETA",
+          "PLANETA",
+          "LUNA",
+          "PLANETA ENANO",
+          "OBJETO INTERESTELAR",
+          "OTRO"
+        ],
+        "title": "CelestialBodyType",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Extracts physical and orbital parameters of celestial bodies.\nComplexity: L5 (Precision Extraction & Normalization).",
+    "properties": {
+      "official_name": {
+        "description": "The primary scientific designation or name",
+        "title": "Official Name",
+        "type": "string"
+      },
+      "body_type": {
+        "$ref": "#/$defs/CelestialBodyType",
+        "description": "The classification of the celestial object"
+      },
+      "mass_kg": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Mass in kilograms (scientific notation or float)",
+        "title": "Mass Kg"
+      },
+      "diameter_km": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Mean diameter in kilometers",
+        "title": "Diameter Km"
+      },
+      "eccentricity": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Orbital eccentricity (e.g., 1.199)",
+        "title": "Eccentricity"
+      },
+      "orbital_period_days": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Time to complete one orbit in Earth days",
+        "title": "Orbital Period Days"
+      },
+      "semi_major_axis_au": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Average distance from the sun in AU",
+        "title": "Semi Major Axis Au"
+      },
+      "discovery_date": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Date of discovery in YYYY-MM-DD format",
+        "title": "Discovery Date"
+      },
+      "discoverer": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Name of the person or observatory that found the object",
+        "title": "Discoverer"
+      }
+    },
+    "required": [
+      "official_name",
+      "body_type"
+    ],
+    "title": "CelestialObjectProperties",
+    "type": "object"
+  },
+  "output": {
+    "official_name": "Kepler-186f",
+    "body_type": "PLANETA",
+    "mass_kg": null,
+    "diameter_km": null,
+    "eccentricity": null,
+    "orbital_period_days": null,
+    "semi_major_axis_au": null,
+    "discovery_date": null,
+    "discoverer": "telescopio Kepler de la NASA"
+  },
+  "metadata": {
+    "source": "fresh_testset_kepler_186f.md",
+    "domain": "stem",
+    "subdomain": "astronomy_detailed"
+  }
+}

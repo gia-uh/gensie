@@ -1,0 +1,148 @@
+{
+  "id": "stem_astronomy_detailed_019",
+  "input_text": "# Titán\n\nTitán es un satélite natural de Saturno, concretamente el mayor de entre los que orbitan este planeta y el segundo mayor del sistema solar en su conjunto, tras Ganímedes. Además, destaca por ser el único satélite conocido que posee una atmósfera relevante,​ y el único astro, aparte de la Tierra, en el que se ha encontrado evidencia clara de cuerpos líquidos estables en la superficie.​\nSe trata del sexto satélite elipsoidal de Saturno y frecuentemente es descrito como un satélite similar a un planeta. Tiene el diámetro un 50 % más grande que la Luna y es un 80 % más masivo; es más grande en volumen que el planeta Mercurio, aunque su masa representa el 40 % de este último.\nFue descubierto en 1655 por el astrónomo neerlandés Christiaan Huygens y fue el primer satélite conocido de Saturno, y el quinto satélite conocido de otro planeta.​\nEstá compuesto principalmente de hielo y material rocoso, y así como con Venus antes de la era espacial, la atmósfera densa y opaca de Titán impedía la comprensión de su superficie hasta la llegada de la misión Cassini-Huygens en 2004,​ incluyendo el descubrimiento de lagos de hidrocarburos líquidos en las regiones polares. La superficie es geológicamente joven, a pesar de las montañas y el descubrimiento de varios posibles criovolcanes, es suave y con pocos cráteres de impacto.​​\nSegún los datos disponibles su atmósfera podría estar compuesta principalmente de nitrógeno, pero hasta un 6 % puede ser metano y compuestos complejos de hidrocarburos. El clima, incluyendo viento y lluvia, crea accidentes geográficos similares a los de la Tierra, tales como dunas, ríos, lagos, mares (probablemente de metano líquido y etano) y deltas, y está dominado por patrones climáticos estacionales como en la Tierra. Con sus líquidos (tanto superficiales como subterráneos) y su robusta atmósfera de nitrógeno, el ciclo del metano de Titán es visto como una analogía con el ciclo del agua de la Tierra, aunque a una temperatura mucho más baja.\nEl día 2 de octubre de 2013, fue anunciado que el espectrómetro infrarrojo compuesto de la sonda Cassini (CIRS, por sus siglas en inglés) detectó propileno en la baja atmósfera de este satélite, lo que se convierte en la primera detección definitiva de esta sustancia en cualquier parte del sistema solar, exceptuando la Tierra.​​\nActualmente existe un proyecto ya en marcha por parte de la NASA, para llevar una sonda a Titán, llamada Dragonfly, que se desplazará por el satélite volando al tratarse de un dron. Debido a la pandemia, el lanzamiento originalmente con fecha en 2024, se retrasará tres años después para 2027.​",
+  "instruction": "Extrae las propiedades físicas y orbitales del cuerpo celeste descrito en el texto, incluyendo su nombre oficial, tipo de cuerpo, y datos de descubrimiento disponibles.",
+  "target_schema": {
+    "$defs": {
+      "CelestialBodyType": {
+        "enum": [
+          "ASTEROIDE",
+          "COMETA",
+          "PLANETA",
+          "LUNA",
+          "PLANETA ENANO",
+          "OBJETO INTERESTELAR",
+          "OTRO"
+        ],
+        "title": "CelestialBodyType",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Extracts physical and orbital parameters of celestial bodies.\nComplexity: L5 (Precision Extraction & Normalization).",
+    "properties": {
+      "official_name": {
+        "description": "The primary scientific designation or name",
+        "title": "Official Name",
+        "type": "string"
+      },
+      "body_type": {
+        "$ref": "#/$defs/CelestialBodyType",
+        "description": "The classification of the celestial object"
+      },
+      "mass_kg": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Mass in kilograms (scientific notation or float)",
+        "title": "Mass Kg"
+      },
+      "diameter_km": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Mean diameter in kilometers",
+        "title": "Diameter Km"
+      },
+      "eccentricity": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Orbital eccentricity (e.g., 1.199)",
+        "title": "Eccentricity"
+      },
+      "orbital_period_days": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Time to complete one orbit in Earth days",
+        "title": "Orbital Period Days"
+      },
+      "semi_major_axis_au": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Average distance from the sun in AU",
+        "title": "Semi Major Axis Au"
+      },
+      "discovery_date": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Date of discovery in YYYY-MM-DD format",
+        "title": "Discovery Date"
+      },
+      "discoverer": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Name of the person or observatory that found the object",
+        "title": "Discoverer"
+      }
+    },
+    "required": [
+      "official_name",
+      "body_type"
+    ],
+    "title": "CelestialObjectProperties",
+    "type": "object"
+  },
+  "output": {
+    "official_name": "Titán",
+    "body_type": "LUNA",
+    "mass_kg": null,
+    "diameter_km": null,
+    "eccentricity": null,
+    "orbital_period_days": null,
+    "semi_major_axis_au": null,
+    "discovery_date": null,
+    "discoverer": "Christiaan Huygens"
+  },
+  "metadata": {
+    "source": "solar_system_19_titan.md",
+    "domain": "stem",
+    "subdomain": "astronomy_detailed"
+  }
+}

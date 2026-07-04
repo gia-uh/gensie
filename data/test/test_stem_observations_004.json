@@ -1,0 +1,353 @@
+{
+  "id": "stem_observations_004",
+  "input_text": "# Cuaderno de campo — Pradera alpina del Circo de Anayet\n\n**Sitio:** Pradera silicícola del Circo de Anayet, vertiente NE, valle de Tena, Pirineo aragonés\n**Fecha:** 18 de julio de 2025\n**Hora de inicio:** 09:42 h (UTC+2)\n**Hora de cierre:** 13:55 h (UTC+2)\n**Observador:** Equipo LIFE-Pradera (responsable: Marta Ezquerra; ayudantes: Jon Iturralde y Clara Beneito)\n**Coordenadas centrales del cuadrante (UTM 30T):** 712 845 E / 4 738 210 N\n**Altitud declarada por el GPS Garmin GPSMAP 66s:** 2 287 m s. n. m. (precisión horizontal 3 m)\n**Método:** cuadrante fitosociológico de 2 × 2 m (4 m²), siguiendo el protocolo Braun-Blanquet modificado por la Red de Seguimiento de Pastos de Altura (RESPA-2019). Réplica única por estación; se identifican todos los táxones vasculares dentro del cuadrante y se estima cobertura por proyección vertical. [...] ## Condiciones meteorológicas\n\nCielo parcialmente nublado al inicio, con cúmulos de buen tiempo desplazándose lentamente desde el SW. Temperatura del aire a 1,5 m del suelo: 14,3 °C (termohigrómetro Kestrel 3000, lectura tomada bajo sombra del trípode). Humedad relativa: 58 %. Viento del SW de 6 km/h, sin rachas. Sin precipitaciones en las últimas 24 h, según el informe AEMET del refugio de Respomuso. El rocío matinal aún era visible sobre las hojas basales de las gramíneas a la llegada al cuadrante. [...] ## Inventario florístico (cuadrante 2 × 2 m)\n\n- *Festuca eskia* — dominante absoluto, cobertura estimada 45 %. Macollas grandes, densas, con hojas convolutas. Se contaron 12 macollas distinguibles dentro del cuadrante.\n- *Nardus stricta* — codominante, cobertura 18 %. Distribución en parches discontinuos, principalmente en el cuarto SO del cuadrante. 8 macollas reconocibles.\n- *Trifolium alpinum* — cobertura 12 %. En plena floración, inflorescencias rosado-purpúreas. Se contaron 27 inflorescencias.\n- *Plantago alpina* — cobertura 6 %. 19 rosetas individuales.\n- *Potentilla aurea* — cobertura 4 %. 14 individuos en floración.\n- *Carex sempervirens* — cobertura 3 %. 5 macollas pequeñas en el borde norte del cuadrante.\n- *Gentiana acaulis* — 2 individuos, ambos con una flor abierta. Cobertura puntual, < 1 %.\n- *Leontodon pyrenaicus* — 6 rosetas con escapo floral. Cobertura ~2 %.\n- *Phyteuma hemisphaericum* — 4 individuos en flor. Cobertura puntual.\n- *Pinguicula grandiflora* — 1 individuo aislado, observado en una pequeña depresión húmeda del borde E del cuadrante. Posible indicador de flujo subsuperficial.\n- *Selaginella selaginoides* — presencia rastrera dispersa, cobertura ~1 %; difícil de cuantificar por individuo.\n\nTotal estimado de cobertura vegetal vascular: 92 %. Resto (8 %): musgos no identificados al detalle (mayoritariamente *Polytrichum* sp. aparente, sin confirmar) y costra biológica. [...] ## Mediciones cuantitativas\n\n- **Pendiente del terreno** en el centro del cuadrante: 14° (clinómetro Suunto PM-5, dos lecturas, media reportada).\n- **Orientación de la pendiente:** 65° (ENE), brújula Silva Ranger.\n- **Cobertura vegetal total (vasculares + musgos):** 99 % (estimación visual conjunta de los tres observadores; valor consensuado tras discrepancias menores).\n- **Profundidad del suelo** sondeada con varilla metálica graduada (3 mm de diámetro) en el centro del cuadrante: 22 cm (punto en el que la varilla topó con sustrato granítico compacto). Sondeos adicionales en las cuatro esquinas: 18, 24, 17 y 25 cm. No se promedian: se reporta el valor central.\n- **pH del suelo** (muestra compuesta de los primeros 10 cm, tres submuestras mezcladas in situ, medido con pH-metro de campo Hanna HI98129 sobre suspensión 1:2,5 en agua destilada llevada en el botellín): 5,2.\n- **Temperatura del suelo** a 10 cm de profundidad: 11,8 °C (termómetro de sonda Hanna Checktemp).\n- **Conductividad eléctrica del suelo** (misma suspensión que para pH, mismo aparato): 84 µS/cm.\n- **Altura media de la cobertura herbácea** (regla plegable, diez puntos al azar dentro del cuadrante, media aritmética): 11 cm.\n- **Iluminación incidente** al mediodía solar (12:47 h) en el centro del cuadrante: no medida; el luxómetro quedó en la mochila por olvido. (Anotar para próxima visita.)\n\nNo se registra precipitación durante la sesión. [...] ## Conclusiones del observador\n\n1. La pradera del Circo de Anayet en este cuadrante mantiene la composición típica del *Festucion eskiae* pirenaico, con codominancia clara de *Festuca eskia* y *Nardus stricta* y presencia consistente de *Trifolium alpinum* como leguminosa estructural.\n2. El pH ácido (5,2) y la conductividad baja confirman el sustrato silíceo y la pobreza en bases del suelo, coherente con el material parental granítico del circo.\n3. La presencia aislada de *Pinguicula grandiflora* sugiere que el cuadrante intercepta un microhábitat de filtración local; conviene cartografiar la microtopografía húmeda en visitas sucesivas.\n4. No se detectan, en esta visita, signos de degradación por sobrepastoreo dentro del cuadrante, aunque el entorno inmediato muestra presión ovina activa. Se recomienda mantener el seguimiento anual y considerar la instalación de un exclosor de 3 × 3 m adyacente para evaluar el efecto de la exclusión del pastoreo a medio plazo.\n\n**Firma:** Marta Ezquerra, 18/07/2025, 13:55 h.",
+  "instruction": "Extrae los datos de esta entrada de cuaderno de campo: sitio, fecha, observador, método y meteorología, registros de especies, mediciones cuantitativas y conclusiones.",
+  "target_schema": {
+    "$defs": {
+      "Measurement": {
+        "additionalProperties": false,
+        "description": "Una medición numérica registrada durante la observación.",
+        "properties": {
+          "name": {
+            "description": "Nombre literal de la magnitud medida (p. ej. 'temperatura del agua', 'profundidad', 'altura del árbol', 'pH del suelo').",
+            "title": "Name",
+            "type": "string"
+          },
+          "value": {
+            "description": "Valor numérico tal como aparece en el cuaderno de campo.",
+            "title": "Value",
+            "type": "number"
+          },
+          "unit": {
+            "description": "Unidad de medida tal como aparece (p. ej. '°C', 'cm', 'mg/L', 'lux').",
+            "title": "Unit",
+            "type": "string"
+          },
+          "instrument": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Instrumento o sensor con el que se tomó la medición si el texto lo menciona (p. ej. 'termómetro digital', 'GPS Garmin'). Null si no.",
+            "title": "Instrument"
+          }
+        },
+        "required": [
+          "name",
+          "value",
+          "unit"
+        ],
+        "title": "Measurement",
+        "type": "object"
+      },
+      "SpeciesObservation": {
+        "additionalProperties": false,
+        "description": "Una entrada del registro de un taxón observado en el sitio.",
+        "properties": {
+          "species_name": {
+            "description": "Nombre científico binomial o nombre común consistentemente usado en el log (p. ej. 'Quercus ilex', 'pinzón vulgar').",
+            "title": "Species Name",
+            "type": "string"
+          },
+          "count": {
+            "description": "Número de individuos observados o estimados. Para presencia/ausencia sin conteo usar 1 y aclarar en 'notes'.",
+            "minimum": 0,
+            "title": "Count",
+            "type": "integer"
+          },
+          "behavior": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Comportamiento observado si el log lo describe (p. ej. 'forrajeando', 'en reposo', 'reproduciendo'). Null si no se describe.",
+            "title": "Behavior"
+          },
+          "notes": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Observación adicional literal del cuaderno (p. ej. 'juveniles', 'plumaje invernal'). Null si no hay notas.",
+            "title": "Notes"
+          }
+        },
+        "required": [
+          "species_name",
+          "count"
+        ],
+        "title": "SpeciesObservation",
+        "type": "object"
+      },
+      "StudyMethod": {
+        "enum": [
+          "transecto",
+          "cuadrante",
+          "conteo_por_punto",
+          "marcaje_recaptura",
+          "registro_acústico",
+          "fototrampeo",
+          "muestreo_oportunista"
+        ],
+        "title": "StudyMethod",
+        "type": "string"
+      },
+      "WeatherCondition": {
+        "enum": [
+          "soleado",
+          "parcialmente_nublado",
+          "cubierto",
+          "lluvia",
+          "llovizna",
+          "niebla",
+          "nieve"
+        ],
+        "title": "WeatherCondition",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Entrada de cuaderno de campo de un estudio biológico, ecológico o\ngeológico: sitio, fecha, condiciones, registros de taxones, mediciones y\nconclusiones del observador. La extracción debe distinguir entre\nobservaciones cualitativas de taxones y mediciones cuantitativas, y debe\nenlazar las condiciones ambientales con la sesión completa.\n\nComplejidad: L8 — dispersión informativa con listas heterogéneas paralelas\n(especies + mediciones) y vocabulario técnico moderado.",
+    "properties": {
+      "site_name": {
+        "description": "Nombre del sitio de observación tal como aparece en la cabecera (p. ej. 'Estación Biológica de Doñana, Lagunas del Acebuche').",
+        "title": "Site Name",
+        "type": "string"
+      },
+      "observation_date": {
+        "description": "Fecha de la sesión en formato ISO 'YYYY-MM-DD'.",
+        "title": "Observation Date",
+        "type": "string"
+      },
+      "observer": {
+        "description": "Nombre del observador o equipo que firma la entrada del cuaderno.",
+        "title": "Observer",
+        "type": "string"
+      },
+      "method": {
+        "$ref": "#/$defs/StudyMethod",
+        "description": "Método principal de muestreo declarado para la sesión. 'muestreo_oportunista' si el texto no formaliza un método estándar."
+      },
+      "weather": {
+        "$ref": "#/$defs/WeatherCondition",
+        "description": "Condición meteorológica predominante durante la sesión, según el texto."
+      },
+      "temperature_celsius": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Temperatura ambiente registrada al iniciar la sesión, en °C. Null si el log no la registra.",
+        "title": "Temperature Celsius"
+      },
+      "species_observed": {
+        "description": "Registro de taxones observados en el orden del cuaderno. Una entrada por especie / morfotipo distinto.",
+        "items": {
+          "$ref": "#/$defs/SpeciesObservation"
+        },
+        "title": "Species Observed",
+        "type": "array"
+      },
+      "measurements": {
+        "description": "Mediciones cuantitativas tomadas durante la sesión, distintas de la temperatura general (que va en su campo dedicado). Una entrada por medición.",
+        "items": {
+          "$ref": "#/$defs/Measurement"
+        },
+        "title": "Measurements",
+        "type": "array"
+      },
+      "conclusions": {
+        "description": "Conclusiones o hipótesis explícitamente formuladas por el observador al cierre de la entrada. Una conclusión por elemento.",
+        "items": {
+          "type": "string"
+        },
+        "title": "Conclusions",
+        "type": "array"
+      }
+    },
+    "required": [
+      "site_name",
+      "observation_date",
+      "observer",
+      "method",
+      "weather"
+    ],
+    "title": "ObservationLog",
+    "type": "object"
+  },
+  "output": {
+    "site_name": "Pradera silicícola del Circo de Anayet, vertiente NE, valle de Tena, Pirineo aragonés",
+    "observation_date": "2025-07-18",
+    "observer": "Equipo LIFE-Pradera (responsable: Marta Ezquerra; ayudantes: Jon Iturralde y Clara Beneito)",
+    "method": "cuadrante",
+    "weather": "parcialmente_nublado",
+    "temperature_celsius": 14.3,
+    "species_observed": [
+      {
+        "species_name": "Festuca eskia",
+        "count": 12,
+        "behavior": null,
+        "notes": "dominante absoluto, cobertura estimada 45 %"
+      },
+      {
+        "species_name": "Nardus stricta",
+        "count": 8,
+        "behavior": null,
+        "notes": "codominante, cobertura 18 %"
+      },
+      {
+        "species_name": "Trifolium alpinum",
+        "count": 27,
+        "behavior": "en plena floración",
+        "notes": "cobertura 12 %; conteo por inflorescencias"
+      },
+      {
+        "species_name": "Plantago alpina",
+        "count": 19,
+        "behavior": null,
+        "notes": "cobertura 6 %; rosetas individuales"
+      },
+      {
+        "species_name": "Potentilla aurea",
+        "count": 14,
+        "behavior": "en floración",
+        "notes": "cobertura 4 %"
+      },
+      {
+        "species_name": "Carex sempervirens",
+        "count": 5,
+        "behavior": null,
+        "notes": "cobertura 3 %; macollas pequeñas en el borde norte"
+      },
+      {
+        "species_name": "Gentiana acaulis",
+        "count": 2,
+        "behavior": "con una flor abierta",
+        "notes": "cobertura puntual, < 1 %"
+      },
+      {
+        "species_name": "Leontodon pyrenaicus",
+        "count": 6,
+        "behavior": null,
+        "notes": "rosetas con escapo floral; cobertura ~2 %"
+      },
+      {
+        "species_name": "Phyteuma hemisphaericum",
+        "count": 4,
+        "behavior": "en flor",
+        "notes": "cobertura puntual"
+      },
+      {
+        "species_name": "Pinguicula grandiflora",
+        "count": 1,
+        "behavior": null,
+        "notes": "individuo aislado en depresión húmeda del borde E; posible indicador de flujo subsuperficial"
+      },
+      {
+        "species_name": "Selaginella selaginoides",
+        "count": 1,
+        "behavior": null,
+        "notes": "presencia rastrera dispersa, cobertura ~1 %; difícil de cuantificar por individuo"
+      }
+    ],
+    "measurements": [
+      {
+        "name": "altitud",
+        "value": 2287.0,
+        "unit": "m s. n. m.",
+        "instrument": "GPS Garmin GPSMAP 66s"
+      },
+      {
+        "name": "humedad relativa",
+        "value": 58.0,
+        "unit": "%",
+        "instrument": "termohigrómetro Kestrel 3000"
+      },
+      {
+        "name": "velocidad del viento",
+        "value": 6.0,
+        "unit": "km/h",
+        "instrument": null
+      },
+      {
+        "name": "pendiente del terreno",
+        "value": 14.0,
+        "unit": "°",
+        "instrument": "clinómetro Suunto PM-5"
+      },
+      {
+        "name": "orientación de la pendiente",
+        "value": 65.0,
+        "unit": "°",
+        "instrument": "brújula Silva Ranger"
+      },
+      {
+        "name": "cobertura vegetal total",
+        "value": 99.0,
+        "unit": "%",
+        "instrument": null
+      },
+      {
+        "name": "profundidad del suelo",
+        "value": 22.0,
+        "unit": "cm",
+        "instrument": "varilla metálica graduada"
+      },
+      {
+        "name": "pH del suelo",
+        "value": 5.2,
+        "unit": "pH",
+        "instrument": "pH-metro de campo Hanna HI98129"
+      },
+      {
+        "name": "temperatura del suelo",
+        "value": 11.8,
+        "unit": "°C",
+        "instrument": "termómetro de sonda Hanna Checktemp"
+      },
+      {
+        "name": "conductividad eléctrica del suelo",
+        "value": 84.0,
+        "unit": "µS/cm",
+        "instrument": "pH-metro de campo Hanna HI98129"
+      },
+      {
+        "name": "altura media de la cobertura herbácea",
+        "value": 11.0,
+        "unit": "cm",
+        "instrument": "regla plegable"
+      }
+    ],
+    "conclusions": [
+      "La pradera del Circo de Anayet en este cuadrante mantiene la composición típica del Festucion eskiae pirenaico, con codominancia clara de Festuca eskia y Nardus stricta y presencia consistente de Trifolium alpinum como leguminosa estructural.",
+      "El pH ácido (5,2) y la conductividad baja confirman el sustrato silíceo y la pobreza en bases del suelo, coherente con el material parental granítico del circo.",
+      "La presencia aislada de Pinguicula grandiflora sugiere que el cuadrante intercepta un microhábitat de filtración local; conviene cartografiar la microtopografía húmeda en visitas sucesivas.",
+      "No se detectan, en esta visita, signos de degradación por sobrepastoreo dentro del cuadrante, aunque el entorno inmediato muestra presión ovina activa. Se recomienda mantener el seguimiento anual y considerar la instalación de un exclosor de 3 × 3 m adyacente para evaluar el efecto de la exclusión del pastoreo a medio plazo."
+    ]
+  },
+  "metadata": {
+    "source": "synthetic_20260601_004.md",
+    "domain": "stem",
+    "subdomain": "observations"
+  }
+}

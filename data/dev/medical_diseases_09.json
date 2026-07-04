@@ -1,0 +1,165 @@
+{
+  "id": "medical_diseases_09",
+  "input_text": "# Efectos del tabaco en la salud\n\nSource: https://es.wikipedia.org/wiki/Efectos_del_tabaco_en_la_salud\n\nLos efectos del tabaco en la salud son aquellas complicaciones derivadas del consumo del tabaco. Es la acción prolongada y continuada de las distintas sustancias que componen los cigarrillos sobre el organismo humano lo que desencadena el desarrollo de patologías severas como tumoraciones, problemas cardiovasculares, respiratorios, etc. Tal es el caso, por ejemplo, del cáncer de labio en los fumadores de pipa, el cáncer de vejiga y el cáncer de esófago. En este último, se aprecia un mayor riesgo de padecerlo en pacientes adictos al tabaco negro. Los alquitranes y otras sustancias químicas que acompañan a la nicotina en la composición del cigarrillo son considerados altamente nocivos, siendo los principales responsables del desarrollo de tales complicaciones. Sin embargo, está demostrado también que el tabaco mascado «sin humo» también produce cáncer de la cavidad oral. \nEl tabaco puede provocar enfermedades del aparato respiratorio. Las patologías más frecuentes asociadas al tabaquismo son la bronquitis y el enfisema. Se trata de dos fenómenos esencialmente de tipo inflamatorio y destructivo, pero que pueden complicarse con lesiones obstructivas, de fibrosis alveolar e incluso de neumotórax. La nicotina tiene también un efecto directo sobre el sistema vascular, pudiendo producir gangrena como complicación de la enfermedad de Buerger. \nPor otra parte, se considera que el hábito del tabaquismo puede influir negativamente en la potencia sexual e infertilidad masculina.​​\nEl uso simultáneo del alcohol aumenta la carcinogenicidad del tabaco respecto al cáncer de cabeza y cuello.​ El tabaco es el responsable del diagnóstico de casi la totalidad de casos de enfermedad pulmonar obstructiva crónica (EPOC), de enfisema y de cáncer de pulmón. \nNo existe ningún nivel seguro de consumo de tabaco.​​ Incluso el tabaco consumido en cigarrillos de liar o en cigarrillos electrónicos causan daño irremediable. La única opción que minimiza el riesgo de padecer enfermedades asociadas al tabaquismo es simplemente no fumar. [...] Enfermedades respiratorias\nLos efectos del tabaco sobre las vías respiratorias se han descrito tanto a nivel de estructuras (vías aéreas, alvéolos y capilares) como en los mecanismos de defensa pulmonar. Provocando, en los fumadores, sintomatología respiratoria y deterioro de la función pulmonar. El tabaco causa hipersecreción, lo que da origen a tos y expectoración crónica en los fumadores\n\nEnfermedad Pulmonar Obstructiva Crónica.\nSíndrome de apnea obstructiva durante el sueño.\nSe ha descrito otras enfermedades respiratorias en relación con el tabaco como la fibrosis pulmonar idiopática, bronquiolitis obliterante con neumonía organizativa (BONO), granuloma eosinófilo, hemorragia pulmonar y enfermedad pulmonar metastásica. Existe evidencia de que el tabaquismo es un factor predisponente importante en el neumotórax espontáneo. Es un factor constante en la Histiocitosis X. La neumonía intersticial descamativa también está asociada al consumo del tabaco.",
+  "instruction": "Extrae el perfil de la enfermedad",
+  "target_schema": {
+    "$defs": {
+      "EtiologyType": {
+        "enum": [
+          "INFECTIOUS",
+          "GENETIC",
+          "AUTOIMMUNE",
+          "DEGENERATIVE",
+          "UNKNOWN",
+          "OTHER"
+        ],
+        "title": "EtiologyType",
+        "type": "string"
+      },
+      "Symptom": {
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "description": "Verbatim name of the symptom",
+            "title": "Name",
+            "type": "string"
+          },
+          "severity_level": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Inferred severity if mentioned (Mild, Moderate, Severe)",
+            "title": "Severity Level"
+          },
+          "is_primary": {
+            "default": true,
+            "description": "True if this is a defining symptom of the disease",
+            "title": "Is Primary",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "name"
+        ],
+        "title": "Symptom",
+        "type": "object"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Hierarchical extraction of pathology details from medical summaries.\nComplexity: L5 (Hierarchical Grouping).",
+    "properties": {
+      "pathology_name": {
+        "description": "The medical name of the disease or disorder",
+        "title": "Pathology Name",
+        "type": "string"
+      },
+      "etiology_type": {
+        "$ref": "#/$defs/EtiologyType",
+        "description": "The primary origin or cause of the disease"
+      },
+      "etiology_description": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "A brief summary of how the disease is caused",
+        "title": "Etiology Description"
+      },
+      "symptoms": {
+        "description": "Structured list of reported symptoms",
+        "items": {
+          "$ref": "#/$defs/Symptom"
+        },
+        "title": "Symptoms",
+        "type": "array"
+      },
+      "diagnosis_methods": {
+        "description": "Clinical tests or methods mentioned for identifying the pathology",
+        "items": {
+          "type": "string"
+        },
+        "title": "Diagnosis Methods",
+        "type": "array"
+      },
+      "is_chronic": {
+        "anyOf": [
+          {
+            "type": "boolean"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "True if the text explicitly defines the disease as chronic or long-term",
+        "title": "Is Chronic"
+      }
+    },
+    "required": [
+      "pathology_name",
+      "etiology_type"
+    ],
+    "title": "DiseaseProfile",
+    "type": "object"
+  },
+  "output": {
+    "pathology_name": "Efectos del tabaco en la salud",
+    "etiology_type": "OTHER",
+    "etiology_description": "La acción prolongada y continuada de las distintas sustancias que componen los cigarrillos sobre el organismo humano desencadena el desarrollo de patologías severas.",
+    "symptoms": [
+      {
+        "name": "bronquitis",
+        "severity_level": null,
+        "is_primary": true
+      },
+      {
+        "name": "enfisema",
+        "severity_level": null,
+        "is_primary": true
+      },
+      {
+        "name": "tos y expectoración crónica",
+        "severity_level": null,
+        "is_primary": true
+      },
+      {
+        "name": "lesiones obstructivas",
+        "severity_level": null,
+        "is_primary": false
+      },
+      {
+        "name": "fibrosis alveolar",
+        "severity_level": null,
+        "is_primary": false
+      },
+      {
+        "name": "neumotórax",
+        "severity_level": null,
+        "is_primary": false
+      },
+      {
+        "name": "gangrena",
+        "severity_level": null,
+        "is_primary": false
+      }
+    ],
+    "diagnosis_methods": [],
+    "is_chronic": true
+  },
+  "metadata": {
+    "source": "wiki_diseases_20260414_efectos_del_tabaco_en_la_salud.md",
+    "domain": "medical",
+    "subdomain": "diseases"
+  }
+}

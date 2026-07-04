@@ -1,0 +1,67 @@
+{
+  "id": "test_legal_legislation_001",
+  "input_text": "Artículo 15. Plazo máximo para resolver y notificar.\n1. El plazo máximo en el que debe notificarse la resolución expresa será el fijado por la norma reguladora del correspondiente procedimiento.\n2. Como regla general, en todos los procedimientos de competencia de la Administración autonómica, el plazo máximo en el que debe notificarse la resolución expresa será de tres meses, salvo en los procedimientos cuyo plazo máximo para resolver y notificar se establezca por una ley estatal básica o de aplicación directa o por norma de derecho de la Unión Europea o de derecho internacional aplicable en España.\n3. Excepcionalmente, podrá establecerse un plazo superior, mediante norma con rango de ley por razones imperiosas de interés general. La memoria del anteproyecto de ley deberá concretar expresamente las razones de interés general que justifiquen el plazo que se proponga establecer, especificando los daños para los intereses generales ponderándolos con los legítimos intereses de las personas destinatarias.\n4. La Administración autonómica revisará los plazos actualmente previstos para la tramitación de los procedimientos con la finalidad de reducirlos al máximo.\nArtículo 16. Efectos del silencio administrativo.\n1. Como regla general, en todos los procedimientos iniciados a solicitud de la persona interesada, sin perjuicio de la obligación de dictar resolución expresa, el vencimiento del plazo máximo sin haberse notificado la resolución legitima a la persona o personas interesadas para entenderla estimada por silencio administrativo.\n2. Solo se exceptúan de la regla general los procedimientos a los que se refiere la normativa básica estatal de procedimiento administrativo común.\n3. Excepcionalmente, podrá establecerse el sentido desestimatorio del silencio mediante norma con rango de ley por razones imperiosas de interés general. La memoria de la ley deberá concretar expresamente las razones de interés general que justifiquen el sentido desestimatorio del silencio, especificando los daños para los intereses generales ponderándolos con los legítimos intereses de sus destinatarios.\n4. En los procedimientos iniciados de oficio el sentido del silencio se regirá por lo establecido en la normativa básica estatal y en la normativa sectorial aplicable.\n5. La Administración autonómica revisará los actuales procedimientos para el cumplimiento de lo dispuesto en este artículo.",
+  "instruction": "Según el texto, ¿es la estimación por silencio administrativo la regla general en los procedimientos iniciados a solicitud de la persona interesada ante la Administración autonómica de La Rioja? Indique las pruebas textuales y los artículos citados.",
+  "target_schema": {
+    "additionalProperties": false,
+    "description": "Performs binary legal reasoning based on a legislative text.\nComplexity: L8 (Logical Inference & Evidence Aggregation).",
+    "properties": {
+      "question": {
+        "description": "The specific question to be answered (e.g., 'Is the death penalty prohibited?')",
+        "title": "Question",
+        "type": "string"
+      },
+      "is_applicable": {
+        "description": "True if the condition described in the question is met or permitted by the text",
+        "title": "Is Applicable",
+        "type": "boolean"
+      },
+      "evidence_quotes": {
+        "description": "Direct verbatim fragments from the text that support the answer",
+        "items": {
+          "type": "string"
+        },
+        "title": "Evidence Quotes",
+        "type": "array"
+      },
+      "cited_articles": {
+        "description": "List of article identifiers involved (e.g., 'Art. 1', 'Art. 15')",
+        "items": {
+          "type": "string"
+        },
+        "title": "Cited Articles",
+        "type": "array"
+      },
+      "is_explicit": {
+        "description": "True if the answer is literally stated; False if it requires inference or synthesis",
+        "title": "Is Explicit",
+        "type": "boolean"
+      }
+    },
+    "required": [
+      "question",
+      "is_applicable",
+      "evidence_quotes",
+      "is_explicit"
+    ],
+    "title": "LegalInquiry",
+    "type": "object"
+  },
+  "output": {
+    "question": "¿Es la estimación por silencio administrativo la regla general en los procedimientos iniciados a solicitud de la persona interesada ante la Administración autonómica de La Rioja?",
+    "is_applicable": true,
+    "evidence_quotes": [
+      "Como regla general, en todos los procedimientos iniciados a solicitud de la persona interesada, sin perjuicio de la obligación de dictar resolución expresa, el vencimiento del plazo máximo sin haberse notificado la resolución legitima a la persona o personas interesadas para entenderla estimada por silencio administrativo.",
+      "Excepcionalmente, podrá establecerse el sentido desestimatorio del silencio mediante norma con rango de ley por razones imperiosas de interés general."
+    ],
+    "cited_articles": [
+      "Art. 16"
+    ],
+    "is_explicit": true
+  },
+  "metadata": {
+    "source": "BOE-A-2026-10117.md",
+    "domain": "legal",
+    "subdomain": "legislation"
+  }
+}

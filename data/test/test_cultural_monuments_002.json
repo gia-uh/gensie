@@ -1,0 +1,85 @@
+{
+  "id": "test_cultural_monuments_002",
+  "input_text": "# Acueducto romano de Albarracín-Cella\n\nMunicipality: Monumento\nCategory: Albarracín, Gea de Albarracín y Cella\nRegistration Code: 40°25′47″N 1°25′00″O﻿ / ﻿40.429733, -1.416786﻿ (Acueducto romano de Albarracín-Cella)\nDeclaration Date: RI-51-0010933\nSource: Wikipedia Annex List\n\nNo detailed article available.",
+  "instruction": "Extrae la información del bien de interés cultural",
+  "target_schema": {
+    "$defs": {
+      "BICCategory": {
+        "enum": [
+          "MONUMENTO",
+          "JARDÍN HISTÓRICO",
+          "CONJUNTO HISTÓRICO",
+          "SITIO HISTÓRICO",
+          "ZONA ARQUEOLÓGICA",
+          "OTRO"
+        ],
+        "title": "BICCategory",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Normalizes registration codes, dates, and identifiers from the Spanish BIC Registry.\nComplexity: L3 (Standard Normalization).",
+    "properties": {
+      "official_name": {
+        "description": "The official name of the monument or protected site",
+        "title": "Official Name",
+        "type": "string"
+      },
+      "municipality": {
+        "description": "The municipality or city where the monument is located",
+        "title": "Municipality",
+        "type": "string"
+      },
+      "bic_category": {
+        "$ref": "#/$defs/BICCategory",
+        "description": "The legal category of protection (e.g., Monumento, Jardín Histórico)"
+      },
+      "registration_code": {
+        "description": "The official registration ID (e.g., 'RI-51-0001091'). Must strictly follow the pattern.",
+        "pattern": "^[A-Z\\-0-9]+$",
+        "title": "Registration Code",
+        "type": "string"
+      },
+      "declaration_date": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "The date of the legal declaration in YYYY-MM-DD format (normalize from text)",
+        "title": "Declaration Date"
+      },
+      "is_declared": {
+        "default": true,
+        "description": "True if the status is 'Declarado'; False if it is 'Incoado' (pending)",
+        "title": "Is Declared",
+        "type": "boolean"
+      }
+    },
+    "required": [
+      "official_name",
+      "municipality",
+      "bic_category",
+      "registration_code"
+    ],
+    "title": "MonumentBIC",
+    "type": "object"
+  },
+  "output": {
+    "official_name": "Acueducto romano de Albarracín-Cella",
+    "municipality": "Albarracín, Gea de Albarracín y Cella",
+    "bic_category": "MONUMENTO",
+    "registration_code": "RI-51-0010933",
+    "declaration_date": null,
+    "is_declared": true
+  },
+  "metadata": {
+    "source": "bic_20260414_acueducto_romano_de_albarracín_cella.md",
+    "domain": "cultural",
+    "subdomain": "monuments"
+  }
+}

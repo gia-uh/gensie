@@ -1,0 +1,156 @@
+{
+  "id": "legal_judicial_006",
+  "input_text": "# 170 ciudades de Estados Unidos registran protestas por caso Michael Brown\n\nEn varias ciudades estadounidenses miles de personas han marchado, bloqueado puentes, túneles y avenidas principales en protesta por la de decisión del gran jurado de Ferguson, Misuri, de no imputar cargos a Darren Wilson, oficial que mató al joven afroamericano Michael Brown. Esta madrugada, por segunda noche consecutiva, al menos 170 ciudades en 37 estados de Estados Unidos, han registrado manifestaciones para exigir justicia.\nWashington, Nueva York, Los Ángeles, Atlanta, Boston, Filadelfia, Oakland y Seattle, vivieron las concentraciones más grandes, que fueron mayoritariamente pacíficas salvo incidentes aislados y algunos arrestos. En relación a los hechos, el presidente estadounidense, Barack Obama, señaló que no habrá \"ninguna compasión por aquellos que destruyen su propia comunidad\". El policía Wilson también habló sobre la muerte del joven y aseguró que tiene la conciencia tranquila y que volvería a actuar de la misma forma.\nEn Ferguson, personal de la Guardia Nacional resguarda el exterior del Departamento de Policía de Ferguson, donde cientos de manifestantes gritan \"No somos tu enemigo\" y \"Sólo queremos justicia\". Wilson, un oficial de policía blanco y de 28 años, disparó seis tiros a Michael Brown, un joven negro de 18 años, el pasado 9 de agosto cuando el joven iba desarmado y bajo circunstancias aún confusas.\nLa muerte del joven desencadenó fuertes disturbios en Ferguson, que provocaron saqueos y destrozos. Durante las manifestaciones en Minneapolis, una mujer fue atropelleda por un auto. The Star Tribune informó que el conductor del automóvil tocó la bocina a los manifestantes antes de golpear a varias personas y aparentemente pasar con su vehículo sobre las piernas de la mujer, quien fue hospitalizada por \"heridas menores\".\nPara evitar nuevos hechos violentos durante las protestas, Ferguson fue blindada con más de 2000 miembros de la Guardia Nacional, así como efectivos de otros cuerpos de las fuerzas de seguridad.",
+  "instruction": "Extrae la información estructurada de este artículo de noticias judiciales, incluyendo titular, resumen, categoría, ubicación, fecha, personas y organizaciones clave, y cifras de víctimas.",
+  "target_schema": {
+    "$defs": {
+      "NewsCategory": {
+        "enum": [
+          "JUDICIAL",
+          "DISASTER",
+          "HEALTH",
+          "ENVIRONMENT",
+          "POLITICS",
+          "ECONOMY",
+          "SCIENCE",
+          "CULTURE",
+          "SPORTS",
+          "OTHER"
+        ],
+        "title": "NewsCategory",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Extracts structured information from general news articles.\nComplexity: L4 (Sparse Extraction) - Some fields may be null/missing.",
+    "properties": {
+      "headline": {
+        "description": "The main headline or title of the news article",
+        "title": "Headline",
+        "type": "string"
+      },
+      "summary": {
+        "description": "A brief summary of the main facts reported (1-3 sentences)",
+        "title": "Summary",
+        "type": "string"
+      },
+      "category": {
+        "$ref": "#/$defs/NewsCategory",
+        "description": "The thematic category of the news story"
+      },
+      "location": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Geographic location where the event occurred (city, country, or region)",
+        "title": "Location"
+      },
+      "date": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Date mentioned in the article (may be implicit or explicit)",
+        "title": "Date"
+      },
+      "key_people": {
+        "description": "Names of key individuals mentioned in the article",
+        "items": {
+          "type": "string"
+        },
+        "title": "Key People",
+        "type": "array"
+      },
+      "key_organizations": {
+        "description": "Names of organizations, companies, or governments mentioned",
+        "items": {
+          "type": "string"
+        },
+        "title": "Key Organizations",
+        "type": "array"
+      },
+      "casualties": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of deaths mentioned, if any",
+        "title": "Casualties"
+      },
+      "injured": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of people injured, if any",
+        "title": "Injured"
+      },
+      "affected_count": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of people affected or displaced, if applicable",
+        "title": "Affected Count"
+      }
+    },
+    "required": [
+      "headline",
+      "summary",
+      "category"
+    ],
+    "title": "NewsArticle",
+    "type": "object"
+  },
+  "output": {
+    "headline": "170 ciudades de Estados Unidos registran protestas por caso Michael Brown",
+    "summary": "Miles de personas marcharon en al menos 170 ciudades de 37 estados de Estados Unidos en protesta por la decisión del gran jurado de Ferguson, Misuri, de no imputar cargos al oficial Darren Wilson, quien mató al joven afroamericano Michael Brown. Las manifestaciones fueron mayoritariamente pacíficas, con incidentes aislados.",
+    "category": "JUDICIAL",
+    "location": "Ferguson, Misuri, Estados Unidos",
+    "date": "9 de agosto",
+    "key_people": [
+      "Michael Brown",
+      "Darren Wilson",
+      "Barack Obama"
+    ],
+    "key_organizations": [
+      "Guardia Nacional",
+      "Departamento de Policía de Ferguson",
+      "The Star Tribune"
+    ],
+    "casualties": 1,
+    "injured": 1,
+    "affected_count": null
+  },
+  "metadata": {
+    "source": "wikinews_judicial_20260415_006_170_ciudades_de_estados_unidos_registran_protestas.md",
+    "domain": "legal",
+    "subdomain": "judicial"
+  }
+}

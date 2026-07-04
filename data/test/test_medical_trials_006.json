@@ -1,0 +1,199 @@
+{
+  "id": "test_medical_trials_006",
+  "input_text": "# El consorcio PETHEMA-SEHOP cierra anticipadamente por eficacia el ensayo de fase III BLINFRONT-PED en leucemia linfoblástica aguda pediátrica de alto riesgo [...] El Grupo Español de Hematología Pediátrica de la Sociedad Española de Hematología y Oncología Pediátricas (SEHOP), en colaboración con el grupo cooperativo PETHEMA, ha anunciado el cierre anticipado del ensayo clínico de fase III \"Comparación de blinatumomab frente a quimioterapia de consolidación estándar e inmunoterapia combinada en niños y adolescentes con leucemia linfoblástica aguda de células B de alto riesgo en primera remisión\", conocido por el acrónimo BLINFRONT-PED y registrado con el código EudraCT 2022-004563-19. El estudio, en estado terminado, ha sido detenido el 4 de febrero de 2026 tras la recomendación unánime del Comité Independiente de Monitorización de Datos (IDMC), que evaluó el segundo análisis intermedio prospectivo y declaró que se había alcanzado el umbral de eficacia preespecificado, recomendando la finalización anticipada del estudio por superioridad del brazo experimental B. [...] El ensayo se inició el 19 de marzo de 2023 y completó su última visita de seguimiento computable para el análisis intermedio el 15 de enero de 2026. La fecha oficial de cierre del ensayo, con la última visita administrativa del último paciente activo, es del 28 de febrero de 2026. [...] El protocolo planteó la inclusión de 318 pacientes pediátricos de entre 1 y 18 años de edad, con diagnóstico de leucemia linfoblástica aguda de células B clasificada bajo el código C91.0 de la CIE-10, en primera remisión completa morfológica tras la fase de inducción según el esquema SEHOP-PETHEMA LAL-2019, y con criterios de alto riesgo definidos por enfermedad mínima residual (EMR) detectable por citometría de flujo (≥ 10⁻⁴) al final de la inducción, o por la presencia de reordenamientos genéticos desfavorables como KMT2A o IKZF1plus. Quedaron excluidos los pacientes con afectación testicular activa, leucemia de células T, leucemia de Burkitt, o cardiopatía estructural significativa. [...] El diseño contempló tres brazos paralelos con aleatorización 1:1:1 estratificada por edad, carga de EMR al final de la inducción y centro participante. El brazo A (control) recibió el esquema de consolidación quimioterápica estándar del protocolo SEHOP-PETHEMA LAL-2019, basado en altas dosis de metotrexato, citarabina y reinducciones. El brazo B (experimental) sustituyó el primer bloque de consolidación por dos ciclos de blinatumomab a 15 µg/m²/día en infusión continua durante 28 días, seguidos del resto del esquema estándar. El brazo C (experimental combinado) administró un ciclo de blinatumomab seguido de un ciclo de inotuzumab ozogamicina ajustado por edad, antes de continuar con la consolidación quimioterápica habitual. Todos los brazos recibieron de manera idéntica la fase de mantenimiento posterior. [...] El endpoint primario, preespecificado en el plan estadístico, fue la supervivencia libre de enfermedad a los tres años desde la aleatorización. Como endpoints secundarios se planteaban la supervivencia global a tres y cinco años, la negativización sostenida de la enfermedad mínima residual a las 12 semanas, la incidencia acumulada de recaída por compartimento (medular, sistema nervioso central o testicular), la incidencia de mortalidad relacionada con el tratamiento y la frecuencia de eventos adversos de grado ≥ 3 según los criterios CTCAE v5.0. [...] En el momento del cierre anticipado se habían reclutado 296 de los 318 pacientes previstos. El segundo análisis intermedio, realizado con datos congelados a 15 de enero de 2026 sobre 268 pacientes evaluables, mostró una supervivencia libre de enfermedad estimada a los tres años del 86,4 % en el brazo B (blinatumomab) y del 88,1 % en el brazo C (blinatumomab más inotuzumab), frente al 71,2 % en el brazo control de quimioterapia estándar. Ambas comparaciones cruzaron el umbral de eficacia O'Brien-Fleming preespecificado, con un hazard ratio de 0,42 (IC 95 % 0,27-0,66; p < 0,001) para el brazo B y 0,38 (IC 95 % 0,24-0,61; p < 0,001) para el brazo C, frente al control. La incidencia de mortalidad relacionada con el tratamiento fue del 2,1 % en los brazos experimentales combinados frente al 5,8 % en el brazo control, sin observarse nuevas señales de seguridad respecto al perfil ya conocido de blinatumomab e inotuzumab en población pediátrica. Estos resultados, aunque preliminares, motivaron la recomendación de finalización por eficacia y la transición de los pacientes del brazo control a tratamiento experimental siempre que clínicamente fuera factible.",
+  "instruction": "Extrae un registro estructurado del ensayo clínico BLINFRONT-PED a partir de la nota de prensa. Identifica el código de registro EudraCT, la fase, el estado actual del ensayo, la condición clínica con su código CIE-10, el tamaño muestral previsto, los brazos del estudio con su intervención, el endpoint primario y, dado que el ensayo está terminado (cierre anticipado por eficacia), la fecha oficial de finalización y un resumen narrativo de los resultados del análisis intermedio. Respeta los formatos canónicos de los identificadores y la restricción inter-campo: completion_date y result_summary solo se rellenan si status es completado o terminado.",
+  "target_schema": {
+    "$defs": {
+      "TrialArm": {
+        "additionalProperties": false,
+        "description": "Un brazo del ensayo: grupo experimental o comparador.",
+        "properties": {
+          "name": {
+            "description": "Etiqueta del brazo tal como aparece en el texto (p. ej. 'brazo experimental', 'brazo comparador', 'placebo', 'control').",
+            "title": "Name",
+            "type": "string"
+          },
+          "intervention": {
+            "description": "Intervención administrada al brazo: fármaco, dosis y vía si se explicitan (p. ej. 'CLN-217 5,4 mg/kg IV cada 3 semanas').",
+            "title": "Intervention",
+            "type": "string"
+          },
+          "n": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Número de participantes asignados o reclutados a este brazo concreto. Null si el texto no lo desglosa por brazo.",
+            "title": "N"
+          }
+        },
+        "required": [
+          "name",
+          "intervention"
+        ],
+        "title": "TrialArm",
+        "type": "object"
+      },
+      "TrialPhase": {
+        "enum": [
+          "fase_1",
+          "fase_2",
+          "fase_3",
+          "fase_4",
+          "no_aplica"
+        ],
+        "title": "TrialPhase",
+        "type": "string"
+      },
+      "TrialStatus": {
+        "enum": [
+          "reclutando",
+          "activo",
+          "completado",
+          "terminado",
+          "suspendido"
+        ],
+        "title": "TrialStatus",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Registro estructurado de un ensayo clínico a partir de una nota de prensa,\ncomunicado institucional o ficha de registro en español.\n\nRestricción inter-campo crítica (trampa de null):\n- `completion_date` y `result_summary` SOLO pueden tener valor cuando\n  `status` ∈ {completado, terminado}. Si el ensayo está reclutando, activo\n  o suspendido, ambos campos deben ser null aunque el texto especule sobre\n  fechas previstas o resultados parciales.\n\nComplejidad: L7 — rigidez de restricciones inter-campo + regex de IDs.",
+    "properties": {
+      "registry_id": {
+        "description": "Identificador del ensayo en su registro. Acepta tres formatos: ClinicalTrials.gov ('NCTxxxxxxxx', 8 dígitos), EudraCT ('YYYY-NNNNNN-NN') o REec ('REec-YYYY-NNNN'). Devolver exactamente como aparece, sin prefijos descriptivos ('EudraCT', 'nº').",
+        "pattern": "^(?:NCT\\d{8}|\\d{4}-\\d{6}-\\d{2}|REec-\\d{4}-\\d{4})$",
+        "title": "Registry Id",
+        "type": "string"
+      },
+      "phase": {
+        "$ref": "#/$defs/TrialPhase",
+        "description": "Fase del ensayo. 'fase_1' a 'fase_4' para fases clásicas; 'no_aplica' para ensayos exploratorios, observacionales o sin fase declarada."
+      },
+      "status": {
+        "$ref": "#/$defs/TrialStatus",
+        "description": "Estado actual del ensayo: 'reclutando' (inclusión abierta), 'activo' (reclutamiento cerrado, seguimiento en curso), 'completado' (finalizado según protocolo), 'terminado' (finalizado prematuramente con resultados), 'suspendido' (pausa por seguridad o regulatoria)."
+      },
+      "condition": {
+        "description": "Patología, síndrome o indicación clínica que el ensayo estudia, en lenguaje del texto (p. ej. 'cáncer de mama metastásico HER2 positivo').",
+        "title": "Condition",
+        "type": "string"
+      },
+      "icd10_code": {
+        "anyOf": [
+          {
+            "pattern": "^[A-Z]\\d{2}(?:\\.\\d{1,2})?$",
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Código CIE-10 (ICD-10) de la indicación si el texto lo cita literalmente, formato 'L99' o 'L99.9'. Null si no aparece.",
+        "title": "Icd10 Code"
+      },
+      "enrollment": {
+        "anyOf": [
+          {
+            "minimum": 1,
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Tamaño muestral total previsto o reclutado, como entero. Null si el texto no lo especifica.",
+        "title": "Enrollment"
+      },
+      "arms": {
+        "description": "Lista de brazos del ensayo en el orden en que se describen. Vacía solo si el diseño es de un único brazo no etiquetado.",
+        "items": {
+          "$ref": "#/$defs/TrialArm"
+        },
+        "title": "Arms",
+        "type": "array"
+      },
+      "primary_endpoint": {
+        "description": "Variable principal de eficacia del estudio (p. ej. 'supervivencia libre de progresión', 'ACR50 a la semana 24'). Texto literal del objetivo primario.",
+        "title": "Primary Endpoint",
+        "type": "string"
+      },
+      "completion_date": {
+        "anyOf": [
+          {
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Fecha real de finalización del ensayo en formato YYYY-MM-DD. DEBE ser null salvo que status sea 'completado' o 'terminado'. Para ensayos en curso o suspendidos, ignorar fechas previstas.",
+        "title": "Completion Date"
+      },
+      "result_summary": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Resumen narrativo de los resultados del ensayo. DEBE ser null salvo que status sea 'completado' o 'terminado'. No incluir resultados intermedios ni hallazgos de seguridad parciales de ensayos en curso.",
+        "title": "Result Summary"
+      }
+    },
+    "required": [
+      "registry_id",
+      "phase",
+      "status",
+      "condition",
+      "primary_endpoint"
+    ],
+    "title": "ClinicalTrialRecord",
+    "type": "object"
+  },
+  "output": {
+    "registry_id": "2022-004563-19",
+    "phase": "fase_3",
+    "status": "terminado",
+    "condition": "leucemia linfoblástica aguda de células B de alto riesgo en primera remisión, pediátrica",
+    "icd10_code": "C91.0",
+    "enrollment": 318,
+    "arms": [
+      {
+        "name": "brazo A (control)",
+        "intervention": "esquema de consolidación quimioterápica estándar del protocolo SEHOP-PETHEMA LAL-2019 (altas dosis de metotrexato, citarabina y reinducciones)",
+        "n": null
+      },
+      {
+        "name": "brazo B (experimental)",
+        "intervention": "dos ciclos de blinatumomab 15 µg/m²/día en infusión continua durante 28 días, seguidos del resto del esquema estándar",
+        "n": null
+      },
+      {
+        "name": "brazo C (experimental combinado)",
+        "intervention": "un ciclo de blinatumomab seguido de un ciclo de inotuzumab ozogamicina ajustado por edad, antes de la consolidación quimioterápica habitual",
+        "n": null
+      }
+    ],
+    "primary_endpoint": "supervivencia libre de enfermedad a los tres años desde la aleatorización",
+    "completion_date": "2026-02-28",
+    "result_summary": "En el segundo análisis intermedio (datos congelados a 15-ene-2026, 268 pacientes evaluables de 296 reclutados) la supervivencia libre de enfermedad a tres años fue del 86,4 % en el brazo B (blinatumomab) y del 88,1 % en el brazo C (blinatumomab + inotuzumab), frente al 71,2 % en el brazo control (HR 0,42; IC 95 % 0,27-0,66; p<0,001 para B vs control; HR 0,38; IC 95 % 0,24-0,61; p<0,001 para C vs control). La mortalidad relacionada con el tratamiento fue del 2,1 % en los brazos experimentales combinados frente al 5,8 % en el control, sin nuevas señales de seguridad. El IDMC recomendó la finalización anticipada por superioridad del brazo experimental B y se permitió el cruce de los pacientes del control al tratamiento experimental."
+  },
+  "metadata": {
+    "source": "synthetic_20260512_006.md",
+    "domain": "medical",
+    "subdomain": "trials"
+  }
+}

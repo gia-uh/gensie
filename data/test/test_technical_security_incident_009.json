@@ -1,0 +1,374 @@
+{
+  "id": "technical_security_incident_009",
+  "input_text": "# Informe post-mortem — Exposición accidental de bucket S3 con datos sanitarios (DICOM + informes radiológicos)\n\n**incident_id:** INC-2026-0531\n**Fecha de detección:** 2026-05-22T09:17\n**Severidad:** crítica\n**Clasificación interna:** Confidencial — Distribución restringida (Dirección Médica, CISO, DPO, AEPD, Asesoría Jurídica)\n**Autor:** Equipo de Respuesta a Incidentes (IR) — Clínica Radiológica Mediterráneo, S.L.\n**Versión:** 1.3 — cierre del informe a 2026-05-30\n**Marco regulatorio aplicable:** RGPD (Reglamento UE 2016/679), con tratamiento de datos especialmente protegidos conforme al **art. 9.2.h RGPD** (datos relativos a la salud); LOPDGDD 3/2018; LSSI-CE. [...] ## 1. Resumen ejecutivo\n\nEntre el 11 de mayo y el 22 de mayo de 2026 — un total de **once días civiles** —, un bucket de Amazon S3 perteneciente a la Clínica Radiológica Mediterráneo, S.L. y destinado al archivado intermedio de estudios de imagen médica (DICOM) e informes radiológicos firmados quedó accesible públicamente a internet. La exposición no fue resultado de una intrusión, sino de un cambio de Infraestructura como Código (IaC) deficientemente revisado que sobrescribió una política de acceso restrictivo y dejó el bucket con una **ACL de tipo `public-read`** y un *bucket policy* permisivo equivalente a `Principal: \"*\"` sobre las acciones `s3:GetObject` y `s3:ListBucket`.\n\nEl incidente no fue descubierto por la propia organización sino por un investigador externo de seguridad (en adelante, \"el reportante\"), que localizó el bucket mediante búsquedas pasivas de buckets indexados y notificó responsablemente a la dirección publicada en el `security.txt` de la clínica el 2026-05-22 a las 09:17 (CEST). La organización no disponía de alertas internas configuradas para detectar este tipo de cambio.\n\nEl análisis posterior de los logs de **AWS CloudTrail** y, sobre todo, de los **S3 Server Access Logs** (que estaban habilitados pero no monitorizados) ha permitido confirmar la **descarga efectiva de objetos por al menos tres direcciones IP externas distintas** durante el período de exposición, con un volumen estimado de **414 objetos descargados** (cabeceras DICOM y, en al menos 38 casos, ficheros PDF de informes radiológicos firmados). No se ha confirmado descarga masiva del bucket completo (≈ 28 600 objetos); el patrón es selectivo y compatible tanto con un script automatizado de muestreo como con consultas humanas dirigidas.\n\nA día de cierre del informe, el bucket ha sido cerrado, el cambio de IaC revertido, se ha notificado a la AEPD dentro del plazo legal de 72 horas (notificación enviada el 2026-05-24 a las 22:48, dentro de plazo computado desde la confirmación interna a las 11:30 del 22-05-2026), y se ha iniciado la **comunicación individualizada a las 1 247 personas afectadas** identificadas mediante reconciliación contra el sistema RIS/PACS interno. Esta comunicación se encuentra **en curso** y se prevé completar antes del 2026-06-12.\n\nDado que se trata de datos de salud — categoría especial del art. 9 RGPD — y que ha existido **acceso confirmado por terceros no autorizados**, el incidente se clasifica internamente con severidad **crítica** y se asume materialización de **alto riesgo para los derechos y libertades** de los afectados a efectos del art. 34 RGPD. [...] ## 2. Sistemas afectados\n\nLos siguientes activos se ven implicados en el incidente, ya sea como contenedor de los datos expuestos, como pieza del pipeline que materializó el cambio o como sistema afectado de manera indirecta:\n\n- **Bucket S3 `radmed-imaging-archive-prod`** — bucket en la región `eu-west-1` (Irlanda), utilizado como capa de archivado intermedio entre el PACS (Picture Archiving and Communication System) on-premise y el almacenamiento a largo plazo (S3 Glacier Deep Archive). Es el repositorio cuya ACL quedó pública. Contiene aproximadamente 28 600 objetos a fecha del incidente, con un mix de ficheros `.dcm` (DICOM) y `.pdf` (informes firmados).\n- **Pipeline de IaC (Terraform + Atlantis)** — la infraestructura de la clínica se gestiona con Terraform 1.7, con revisión y aplicación automatizada vía Atlantis sobre repositorio GitHub `radmed/infra-aws`. El cambio causante fue mergeado en el commit `a3f1d27`.\n- **Infraestructura AWS de la cuenta `radmed-prod` (account ID 4827-XXXX-XXXX)** — afecta tangencialmente, ya que el bucket comparte cuenta con otros recursos no expuestos. Se ha auditado la cuenta completa para descartar otros buckets con configuración equivalente.\n- **Sistema RIS/PACS interno (`pacs-core-01.intra`)** — no fue alcanzado por el atacante, pero se ha utilizado durante la respuesta como fuente de verdad para reconciliar qué pacientes y estudios están representados entre los objetos descargados.\n- **AWS CloudTrail (trail `radmed-prod-trail`)** y **S3 Server Access Logs** — sistemas de logging que, aunque estaban activos, no estaban integrados con ninguna alerta automatizada. Han sido la base del análisis forense.\n\nSe descarta afectación del **HIS clínico** (historia clínica electrónica) y de los sistemas administrativos: ni comparten cuenta AWS con el bucket ni tienen credenciales reutilizadas entre planos. [...] A continuación se reconstruye la línea temporal a partir de los registros de CloudTrail, los S3 Server Access Logs, el historial del repositorio Terraform y la traza del pipeline de Atlantis. Las horas se expresan en CEST (UTC+2) salvo indicación contraria. Se intercala interpretación de fase ATT&CK únicamente en los puntos en que es relevante; al no existir un atacante con cadena propia, las fases se reconstruyen desde la perspectiva del observador externo que materializa el acceso.\n\n**2026-05-11 — 16:42** — El ingeniero de plataforma A.M. abre la pull request `#412` en `radmed/infra-aws` titulada *\"Refactor módulo s3 — unificar buckets archivo y staging\"*. La PR incluye 17 ficheros modificados; entre ellos, el módulo `modules/s3-archive/main.tf` pasa de exponer la política `private` explícita a heredar una nueva variable `acl` con valor por defecto `public-read` copiado por error desde un módulo de buckets de assets estáticos. **La revisión de la PR la realiza un único revisor** y no se ejecuta `tflint` ni la regla Checkov `CKV_AWS_20` (que detectaría precisamente ACLs públicas) porque ambas se desactivaron temporalmente en el commit `1ce0b81` del 2026-04-29 para desbloquear otra entrega y no se reactivaron. La PR se mergea a las 17:09.\n\n**2026-05-11 — 17:14** — Atlantis ejecuta `terraform apply` sobre `main`. El plan resultante (hash SHA-256 del fichero `tfplan`: `c4e8a90b1ef27d6e9a3a55b80b1f9d7c6e3a2b1c8f5e4d3c2b1a0987654321fe`) reporta el cambio como `~ aws_s3_bucket.archive : acl: \"private\" -> \"public-read\"` y `+ aws_s3_bucket_policy.archive_public` (nueva). La aplicación finaliza a las 17:18 con éxito. **En este momento el bucket queda público.** Desde la perspectiva externa esto constituye, de facto, **acceso inicial** disponible para cualquier observador que descubra la URL.\n\n**2026-05-13 — 03:21 (UTC)** — Primera entrada en los S3 Server Access Logs que registra una operación `REST.GET.BUCKET` (es decir, un `ListBucket`) desde la IP `45.83.64.17`. El User-Agent es `aws-cli/2.15.30 Python/3.11.6 Linux/6.6.5-arch1-1`. Este es, en interpretación del equipo IR, el primer **reconocimiento** confirmado: alguien enumeró el contenido del bucket. La IP `45.83.64.17` pertenece a un rango anunciado por el AS `AS9009` (M247 Europe). Se enumeran 5 000 objetos (paginación por defecto) y no se descarga contenido en esta sesión.\n\n**2026-05-13 — 03:22 (UTC) a 2026-05-13 — 03:47 (UTC)** — La misma IP `45.83.64.17` realiza 312 peticiones `REST.GET.OBJECT` contra ficheros con sufijo `.dcm` (DICOM). Las peticiones siguen un patrón de prefijos `studies/2025-Q4/`, lo que sugiere muestreo dirigido por antigüedad y no descarga completa. **Fase: exfiltración** (parcial).\n\n**2026-05-17 — 11:08 (UTC)** — Segunda IP distinta: `162.247.74.201`, anunciada por `AS54103` (FranTech Solutions), enumera el bucket y descarga 64 objetos, mayoritariamente PDF (informes radiológicos firmados con sello de tiempo). User-Agent: `python-requests/2.31.0`. **Fase: exfiltración** (parcial).\n\n**2026-05-19 — 22:53 (UTC)** — Tercera IP distinta: `185.220.101.47`, conocida como nodo de salida Tor según el listado público de la Universidad de Heidelberg. Se realizan 38 peticiones `REST.GET.OBJECT` sobre ficheros PDF. **Fase: exfiltración** (parcial). El uso de Tor en este tramo impide la atribución directa.\n\n**2026-05-22 — 09:17** — El reportante envía un correo desde `r.kowalski@security-research.example` a `security@radmed.example` (dirección publicada en el `security.txt` del dominio corporativo) informando del bucket abierto, adjuntando la URL pública del listado (`https://radmed-imaging-archive-prod.s3.eu-west-1.amazonaws.com/?list-type=2`) y dos screenshots redactados como prueba de concepto. Manifiesta no haber descargado material clínico salvo lo estrictamente necesario para la prueba (3 ficheros, ya borrados de su poder, hash documentado en el correo) y solicita **acuse de recibo en 24h**.\n\n**2026-05-22 — 09:34** — El SOC interno valida el reporte. A las 09:41 ejecuta una primera comprobación con `aws s3 ls s3://radmed-imaging-archive-prod --no-sign-request` y obtiene listado. A las 09:48 se escala al CISO; a las 10:06, a Dirección Médica.\n\n**2026-05-22 — 10:22** — Se aplica medida de contención inmediata: bloqueo de acceso público mediante `aws s3api put-public-access-block` sobre el bucket, con los cuatro flags a `true`. A las 10:25 se confirma que el bucket ya devuelve `403 Forbidden` a peticiones anónimas. **El bucket deja de estar expuesto.**\n\n**2026-05-22 — 11:30** — Confirmación interna formal del incidente y arranque del cómputo de las 72 horas para notificación a la AEPD (art. 33 RGPD).\n\n**2026-05-22 — 14:00 a 2026-05-23 — 18:00** — Análisis forense de logs. Se identifican las tres IPs descritas; se reconcilian los objetos descargados contra el RIS/PACS para identificar a los 1 247 pacientes afectados (un mismo paciente puede tener varios estudios descargados).\n\n**2026-05-24 — 22:48** — Notificación a la AEPD presentada por el DPO a través del formulario oficial. Número de registro: `AEPD-BR-2026-09431`.\n\n**2026-05-25 a 2026-05-30** — Comunicación individualizada por carta certificada y, donde existe consentimiento previo de canal electrónico, también por correo electrónico, a los 1 247 afectados. A 2026-05-30 se han notificado 902; la previsión es completar el 100% antes del 2026-06-12.\n\n---\n\n## 4. Indicadores de compromiso (IoCs)\n\nAunque no existe un atacante con infraestructura propia, se enumeran como IoCs todos los artefactos técnicos identificados durante la investigación. Las tres IPs corresponden a las descargas confirmadas; la URL es la del bucket público; el hash es el del fichero `tfplan` aplicado por Atlantis que materializó la exposición; el correo es el del reportante.\n\n- **IP `45.83.64.17`** — primera IP en realizar `ListBucket` y descarga selectiva de ficheros `.dcm` el 2026-05-13.\n- **IP `162.247.74.201`** — segunda IP, descarga de 64 PDFs el 2026-05-17.\n- **IP `185.220.101.47`** — tercera IP, nodo de salida Tor, descarga de 38 PDFs el 2026-05-19.\n- **URL `https://radmed-imaging-archive-prod.s3.eu-west-1.amazonaws.com/`** — URL pública del bucket, indexable, observada por el reportante el 2026-05-22.\n- **SHA-256 `c4e8a90b1ef27d6e9a3a55b80b1f9d7c6e3a2b1c8f5e4d3c2b1a0987654321fe`** — hash del fichero `tfplan` aplicado el 2026-05-11 que cambió la ACL a `public-read`. Se mantiene como artefacto trazable de la causa raíz.\n- **Correo `r.kowalski@security-research.example`** — dirección del reportante externo, primer aviso del incidente.\n\n---\n\n## 5. Acciones de contención y remediación\n\nLas acciones se listan en el orden cronológico en que fueron ejecutadas o planificadas.\n\n- **Bloqueo de acceso público al bucket** mediante `s3api put-public-access-block` con los cuatro flags a `true`. **Estado: completada.** Responsable: SOC interno.\n- **Reversión del cambio Terraform** problemático (`git revert a3f1d27` sobre `main`, PR `#418` mergeada el 2026-05-22 a las 13:10, apply de Atlantis a las 13:14). **Estado: completada.** Responsable: Equipo de Plataforma.\n- **Reactivación de las reglas Checkov (en particular `CKV_AWS_20`) y de `tflint`** en el pipeline de CI del repositorio `radmed/infra-aws`, con bloqueo de merge si alguna regla crítica falla. **Estado: completada** (commit `5d8e2a4` del 2026-05-23). Responsable: Equipo de Plataforma.\n- **Refuerzo del proceso de revisión de IaC**: a partir de ahora toda PR que modifique recursos S3 o IAM requerirá **dos revisores** y la aprobación explícita del CISO si toca ACL o políticas de bucket. **Estado: completada** (actualización de `CODEOWNERS` y de la regla de protección de rama, 2026-05-24). Responsable: CISO.\n- **Notificación a la AEPD** dentro del plazo de 72 horas marcado por el art. 33 RGPD. **Estado: completada** (2026-05-24, registro `AEPD-BR-2026-09431`). Responsable: DPO.\n- **Comunicación individualizada a las personas afectadas** conforme al art. 34 RGPD por tratarse de alto riesgo. **Estado: en_curso** (902 de 1 247 a 2026-05-30; previsión de cierre 2026-06-12). Responsable: DPO con apoyo de Atención al Paciente.\n- **Auditoría completa de la cuenta AWS `radmed-prod`** para verificar que ningún otro bucket presenta configuración equivalente, así como revisión de las políticas IAM para detectar permisos de modificación de ACL no necesarios. **Estado: en_curso** (cierre previsto 2026-06-08). Responsable: Equipo de Plataforma + auditor externo.\n- **Integración de S3 Server Access Logs y CloudTrail con el SIEM** y creación de detecciones específicas para cambios de ACL/política a `public` y para enumeraciones anónimas. **Estado: pendiente** (planificada para el sprint 2026-06-15/2026-06-26). Responsable: SOC interno.\n\n---\n\n## 6. Causa raíz\n\nCambio de Infraestructura como Código mal revisado (un único revisor, reglas estáticas de seguridad temporalmente desactivadas en el pipeline) que sobrescribió la política restrictiva del bucket S3 `radmed-imaging-archive-prod` y lo dejó con ACL `public-read` durante once días, hasta su descubrimiento por un investigador externo. La ausencia de monitorización activa sobre cambios de configuración de S3 y sobre accesos anónimos en los logs ya recolectados permitió que la exposición pasara inadvertida durante todo ese período.",
+  "instruction": "Extrae del informe post-mortem el incidente de seguridad: identificador, fecha de detección, severidad, sistemas afectados, IoCs observados, cadena de ataque reconstruida en fases ATT&CK, acciones de contención con su estado y causa raíz.",
+  "target_schema": {
+    "$defs": {
+      "AttackPhase": {
+        "description": "Fases de la cadena de ataque (MITRE ATT&CK simplificado).",
+        "enum": [
+          "reconocimiento",
+          "acceso_inicial",
+          "ejecución",
+          "persistencia",
+          "escalada_de_privilegios",
+          "evasión_de_defensas",
+          "acceso_a_credenciales",
+          "movimiento_lateral",
+          "exfiltración",
+          "impacto"
+        ],
+        "title": "AttackPhase",
+        "type": "string"
+      },
+      "AttackStep": {
+        "additionalProperties": false,
+        "description": "Un paso de la cadena de ataque tal como lo reconstruye el informe.",
+        "properties": {
+          "phase": {
+            "$ref": "#/$defs/AttackPhase",
+            "description": "Fase ATT&CK a la que pertenece el paso."
+          },
+          "description": {
+            "description": "Descripción de la acción del atacante en una frase (p. ej. 'Envío de correo de phishing con adjunto malicioso al departamento financiero').",
+            "title": "Description",
+            "type": "string"
+          },
+          "timestamp": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Marca temporal en formato ISO 8601 si el informe la consigna. Null si solo se indica el orden relativo.",
+            "title": "Timestamp"
+          },
+          "technique_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Identificador MITRE ATT&CK si el informe lo cita (p. ej. 'T1566.001'). Null si no aparece.",
+            "title": "Technique Id"
+          }
+        },
+        "required": [
+          "phase",
+          "description"
+        ],
+        "title": "AttackStep",
+        "type": "object"
+      },
+      "ContainmentAction": {
+        "additionalProperties": false,
+        "description": "Acción de contención o remediación tomada por el equipo de respuesta.",
+        "properties": {
+          "description": {
+            "description": "Descripción literal de la acción (p. ej. 'Aislamiento del host afectado en VLAN de cuarentena').",
+            "title": "Description",
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/$defs/ContainmentStatus",
+            "description": "Estado de ejecución de la acción al cierre del informe."
+          },
+          "owner": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Equipo o persona responsable de la acción (p. ej. 'SOC', 'Red Team'). Null si no se asigna explícitamente.",
+            "title": "Owner"
+          }
+        },
+        "required": [
+          "description",
+          "status"
+        ],
+        "title": "ContainmentAction",
+        "type": "object"
+      },
+      "ContainmentStatus": {
+        "enum": [
+          "pendiente",
+          "en_curso",
+          "completada",
+          "no_aplica"
+        ],
+        "title": "ContainmentStatus",
+        "type": "string"
+      },
+      "Indicator": {
+        "additionalProperties": false,
+        "description": "Indicador de compromiso (IoC) observado durante el incidente.",
+        "properties": {
+          "kind": {
+            "$ref": "#/$defs/IndicatorKind",
+            "description": "Tipo de indicador."
+          },
+          "value": {
+            "description": "Valor literal del indicador tal como aparece en el informe (IP, dominio, SHA-256, CVE-XXXX-XXXX, etc.). Sin modificar.",
+            "title": "Value",
+            "type": "string"
+          },
+          "first_seen": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Fecha en formato ISO en que se observó el indicador por primera vez durante el incidente. Null si el informe no la fecha.",
+            "title": "First Seen"
+          }
+        },
+        "required": [
+          "kind",
+          "value"
+        ],
+        "title": "Indicator",
+        "type": "object"
+      },
+      "IndicatorKind": {
+        "enum": [
+          "ip",
+          "dominio",
+          "url",
+          "hash",
+          "correo",
+          "cve",
+          "regla_yara"
+        ],
+        "title": "IndicatorKind",
+        "type": "string"
+      },
+      "Severity": {
+        "enum": [
+          "baja",
+          "media",
+          "alta",
+          "crítica"
+        ],
+        "title": "Severity",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Post-mortem o informe de respuesta a un incidente de ciberseguridad: IoCs\nobservados, reconstrucción de la cadena de ataque en fases ordenadas\ncronológicamente, sistemas afectados y acciones de contención con su estado.\nLa extracción debe diferenciar fases ATT&CK por su semántica (no por\nel orden literal en el informe, que puede mezclar narrativa y análisis), y\nasociar cada IoC con su tipo correcto a partir de su forma.\n\nComplejidad: L9 — cadena causal con vocabulario técnico denso, taxonomía\nrígida (fases ATT&CK), pluralidad de listas heterogéneas y enlazado\nentre acciones y sistemas.",
+    "properties": {
+      "incident_id": {
+        "description": "Identificador interno del incidente tal como aparece en el informe (p. ej. 'INC-2026-0042').",
+        "title": "Incident Id",
+        "type": "string"
+      },
+      "detection_date": {
+        "description": "Fecha de detección del incidente en formato ISO 8601 ('YYYY-MM-DDTHH:MM' o 'YYYY-MM-DD' si no hay hora).",
+        "title": "Detection Date",
+        "type": "string"
+      },
+      "severity": {
+        "$ref": "#/$defs/Severity",
+        "description": "Severidad declarada del incidente según la clasificación del informe."
+      },
+      "affected_systems": {
+        "description": "Nombres o identificadores de los sistemas, aplicaciones o redes afectados (p. ej. 'CRM corporativo', 'Active Directory', 'VPN'). Un sistema por entrada.",
+        "items": {
+          "type": "string"
+        },
+        "minItems": 1,
+        "title": "Affected Systems",
+        "type": "array"
+      },
+      "indicators": {
+        "description": "IoCs observados durante el incidente. Lista vacía si el informe declara que no se identificaron indicadores accionables.",
+        "items": {
+          "$ref": "#/$defs/Indicator"
+        },
+        "title": "Indicators",
+        "type": "array"
+      },
+      "attack_chain": {
+        "description": "Cadena de ataque reconstruida, en orden cronológico. Cada paso asignado a una única fase ATT&CK.",
+        "items": {
+          "$ref": "#/$defs/AttackStep"
+        },
+        "minItems": 1,
+        "title": "Attack Chain",
+        "type": "array"
+      },
+      "containment_actions": {
+        "description": "Acciones de contención y remediación, en el orden en que fueron ejecutadas o planificadas.",
+        "items": {
+          "$ref": "#/$defs/ContainmentAction"
+        },
+        "minItems": 1,
+        "title": "Containment Actions",
+        "type": "array"
+      },
+      "root_cause": {
+        "description": "Causa raíz declarada por el informe en una o dos frases (p. ej. 'Configuración por defecto del servidor expuesto a internet sin autenticación').",
+        "title": "Root Cause",
+        "type": "string"
+      }
+    },
+    "required": [
+      "incident_id",
+      "detection_date",
+      "severity",
+      "affected_systems",
+      "attack_chain",
+      "containment_actions",
+      "root_cause"
+    ],
+    "title": "SecurityIncident",
+    "type": "object"
+  },
+  "output": {
+    "incident_id": "INC-2026-0531",
+    "detection_date": "2026-05-22T09:17",
+    "severity": "crítica",
+    "affected_systems": [
+      "Bucket S3 `radmed-imaging-archive-prod`",
+      "Pipeline de IaC (Terraform + Atlantis)",
+      "Infraestructura AWS de la cuenta `radmed-prod`",
+      "Sistema RIS/PACS interno (`pacs-core-01.intra`)",
+      "AWS CloudTrail (trail `radmed-prod-trail`)",
+      "S3 Server Access Logs"
+    ],
+    "indicators": [
+      {
+        "kind": "ip",
+        "value": "45.83.64.17",
+        "first_seen": "2026-05-13"
+      },
+      {
+        "kind": "ip",
+        "value": "162.247.74.201",
+        "first_seen": "2026-05-17"
+      },
+      {
+        "kind": "ip",
+        "value": "185.220.101.47",
+        "first_seen": "2026-05-19"
+      },
+      {
+        "kind": "url",
+        "value": "https://radmed-imaging-archive-prod.s3.eu-west-1.amazonaws.com/",
+        "first_seen": "2026-05-22"
+      },
+      {
+        "kind": "hash",
+        "value": "c4e8a90b1ef27d6e9a3a55b80b1f9d7c6e3a2b1c8f5e4d3c2b1a0987654321fe",
+        "first_seen": "2026-05-11"
+      },
+      {
+        "kind": "correo",
+        "value": "r.kowalski@security-research.example",
+        "first_seen": "2026-05-22"
+      }
+    ],
+    "attack_chain": [
+      {
+        "phase": "acceso_inicial",
+        "description": "Bucket S3 `radmed-imaging-archive-prod` queda con ACL `public-read` tras la aplicación del cambio de IaC por Atlantis, dejándolo accesible públicamente.",
+        "timestamp": "2026-05-11T17:18",
+        "technique_id": null
+      },
+      {
+        "phase": "reconocimiento",
+        "description": "La IP 45.83.64.17 realiza un `ListBucket` anónimo y enumera 5 000 objetos del bucket público.",
+        "timestamp": "2026-05-13T03:21",
+        "technique_id": null
+      },
+      {
+        "phase": "exfiltración",
+        "description": "La IP 45.83.64.17 descarga 312 ficheros DICOM con prefijo `studies/2025-Q4/` mediante peticiones `REST.GET.OBJECT`.",
+        "timestamp": "2026-05-13T03:22",
+        "technique_id": null
+      },
+      {
+        "phase": "exfiltración",
+        "description": "La IP 162.247.74.201 enumera el bucket y descarga 64 ficheros PDF de informes radiológicos firmados.",
+        "timestamp": "2026-05-17T11:08",
+        "technique_id": null
+      },
+      {
+        "phase": "exfiltración",
+        "description": "La IP 185.220.101.47 (nodo de salida Tor) descarga 38 ficheros PDF mediante peticiones `REST.GET.OBJECT`.",
+        "timestamp": "2026-05-19T22:53",
+        "technique_id": null
+      },
+      {
+        "phase": "impacto",
+        "description": "Exposición confirmada de datos sanitarios de 1 247 pacientes (DICOM e informes radiológicos firmados) por descarga efectiva de al menos tres IPs externas durante once días.",
+        "timestamp": null,
+        "technique_id": null
+      }
+    ],
+    "containment_actions": [
+      {
+        "description": "Bloqueo de acceso público al bucket mediante `s3api put-public-access-block` con los cuatro flags a `true`.",
+        "status": "completada",
+        "owner": "SOC interno"
+      },
+      {
+        "description": "Reversión del cambio Terraform problemático (`git revert a3f1d27` sobre `main`, PR `#418`).",
+        "status": "completada",
+        "owner": "Equipo de Plataforma"
+      },
+      {
+        "description": "Reactivación de las reglas Checkov (en particular `CKV_AWS_20`) y de `tflint` en el pipeline de CI del repositorio `radmed/infra-aws`, con bloqueo de merge si alguna regla crítica falla.",
+        "status": "completada",
+        "owner": "Equipo de Plataforma"
+      },
+      {
+        "description": "Refuerzo del proceso de revisión de IaC: toda PR que modifique recursos S3 o IAM requerirá dos revisores y la aprobación explícita del CISO si toca ACL o políticas de bucket.",
+        "status": "completada",
+        "owner": "CISO"
+      },
+      {
+        "description": "Notificación a la AEPD dentro del plazo de 72 horas marcado por el art. 33 RGPD (registro `AEPD-BR-2026-09431`).",
+        "status": "completada",
+        "owner": "DPO"
+      },
+      {
+        "description": "Comunicación individualizada a las personas afectadas conforme al art. 34 RGPD por tratarse de alto riesgo.",
+        "status": "en_curso",
+        "owner": "DPO con apoyo de Atención al Paciente"
+      },
+      {
+        "description": "Auditoría completa de la cuenta AWS `radmed-prod` para verificar que ningún otro bucket presenta configuración equivalente, así como revisión de las políticas IAM.",
+        "status": "en_curso",
+        "owner": "Equipo de Plataforma + auditor externo"
+      },
+      {
+        "description": "Integración de S3 Server Access Logs y CloudTrail con el SIEM y creación de detecciones específicas para cambios de ACL/política a `public` y para enumeraciones anónimas.",
+        "status": "pendiente",
+        "owner": "SOC interno"
+      }
+    ],
+    "root_cause": "Cambio de Infraestructura como Código mal revisado (un único revisor, reglas estáticas de seguridad temporalmente desactivadas en el pipeline) que sobrescribió la política restrictiva del bucket S3 `radmed-imaging-archive-prod` y lo dejó con ACL `public-read` durante once días, hasta su descubrimiento por un investigador externo."
+  },
+  "metadata": {
+    "source": "synthetic_20260601_009.md",
+    "domain": "technical",
+    "subdomain": "security_incident"
+  }
+}

@@ -1,0 +1,155 @@
+{
+  "id": "test_general_disasters_001",
+  "input_text": "# 800 mil personas aún viven en campamentos a un año del terremoto en Haití [...] Hoy se conmemora el primer aniversario del devastador terremoto de 7,0 grados en la escala de Richter que devastó la capital haitiana y las ciudades vecinas. Los informes del gobierno contabilizan unas 300 mil personas fallecidas y un millón de desplazados.\nUn año después de sismo más de 800 mil personas continúan viviendo en tiendas de campaña en las afueras de la ciudad; las labores de ayuda humanitaria y reconstrucción se han visto seriamente afectadas por la epidemia del cólera que ya ha cobrado la vida de más de 3700 personas.\nLa Organización de las Naciones Unidas (ONU) solo ha invertido el 10% de todo el dinero destinado para la reconstrucción de Haití, sin embargo afirman que están acelerando las labores de retiro de escombros y reconstrucción de edificios.\nLa inestabilidad política del país también dificulta las labores de reconstrucción de Haití, Intermón Oxfam ministra de Relaciones Internacionales del gobierno haitiano afirma que \"la falta de flexibilidad y capacidad de la ONU en la ayuda para Haití ha sido la principal causante del fracaso de la reconstrucción.\"\nMientras tanto la población haitiana ha decidido seguir por el camino del \"continuismo\" en el asunto electoral, dos meses después de la primera vuelta de elecciones el gobierno de Haití aún se mantiene a la espera de los informes de la Organización de Estados Americanos (OEA) sobre los resultados electorales.\nLa ONU contabiliza que más de 4 millones de personas recibieron ayuda alimentaria, y millón y medio recursos para resguardarse.\nEl Gobierno convocó a un acto a las 16:53 hora local –misma hora del terremoto- en el que se guardó un minuto de silencio en honor a las víctimas del terremoto. El Presidente René Preval llamó a la población a no olvidar nunca las víctimas.\nWikimedia Commons, un proyecto de la Fundación Wikimedia sirvió de deposito de casi 100 imágenes que demuestran el estado de Haití luego del terremoto.",
+  "instruction": "Extrae información estructurada del siguiente artículo de noticias sobre un desastre natural según el esquema NewsArticle.",
+  "target_schema": {
+    "$defs": {
+      "NewsCategory": {
+        "enum": [
+          "JUDICIAL",
+          "DISASTER",
+          "HEALTH",
+          "ENVIRONMENT",
+          "POLITICS",
+          "ECONOMY",
+          "SCIENCE",
+          "CULTURE",
+          "SPORTS",
+          "OTHER"
+        ],
+        "title": "NewsCategory",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Extracts structured information from general news articles.\nComplexity: L4 (Sparse Extraction) - Some fields may be null/missing.",
+    "properties": {
+      "headline": {
+        "description": "The main headline or title of the news article",
+        "title": "Headline",
+        "type": "string"
+      },
+      "summary": {
+        "description": "A brief summary of the main facts reported (1-3 sentences)",
+        "title": "Summary",
+        "type": "string"
+      },
+      "category": {
+        "$ref": "#/$defs/NewsCategory",
+        "description": "The thematic category of the news story"
+      },
+      "location": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Geographic location where the event occurred (city, country, or region)",
+        "title": "Location"
+      },
+      "date": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Date mentioned in the article (may be implicit or explicit)",
+        "title": "Date"
+      },
+      "key_people": {
+        "description": "Names of key individuals mentioned in the article",
+        "items": {
+          "type": "string"
+        },
+        "title": "Key People",
+        "type": "array"
+      },
+      "key_organizations": {
+        "description": "Names of organizations, companies, or governments mentioned",
+        "items": {
+          "type": "string"
+        },
+        "title": "Key Organizations",
+        "type": "array"
+      },
+      "casualties": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of deaths mentioned, if any",
+        "title": "Casualties"
+      },
+      "injured": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of people injured, if any",
+        "title": "Injured"
+      },
+      "affected_count": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of people affected or displaced, if applicable",
+        "title": "Affected Count"
+      }
+    },
+    "required": [
+      "headline",
+      "summary",
+      "category"
+    ],
+    "title": "NewsArticle",
+    "type": "object"
+  },
+  "output": {
+    "headline": "800 mil personas aún viven en campamentos a un año del terremoto en Haití",
+    "summary": "Al cumplirse un año del terremoto de 7,0 grados en Haití, más de 800 mil personas siguen viviendo en tiendas de campaña. El gobierno reporta unas 300 mil personas fallecidas y un millón de desplazados. Una epidemia de cólera ha cobrado más de 3700 vidas y complica las labores de reconstrucción.",
+    "category": "DISASTER",
+    "location": "Haití",
+    "date": null,
+    "key_people": [
+      "René Preval"
+    ],
+    "key_organizations": [
+      "Organización de las Naciones Unidas",
+      "Intermón Oxfam",
+      "Organización de Estados Americanos",
+      "Fundación Wikimedia"
+    ],
+    "casualties": 300000,
+    "injured": null,
+    "affected_count": 800000
+  },
+  "metadata": {
+    "source": "fresh_testset_800_mil_personas_aún_viven_en_campamentos_a_un_año.md",
+    "domain": "general",
+    "subdomain": "disasters"
+  }
+}

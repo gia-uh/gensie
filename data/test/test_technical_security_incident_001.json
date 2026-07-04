@@ -1,0 +1,445 @@
+{
+  "id": "technical_security_incident_001",
+  "input_text": "**Identificador interno:** INC-2026-0317\n**Fecha y hora de detección:** 2026-05-22T03:47:00+02:00\n**Severidad declarada:** crítica\n**Equipo emisor:** SOC interno — Centro de Operaciones de Seguridad de TransLogística Iberia\n**Clasificación:** Confidencial — Distribución restringida al Comité de Seguridad y Dirección\n**Versión del informe:** 1.2 (revisada el 2026-05-28)\n**Autor principal:** L. Ferrández (analista IR senior) [...] ## 2. Sistemas afectados\n\nLos siguientes sistemas, aplicaciones y segmentos de red fueron impactados directa o indirectamente durante el incidente:\n\n- Estación de trabajo FIN-WS-0042 (Windows 11 Pro, usuario inicial comprometido).\n- Servidor de ficheros FILESRV-CORP-01 (Windows Server 2019, hosting de recursos compartidos vía SMB).\n- Servidor de ficheros FILESRV-CORP-02 (Windows Server 2022, replicación DFS).\n- Active Directory del dominio `translog.local` (controladores DC-01 y DC-02).\n- Aplicación interna de planificación de rutas RoutePlanner (despliegue on-prem).\n- Buzones de Microsoft 365 del departamento financiero (acceso lectura mediante token OAuth comprometido).\n- Segmento de red VLAN 30 (servidores corporativos) y VLAN 12 (estaciones de trabajo finanzas).\n- Servidor de copias de seguridad BKP-SRV-01 (no cifrado gracias a snapshot inmutable). [...] ## 3. Cronología detallada y análisis de la cadena de ataque\n\nA continuación se reconstruye la secuencia técnica del incidente. Las marcas temporales se expresan en hora local (CEST, UTC+2). El orden narrativo en algunas secciones presenta primero el descubrimiento forense y a continuación la actividad histórica del atacante; los lectores deben atender a la marca temporal, no al orden de párrafo.\n\n**Análisis previo del adversario (2026-05-15).** La telemetría de Microsoft 365 muestra que, durante los días previos al envío del correo malicioso, una IP perteneciente al ASN 14061 realizó múltiples consultas WHOIS y búsquedas pasivas de DNS sobre los dominios corporativos de TransLogística Iberia. Aunque no se interactuó con ningún sistema interno, esta actividad de enumeración previa al ataque fue posteriormente correlacionada por el equipo de threat hunting. Tipificamos esta actividad como una fase preparatoria de recopilación de información sobre la organización objetivo, llevada a cabo el 2026-05-15 aproximadamente a las 10:20.\n\n**2026-05-19T09:14 — Entrega del correo de phishing.** El usuario `m.santos@translog.local`, del departamento financiero, recibe en su bandeja de entrada un mensaje procedente de `facturacion@transportes-atlantico-norte.es` (dominio legítimo simulado mediante typosquatting; el dominio real del proveedor es `transportesatlanticonorte.es`, sin guion). El correo, escrito en español con tono profesional y cabeceras coherentes con la rutina del proveedor, solicita la revisión urgente de una \"factura rectificativa adjunta\". El adjunto, `Factura_Rect_05-2026.docm`, fue marcado como confiable por el filtro corporativo debido a la similitud del dominio con un remitente habitual. Esta entrega constituye el vector de acceso inicial al entorno.\n\n**2026-05-19T09:31 — Ejecución de macro maliciosa.** El usuario abre el documento adjunto y, ante el banner amarillo de seguridad de Microsoft Office, pulsa \"Habilitar contenido\". Esto desencadena la ejecución del código VBA embebido, que mediante una llamada a `mshta.exe` descarga y ejecuta un script HTA desde `https://updates-portal-msft[.]com/setup.hta`. La técnica corresponde a la ejecución de un cargador a través de un intérprete de scripts del sistema operativo, mapeable a T1059.005.\n\n**2026-05-19T09:33 — Despliegue del loader BumbleBee.** El script HTA descarga e instala el loader BumbleBee, cuyo hash SHA-256 se identifica como `a4b9c2d1e8f7064382915c47b6e3d2a019f8e7c6b5a4938271605948372615ab`. El binario se aloja como `C:\\ProgramData\\AdobeUpdater\\acrosvc.exe`.\n\n**Persistencia.** El loader registra una tarea programada llamada `AdobeAcroUpdater` que se ejecuta cada 60 minutos, garantizando la supervivencia del implante tras reinicios y cierres de sesión. La técnica se observa el 2026-05-19T09:34 y corresponde a la fase de mantenimiento del acceso.\n\n**2026-05-19T11:48 — Escalada de privilegios mediante CVE-2025-39817.** El proceso `acrosvc.exe` explota una vulnerabilidad de elevación de privilegios local conocida en el subsistema de impresión de Windows (CVE-2025-39817), sin parche aplicado en el sistema de la víctima. El proceso resultante adquiere privilegios `NT AUTHORITY\\SYSTEM`.\n\n**2026-05-20T02:11 — Evasión de defensas.** El atacante deshabilita Microsoft Defender mediante la modificación de claves del registro y, adicionalmente, despliega una versión legítima pero vulnerable del controlador `gdrv.sys` (BYOVD) para neutralizar el agente EDR (CrowdStrike Falcon). Estas operaciones ocurren fuera del horario laboral, presumiblemente para evitar la detección por parte del equipo de guardia.\n\n**2026-05-20T04:55 — Volcado de credenciales.** Mediante el uso de una variante ofuscada de `mimikatz` (hash SHA-256 `7d8e9f0a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e`), el atacante extrae credenciales NTLM y tickets Kerberos del proceso `lsass.exe`. Se compromete la cuenta de servicio `svc_dfs@translog.local`, con privilegios sobre los servidores de ficheros.\n\n**2026-05-21T22:03 — Movimiento lateral hacia FILESRV-CORP-01.** Usando las credenciales obtenidas, el actor establece sesiones SMB hacia los servidores de ficheros desde la estación FIN-WS-0042. La técnica empleada se corresponde con Pass-the-Hash (T1550.002). Posteriormente, el actor lateraliza desde FILESRV-CORP-01 hacia FILESRV-CORP-02 aprovechando la replicación DFS y las credenciales de la cuenta de servicio.\n\n**2026-05-22T01:12 — Exfiltración previa al cifrado.** Antes del despliegue del payload de cifrado, el atacante comprime y exfiltra aproximadamente 47 GB de datos sensibles hacia el dominio `data-collector-eu[.]net` (resolviendo a la IP `185.220.101.47`) mediante una conexión HTTPS sostenida. Los volúmenes exfiltrados corresponden principalmente a documentación contable, contratos con proveedores y datos de RRHH.\n\n**2026-05-22T03:21 — Despliegue del ransomware BlackCat/ALPHV.** El binario de cifrado `winupdater_x64.exe` (SHA-256 `f1e2d3c4b5a6978869504132c3d4e5f6071829304a5b6c7d8e9f0a1b2c3d4e5f`) es ejecutado desde el servidor FILESRV-CORP-01 con privilegios de la cuenta `svc_dfs`. Comienza el cifrado de los recursos compartidos `\\\\FILESRV-CORP-01\\Finanzas$`, `\\\\FILESRV-CORP-01\\Logistica$` y `\\\\FILESRV-CORP-02\\RRHH$`. Cada archivo cifrado recibe una extensión aleatoria de 7 caracteres y se deposita una nota de rescate `RECOVER-FILES.txt` en cada carpeta. Esta fase final corresponde al daño efectivo sobre los activos de la organización.\n\n**2026-05-22T03:47 — Detección y respuesta inicial.** Los sensores IDS de la VLAN 30 emiten 3,184 alertas en un intervalo de 4 minutos, correspondientes a tráfico SMB anómalo (transferencias masivas de pequeño tamaño con patrón de cifrado). El analista de guardia del SOC declara incidente. [...] ## 4. Indicadores de compromiso\n\nA continuación se listan los IoCs accionables identificados durante la investigación. Todos han sido validados contra fuentes externas y añadidos a las listas de bloqueo corporativas.\n\n| Tipo | Valor | Primera observación |\n|---|---|---|\n| Correo electrónico de remitente | `facturacion@transportes-atlantico-norte.es` | 2026-05-19T09:14 |\n| Dominio (C2 / typosquatting) | `transportes-atlantico-norte.es` | 2026-05-19T09:14 |\n| URL del HTA inicial | `https://updates-portal-msft.com/setup.hta` | 2026-05-19T09:31 |\n| Dominio de exfiltración | `data-collector-eu.net` | 2026-05-22T01:12 |\n| IP destino exfiltración | `185.220.101.47` | 2026-05-22T01:12 |\n| Hash SHA-256 (loader BumbleBee) | `a4b9c2d1e8f7064382915c47b6e3d2a019f8e7c6b5a4938271605948372615ab` | 2026-05-19T09:33 |\n| Hash SHA-256 (mimikatz variante) | `7d8e9f0a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e` | 2026-05-20T04:55 |\n| Hash SHA-256 (BlackCat payload) | `f1e2d3c4b5a6978869504132c3d4e5f6071829304a5b6c7d8e9f0a1b2c3d4e5f` | 2026-05-22T03:21 |\n| Vulnerabilidad explotada | `CVE-2025-39817` | 2026-05-19T11:48 |\n| Regla YARA detección loader | `YARA_BumbleBee_AcroSvc_2026` | 2026-05-23T12:00 |\n\nAdicionalmente, se ha distribuido entre los nodos de seguridad la regla `YARA_BumbleBee_AcroSvc_2026`, escrita por el equipo de threat intelligence de TransLogística para capturar futuras muestras de la misma familia con artefactos similares en los nombres de tarea programada. [...] ## 5. Acciones de contención y remediación\n\nLas siguientes acciones han sido planificadas o ejecutadas en respuesta al incidente. El estado refleja la situación a la fecha de cierre de este informe (2026-05-28).\n\n1. **Aislamiento de FIN-WS-0042 en VLAN de cuarentena.** Ejecutada por el SOC el 2026-05-22T03:55. Estado: completada. Responsable: SOC.\n2. **Desconexión de FILESRV-CORP-01 y FILESRV-CORP-02 del dominio.** Acción inmediata para detener la propagación. Realizada por IT Ops bajo supervisión del SOC. Estado: completada. Responsable: IT Ops.\n3. **Rotación obligatoria de credenciales de la cuenta de servicio `svc_dfs` y de todas las cuentas privilegiadas del dominio `translog.local`.** Estado: completada. Responsable: IT Ops.\n4. **Restauración de los volúmenes cifrados desde snapshots inmutables del servidor BKP-SRV-01.** Iniciada el 2026-05-22T08:00. Estado: completada. Responsable: IT Ops.\n5. **Despliegue de parche para CVE-2025-39817 en todo el parque Windows.** Estado: en_curso. Responsable: IT Ops. Estimación de cierre: 2026-06-05.\n6. **Bloqueo de los IoCs en el firewall perimetral, el proxy web y el filtro de correo.** Estado: completada. Responsable: SOC.\n7. **Refuerzo de las reglas de detección EDR contra técnicas de BYOVD.** Estado: en_curso. Responsable: SOC.\n8. **Auditoría completa de Active Directory para identificar persistencias residuales (cuentas anómalas, GPOs modificadas, delegaciones).** Estado: en_curso. Responsable: Red Team interno.\n9. **Notificación a la Agencia Española de Protección de Datos por posible brecha de datos personales.** Estado: completada. Responsable: Oficina de Cumplimiento.\n10. **Comunicación a clientes y proveedores afectados.** Estado: pendiente. Responsable: Dirección de Comunicación.\n11. **Análisis forense profundo del adjunto malicioso y de los binarios recuperados.** Estado: completada. Responsable: SOC.\n12. **Programa de concienciación específico para el departamento financiero sobre identificación de typosquatting y manejo de macros.** Estado: pendiente. Responsable: RRHH.\n13. **Revisión y endurecimiento de la política de macros en Microsoft Office (bloqueo por defecto en archivos de Internet).** Estado: no_aplica en estaciones fuera del dominio; aplicada en el resto. Responsable: IT Ops. [...] ## 6. Causa raíz\n\nLa causa raíz del incidente se atribuye a una combinación de factores: la habilitación manual de macros en un documento Office procedente de un remitente externo no verificado, agravada por la ausencia de un parche para una vulnerabilidad de elevación de privilegios (CVE-2025-39817) conocida desde hacía ocho semanas en el momento del ataque. La política corporativa de bloqueo de macros por defecto no estaba todavía aplicada al departamento financiero, lo que permitió que la ejecución del payload inicial procediera sin obstáculos.",
+  "instruction": "Extrae el informe SecurityIncident a partir del post-mortem: identificador, fecha de detección, severidad, sistemas afectados, IoCs, cadena de ataque por fases ATT&CK, acciones de contención y causa raíz.",
+  "target_schema": {
+    "$defs": {
+      "AttackPhase": {
+        "description": "Fases de la cadena de ataque (MITRE ATT&CK simplificado).",
+        "enum": [
+          "reconocimiento",
+          "acceso_inicial",
+          "ejecución",
+          "persistencia",
+          "escalada_de_privilegios",
+          "evasión_de_defensas",
+          "acceso_a_credenciales",
+          "movimiento_lateral",
+          "exfiltración",
+          "impacto"
+        ],
+        "title": "AttackPhase",
+        "type": "string"
+      },
+      "AttackStep": {
+        "additionalProperties": false,
+        "description": "Un paso de la cadena de ataque tal como lo reconstruye el informe.",
+        "properties": {
+          "phase": {
+            "$ref": "#/$defs/AttackPhase",
+            "description": "Fase ATT&CK a la que pertenece el paso."
+          },
+          "description": {
+            "description": "Descripción de la acción del atacante en una frase (p. ej. 'Envío de correo de phishing con adjunto malicioso al departamento financiero').",
+            "title": "Description",
+            "type": "string"
+          },
+          "timestamp": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Marca temporal en formato ISO 8601 si el informe la consigna. Null si solo se indica el orden relativo.",
+            "title": "Timestamp"
+          },
+          "technique_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Identificador MITRE ATT&CK si el informe lo cita (p. ej. 'T1566.001'). Null si no aparece.",
+            "title": "Technique Id"
+          }
+        },
+        "required": [
+          "phase",
+          "description"
+        ],
+        "title": "AttackStep",
+        "type": "object"
+      },
+      "ContainmentAction": {
+        "additionalProperties": false,
+        "description": "Acción de contención o remediación tomada por el equipo de respuesta.",
+        "properties": {
+          "description": {
+            "description": "Descripción literal de la acción (p. ej. 'Aislamiento del host afectado en VLAN de cuarentena').",
+            "title": "Description",
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/$defs/ContainmentStatus",
+            "description": "Estado de ejecución de la acción al cierre del informe."
+          },
+          "owner": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Equipo o persona responsable de la acción (p. ej. 'SOC', 'Red Team'). Null si no se asigna explícitamente.",
+            "title": "Owner"
+          }
+        },
+        "required": [
+          "description",
+          "status"
+        ],
+        "title": "ContainmentAction",
+        "type": "object"
+      },
+      "ContainmentStatus": {
+        "enum": [
+          "pendiente",
+          "en_curso",
+          "completada",
+          "no_aplica"
+        ],
+        "title": "ContainmentStatus",
+        "type": "string"
+      },
+      "Indicator": {
+        "additionalProperties": false,
+        "description": "Indicador de compromiso (IoC) observado durante el incidente.",
+        "properties": {
+          "kind": {
+            "$ref": "#/$defs/IndicatorKind",
+            "description": "Tipo de indicador."
+          },
+          "value": {
+            "description": "Valor literal del indicador tal como aparece en el informe (IP, dominio, SHA-256, CVE-XXXX-XXXX, etc.). Sin modificar.",
+            "title": "Value",
+            "type": "string"
+          },
+          "first_seen": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Fecha en formato ISO en que se observó el indicador por primera vez durante el incidente. Null si el informe no la fecha.",
+            "title": "First Seen"
+          }
+        },
+        "required": [
+          "kind",
+          "value"
+        ],
+        "title": "Indicator",
+        "type": "object"
+      },
+      "IndicatorKind": {
+        "enum": [
+          "ip",
+          "dominio",
+          "url",
+          "hash",
+          "correo",
+          "cve",
+          "regla_yara"
+        ],
+        "title": "IndicatorKind",
+        "type": "string"
+      },
+      "Severity": {
+        "enum": [
+          "baja",
+          "media",
+          "alta",
+          "crítica"
+        ],
+        "title": "Severity",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Post-mortem o informe de respuesta a un incidente de ciberseguridad: IoCs\nobservados, reconstrucción de la cadena de ataque en fases ordenadas\ncronológicamente, sistemas afectados y acciones de contención con su estado.\nLa extracción debe diferenciar fases ATT&CK por su semántica (no por\nel orden literal en el informe, que puede mezclar narrativa y análisis), y\nasociar cada IoC con su tipo correcto a partir de su forma.\n\nComplejidad: L9 — cadena causal con vocabulario técnico denso, taxonomía\nrígida (fases ATT&CK), pluralidad de listas heterogéneas y enlazado\nentre acciones y sistemas.",
+    "properties": {
+      "incident_id": {
+        "description": "Identificador interno del incidente tal como aparece en el informe (p. ej. 'INC-2026-0042').",
+        "title": "Incident Id",
+        "type": "string"
+      },
+      "detection_date": {
+        "description": "Fecha de detección del incidente en formato ISO 8601 ('YYYY-MM-DDTHH:MM' o 'YYYY-MM-DD' si no hay hora).",
+        "title": "Detection Date",
+        "type": "string"
+      },
+      "severity": {
+        "$ref": "#/$defs/Severity",
+        "description": "Severidad declarada del incidente según la clasificación del informe."
+      },
+      "affected_systems": {
+        "description": "Nombres o identificadores de los sistemas, aplicaciones o redes afectados (p. ej. 'CRM corporativo', 'Active Directory', 'VPN'). Un sistema por entrada.",
+        "items": {
+          "type": "string"
+        },
+        "minItems": 1,
+        "title": "Affected Systems",
+        "type": "array"
+      },
+      "indicators": {
+        "description": "IoCs observados durante el incidente. Lista vacía si el informe declara que no se identificaron indicadores accionables.",
+        "items": {
+          "$ref": "#/$defs/Indicator"
+        },
+        "title": "Indicators",
+        "type": "array"
+      },
+      "attack_chain": {
+        "description": "Cadena de ataque reconstruida, en orden cronológico. Cada paso asignado a una única fase ATT&CK.",
+        "items": {
+          "$ref": "#/$defs/AttackStep"
+        },
+        "minItems": 1,
+        "title": "Attack Chain",
+        "type": "array"
+      },
+      "containment_actions": {
+        "description": "Acciones de contención y remediación, en el orden en que fueron ejecutadas o planificadas.",
+        "items": {
+          "$ref": "#/$defs/ContainmentAction"
+        },
+        "minItems": 1,
+        "title": "Containment Actions",
+        "type": "array"
+      },
+      "root_cause": {
+        "description": "Causa raíz declarada por el informe en una o dos frases (p. ej. 'Configuración por defecto del servidor expuesto a internet sin autenticación').",
+        "title": "Root Cause",
+        "type": "string"
+      }
+    },
+    "required": [
+      "incident_id",
+      "detection_date",
+      "severity",
+      "affected_systems",
+      "attack_chain",
+      "containment_actions",
+      "root_cause"
+    ],
+    "title": "SecurityIncident",
+    "type": "object"
+  },
+  "output": {
+    "incident_id": "INC-2026-0317",
+    "detection_date": "2026-05-22T03:47:00+02:00",
+    "severity": "crítica",
+    "affected_systems": [
+      "Estación de trabajo FIN-WS-0042",
+      "Servidor de ficheros FILESRV-CORP-01",
+      "Servidor de ficheros FILESRV-CORP-02",
+      "Active Directory del dominio translog.local",
+      "Aplicación interna de planificación de rutas RoutePlanner",
+      "Buzones de Microsoft 365 del departamento financiero",
+      "Segmento de red VLAN 30 y VLAN 12",
+      "Servidor de copias de seguridad BKP-SRV-01"
+    ],
+    "indicators": [
+      {
+        "kind": "correo",
+        "value": "facturacion@transportes-atlantico-norte.es",
+        "first_seen": "2026-05-19T09:14"
+      },
+      {
+        "kind": "dominio",
+        "value": "transportes-atlantico-norte.es",
+        "first_seen": "2026-05-19T09:14"
+      },
+      {
+        "kind": "url",
+        "value": "https://updates-portal-msft.com/setup.hta",
+        "first_seen": "2026-05-19T09:31"
+      },
+      {
+        "kind": "dominio",
+        "value": "data-collector-eu.net",
+        "first_seen": "2026-05-22T01:12"
+      },
+      {
+        "kind": "ip",
+        "value": "185.220.101.47",
+        "first_seen": "2026-05-22T01:12"
+      },
+      {
+        "kind": "hash",
+        "value": "a4b9c2d1e8f7064382915c47b6e3d2a019f8e7c6b5a4938271605948372615ab",
+        "first_seen": "2026-05-19T09:33"
+      },
+      {
+        "kind": "hash",
+        "value": "7d8e9f0a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e",
+        "first_seen": "2026-05-20T04:55"
+      },
+      {
+        "kind": "hash",
+        "value": "f1e2d3c4b5a6978869504132c3d4e5f6071829304a5b6c7d8e9f0a1b2c3d4e5f",
+        "first_seen": "2026-05-22T03:21"
+      },
+      {
+        "kind": "cve",
+        "value": "CVE-2025-39817",
+        "first_seen": "2026-05-19T11:48"
+      },
+      {
+        "kind": "regla_yara",
+        "value": "YARA_BumbleBee_AcroSvc_2026",
+        "first_seen": "2026-05-23T12:00"
+      }
+    ],
+    "attack_chain": [
+      {
+        "phase": "reconocimiento",
+        "description": "Enumeración pasiva: consultas WHOIS y búsquedas pasivas de DNS sobre los dominios corporativos desde una IP del ASN 14061.",
+        "timestamp": "2026-05-15T10:20",
+        "technique_id": null
+      },
+      {
+        "phase": "acceso_inicial",
+        "description": "Entrega de correo de phishing al departamento financiero suplantando al proveedor Transportes Atlántico Norte mediante typosquatting, con adjunto Factura_Rect_05-2026.docm.",
+        "timestamp": "2026-05-19T09:14",
+        "technique_id": null
+      },
+      {
+        "phase": "ejecución",
+        "description": "El usuario habilita las macros del .docm; el VBA invoca mshta.exe para descargar y ejecutar setup.hta, que despliega el loader BumbleBee como C:\\ProgramData\\AdobeUpdater\\acrosvc.exe.",
+        "timestamp": "2026-05-19T09:31",
+        "technique_id": "T1059.005"
+      },
+      {
+        "phase": "persistencia",
+        "description": "El loader registra una tarea programada AdobeAcroUpdater que se ejecuta cada 60 minutos para sobrevivir a reinicios y cierres de sesión.",
+        "timestamp": "2026-05-19T09:34",
+        "technique_id": null
+      },
+      {
+        "phase": "escalada_de_privilegios",
+        "description": "El proceso acrosvc.exe explota CVE-2025-39817 en el subsistema de impresión de Windows y obtiene privilegios NT AUTHORITY\\SYSTEM.",
+        "timestamp": "2026-05-19T11:48",
+        "technique_id": null
+      },
+      {
+        "phase": "evasión_de_defensas",
+        "description": "Deshabilitación de Microsoft Defender vía registro y despliegue del controlador vulnerable gdrv.sys (BYOVD) para neutralizar el agente EDR CrowdStrike Falcon.",
+        "timestamp": "2026-05-20T02:11",
+        "technique_id": null
+      },
+      {
+        "phase": "acceso_a_credenciales",
+        "description": "Volcado de credenciales NTLM y tickets Kerberos desde lsass.exe con una variante ofuscada de mimikatz; compromiso de la cuenta de servicio svc_dfs@translog.local.",
+        "timestamp": "2026-05-20T04:55",
+        "technique_id": null
+      },
+      {
+        "phase": "movimiento_lateral",
+        "description": "Sesiones SMB desde FIN-WS-0042 hacia los servidores de ficheros mediante Pass-the-Hash; propagación posterior a FILESRV-CORP-02 vía replicación DFS.",
+        "timestamp": "2026-05-21T22:03",
+        "technique_id": "T1550.002"
+      },
+      {
+        "phase": "exfiltración",
+        "description": "Compresión y exfiltración de aproximadamente 47 GB de datos sensibles hacia data-collector-eu.net (185.220.101.47) mediante HTTPS sostenido.",
+        "timestamp": "2026-05-22T01:12",
+        "technique_id": null
+      },
+      {
+        "phase": "impacto",
+        "description": "Ejecución del binario winupdater_x64.exe (BlackCat/ALPHV) desde FILESRV-CORP-01, cifrando los recursos compartidos Finanzas$, Logistica$ y RRHH$ y depositando la nota de rescate RECOVER-FILES.txt.",
+        "timestamp": "2026-05-22T03:21",
+        "technique_id": null
+      }
+    ],
+    "containment_actions": [
+      {
+        "description": "Aislamiento de FIN-WS-0042 en VLAN de cuarentena.",
+        "status": "completada",
+        "owner": "SOC"
+      },
+      {
+        "description": "Desconexión de FILESRV-CORP-01 y FILESRV-CORP-02 del dominio.",
+        "status": "completada",
+        "owner": "IT Ops"
+      },
+      {
+        "description": "Rotación obligatoria de credenciales de la cuenta de servicio svc_dfs y de todas las cuentas privilegiadas del dominio translog.local.",
+        "status": "completada",
+        "owner": "IT Ops"
+      },
+      {
+        "description": "Restauración de los volúmenes cifrados desde snapshots inmutables del servidor BKP-SRV-01.",
+        "status": "completada",
+        "owner": "IT Ops"
+      },
+      {
+        "description": "Despliegue de parche para CVE-2025-39817 en todo el parque Windows.",
+        "status": "en_curso",
+        "owner": "IT Ops"
+      },
+      {
+        "description": "Bloqueo de los IoCs en el firewall perimetral, el proxy web y el filtro de correo.",
+        "status": "completada",
+        "owner": "SOC"
+      },
+      {
+        "description": "Refuerzo de las reglas de detección EDR contra técnicas de BYOVD.",
+        "status": "en_curso",
+        "owner": "SOC"
+      },
+      {
+        "description": "Auditoría completa de Active Directory para identificar persistencias residuales (cuentas anómalas, GPOs modificadas, delegaciones).",
+        "status": "en_curso",
+        "owner": "Red Team interno"
+      },
+      {
+        "description": "Notificación a la Agencia Española de Protección de Datos por posible brecha de datos personales.",
+        "status": "completada",
+        "owner": "Oficina de Cumplimiento"
+      },
+      {
+        "description": "Comunicación a clientes y proveedores afectados.",
+        "status": "pendiente",
+        "owner": "Dirección de Comunicación"
+      },
+      {
+        "description": "Análisis forense profundo del adjunto malicioso y de los binarios recuperados.",
+        "status": "completada",
+        "owner": "SOC"
+      },
+      {
+        "description": "Programa de concienciación específico para el departamento financiero sobre identificación de typosquatting y manejo de macros.",
+        "status": "pendiente",
+        "owner": "RRHH"
+      },
+      {
+        "description": "Revisión y endurecimiento de la política de macros en Microsoft Office (bloqueo por defecto en archivos de Internet).",
+        "status": "no_aplica",
+        "owner": "IT Ops"
+      }
+    ],
+    "root_cause": "Habilitación manual de macros en un documento Office procedente de un remitente externo no verificado, agravada por la ausencia de un parche para una vulnerabilidad de elevación de privilegios (CVE-2025-39817) conocida desde hacía ocho semanas y por la no aplicación de la política corporativa de bloqueo de macros por defecto al departamento financiero."
+  },
+  "metadata": {
+    "source": "synthetic_20260601_001.md",
+    "domain": "technical",
+    "subdomain": "security_incident"
+  }
+}

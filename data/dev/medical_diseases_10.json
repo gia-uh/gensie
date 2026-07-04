@@ -1,0 +1,159 @@
+{
+  "id": "medical_diseases_10",
+  "input_text": "Enfermedades de las glándulas digestivas accesorias\nHepáticas\nLas enfermedades hepáticas se refieren a las que afectan al hígado. La hepatitis se refiere a la inflamación del tejido hepático, y puede ser aguda o crónica. Las hepatitis virales infecciosas, como la hepatitis A, B y C, afectan a  muchas de personas en todo el mundo. La enfermedad hepática también puede ser el resultado de factores del estilo de vida, como el hígado graso y la EHNA. La enfermedad hepática alcohólica también puede desarrollarse como resultado del consumo crónico de alcohol, que también puede causar hepatitis alcohólica. La cirrosis puede desarrollarse como resultado de la fibrosis hepática crónica en un hígado inflamado crónicamente, como el afectado por el alcohol o la hepatitis viral.​\nLos abscesos hepáticos suelen ser afecciones agudas, cuyas causas comunes son piogénicas y amebianas. Las enfermedades hepáticas crónicas, como la cirrosis, pueden ser una causa de insuficiencia hepática, un estado en el que el hígado es incapaz de compensar los daños crónicos y no puede satisfacer las demandas metabólicas del cuerpo. En el entorno agudo, puede ser una causa de encefalopatía hepática y síndrome hepatorrenal. Otras causas de enfermedad hepática crónica son las enfermedades genéticas o autoinmunes, como la hemocromatosis, la enfermedad de Wilson, la hepatitis autoinmune y la cirrosis biliar primaria.​\nLa enfermedad hepática aguda rara vez causa dolor, pero puede dar lugar a la ictericia. La enfermedad hepática infecciosa puede causar fiebre. La enfermedad hepática crónica puede dar lugar a una acumulación de líquido en el abdomen, coloración amarillenta de la piel o los ojos, fácil aparición de moretones, inmunosupresión y feminización.[cita requerida]  Suele presentarse también hipertensión portal  y esto puede llevar al desarrollo de venas prominentes en muchas partes del cuerpo, como várices esofágicas y hemorroides.​\nPara investigar la enfermedad hepática, se puede analizar el historial médico, incluso con respecto a la historia familiar de la persona, los viajes a zonas de riesgo, el consumo de alcohol y el consumo de alimentos. Se puede realizar un examen médico para investigar los síntomas de la enfermedad hepática. Se pueden utilizar análisis de sangre, en particular pruebas de la función hepática, y otros análisis de sangre para investigar la presencia de los virus de la hepatitis en la sangre, y utilizar el ultrasonido. Si hay presencia de ascitis, se puede analizar el líquido abdominal para determinar los niveles de proteínas.​",
+  "instruction": "Extrae el perfil de la hepatitis.",
+  "target_schema": {
+    "$defs": {
+      "EtiologyType": {
+        "enum": [
+          "INFECTIOUS",
+          "GENETIC",
+          "AUTOIMMUNE",
+          "DEGENERATIVE",
+          "UNKNOWN",
+          "OTHER"
+        ],
+        "title": "EtiologyType",
+        "type": "string"
+      },
+      "Symptom": {
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "description": "Verbatim name of the symptom",
+            "title": "Name",
+            "type": "string"
+          },
+          "severity_level": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Inferred severity if mentioned (Mild, Moderate, Severe)",
+            "title": "Severity Level"
+          },
+          "is_primary": {
+            "default": true,
+            "description": "True if this is a defining symptom of the disease",
+            "title": "Is Primary",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "name"
+        ],
+        "title": "Symptom",
+        "type": "object"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Hierarchical extraction of pathology details from medical summaries.\nComplexity: L5 (Hierarchical Grouping).",
+    "properties": {
+      "pathology_name": {
+        "description": "The medical name of the disease or disorder",
+        "title": "Pathology Name",
+        "type": "string"
+      },
+      "etiology_type": {
+        "$ref": "#/$defs/EtiologyType",
+        "description": "The primary origin or cause of the disease"
+      },
+      "etiology_description": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "A brief summary of how the disease is caused",
+        "title": "Etiology Description"
+      },
+      "symptoms": {
+        "description": "Structured list of reported symptoms",
+        "items": {
+          "$ref": "#/$defs/Symptom"
+        },
+        "title": "Symptoms",
+        "type": "array"
+      },
+      "diagnosis_methods": {
+        "description": "Clinical tests or methods mentioned for identifying the pathology",
+        "items": {
+          "type": "string"
+        },
+        "title": "Diagnosis Methods",
+        "type": "array"
+      },
+      "is_chronic": {
+        "anyOf": [
+          {
+            "type": "boolean"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "True if the text explicitly defines the disease as chronic or long-term",
+        "title": "Is Chronic"
+      }
+    },
+    "required": [
+      "pathology_name",
+      "etiology_type"
+    ],
+    "title": "DiseaseProfile",
+    "type": "object"
+  },
+  "output": {
+    "pathology_name": "Hepatitis",
+    "etiology_type": "INFECTIOUS",
+    "etiology_description": "Inflamación del tejido hepático que puede ser aguda o crónica. Las hepatitis virales infecciosas, como la hepatitis A, B y C, afectan a muchas personas. También puede ser resultado de factores del estilo de vida o del consumo crónico de alcohol.",
+    "symptoms": [
+      {
+        "name": "ictericia",
+        "severity_level": null,
+        "is_primary": true
+      },
+      {
+        "name": "fiebre",
+        "severity_level": null,
+        "is_primary": true
+      },
+      {
+        "name": "acumulación de líquido en el abdomen",
+        "severity_level": null,
+        "is_primary": false
+      },
+      {
+        "name": "coloración amarillenta de la piel o los ojos",
+        "severity_level": null,
+        "is_primary": false
+      },
+      {
+        "name": "fácil aparición de moretones",
+        "severity_level": null,
+        "is_primary": false
+      }
+    ],
+    "diagnosis_methods": [
+      "análisis de sangre",
+      "pruebas de la función hepática",
+      "ultrasonido"
+    ],
+    "is_chronic": null
+  },
+  "metadata": {
+    "source": "wiki_diseases_20260414_enfermedad_gastrointestinal.md",
+    "domain": "medical",
+    "subdomain": "diseases"
+  }
+}

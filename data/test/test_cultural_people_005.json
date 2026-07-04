@@ -1,0 +1,144 @@
+{
+  "id": "test_cultural_people_005",
+  "input_text": "Federico García Lorca (Fuente Vaqueros, Granada, 5 de junio de 1898-camino de Víznar a Alfacar, Granada, 18 de agosto de 1936) fue un poeta, prosista, dramaturgo y director teatral español. García Lorca alcanzó reconocimiento internacional como miembro emblemático de la generación del 27, un grupo compuesto principalmente por poetas que introdujeron los postulados de movimientos europeos como el simbolismo, el futurismo o el surrealismo en la literatura española.​  Fue el poeta de mayor influencia y popularidad de la literatura española del siglo XX y como dramaturgo se le considera una de las cimas del teatro español del siglo XX. \nAlcanzó la fama inicialmente con Romancero gitano (1928), un poemario que retrataba la vida en su Andalucía natal. Su poesía incorporó motivos tradicionales andaluces y estilos vanguardistas. Después de una estancia en la ciudad de Nueva York entre 1929 y 1930 —documentada póstumamente en Poeta en Nueva York (1942)— regresó a España y escribió sus obras más conocidas, Bodas de sangre (1932), Yerma (1934) y La casa de Bernarda Alba (1936).\nGarcía Lorca era homosexual y tuvo una relación con el escultor Emilio Aladrén Perojo. También mantuvo una estrecha relación durante un tiempo con Salvador Dalí.​\nFue asesinado​​​  por el bando sublevado un mes después del golpe de Estado que provocó el inicio de la guerra civil española. Sus restos nunca se han encontrado.",
+  "instruction": "Extrae el perfil biográfico-artístico de la persona descrita usando ÚNICAMENTE el párrafo introductorio (lead). Devuelve null o lista vacía para los campos no enunciados explícitamente; no incorpores conocimiento externo.",
+  "target_schema": {
+    "$defs": {
+      "ArtisticDiscipline": {
+        "enum": [
+          "literatura",
+          "pintura",
+          "escultura",
+          "música",
+          "cine",
+          "arquitectura",
+          "fotografía",
+          "otra"
+        ],
+        "title": "ArtisticDiscipline",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Perfil biográfico-artístico extraído del párrafo introductorio (lead) de un\nartículo de Wikipedia sobre un artista, autor o creador. La fuente es solo\nel resumen previo al índice: muchos datos (premios, influencias, movimiento)\nsuelen NO aparecer en esos primeros párrafos aunque sean ampliamente\nconocidos. Cualquier campo no explicitado debe devolverse como null o lista\nvacía — no completar con conocimiento externo.\n\nComplejidad: L4 — alta densidad de trampas de grounding (campos\nlegítimamente null).",
+    "properties": {
+      "full_name": {
+        "description": "Nombre completo de la persona como aparece en el texto. Incluir apellidos múltiples si están presentes (p. ej. 'Pablo Ruiz Picasso').",
+        "title": "Full Name",
+        "type": "string"
+      },
+      "birth_year": {
+        "anyOf": [
+          {
+            "maximum": 2100,
+            "minimum": 1000,
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Año de nacimiento como entero de cuatro dígitos. Null si la fecha no aparece en el texto.",
+        "title": "Birth Year"
+      },
+      "death_year": {
+        "anyOf": [
+          {
+            "maximum": 2100,
+            "minimum": 1000,
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Año de fallecimiento como entero de cuatro dígitos. Null si la persona está viva o si la fecha no aparece. No inferir muerte por ausencia de mención.",
+        "title": "Death Year"
+      },
+      "nationality": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Nacionalidad o gentilicio principal en español, en minúsculas y en singular masculino (p. ej. 'español', 'cubano', 'mexicano'). Null si no se enuncia explícitamente.",
+        "title": "Nationality"
+      },
+      "discipline": {
+        "$ref": "#/$defs/ArtisticDiscipline",
+        "description": "Disciplina artística principal de la persona según el texto. Si se mencionan varias, elegir la más prominente en la primera oración. Usar 'otra' solo si ninguna categoría aplica."
+      },
+      "movement": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Movimiento, corriente o estilo artístico al que se adscribe la persona (p. ej. 'cubismo', 'realismo mágico', 'surrealismo'). Null si el lead no lo nombra — muchos artistas no son etiquetados con un movimiento en su párrafo introductorio.",
+        "title": "Movement"
+      },
+      "notable_works": {
+        "description": "Obras destacadas citadas literalmente en el texto (títulos de novelas, pinturas, películas, álbumes...). Lista vacía si no se nombra ninguna obra concreta.",
+        "items": {
+          "type": "string"
+        },
+        "title": "Notable Works",
+        "type": "array"
+      },
+      "awards": {
+        "description": "Premios, distinciones o reconocimientos mencionados explícitamente (p. ej. 'Premio Nobel de Literatura', 'Premio Cervantes', 'Goya a la mejor dirección'). Lista vacía si el lead no enumera premios.",
+        "items": {
+          "type": "string"
+        },
+        "title": "Awards",
+        "type": "array"
+      },
+      "influenced_by": {
+        "description": "Personas, escuelas o tradiciones citadas como influencia directa sobre el artista. Lista vacía si el lead no señala influencias explícitas — campo frecuentemente vacío.",
+        "items": {
+          "type": "string"
+        },
+        "title": "Influenced By",
+        "type": "array"
+      }
+    },
+    "required": [
+      "full_name",
+      "discipline"
+    ],
+    "title": "ArtistProfile",
+    "type": "object"
+  },
+  "output": {
+    "full_name": "Federico García Lorca",
+    "birth_year": 1898,
+    "death_year": 1936,
+    "nationality": "español",
+    "discipline": "literatura",
+    "movement": "generación del 27",
+    "notable_works": [
+      "Romancero gitano",
+      "Poeta en Nueva York",
+      "Bodas de sangre",
+      "Yerma",
+      "La casa de Bernarda Alba"
+    ],
+    "awards": [],
+    "influenced_by": []
+  },
+  "metadata": {
+    "source": "wiki_federico_garcía_lorca.md",
+    "domain": "cultural",
+    "subdomain": "people"
+  }
+}

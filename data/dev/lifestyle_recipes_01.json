@@ -1,0 +1,202 @@
+{
+  "id": "lifestyle_recipes_01",
+  "input_text": "# Adobo\n\nSource: https://es.wikipedia.org/wiki/Adobo\n\nEl adobo es una técnica de conservación que consiste en la inmersión de carnes o pescados crudos en un caldo o salsa elaborada con distintos ingredientes: pimentón (el más habitual), orégano, sal, ajos, vinagre y otros, según el lugar y el alimento a adobar. Esta salsa, que también recibe el nombre de adobo, además de alargar la vida útil del producto, ablanda las fibras de la carne, lo aromatiza, le da un característico color rojizo y realza su sabor.​ La técnica del adobo es originaria de la cocina española,​ y fue exportada a países que estuvieron bajo su influencia, como Filipinas,​ México,​ y en general Hispanoamérica.\n\nOrigen\nLa técnica del adobo remonta sus orígenes a la cocina medieval. Las versiones primitivas del adobo se componían únicamente de sal y vinagre, y surgieron por la necesidad de transportar carnes para su posterior venta, o también como comida para largas travesías. El verbo «adobar» proviene del francés antiguo adober, que se refiere al armar o investir a un caballero. Este, a su vez, proviene del fráncico *dubban, que significa 'empujar' o 'golpear', por la costumbre de dar un espaldarazo a un caballero novel.\nLas salsas de adobo donde se sumergen los productos cárnicos, tal y como las conocemos actualmente, surgen durante el siglo XV en Castilla (aunque no fue hasta el siglo XVI cuando se le añadiría el pimentón, que le daría su característico color rojizo).​ Los castellanos maceraban verduras como la berenjena y carne durante un año, comenzando el proceso en los meses más fríos. Esta técnica culinaria se expandió por toda la península, especialmente en el sur, donde el calor aceleraba la descomposición de la carne, y finalmente a América.\n\nDiversas acepciones\nEn Perú Los primeros adobos se realizaron en la ciudad de Arequipa y tuvieron fines de conservación de la carne para ser enviada a las minas de Potosí en Oruro, el adobo arequipeño es reconocido como el primer adobo realizado en el Perú,  en la región de Arequipa. Recibe el nombre de “Adobo arequipeño” y consiste de un caldo especiado con: chicha de guiñapo, ají panca y demás condimentos. El adobo tiene un origen muy particular, que se remonta al siglo XVIII, según los historiadores, debido a los recetarios encontrados en Potosí y Charcas (Argentina) en donde se detalla que era elaborado con un aderezo de sal, vinagre y ruda y, en algunas ocasiones, era acompañado con arroz blanco. Como parte de la característica de los peruanos, el adobo español fue mejorado por los arequipeños, pues para su preparación utilizaron como base la chicha de jora, el ají y la carne de cerdo.\nEn México el adobo se refiere a un condimento o salsa a base de diferentes chiles, en particular los chiles Chipotle y Ancho (que es el chile poblano puesto a secar cuando su color es rojo) que se usan para marinar y dar un sabor ahumado picante.\nEn Venezuela el nombre adobo hace referencia a una mezcla de sal con diversas especias (técnicamente se le conoce como \"sal condimentada\").​ El término adobar significa sazonar o condimentar.\nEn Costa Rica adobar quiere decir lo mismo que marinar.\nEn Uruguay se llama adobo a una mezcla de especias que incluye orégano, tomillo, comino y ají molido, se le dice adobar al hecho de cubrir la carne con este condimento.\n\nCaracterísticas\nLa carne y el pescado eran difíciles de conservar en la antigüedad. El frío facilita la conservación de los alimentos, pero a veces los climas no proporcionan estas bajas temperaturas ideales para la conservación y resulta necesario aplicar otras técnicas como el adobo. Las técnicas de sacrificio de animales se suelen realizar en los meses más fríos del invierno y tras ellas existe un excedente de carne que resulta necesario conservar. Es en estos casos cuando se aplican los adobos con la presencia de pimentón (elemento con propiedades antibacterianas).​ El pimentón proporciona un color rojizo a los adobos al mismo tiempo los capsacinoides disuelven las grasas y permiten su penetración en los tejidos profundizando la superficie.\nEl proceso de adobado se suele complementar con la refrigeración, ya que de por sí el adobo solo alarga la vida del producto a corto plazo.​ El adobo para pescado es más líquido y su ingrediente principal es el agente acidificador, normalmente vinagre. El adobo para carnes es parecido, pero más espeso y suele incluir aceite.​ Tanto el vinagre como el aceite son conservantes; el aceite crea una fina película que impide la entrada de microorganismos, y el vinagre crea un ambiente ácido que dificulta su propagación.​ En el caso del pescado también lo ayuda a neutralizar su pH y así mitigar su sabor alcalino.\n\nUsos\nEl adobo se empleaba antes como método de conservación de alimentos, pero poco a poco con el advenimiento de los métodos de refrigeración el adobo se emplea tan solo como un método de saborizar alimentos antes de su cocinado. Su aplicación es tan tradicional que algunas preparaciones siguen haciéndose con la intención de saborizar:\n\nCazón en adobo - Preparación gaditana\nBerenjenas de Almagro - Encurtido de berenjenas típico de la cocina manchega\nLomo en adobo\nTacos de pescado\n\nVéase también\nGuiso\nAdobo arequipeño\nAdobo filipino\nAdobo mexicano\nAnexo: Platos típicos de la gastronomía del Perú\n\n\n== Referencias ==",
+  "instruction": "Extrae la receta",
+  "target_schema": {
+    "$defs": {
+      "CookingTechnique": {
+        "enum": [
+          "SOFREÍR",
+          "HERVIR",
+          "HORNEAR",
+          "FREÍR",
+          "VAPOR",
+          "COCCIÓN LENTA"
+        ],
+        "title": "CookingTechnique",
+        "type": "string"
+      },
+      "DietaryTag": {
+        "enum": [
+          "VEGANO",
+          "VEGETARIANO",
+          "SIN GLUTEN",
+          "SIN LÁCTEOS",
+          "BAJO EN CARBOHIDRATOS"
+        ],
+        "title": "DietaryTag",
+        "type": "string"
+      },
+      "RecipeIngredient": {
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "description": "Verbatim name of the ingredient",
+            "title": "Name",
+            "type": "string"
+          },
+          "amount": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Numerical quantity",
+            "title": "Amount"
+          },
+          "unit": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/UnitType"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Unit of measurement"
+          }
+        },
+        "required": [
+          "name"
+        ],
+        "title": "RecipeIngredient",
+        "type": "object"
+      },
+      "UnitType": {
+        "enum": [
+          "g",
+          "ml",
+          "kg",
+          "unidad",
+          "pizca",
+          "cucharada",
+          "otro"
+        ],
+        "title": "UnitType",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Holistic reasoning over a traditional recipe.\nRequires inferring dietary suitability and complexity from steps.\nComplexity: L10 (Holistic Reasoning).",
+    "properties": {
+      "dish_name": {
+        "description": "The name of the recipe",
+        "title": "Dish Name",
+        "type": "string"
+      },
+      "servings": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of portions generated",
+        "title": "Servings"
+      },
+      "ingredients": {
+        "description": "Structured list of ingredients",
+        "items": {
+          "$ref": "#/$defs/RecipeIngredient"
+        },
+        "title": "Ingredients",
+        "type": "array"
+      },
+      "complexity_score": {
+        "description": "Inferred difficulty from 1 (easy) to 10 (pro chef) based on steps and time",
+        "maximum": 10,
+        "minimum": 1,
+        "title": "Complexity Score",
+        "type": "integer"
+      },
+      "dietary_tags": {
+        "description": "Reasoned tags based on the absence of certain ingredient types (e.g., meat, gluten)",
+        "items": {
+          "$ref": "#/$defs/DietaryTag"
+        },
+        "title": "Dietary Tags",
+        "type": "array"
+      },
+      "technique_sequence": {
+        "description": "The chronological sequence of main cooking techniques applied",
+        "items": {
+          "$ref": "#/$defs/CookingTechnique"
+        },
+        "title": "Technique Sequence",
+        "type": "array"
+      },
+      "total_time_minutes": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Normalized total duration in minutes",
+        "title": "Total Time Minutes"
+      }
+    },
+    "required": [
+      "dish_name",
+      "ingredients",
+      "complexity_score",
+      "technique_sequence"
+    ],
+    "title": "RecipeProcedural",
+    "type": "object"
+  },
+  "output": {
+    "dish_name": "Adobo",
+    "servings": null,
+    "ingredients": [
+      {
+        "name": "pimentón",
+        "amount": null,
+        "unit": null
+      },
+      {
+        "name": "orégano",
+        "amount": null,
+        "unit": null
+      },
+      {
+        "name": "sal",
+        "amount": null,
+        "unit": null
+      },
+      {
+        "name": "ajos",
+        "amount": null,
+        "unit": null
+      },
+      {
+        "name": "vinagre",
+        "amount": null,
+        "unit": null
+      }
+    ],
+    "complexity_score": 3,
+    "dietary_tags": [
+      "SIN GLUTEN",
+      "SIN LÁCTEOS"
+    ],
+    "technique_sequence": [],
+    "total_time_minutes": null
+  },
+  "metadata": {
+    "source": "wiki_recipe_20260414_adobo.md",
+    "domain": "lifestyle",
+    "subdomain": "recipes"
+  }
+}

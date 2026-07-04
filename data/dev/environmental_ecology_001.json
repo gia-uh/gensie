@@ -1,0 +1,151 @@
+{
+  "id": "environmental_ecology_001",
+  "input_text": "# 20 equipos participan en la Carrera Solar de Atacama 2014\n\n20 competidores recorrerán 1.200 kilómetros en el desierto de Atacama, en el norte de Chile, usando la energía solar como principal componente.\nTras las revisiones técnicas y de seguridad, 20 equipos fueron autorizados a participar de la edición 2014 de la Carrera Solar Atacama, que busca descubrir qué vehículo impulsado por energía solar puede recorrer los más de 1.200 kilómetros que compone el recorrido a través del desierto de Atacama, uno de los más áridos del planeta. Los equipos clasificados provienen de Japón, Colombia, Ecuador, Bolivia y Chile.\nEn esta edición, el equipo bicampeón mundial, Tokai, buscará ganar la competencia pero se deberán enfrentar a otros competidores destacados como el equipo de la Universidad de La Serena, quienes ganaron el desafío en 2011.\nLa competencia general se divide en dos categorías: solar e híbrida, en la cual la primera debe usar solamente energía proveniente del sol, mientras que la segunda también puede considerar el uso de la tracción humana como medio de impulso. Es así como se espera que la carrera pase por las localidades Iquique, Calama, Antofagasta, San Pedro de Atacama, entre el 13 y 17 de noviembre.",
+  "instruction": "Extrae la información estructurada de este artículo de noticias sobre una competencia de vehículos solares, siguiendo el esquema proporcionado. Devuelve null en los campos que no se puedan determinar a partir del texto.",
+  "target_schema": {
+    "$defs": {
+      "NewsCategory": {
+        "enum": [
+          "JUDICIAL",
+          "DISASTER",
+          "HEALTH",
+          "ENVIRONMENT",
+          "POLITICS",
+          "ECONOMY",
+          "SCIENCE",
+          "CULTURE",
+          "SPORTS",
+          "OTHER"
+        ],
+        "title": "NewsCategory",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Extracts structured information from general news articles.\nComplexity: L4 (Sparse Extraction) - Some fields may be null/missing.",
+    "properties": {
+      "headline": {
+        "description": "The main headline or title of the news article",
+        "title": "Headline",
+        "type": "string"
+      },
+      "summary": {
+        "description": "A brief summary of the main facts reported (1-3 sentences)",
+        "title": "Summary",
+        "type": "string"
+      },
+      "category": {
+        "$ref": "#/$defs/NewsCategory",
+        "description": "The thematic category of the news story"
+      },
+      "location": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Geographic location where the event occurred (city, country, or region)",
+        "title": "Location"
+      },
+      "date": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Date mentioned in the article (may be implicit or explicit)",
+        "title": "Date"
+      },
+      "key_people": {
+        "description": "Names of key individuals mentioned in the article",
+        "items": {
+          "type": "string"
+        },
+        "title": "Key People",
+        "type": "array"
+      },
+      "key_organizations": {
+        "description": "Names of organizations, companies, or governments mentioned",
+        "items": {
+          "type": "string"
+        },
+        "title": "Key Organizations",
+        "type": "array"
+      },
+      "casualties": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of deaths mentioned, if any",
+        "title": "Casualties"
+      },
+      "injured": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of people injured, if any",
+        "title": "Injured"
+      },
+      "affected_count": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of people affected or displaced, if applicable",
+        "title": "Affected Count"
+      }
+    },
+    "required": [
+      "headline",
+      "summary",
+      "category"
+    ],
+    "title": "NewsArticle",
+    "type": "object"
+  },
+  "output": {
+    "headline": "20 equipos participan en la Carrera Solar de Atacama 2014",
+    "summary": "20 equipos fueron autorizados a participar en la Carrera Solar Atacama 2014, recorriendo más de 1.200 kilómetros a través del desierto de Atacama en Chile con vehículos impulsados por energía solar. Los equipos provienen de Japón, Colombia, Ecuador, Bolivia y Chile.",
+    "category": "SCIENCE",
+    "location": "desierto de Atacama, Chile",
+    "date": "entre el 13 y 17 de noviembre",
+    "key_people": [],
+    "key_organizations": [
+      "Tokai",
+      "Universidad de La Serena"
+    ],
+    "casualties": null,
+    "injured": null,
+    "affected_count": null
+  },
+  "metadata": {
+    "source": "wikinews_ecologia_20260415_001_20_equipos_participan_en_la_carrera_solar_de_ataca.md",
+    "domain": "environmental",
+    "subdomain": "ecology"
+  }
+}

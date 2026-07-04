@@ -6,7 +6,9 @@ from gensie.task import Task
 
 class PipelineInfo(BaseModel):
     name: str = Field(..., description="Unique name of the pipeline")
-    description: str = Field(..., description="Brief technical description of the pipeline")
+    description: str = Field(
+        ..., description="Brief technical description of the pipeline"
+    )
 
 
 class ParticipantInfo(BaseModel):

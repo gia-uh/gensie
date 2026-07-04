@@ -1,0 +1,155 @@
+{
+  "id": "environmental_ecology_007",
+  "input_text": "# Al Gore: La crisis climática mundial está empeorando\n\nEl ex vicepresidente de Estados Unidos Al Gore dijo al Foro Económico Mundial, en Davos, Suiza, este jueves, que la crisis climática mundial está empeorando.\nEl Premio Nobel de la Paz indicó que reciente evidencia científica muestra que la crisis es significativamente peor y se está desarrollando más rápidamente que lo previsto.\nGore estuvo acompañado en el escenario por el músico Bono, quien ha trabajado para reducir la pobreza y el hambre en el mundo.\nEl miércoles, en el Foro Económico, en Davos, el presidente afgano, Hamid Karzai, advirtió que el terrorismo se está esparciendo rápidamente en el sur de Asia, con posibles consecuencias devastadoras para el resto del mundo.\nKarzai citó la conmoción en el vecino Pakistán, donde la líder opositora Benazir Bhutto fue asesinada recientemente.\nEl gobernante afgano dijo que las estrategias para combatir el terrorismo han fracasado, pero no nombró a ningún gobierno o política en especial.",
+  "instruction": "Extrae la información estructurada de este artículo de noticias sobre medio ambiente y crisis climática, siguiendo el esquema proporcionado. Devuelve null para los campos que no se mencionan en el texto.",
+  "target_schema": {
+    "$defs": {
+      "NewsCategory": {
+        "enum": [
+          "JUDICIAL",
+          "DISASTER",
+          "HEALTH",
+          "ENVIRONMENT",
+          "POLITICS",
+          "ECONOMY",
+          "SCIENCE",
+          "CULTURE",
+          "SPORTS",
+          "OTHER"
+        ],
+        "title": "NewsCategory",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Extracts structured information from general news articles.\nComplexity: L4 (Sparse Extraction) - Some fields may be null/missing.",
+    "properties": {
+      "headline": {
+        "description": "The main headline or title of the news article",
+        "title": "Headline",
+        "type": "string"
+      },
+      "summary": {
+        "description": "A brief summary of the main facts reported (1-3 sentences)",
+        "title": "Summary",
+        "type": "string"
+      },
+      "category": {
+        "$ref": "#/$defs/NewsCategory",
+        "description": "The thematic category of the news story"
+      },
+      "location": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Geographic location where the event occurred (city, country, or region)",
+        "title": "Location"
+      },
+      "date": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Date mentioned in the article (may be implicit or explicit)",
+        "title": "Date"
+      },
+      "key_people": {
+        "description": "Names of key individuals mentioned in the article",
+        "items": {
+          "type": "string"
+        },
+        "title": "Key People",
+        "type": "array"
+      },
+      "key_organizations": {
+        "description": "Names of organizations, companies, or governments mentioned",
+        "items": {
+          "type": "string"
+        },
+        "title": "Key Organizations",
+        "type": "array"
+      },
+      "casualties": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of deaths mentioned, if any",
+        "title": "Casualties"
+      },
+      "injured": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of people injured, if any",
+        "title": "Injured"
+      },
+      "affected_count": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of people affected or displaced, if applicable",
+        "title": "Affected Count"
+      }
+    },
+    "required": [
+      "headline",
+      "summary",
+      "category"
+    ],
+    "title": "NewsArticle",
+    "type": "object"
+  },
+  "output": {
+    "headline": "Al Gore: La crisis climática mundial está empeorando",
+    "summary": "El ex vicepresidente de Estados Unidos Al Gore dijo al Foro Económico Mundial en Davos que la crisis climática mundial está empeorando, señalando que reciente evidencia científica muestra que la crisis es significativamente peor y se está desarrollando más rápidamente que lo previsto.",
+    "category": "ENVIRONMENT",
+    "location": "Davos, Suiza",
+    "date": null,
+    "key_people": [
+      "Al Gore",
+      "Bono",
+      "Hamid Karzai",
+      "Benazir Bhutto"
+    ],
+    "key_organizations": [
+      "Foro Económico Mundial"
+    ],
+    "casualties": null,
+    "injured": null,
+    "affected_count": null
+  },
+  "metadata": {
+    "source": "wikinews_ecologia_20260415_007_al_gore_la_crisis_climática_mundial_está_empeorand.md",
+    "domain": "environmental",
+    "subdomain": "ecology"
+  }
+}

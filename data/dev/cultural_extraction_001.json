@@ -1,0 +1,29 @@
+{
+  "id": "cultural_extraction_001",
+  "input_text": "# 'Cleaner: Rescate Vertical' logra que Daisy Ridley brille como heroína de acción en un plagio desvergonzado de 'Jungla de cristal'\n\nJohn McClane arrastrándose por el túnel de ventilación, en camiseta de tirantes, es pura historia del cine. A todos nos gusta 'Jungla de cristal', y los homenajes constantes no son sino una muestra de admiración absoluta. Eso sí, hasta para homenajear hay que tener clase: no es lo mismo tomar un par de escenas como base que, básicamente, fusilar el guion entero. Eso es lo que hace 'Cleaner: Rescate Vertical', una película que solo impresionará a los que nunca entraron en el Nakatomi.\n\n## Jungla de cris-mal\n\nLo siento mucho por Daisy Ridley, a la que después de 'Star Wars' le está costando encontrar el sentido a su carrera, porque se nota que confía en 'Cleaner' como su pasaporte a convertirse en heroína de acción. Ojalá la película confiara tanto en ella. Las peleas están bien coreografiadas y su actuación es más o menos cumplidora y carismática, pero ella, por más ganas que le ponga, no es la elección apropiada. Tampoco puede hacer mucho más, eso es cierto, con el guion que le ha caído, un libreto que se centra en convertir a un grupo de activistas en los villanos de la función y a los ricachones millonarios en las víctimas. Podría haber sido una fábula moral o jugar mejor con los grises de sus personajes, pero, más allá de algunas escenas (incluyendo el final), los matices brillan por su ausencia.\n\n¿Cómo asegurarnos de que el público no apoya a los activistas que no buscan dinero, sino que los billonarios del mundo, a los que han secuestrado en plena fiesta, reconozcan sus fraudes y pecados delante de la cámara? Por supuesto: convirtiendo a su líder en un psicópata asesino que pretende volar el edificio por los aires. Por suerte, ahí está la limpiadora de ventanas con entrenamiento militar para salvar el día y cargarse a todo el que pille por el camino. Es una película de acción tontuela perfecta para ver un domingo a la hora de la siesta, pero ese es el mayor halago que se le puede hacer.\n\nY es una pena, porque tras las cámaras de 'Cleaner' está uno de los mejores directores de acción de los 90 y los 00: Martin Campbell. Pero aquí no hay ni rastro de 'Goldeneye', 'Casino Royale', 'La máscara del zorro' o, más allá del título, 'Límite Vertical'. La mano de Campbell no es que esté aquí diluída: se muestra absolutamente inexistente, con unas escenas de acción, en su mayoría, funcionales, muy básicas, poco arriesgadas y menos creíbles aún, que sirven como entretenimiento tan solo para aquellos que se conforman con una sinfonía de explosiones, tiros, cristales rotos y porrazos en la nuca que podría estar sacada de cualquier cinta de acción de los últimos veinte años.\n\n## Yippi-ka-yei, otra vez\n\nAl final, la película no consigue ninguno de sus objetivos. No consigue dar sensación de vértigo ni teniendo a su protagonista colgada en un piso 38, ni tampoco que estemos nunca del todo de su lado (especialmente en las insufribles escenas donde aparece su hermano, un deus ex machina doloroso), o que nos creamos del todo la supuesta amistad repentina entre ella y la policía que copia vilmente la de John McClane y Al Powell, solo que dejando a un lado la garra y la personalidad propia. Es como si hubieran copiado el guion de 'Jungla de cristal', pero dejándose por el medio todo lo que la hacía especial, quedando tan solo un triste imitador de marca blanca.",
+  "instruction": "¿Quién dirigió la película '\\''Cleaner'\\''?",
+  "target_schema": {
+    "additionalProperties": false,
+    "description": "Extracts a single verbatim fragment that answers the provided instruction.\nComplexity: L1 (Literal Extraction).",
+    "properties": {
+      "answer": {
+        "description": "The verbatim fragment from the source text that answers the question",
+        "title": "Answer",
+        "type": "string"
+      }
+    },
+    "required": [
+      "answer"
+    ],
+    "title": "TextAnswer",
+    "type": "object"
+  },
+  "output": {
+    "answer": "tras las cámaras de 'Cleaner' está uno de los mejores directores de acción de los 90 y los 00: Martin Campbell."
+  },
+  "metadata": {
+    "source": "espinof_cleaner-rescate-vertical-logra-que-daisy-ridley-brille-como-heroina-accion-plagio-desvergonzado-jungla-cristal.md",
+    "domain": "cultural",
+    "subdomain": "movie_reviews"
+  }
+}

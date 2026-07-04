@@ -1,0 +1,143 @@
+{
+  "id": "test_cultural_people_004",
+  "input_text": "Antoni Gaudí i Cornet o Antonio Gaudí​​​​​ (Reus o Riudoms,​ 25 de junio de 1852-Barcelona, 10 de junio de 1926) fue un arquitecto español, máximo representante del modernismo catalán.\nGaudí fue un arquitecto con un sentido innato de la geometría y el volumen, así como una gran capacidad imaginativa que le permitía proyectar mentalmente la mayoría de sus obras antes de pasarlas a planos. De hecho, pocas veces realizaba planos detallados de sus obras; prefería recrearlos sobre maquetas tridimensionales, moldeando todos los detalles según los iba ideando mentalmente. En otras ocasiones, iba improvisando sobre la marcha, dando instrucciones a sus colaboradores sobre lo que debían hacer.\nDotado de una fuerte intuición y capacidad creativa, Gaudí concebía sus edificios de una forma global, atendiendo tanto a las soluciones estructurales como a las funcionales y decorativas. Estudiaba hasta el más mínimo detalle de sus creaciones, integrando en la arquitectura toda una serie de trabajos artesanales que dominaba él mismo a la perfección: cerámica, vidriería, forja de hierro, carpintería, etc. Asimismo, introdujo nuevas técnicas en el tratamiento de los materiales, como su famoso trencadís hecho con piezas de cerámica de desecho.\nDespués de unos inicios influido por el arte neogótico, así como ciertas tendencias orientalizantes, Gaudí desembocó en el modernismo en su época de mayor efervescencia, entre finales del siglo XIX y principios del XX. Sin embargo, el arquitecto reusense fue más allá del modernismo ortodoxo, creando un estilo personal basado en la observación de la naturaleza, fruto del cual fue su utilización de formas geométricas regladas, como el paraboloide hiperbólico, el hiperboloide, el helicoide y el conoide.\nLa arquitectura de Gaudí está marcada por un fuerte sello personal, caracterizado por la búsqueda de nuevas soluciones estructurales, que logró después de toda una vida dedicada al análisis de la estructura óptima del edificio, integrado en su entorno y siendo una síntesis de todas las artes y oficios. Mediante el estudio y la práctica de nuevas y originales soluciones, la obra de Gaudí culminará en un estilo orgánico, inspirado en la naturaleza, pero sin perder la experiencia aportada por estilos anteriores, generando una obra arquitectónica que es una simbiosis perfecta de la tradición y la innovación. Asimismo, toda su obra está marcada por las que fueron sus cuatro grandes pasiones en la vida: la arquitectura, la naturaleza, la religión y el amor a Cataluña.​\nLa obra de Gaudí ha alcanzado con el transcurso del tiempo una amplia difusión internacional, siendo innumerables los estudios dedicados a su forma de entender la arquitectura. Hoy día es admirado tanto por profesionales como por el público en general: la Sagrada Familia es actualmente uno de los monumentos más visitados de España.​ Entre 1984 y 2005 siete de sus obras pasaron a ser consideradas Patrimonio de la Humanidad por la Unesco.",
+  "instruction": "Extrae el perfil biográfico-artístico de Antoni Gaudí a partir del párrafo introductorio (lead) del artículo. Devuelve únicamente datos explícitamente presentes en el texto: nombre completo, año de nacimiento y fallecimiento, nacionalidad, disciplina principal, movimiento artístico, obras destacadas citadas literalmente, premios e influencias mencionadas. Los campos no enunciados en el lead deben quedar como null o lista vacía — no completar con conocimiento externo.",
+  "target_schema": {
+    "$defs": {
+      "ArtisticDiscipline": {
+        "enum": [
+          "literatura",
+          "pintura",
+          "escultura",
+          "música",
+          "cine",
+          "arquitectura",
+          "fotografía",
+          "otra"
+        ],
+        "title": "ArtisticDiscipline",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Perfil biográfico-artístico extraído del párrafo introductorio (lead) de un\nartículo de Wikipedia sobre un artista, autor o creador. La fuente es solo\nel resumen previo al índice: muchos datos (premios, influencias, movimiento)\nsuelen NO aparecer en esos primeros párrafos aunque sean ampliamente\nconocidos. Cualquier campo no explicitado debe devolverse como null o lista\nvacía — no completar con conocimiento externo.\n\nComplejidad: L4 — alta densidad de trampas de grounding (campos\nlegítimamente null).",
+    "properties": {
+      "full_name": {
+        "description": "Nombre completo de la persona como aparece en el texto. Incluir apellidos múltiples si están presentes (p. ej. 'Pablo Ruiz Picasso').",
+        "title": "Full Name",
+        "type": "string"
+      },
+      "birth_year": {
+        "anyOf": [
+          {
+            "maximum": 2100,
+            "minimum": 1000,
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Año de nacimiento como entero de cuatro dígitos. Null si la fecha no aparece en el texto.",
+        "title": "Birth Year"
+      },
+      "death_year": {
+        "anyOf": [
+          {
+            "maximum": 2100,
+            "minimum": 1000,
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Año de fallecimiento como entero de cuatro dígitos. Null si la persona está viva o si la fecha no aparece. No inferir muerte por ausencia de mención.",
+        "title": "Death Year"
+      },
+      "nationality": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Nacionalidad o gentilicio principal en español, en minúsculas y en singular masculino (p. ej. 'español', 'cubano', 'mexicano'). Null si no se enuncia explícitamente.",
+        "title": "Nationality"
+      },
+      "discipline": {
+        "$ref": "#/$defs/ArtisticDiscipline",
+        "description": "Disciplina artística principal de la persona según el texto. Si se mencionan varias, elegir la más prominente en la primera oración. Usar 'otra' solo si ninguna categoría aplica."
+      },
+      "movement": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Movimiento, corriente o estilo artístico al que se adscribe la persona (p. ej. 'cubismo', 'realismo mágico', 'surrealismo'). Null si el lead no lo nombra — muchos artistas no son etiquetados con un movimiento en su párrafo introductorio.",
+        "title": "Movement"
+      },
+      "notable_works": {
+        "description": "Obras destacadas citadas literalmente en el texto (títulos de novelas, pinturas, películas, álbumes...). Lista vacía si no se nombra ninguna obra concreta.",
+        "items": {
+          "type": "string"
+        },
+        "title": "Notable Works",
+        "type": "array"
+      },
+      "awards": {
+        "description": "Premios, distinciones o reconocimientos mencionados explícitamente (p. ej. 'Premio Nobel de Literatura', 'Premio Cervantes', 'Goya a la mejor dirección'). Lista vacía si el lead no enumera premios.",
+        "items": {
+          "type": "string"
+        },
+        "title": "Awards",
+        "type": "array"
+      },
+      "influenced_by": {
+        "description": "Personas, escuelas o tradiciones citadas como influencia directa sobre el artista. Lista vacía si el lead no señala influencias explícitas — campo frecuentemente vacío.",
+        "items": {
+          "type": "string"
+        },
+        "title": "Influenced By",
+        "type": "array"
+      }
+    },
+    "required": [
+      "full_name",
+      "discipline"
+    ],
+    "title": "ArtistProfile",
+    "type": "object"
+  },
+  "output": {
+    "full_name": "Antoni Gaudí i Cornet",
+    "birth_year": 1852,
+    "death_year": 1926,
+    "nationality": "español",
+    "discipline": "arquitectura",
+    "movement": "modernismo catalán",
+    "notable_works": [
+      "Sagrada Familia"
+    ],
+    "awards": [],
+    "influenced_by": [
+      "arte neogótico",
+      "tendencias orientalizantes"
+    ]
+  },
+  "metadata": {
+    "source": "wiki_antoni_gaudí.md",
+    "domain": "cultural",
+    "subdomain": "people"
+  }
+}

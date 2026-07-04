@@ -1,0 +1,145 @@
+{
+  "id": "test_cultural_people_003",
+  "input_text": "# Diego Velázquez\n\nDiego Rodríguez de Silva y Velázquez (Sevilla, bautizado el 6 de junio de 1599-Madrid, 6 de agosto de 1660), conocido como Diego Velázquez, fue un pintor barroco español considerado uno de los máximos exponentes de la pintura española y maestro de la pintura universal. Pasó sus primeros años en Sevilla, donde desarrolló un estilo naturalista de iluminación tenebrista, por influencia de Caravaggio y sus seguidores. A los 24 años se trasladó a Madrid, donde fue nombrado pintor del rey Felipe IV y cuatro años después fue ascendido a pintor de cámara, el cargo más importante entre los pintores de la corte. A esta labor dedicó el resto de su vida. Su trabajo consistía en pintar retratos del rey y de su familia, así como otros cuadros destinados a decorar las mansiones reales. Su presencia en la corte le permitió estudiar la colección real de pintura que, junto con las enseñanzas de su primer viaje a Italia, donde conoció tanto la pintura antigua como la que se hacía en su tiempo, fueron influencias determinantes para evolucionar a un estilo de gran luminosidad, con pinceladas rápidas y sueltas. En su madurez, a partir de 1631, pintó de esta forma grandes obras como La rendición de Breda. En su última década su estilo se hizo más esquemático y abocetado, alcanzando un dominio extraordinario de la luz. Este período se inauguró con el Retrato del papa Inocencio X, pintado en su segundo viaje a Italia, y a él pertenecen sus dos últimas obras maestras: Las meninas, un retrato colectivo de la familia real, y Las hilanderas, un cuadro mitológico que representa el castigo a la tejedora Aracne por parte de la diosa Minerva.",
+  "instruction": "Extrae el perfil biográfico-artístico del pintor descrito en el párrafo introductorio. Devuelve null o lista vacía para cualquier campo no mencionado explícitamente en el texto.",
+  "target_schema": {
+    "$defs": {
+      "ArtisticDiscipline": {
+        "enum": [
+          "literatura",
+          "pintura",
+          "escultura",
+          "música",
+          "cine",
+          "arquitectura",
+          "fotografía",
+          "otra"
+        ],
+        "title": "ArtisticDiscipline",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Perfil biográfico-artístico extraído del párrafo introductorio (lead) de un\nartículo de Wikipedia sobre un artista, autor o creador. La fuente es solo\nel resumen previo al índice: muchos datos (premios, influencias, movimiento)\nsuelen NO aparecer en esos primeros párrafos aunque sean ampliamente\nconocidos. Cualquier campo no explicitado debe devolverse como null o lista\nvacía — no completar con conocimiento externo.\n\nComplejidad: L4 — alta densidad de trampas de grounding (campos\nlegítimamente null).",
+    "properties": {
+      "full_name": {
+        "description": "Nombre completo de la persona como aparece en el texto. Incluir apellidos múltiples si están presentes (p. ej. 'Pablo Ruiz Picasso').",
+        "title": "Full Name",
+        "type": "string"
+      },
+      "birth_year": {
+        "anyOf": [
+          {
+            "maximum": 2100,
+            "minimum": 1000,
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Año de nacimiento como entero de cuatro dígitos. Null si la fecha no aparece en el texto.",
+        "title": "Birth Year"
+      },
+      "death_year": {
+        "anyOf": [
+          {
+            "maximum": 2100,
+            "minimum": 1000,
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Año de fallecimiento como entero de cuatro dígitos. Null si la persona está viva o si la fecha no aparece. No inferir muerte por ausencia de mención.",
+        "title": "Death Year"
+      },
+      "nationality": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Nacionalidad o gentilicio principal en español, en minúsculas y en singular masculino (p. ej. 'español', 'cubano', 'mexicano'). Null si no se enuncia explícitamente.",
+        "title": "Nationality"
+      },
+      "discipline": {
+        "$ref": "#/$defs/ArtisticDiscipline",
+        "description": "Disciplina artística principal de la persona según el texto. Si se mencionan varias, elegir la más prominente en la primera oración. Usar 'otra' solo si ninguna categoría aplica."
+      },
+      "movement": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Movimiento, corriente o estilo artístico al que se adscribe la persona (p. ej. 'cubismo', 'realismo mágico', 'surrealismo'). Null si el lead no lo nombra — muchos artistas no son etiquetados con un movimiento en su párrafo introductorio.",
+        "title": "Movement"
+      },
+      "notable_works": {
+        "description": "Obras destacadas citadas literalmente en el texto (títulos de novelas, pinturas, películas, álbumes...). Lista vacía si no se nombra ninguna obra concreta.",
+        "items": {
+          "type": "string"
+        },
+        "title": "Notable Works",
+        "type": "array"
+      },
+      "awards": {
+        "description": "Premios, distinciones o reconocimientos mencionados explícitamente (p. ej. 'Premio Nobel de Literatura', 'Premio Cervantes', 'Goya a la mejor dirección'). Lista vacía si el lead no enumera premios.",
+        "items": {
+          "type": "string"
+        },
+        "title": "Awards",
+        "type": "array"
+      },
+      "influenced_by": {
+        "description": "Personas, escuelas o tradiciones citadas como influencia directa sobre el artista. Lista vacía si el lead no señala influencias explícitas — campo frecuentemente vacío.",
+        "items": {
+          "type": "string"
+        },
+        "title": "Influenced By",
+        "type": "array"
+      }
+    },
+    "required": [
+      "full_name",
+      "discipline"
+    ],
+    "title": "ArtistProfile",
+    "type": "object"
+  },
+  "output": {
+    "full_name": "Diego Rodríguez de Silva y Velázquez",
+    "birth_year": 1599,
+    "death_year": 1660,
+    "nationality": "español",
+    "discipline": "pintura",
+    "movement": "barroco",
+    "notable_works": [
+      "La rendición de Breda",
+      "Retrato del papa Inocencio X",
+      "Las meninas",
+      "Las hilanderas"
+    ],
+    "awards": [],
+    "influenced_by": [
+      "Caravaggio"
+    ]
+  },
+  "metadata": {
+    "source": "wiki_diego_velázquez.md",
+    "domain": "cultural",
+    "subdomain": "people"
+  }
+}

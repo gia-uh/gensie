@@ -1,0 +1,148 @@
+{
+  "id": "stem_astronomy_detailed_010",
+  "input_text": "# Plutón (planeta enano)\n\nPlutón, designado (134340) Pluto, es un planeta enano del sistema solar ubicado en el cinturón de Kuiper, situado a continuación de la órbita de Neptuno y descubierto por Clyde Tombaugh el 18 de febrero de 1930 (véase Día Internacional de Plutón). Su nombre se debe al dios mitológico romano Plutón (Hades, según la mitología griega). En la Asamblea General de la Unión Astronómica Internacional (UAI) celebrada en Praga el 24 de agosto de 2006, se creó una nueva categoría llamada planeta enano, en la que se incluye a Plutón. Posteriormente, en 2008, la UAI especificó una nueva categoría para los planetas enanos similares a Plutón en órbita más allá de Neptuno, a la que llamó plutoide. Es también el prototipo de una categoría de objetos transneptunianos denominada plutinos. Plutón posee una órbita excéntrica y altamente inclinada con respecto a la eclíptica, que recorre acercándose en su perihelio hasta el interior de la órbita de Neptuno. Asimismo posee también cinco satélites: Caronte, Nix, Hidra, Cerbero y Estigia,​​ los cuales son cuerpos celestes que comparten esa misma categoría.\nSu gran distancia al Sol y a la Tierra, unida a su reducido tamaño, impide que brille por encima de la magnitud 13.8 en sus mejores momentos (perihelio orbital y oposición), por lo cual solo puede ser apreciado con telescopios a partir de los 200 mm de abertura, fotográficamente o con cámara CCD. Incluso en sus mejores momentos aparece como astro puntual de aspecto estelar, amarillento, sin rasgos distintivos (diámetro aparente inferior a 0.1 segundos de arco). No fue hasta el año 2015 cuando la sonda espacial New Horizons pasó sobre el planeta y permitió apreciar por primera vez de forma nítida su aspecto real.\nPlutón fue descubierto el 18 de febrero de 1930 por el astrónomo estadounidense Clyde William Tombaugh (1906-1997) desde el Observatorio Lowell en Flagstaff, Arizona, y fue considerado el noveno y más pequeño planeta del sistema solar por la Unión Astronómica Internacional y por la opinión pública desde entonces hasta 2006, aunque su pertenencia al grupo de planetas del sistema solar fue siempre objeto de controversia entre los astrónomos. Durante muchos años existió la creencia de que Plutón era un satélite de Neptuno que había dejado de ser satélite por el hecho de alcanzar una segunda velocidad cósmica. Sin embargo, esta teoría fue rechazada en la década de 1970.​\nTras un intenso debate, y con la propuesta de los astrónomos uruguayos Julio Ángel Fernández y Gonzalo Tancredi ante la Asamblea General de la Unión Astronómica Internacional en Praga, República Checa, se decidió por unanimidad reclasificar a Plutón como planeta enano,​ requiriendo que un planeta debe tener dominancia orbital. Se propuso su clasificación como planeta en el borrador de resolución, pero desapareció de la resolución final, aprobada por la Asamblea General de la UAI. Desde el 7 de septiembre de 2006 tiene el número 134340, otorgado por el Centro de Planetas Menores.",
+  "instruction": "Extrae las propiedades físicas y orbitales del cuerpo celeste descrito en el texto, incluyendo su designación oficial, tipo de cuerpo celeste, y los datos de su descubrimiento. Si alguna propiedad numérica no aparece explícitamente en el texto, devuelve null.",
+  "target_schema": {
+    "$defs": {
+      "CelestialBodyType": {
+        "enum": [
+          "ASTEROIDE",
+          "COMETA",
+          "PLANETA",
+          "LUNA",
+          "PLANETA ENANO",
+          "OBJETO INTERESTELAR",
+          "OTRO"
+        ],
+        "title": "CelestialBodyType",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Extracts physical and orbital parameters of celestial bodies.\nComplexity: L5 (Precision Extraction & Normalization).",
+    "properties": {
+      "official_name": {
+        "description": "The primary scientific designation or name",
+        "title": "Official Name",
+        "type": "string"
+      },
+      "body_type": {
+        "$ref": "#/$defs/CelestialBodyType",
+        "description": "The classification of the celestial object"
+      },
+      "mass_kg": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Mass in kilograms (scientific notation or float)",
+        "title": "Mass Kg"
+      },
+      "diameter_km": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Mean diameter in kilometers",
+        "title": "Diameter Km"
+      },
+      "eccentricity": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Orbital eccentricity (e.g., 1.199)",
+        "title": "Eccentricity"
+      },
+      "orbital_period_days": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Time to complete one orbit in Earth days",
+        "title": "Orbital Period Days"
+      },
+      "semi_major_axis_au": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Average distance from the sun in AU",
+        "title": "Semi Major Axis Au"
+      },
+      "discovery_date": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Date of discovery in YYYY-MM-DD format",
+        "title": "Discovery Date"
+      },
+      "discoverer": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Name of the person or observatory that found the object",
+        "title": "Discoverer"
+      }
+    },
+    "required": [
+      "official_name",
+      "body_type"
+    ],
+    "title": "CelestialObjectProperties",
+    "type": "object"
+  },
+  "output": {
+    "official_name": "(134340) Pluto",
+    "body_type": "PLANETA ENANO",
+    "mass_kg": null,
+    "diameter_km": null,
+    "eccentricity": null,
+    "orbital_period_days": null,
+    "semi_major_axis_au": null,
+    "discovery_date": "1930-02-18",
+    "discoverer": "Clyde William Tombaugh"
+  },
+  "metadata": {
+    "source": "solar_system_10_pluton.md",
+    "domain": "stem",
+    "subdomain": "astronomy_detailed"
+  }
+}

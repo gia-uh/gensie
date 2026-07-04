@@ -1,0 +1,153 @@
+{
+  "id": "medical_health_news_002",
+  "input_text": "# Afirman que estar enamorado por más de seis meses podría ser patológico\n\nEn una entrevista para el diario argentino Clarín, el psiquiatra norteamericano Hagop Akiskal afirmó que el enamoramiento de más de seis meses es un estado \"muy cercano a desórdenes mentales, como la depresión, el desorden bipolar o el trastorno obsesivo-compulsivo\".\n\"Décadas atrás estuve investigando el comportamiento en monos y los diferentes desórdenes del humor –explica Akiskal–, y con el tiempo focalizamos también en el enamoramiento, que tiene varios síntomas: la persona no puede dormir, no puede concentrarse en otros temas, y sólo tiene una obsesión por el enamorado.\"\nEl médico, invitado como orador en el congreso anual de la Asociación Estadounidense para el Avance de la Ciencia, declaró al diario que los niveles de serotonina, eran similares a los de pacientes con Trastorno Obsesivo-Compulsivo (TOC). La serotonina es un neurotransmisor del sistema nervioso.\nAkiskal explicó que también ocurre situaciones similares con personas depresivas. \"Por lo tanto, a los seis meses se puede seguir con la misma pareja, pero habría que sospechar si los síntomas del enamoramiento siguen. Es conveniente que el enamoramiento dure sólo meses. De lo contrario, se sufre demasiado\", señaló el médico.\nEl psiquiatra también sostiene que perfumes, \"de alguna manera\", van en contra de la evolución. \"Necesitamos oler al otro y no enmascararlo, porque cada ser humano puede usar el olfato para descubrir si hay una histocompatibilidad con la otra persona. Por eso, es tan bueno el baile y la transpiración\", dijo Akiskal.\nEl doctor, nacido en Siria, comentó que hay que darle atención a la oxitocina, conocida como la \"hormona de la confianza\". El psiquiatra señaló que las relaciones de confianza se basan en esta sustancia y contó que ya se vende como spray (pulverizador) nasal. \"Se podría usar el spray para hacer negocios y generar empatía\", advirtió.",
+  "instruction": "Extrae la información estructurada de este artículo de noticias de salud siguiendo el esquema proporcionado.",
+  "target_schema": {
+    "$defs": {
+      "NewsCategory": {
+        "enum": [
+          "JUDICIAL",
+          "DISASTER",
+          "HEALTH",
+          "ENVIRONMENT",
+          "POLITICS",
+          "ECONOMY",
+          "SCIENCE",
+          "CULTURE",
+          "SPORTS",
+          "OTHER"
+        ],
+        "title": "NewsCategory",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Extracts structured information from general news articles.\nComplexity: L4 (Sparse Extraction) - Some fields may be null/missing.",
+    "properties": {
+      "headline": {
+        "description": "The main headline or title of the news article",
+        "title": "Headline",
+        "type": "string"
+      },
+      "summary": {
+        "description": "A brief summary of the main facts reported (1-3 sentences)",
+        "title": "Summary",
+        "type": "string"
+      },
+      "category": {
+        "$ref": "#/$defs/NewsCategory",
+        "description": "The thematic category of the news story"
+      },
+      "location": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Geographic location where the event occurred (city, country, or region)",
+        "title": "Location"
+      },
+      "date": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Date mentioned in the article (may be implicit or explicit)",
+        "title": "Date"
+      },
+      "key_people": {
+        "description": "Names of key individuals mentioned in the article",
+        "items": {
+          "type": "string"
+        },
+        "title": "Key People",
+        "type": "array"
+      },
+      "key_organizations": {
+        "description": "Names of organizations, companies, or governments mentioned",
+        "items": {
+          "type": "string"
+        },
+        "title": "Key Organizations",
+        "type": "array"
+      },
+      "casualties": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of deaths mentioned, if any",
+        "title": "Casualties"
+      },
+      "injured": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of people injured, if any",
+        "title": "Injured"
+      },
+      "affected_count": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of people affected or displaced, if applicable",
+        "title": "Affected Count"
+      }
+    },
+    "required": [
+      "headline",
+      "summary",
+      "category"
+    ],
+    "title": "NewsArticle",
+    "type": "object"
+  },
+  "output": {
+    "headline": "Afirman que estar enamorado por más de seis meses podría ser patológico",
+    "summary": "El psiquiatra norteamericano Hagop Akiskal afirmó que el enamoramiento de más de seis meses es un estado muy cercano a desórdenes mentales como la depresión, el desorden bipolar o el trastorno obsesivo-compulsivo, y que los niveles de serotonina en enamorados son similares a los de pacientes con TOC.",
+    "category": "HEALTH",
+    "location": null,
+    "date": null,
+    "key_people": [
+      "Hagop Akiskal"
+    ],
+    "key_organizations": [
+      "Clarín",
+      "Asociación Estadounidense para el Avance de la Ciencia"
+    ],
+    "casualties": null,
+    "injured": null,
+    "affected_count": null
+  },
+  "metadata": {
+    "source": "wikinews_salud_20260415_002_afirman_que_estar_enamorado_por_más_de_seis_meses_.md",
+    "domain": "medical",
+    "subdomain": "health_news"
+  }
+}

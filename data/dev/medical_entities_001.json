@@ -1,0 +1,89 @@
+{
+  "id": "medical_entities_001",
+  "input_text": "FICHA TECNICA PARACETAMOL/ CODEINA LEVEL 24mg/ml +2,40mg/ml SOLUCION ORAL [...] # 1. NOMBRE DEL MEDICAMENTO\n\nParacetamol/codeína Level 24 mg/ml + 2,40 mg/ml solución oral.\n\n# 2. COMPOSICIÓN CUALITATIVA Y CUANTITATIVA\n\n## 2.2. Composición cualitativa y cuantitativa\n\nCada mililitro de solución contiene:\n\nPrincipios activos:\n\nParacetamol........................................................  24 mg.\n\nCodeína fosfato hemihidrato............................ 2,40 mg (equivalente a 2,35 mg de Codeína fosfato).\n\n### 2.2.1. Excipiente(s) con efecto conocido\n\nEtanol 0,07 ml, azorrubina (carmoisina) (E-122) (0,05 mg), sacarosa (593 mg), benzoato de sodio (E-211)(1,5 mg), propilenglicol (E-1520)(0,15 g) y alcohol bencílico (aroma de frambuesa) (1,42 mg).\n\nPara consultar la lista completa de excipientes ver sección 6.1.\n\n# 3. FORMA FARMACÉUTICA\n\nSolución oral. La solución es transparente de color rojo con olor característico a fresa.\n\n# 4. DATOS CLÍNICOS\n\n## 4.1. Indicaciones terapéuticas\n\nEste medicamento está indicado en pacientes mayores de 12 años para el tratamiento del dolor agudo moderado que no se considere aliviado por otros analgésicos como paracetamol o ibuprofeno (en monofármaco).",
+  "instruction": "Identifica las entidades nombradas (nombres de medicamentos, sustancias, marcas y otros) mencionadas en este fragmento de ficha técnica farmacéutica.",
+  "target_schema": {
+    "$defs": {
+      "Entity": {
+        "additionalProperties": false,
+        "description": "A single named entity mention.",
+        "properties": {
+          "text": {
+            "description": "The verbatim text mention from the source",
+            "title": "Text",
+            "type": "string"
+          },
+          "label": {
+            "$ref": "#/$defs/EntityType",
+            "description": "The category of the entity"
+          }
+        },
+        "required": [
+          "text",
+          "label"
+        ],
+        "title": "Entity",
+        "type": "object"
+      },
+      "EntityType": {
+        "enum": [
+          "PERSON",
+          "ORGANIZATION",
+          "LOCATION",
+          "DATE",
+          "EVENT",
+          "MISCELLANEOUS"
+        ],
+        "title": "EntityType",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Extracts named entity mentions categorized by type in a single list.\nComplexity: L5 (Hierarchical Grouping).",
+    "properties": {
+      "entities": {
+        "description": "List of all recognized named entities",
+        "items": {
+          "$ref": "#/$defs/Entity"
+        },
+        "title": "Entities",
+        "type": "array"
+      }
+    },
+    "title": "NamedEntities",
+    "type": "object"
+  },
+  "output": {
+    "entities": [
+      {
+        "text": "PARACETAMOL",
+        "label": "MISCELLANEOUS"
+      },
+      {
+        "text": "CODEINA LEVEL",
+        "label": "MISCELLANEOUS"
+      },
+      {
+        "text": "Paracetamol/codeína Level",
+        "label": "MISCELLANEOUS"
+      },
+      {
+        "text": "Codeína fosfato hemihidrato",
+        "label": "MISCELLANEOUS"
+      },
+      {
+        "text": "Codeína fosfato",
+        "label": "MISCELLANEOUS"
+      },
+      {
+        "text": "ibuprofeno",
+        "label": "MISCELLANEOUS"
+      }
+    ]
+  },
+  "metadata": {
+    "source": "CIMA_61072.md",
+    "domain": "medical",
+    "subdomain": "drug_safety"
+  }
+}

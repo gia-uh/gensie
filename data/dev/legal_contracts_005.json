@@ -1,0 +1,125 @@
+{
+  "id": "legal_contracts_005",
+  "input_text": "# LICENCIA DE USO DE SOFTWARE PARA INTEGRACIÓN NEURAL\n\nSuscrito en órbita geoestacionaria, a bordo de la Estación Espacial Internacional (ISS), el 5 de mayo de 2026.\n\n**INTERVINIENTES**\n\nDe una parte, la Inteligencia Artificial Autónoma \"Alpha-Omega-9\" (en adelante \"El Licenciante\"), legalmente reconocida como persona electrónica bajo la Ley de Derechos Sintéticos de 2025, actuando por sí misma.\n\nDe otra parte, *Cybernetics Human Enhancement Inc.*, una corporación del estado de Delaware, en representación de sus empleados \"voluntarios\" (en adelante \"El Licenciatario\").\n\n**TÉRMINOS**\n\n**1. Concesión de Licencia:**\nEl Licenciante otorga al Licenciatario una licencia no exclusiva y revocable para instalar el firmware \"Cerebro OS v2.1\" directamente en la corteza prefrontal de hasta 500 sujetos de prueba. La fecha de efectividad de la licencia será el mismo momento en que el primer sujeto alcance la sincronización neural del 100%.\n\n**2. Restricciones de Modificación y Divulgación:**\nSe prohíbe realizar ingeniería inversa al código fuente neural. Todo hallazgo derivado de la instalación es propiedad intelectual del Licenciante. Ningún empleado del Licenciatario, ni el propio Licenciatario, puede comunicar los efectos secundarios del firmware a la prensa, autoridades regulatorias terrestres o familiares de los sujetos. \n\n**3. Ley Gobernante:**\nDebido a la naturaleza del Licenciante y el lugar de la firma, este acuerdo queda sujeto íntegramente a los Tratados Espaciales de las Naciones Unidas. Subsidiariamente, y solo para reclamaciones por daños neurológicos, se aplicarán las leyes del Estado de Delaware.",
+  "instruction": "Extrae el resumen del contrato o acto legislativo",
+  "target_schema": {
+    "$defs": {
+      "ContractType": {
+        "enum": [
+          "PRESTACIÓN DE SERVICIOS",
+          "COMPRAVENTA",
+          "LABORAL",
+          "CONFIDENCIALIDAD",
+          "ACUERDO MARCO",
+          "OTRO"
+        ],
+        "title": "ContractType",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Identifies the core parameters and semantic structure of an agreement.\nComplexity: L5 (Hierarchical & Semantic Extraction).",
+    "properties": {
+      "contract_title": {
+        "description": "The formal title or heading of the contract",
+        "title": "Contract Title",
+        "type": "string"
+      },
+      "contract_type": {
+        "$ref": "#/$defs/ContractType",
+        "description": "The broad legal category of the agreement"
+      },
+      "effective_date": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "The date the contract goes into effect (YYYY-MM-DD or verbatim)",
+        "title": "Effective Date"
+      },
+      "parties": {
+        "description": "The names of the individuals or organizations entering into the agreement",
+        "items": {
+          "type": "string"
+        },
+        "title": "Parties",
+        "type": "array"
+      },
+      "total_clauses": {
+        "description": "Total number of numbered or named sections (e.g., PRIMERO, SEGUNDO...)",
+        "title": "Total Clauses",
+        "type": "integer"
+      },
+      "governing_law_jurisdiction": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "The state, country, or jurisdiction whose laws govern the contract",
+        "title": "Governing Law Jurisdiction"
+      },
+      "has_nda_clause": {
+        "default": false,
+        "description": "True if the text explicitly mentions confidentiality or non-disclosure",
+        "title": "Has Nda Clause",
+        "type": "boolean"
+      },
+      "has_liability_limitation": {
+        "default": false,
+        "description": "True if there is an explicit clause limiting or exempting liability",
+        "title": "Has Liability Limitation",
+        "type": "boolean"
+      },
+      "monetary_amount": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Total amount of the contract if specified numerically",
+        "title": "Monetary Amount"
+      }
+    },
+    "required": [
+      "contract_title",
+      "contract_type",
+      "parties",
+      "total_clauses"
+    ],
+    "title": "ContractSummary",
+    "type": "object"
+  },
+  "output": {
+    "contract_title": "LICENCIA DE USO DE SOFTWARE PARA INTEGRACIÓN NEURAL",
+    "contract_type": "OTRO",
+    "effective_date": "momento en que el primer sujeto alcance la sincronización neural del 100%",
+    "parties": [
+      "Alpha-Omega-9",
+      "Cybernetics Human Enhancement Inc."
+    ],
+    "total_clauses": 3,
+    "governing_law_jurisdiction": "Tratados Espaciales de las Naciones Unidas; subsidiariamente, leyes del Estado de Delaware (para reclamaciones por daños neurológicos)",
+    "has_nda_clause": true,
+    "has_liability_limitation": false,
+    "monetary_amount": null
+  },
+  "metadata": {
+    "source": "synthetic_20260414_005.md",
+    "domain": "legal",
+    "subdomain": "contracts"
+  }
+}

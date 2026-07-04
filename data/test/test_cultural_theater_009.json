@@ -1,0 +1,311 @@
+{
+  "id": "cultural_theater_009",
+  "input_text": "# LA CASA QUE RESPIRA [...] **Espacio:** Antiguo Almacén de Salazones nº 4, Muelle de la Marina Vieja, Cádiz [...] **Temporada:** del 12 de junio al 27 de julio de 2026 [...] **Duración aproximada del recorrido:** 95 minutos sin intermedio. [...] *La Casa que Respira* propone un recorrido por las once estancias de un almacén portuario de finales del siglo XIX reconvertido en vivienda imaginaria. La pieza acompaña a una mujer sin nombre que regresa, tras cuarenta años, al lugar donde su familia se ocultó durante la posguerra. Cada habitación es un fragmento de memoria que el público atraviesa guiado por una intérprete-anfitriona; las paredes susurran, los objetos se desplazan, y en una de las salas el espectador queda momentáneamente a solas con una voz que sale del suelo. [...] - Se emplean **luces estroboscópicas** durante una secuencia de aproximadamente 40 segundos en la estancia que la compañía denomina «el cuarto del temporal».\n- Una escena íntima en la antigua despensa contiene **desnudos parciales** y referencias explícitas a una relación amorosa interrumpida. La compañía considera estos pasajes parte indivisible de la dramaturgia y no admite el acceso a menores de 16 años. [...] - **La Mujer que Regresa** — interpretada por *Almudena Rocío Pérez Trejo*\n- **La Niña del Patio Trasero** — interpretada por *Saioa Etxebarría Lertxundi*. Suplente: *Carla Mondragón Vives*\n- **El Hermano que no Habla** — interpretado por *Joserra Pinilla Domínguez*\n- **Voz del Suelo (off, en directo)** — *Lucrecia Hinojosa Maza*\n- **Intérprete-anfitriona, Grupo A** — *Macarena Soto Aldeguer*\n- **Intérprete-anfitriona, Grupo B** — *Tomás Iván Verdugo Cárcamo*\n- **Performer del Cuarto del Temporal** — *Niu Wen-Hao* (artista invitado de la Compañía Hai Lin, Taipéi)\n- **Coro de Vecinas (in situ, vecinas voluntarias del barrio de la Viña)** — *Eulalia Pámpano*, *Remedios Calderón*, *Bibiana Suárez de la Hoz* [...] - **Dirección y concepto** — *Inés Maravillas Quiñones*\n- **Dramaturgia** — *Federico Ardanaz Olabarría* en colaboración con *Inés Maravillas Quiñones*\n- **Diseño sonoro y composición** — *Tarek Boumediene-Roselló* (Estudio Hiedra, Granada)\n- **Diseño escenográfico y arquitectura del recorrido** — *Colectivo Marejada* (María del Tránsito Solís, Aldo Pizarnik, Yolanda Cebrián)\n- **Diseño de iluminación** — *Petra Halbersztat*\n- **Diseño de vídeo y proyecciones** — *Onésimo Caracuel Brey*\n- **Vestuario y caracterización** — *Selva Antúnez Maldé*\n- **Diseño olfativo y atrezzo perecedero** — *Patxi Goirizelaia* (Laboratorio Errante)\n- **Coordinación de movimiento y proximidad** — *Yuriria Mendoza-Alonso*\n- **Asesoría histórica sobre la posguerra gaditana** — *Dr. Casimiro Bolaños Ferré* (Universidad de Cádiz)\n- **Producción ejecutiva** — *Mantel Negro Producciones, S.L.* [...] La nota de programa de la directora menciona expresamente que la pieza se ocupa de la **memoria histórica**, del **duelo familiar callado** y de la **arquitectura como cuerpo**. Se han evitado deliberadamente otros marcos: no es una pieza sobre la guerra civil, ni un alegato político, ni un ejercicio antropológico sobre el barrio de la Viña, por más que el espacio y el coro vecinal lo sugieran. [...] 1. **Luces estroboscópicas** en una secuencia de aproximadamente 40 segundos.\n2. **Contenido sexual** (desnudo parcial y escena amorosa explícita) en la estancia denominada «despensa».\n3. **Lenguaje fuerte** en dos pasajes hablados por el personaje de El Hermano que no Habla, cuando finalmente rompe el silencio.\n4. **Efectos sonoros intensos**: una secuencia simula un temporal con volumen sostenido por encima de los 95 dB durante unos 70 segundos. Se ofrecen tapones para los oídos en taquilla.",
+  "instruction": "Extrae los datos del programa de mano de esta producción teatral: título, sala, fechas, sinopsis, reparto, equipo creativo y avisos al público.",
+  "target_schema": {
+    "$defs": {
+      "CastMember": {
+        "additionalProperties": false,
+        "description": "Una intervención del reparto, con su rol y la persona que lo interpreta.",
+        "properties": {
+          "role": {
+            "description": "Nombre literal del personaje o función dramatúrgica (p. ej. 'Hamlet', 'Coro', 'Bailarín solista').",
+            "title": "Role",
+            "type": "string"
+          },
+          "actor": {
+            "description": "Nombre del intérprete que asume el rol, en el formato en que el programa lo presenta.",
+            "title": "Actor",
+            "type": "string"
+          },
+          "understudy": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Nombre del suplente para este rol si el programa lo nombra. Null si no aparece o si el programa no asigna suplentes.",
+            "title": "Understudy"
+          }
+        },
+        "required": [
+          "role",
+          "actor"
+        ],
+        "title": "CastMember",
+        "type": "object"
+      },
+      "ContentAdvisory": {
+        "enum": [
+          "ninguna",
+          "violencia",
+          "lenguaje_fuerte",
+          "contenido_sexual",
+          "tabaquismo",
+          "efectos_sonoros_intensos",
+          "luces_estroboscópicas"
+        ],
+        "title": "ContentAdvisory",
+        "type": "string"
+      },
+      "CreativeRole": {
+        "additionalProperties": false,
+        "description": "Una persona en el equipo creativo de la producción, con su función.",
+        "properties": {
+          "role": {
+            "description": "Función dentro del equipo creativo, tal como aparece en el programa (p. ej. 'Dirección', 'Dramaturgia', 'Escenografía', 'Música', 'Iluminación', 'Vestuario').",
+            "title": "Role",
+            "type": "string"
+          },
+          "name": {
+            "description": "Nombre de la persona o colectivo.",
+            "title": "Name",
+            "type": "string"
+          }
+        },
+        "required": [
+          "role",
+          "name"
+        ],
+        "title": "CreativeRole",
+        "type": "object"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Programa de mano (playbill) de una producción teatral, danza o lírica. La\ninformación se reparte entre cabecera (título + sala + fechas), reparto,\nequipo creativo, sinopsis y notas de aviso al público. La extracción debe\ndiferenciar entre intérpretes (CastMember) y equipo creativo (CreativeRole),\naunque ambos aparezcan en listados similares.\n\nComplejidad: L7 — síntesis de varias secciones con listas paralelas y\ndistinción de roles semánticamente cercanos.",
+    "properties": {
+      "title": {
+        "description": "Título de la obra tal como aparece en portada del programa.",
+        "title": "Title",
+        "type": "string"
+      },
+      "venue": {
+        "description": "Nombre de la sala o teatro donde se representa.",
+        "title": "Venue",
+        "type": "string"
+      },
+      "city": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Ciudad de la sala si el programa la menciona. Null si no aparece.",
+        "title": "City"
+      },
+      "opening_date": {
+        "description": "Fecha de estreno de esta producción en formato ISO 'YYYY-MM-DD' o, si el programa solo da mes y año, 'YYYY-MM'.",
+        "title": "Opening Date",
+        "type": "string"
+      },
+      "closing_date": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Fecha del último pase de la temporada en formato ISO. Null si la temporada está abierta o el programa no la cierra.",
+        "title": "Closing Date"
+      },
+      "runtime_minutes": {
+        "anyOf": [
+          {
+            "exclusiveMinimum": 0,
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Duración total del espectáculo en minutos, incluido intermedio si lo hay. Null si el programa no la indica.",
+        "title": "Runtime Minutes"
+      },
+      "synopsis": {
+        "description": "Resumen literal del argumento como aparece en la sección 'Sinopsis' o equivalente. Una o dos frases.",
+        "title": "Synopsis",
+        "type": "string"
+      },
+      "themes": {
+        "description": "Temas explícitamente nombrados en la nota de programa o la entrevista al director (p. ej. 'memoria histórica', 'feminismo', 'duelo'). Solo temas literalmente mencionados, no inferidos.",
+        "items": {
+          "type": "string"
+        },
+        "title": "Themes",
+        "type": "array"
+      },
+      "cast": {
+        "description": "Reparto en el orden en que aparece en el programa. Cada entrada asocia un rol dramatúrgico con su intérprete.",
+        "items": {
+          "$ref": "#/$defs/CastMember"
+        },
+        "title": "Cast",
+        "type": "array"
+      },
+      "creative_team": {
+        "description": "Equipo creativo (dirección, dramaturgia, diseño escenográfico, música, iluminación, etc.) en el orden de aparición.",
+        "items": {
+          "$ref": "#/$defs/CreativeRole"
+        },
+        "title": "Creative Team",
+        "type": "array"
+      },
+      "content_advisory": {
+        "description": "Avisos para el público presentes en el programa. 'ninguna' solo si el programa declara explícitamente apto para todos los públicos.",
+        "items": {
+          "$ref": "#/$defs/ContentAdvisory"
+        },
+        "title": "Content Advisory",
+        "type": "array"
+      }
+    },
+    "required": [
+      "title",
+      "venue",
+      "opening_date",
+      "synopsis",
+      "cast"
+    ],
+    "title": "TheaterPlaybill",
+    "type": "object"
+  },
+  "output": {
+    "title": "LA CASA QUE RESPIRA",
+    "venue": "Antiguo Almacén de Salazones nº 4, Muelle de la Marina Vieja",
+    "city": "Cádiz",
+    "opening_date": "2026-06-12",
+    "closing_date": "2026-07-27",
+    "runtime_minutes": 95,
+    "synopsis": "La Casa que Respira propone un recorrido por las once estancias de un almacén portuario de finales del siglo XIX reconvertido en vivienda imaginaria. La pieza acompaña a una mujer sin nombre que regresa, tras cuarenta años, al lugar donde su familia se ocultó durante la posguerra.",
+    "themes": [
+      "memoria histórica",
+      "duelo familiar callado",
+      "arquitectura como cuerpo"
+    ],
+    "cast": [
+      {
+        "role": "La Mujer que Regresa",
+        "actor": "Almudena Rocío Pérez Trejo",
+        "understudy": null
+      },
+      {
+        "role": "La Niña del Patio Trasero",
+        "actor": "Saioa Etxebarría Lertxundi",
+        "understudy": "Carla Mondragón Vives"
+      },
+      {
+        "role": "El Hermano que no Habla",
+        "actor": "Joserra Pinilla Domínguez",
+        "understudy": null
+      },
+      {
+        "role": "Voz del Suelo (off, en directo)",
+        "actor": "Lucrecia Hinojosa Maza",
+        "understudy": null
+      },
+      {
+        "role": "Intérprete-anfitriona, Grupo A",
+        "actor": "Macarena Soto Aldeguer",
+        "understudy": null
+      },
+      {
+        "role": "Intérprete-anfitriona, Grupo B",
+        "actor": "Tomás Iván Verdugo Cárcamo",
+        "understudy": null
+      },
+      {
+        "role": "Performer del Cuarto del Temporal",
+        "actor": "Niu Wen-Hao",
+        "understudy": null
+      },
+      {
+        "role": "Coro de Vecinas",
+        "actor": "Eulalia Pámpano",
+        "understudy": null
+      },
+      {
+        "role": "Coro de Vecinas",
+        "actor": "Remedios Calderón",
+        "understudy": null
+      },
+      {
+        "role": "Coro de Vecinas",
+        "actor": "Bibiana Suárez de la Hoz",
+        "understudy": null
+      }
+    ],
+    "creative_team": [
+      {
+        "role": "Dirección y concepto",
+        "name": "Inés Maravillas Quiñones"
+      },
+      {
+        "role": "Dramaturgia",
+        "name": "Federico Ardanaz Olabarría"
+      },
+      {
+        "role": "Dramaturgia",
+        "name": "Inés Maravillas Quiñones"
+      },
+      {
+        "role": "Diseño sonoro y composición",
+        "name": "Tarek Boumediene-Roselló"
+      },
+      {
+        "role": "Diseño escenográfico y arquitectura del recorrido",
+        "name": "Colectivo Marejada"
+      },
+      {
+        "role": "Diseño de iluminación",
+        "name": "Petra Halbersztat"
+      },
+      {
+        "role": "Diseño de vídeo y proyecciones",
+        "name": "Onésimo Caracuel Brey"
+      },
+      {
+        "role": "Vestuario y caracterización",
+        "name": "Selva Antúnez Maldé"
+      },
+      {
+        "role": "Diseño olfativo y atrezzo perecedero",
+        "name": "Patxi Goirizelaia"
+      },
+      {
+        "role": "Coordinación de movimiento y proximidad",
+        "name": "Yuriria Mendoza-Alonso"
+      },
+      {
+        "role": "Asesoría histórica sobre la posguerra gaditana",
+        "name": "Dr. Casimiro Bolaños Ferré"
+      },
+      {
+        "role": "Producción ejecutiva",
+        "name": "Mantel Negro Producciones, S.L."
+      }
+    ],
+    "content_advisory": [
+      "luces_estroboscópicas",
+      "contenido_sexual",
+      "lenguaje_fuerte",
+      "efectos_sonoros_intensos"
+    ]
+  },
+  "metadata": {
+    "source": "synthetic_20260601_009.md",
+    "domain": "cultural",
+    "subdomain": "theater"
+  }
+}

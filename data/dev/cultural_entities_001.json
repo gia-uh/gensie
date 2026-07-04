@@ -1,0 +1,85 @@
+{
+  "id": "cultural_entities_001",
+  "input_text": "# 'Cleaner: Rescate Vertical' logra que Daisy Ridley brille como heroína de acción en un plagio desvergonzado de 'Jungla de cristal' [...] John McClane arrastrándose por el túnel de ventilación, en camiseta de tirantes, es pura historia del cine. A todos nos gusta 'Jungla de cristal', y los homenajes constantes no son sino una muestra de admiración absoluta. Eso sí, hasta para homenajear hay que tener clase: no es lo mismo tomar un par de escenas como base que, básicamente, fusilar el guion entero. Eso es lo que hace 'Cleaner: Rescate Vertical', una película que solo impresionará a los que nunca entraron en el Nakatomi.",
+  "instruction": "Extrae los nombres de películas, actores y personajes mencionados en la introducción de la crítica.",
+  "target_schema": {
+    "$defs": {
+      "Entity": {
+        "additionalProperties": false,
+        "description": "A single named entity mention.",
+        "properties": {
+          "text": {
+            "description": "The verbatim text mention from the source",
+            "title": "Text",
+            "type": "string"
+          },
+          "label": {
+            "$ref": "#/$defs/EntityType",
+            "description": "The category of the entity"
+          }
+        },
+        "required": [
+          "text",
+          "label"
+        ],
+        "title": "Entity",
+        "type": "object"
+      },
+      "EntityType": {
+        "enum": [
+          "PERSON",
+          "ORGANIZATION",
+          "LOCATION",
+          "DATE",
+          "EVENT",
+          "MISCELLANEOUS"
+        ],
+        "title": "EntityType",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Extracts named entity mentions categorized by type in a single list.\nComplexity: L5 (Hierarchical Grouping).",
+    "properties": {
+      "entities": {
+        "description": "List of all recognized named entities",
+        "items": {
+          "$ref": "#/$defs/Entity"
+        },
+        "title": "Entities",
+        "type": "array"
+      }
+    },
+    "title": "NamedEntities",
+    "type": "object"
+  },
+  "output": {
+    "entities": [
+      {
+        "text": "Daisy Ridley",
+        "label": "PERSON"
+      },
+      {
+        "text": "John McClane",
+        "label": "PERSON"
+      },
+      {
+        "text": "Nakatomi",
+        "label": "LOCATION"
+      },
+      {
+        "text": "Cleaner: Rescate Vertical",
+        "label": "MISCELLANEOUS"
+      },
+      {
+        "text": "Jungla de cristal",
+        "label": "MISCELLANEOUS"
+      }
+    ]
+  },
+  "metadata": {
+    "source": "espinof_cleaner-rescate-vertical-logra-que-daisy-ridley-brille-como-heroina-accion-plagio-desvergonzado-jungla-cristal.md",
+    "domain": "cultural",
+    "subdomain": "movie_reviews"
+  }
+}

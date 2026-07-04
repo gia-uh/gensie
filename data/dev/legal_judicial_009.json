@@ -1,0 +1,168 @@
+{
+  "id": "legal_judicial_009",
+  "input_text": "# A cinco años del caso Ayotzinapa, el nuevo gobierno replantea las investigaciones; «La única verdad es que no hay verdad alguna», dice subsecretario de Derechos Humanos\n\nA cinco años de la desaparición forzada de 43 estudiantes normalistas de la Escuela Normal Raúl Isidro Burgos, en Iguala de la Independencia, Guerrero, Alejandro Encinas Rodríguez, subsecretario de Derechos Humanos, Población y Migración de la Secretaría de Gobernación, presentó durante la conferencia matutina del presidente, Andrés Manuel López Obrador, un informe sobre las investigaciones del conocido como caso Ayotzinapa.\nAl responder una pregunta, el subsecretario calificó lo sucedido de «desaparición forzada cometida por agentes del Estado mexicano». También afirmó que «estamos convencidos que en el caso de estos muchachos de Ayotzinapa la única verdad es que no hay hasta ahora verdad alguna», con relación a la versión oficial del gobierno anterior, encabezado por Enrique Peña Nieto, conocida como «verdad histórica». \nEncinas informó que se han analizado 80 millones de registros de llamadas, que permitieron «construir una red primaria de 84 mil líneas prioritarias y de 116 números telefónicos, y nos ha permitido no solamente identificar las horas críticas, sino el seguimiento minuto a minuto de esta operación». El subsecretario, el presidente y Omar Gómez Trejo, fiscal especial, portaron camisetas conmemorativas a petición de los familiares de los 43 estudiantes desaparecidos. \n\n«Lo hemos señalado desde un principio, tenemos dos líneas de investigación fundamentales, la búsqueda en vida es una de las demandas fundamentales de los padres de familia y también la búsqueda del destino final de ellos», indicó Encinas ante una pregunta sobre si existe la posibilidad de que estén vivos los jóvenes. Se ofreció también una recompensa de 1 millón 500 mil pesos para quien aporte información sobre la desaparición y 10 millones para quien ofrezca información que ayude a encontrar al principal sospechoso del caso, Alejandro Tenescalco Mejía.\nSegún detalló El País, el funcionario adelantó que se citará a declarar a Jesús Murillo Karam, exfiscal general que tuvo a su cargo la investigación, así como a José Luis Abarca, expresidente municipal de Iguala, Ángel Aguirre Rivero, exgobernador de Guerrero, e Iñaki Blanco, exfiscal estatal, que ahora serán llamados como testigos, pues ya declararon previamente. En semanas recientes se informó que 77 de 142 detenidos por el caso fueron liberados por violaciones de derechos humanos e irregularidades. El fiscal especial aclaró, sin embargo, que «Las personas que han salido no significa que no enfrentarán a la justicia, estamos reuniendo nuevas pruebas sobre otros delitos».\nTambién indicó que, sobre la posibilidad de llamar a declarar a Peña Nieto, Gómez Trejo afirmó que «Ninguna persona está por encima de la ley, todos los que ocuparon cargos públicos pueden ser llamados». Este pasado miércoles, los familiares de los jóvenes se manifestaron frente a la sede de la Fiscalía General de la República en Ciudad de México para exigir «dinamismo en las investigaciones y cárcel para quienes construyeron la mentira», según informó Animal Político. \nEn entrevista con el medio, Blanca Luz Nava, madre del estudiante Jorge Álvarez Nava aseveró que «El gobierno anterior nunca quiso decirnos el paradero, nunca quiso investigar y nunca quiso hacer su trabajo, solo nos dio mentiras y ahorita, ya a cinco años, no hay avance. Nosotros lo que estamos exigiendo es que se aceleren las investigaciones porque nosotros como madres es mucho dolor y desesperación». La Oficina en México del Alto Comisionado de las Naciones Unidas para los Derechos Humanos ha reconocido las acciones del nuevo gobierno, encabezado por López Obrador, especialmente la conformación de la Comisión para la Verdad y Acceso a la Justicia y el diálogo con las familias.",
+  "instruction": "Extrae la información estructurada de este artículo de noticias sobre el caso Ayotzinapa, incluyendo el titular, resumen, categoría, ubicación, personas y organizaciones clave, y cifras de víctimas y afectados.",
+  "target_schema": {
+    "$defs": {
+      "NewsCategory": {
+        "enum": [
+          "JUDICIAL",
+          "DISASTER",
+          "HEALTH",
+          "ENVIRONMENT",
+          "POLITICS",
+          "ECONOMY",
+          "SCIENCE",
+          "CULTURE",
+          "SPORTS",
+          "OTHER"
+        ],
+        "title": "NewsCategory",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Extracts structured information from general news articles.\nComplexity: L4 (Sparse Extraction) - Some fields may be null/missing.",
+    "properties": {
+      "headline": {
+        "description": "The main headline or title of the news article",
+        "title": "Headline",
+        "type": "string"
+      },
+      "summary": {
+        "description": "A brief summary of the main facts reported (1-3 sentences)",
+        "title": "Summary",
+        "type": "string"
+      },
+      "category": {
+        "$ref": "#/$defs/NewsCategory",
+        "description": "The thematic category of the news story"
+      },
+      "location": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Geographic location where the event occurred (city, country, or region)",
+        "title": "Location"
+      },
+      "date": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Date mentioned in the article (may be implicit or explicit)",
+        "title": "Date"
+      },
+      "key_people": {
+        "description": "Names of key individuals mentioned in the article",
+        "items": {
+          "type": "string"
+        },
+        "title": "Key People",
+        "type": "array"
+      },
+      "key_organizations": {
+        "description": "Names of organizations, companies, or governments mentioned",
+        "items": {
+          "type": "string"
+        },
+        "title": "Key Organizations",
+        "type": "array"
+      },
+      "casualties": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of deaths mentioned, if any",
+        "title": "Casualties"
+      },
+      "injured": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of people injured, if any",
+        "title": "Injured"
+      },
+      "affected_count": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of people affected or displaced, if applicable",
+        "title": "Affected Count"
+      }
+    },
+    "required": [
+      "headline",
+      "summary",
+      "category"
+    ],
+    "title": "NewsArticle",
+    "type": "object"
+  },
+  "output": {
+    "headline": "A cinco años del caso Ayotzinapa, el nuevo gobierno replantea las investigaciones; «La única verdad es que no hay verdad alguna», dice subsecretario de Derechos Humanos",
+    "summary": "A cinco años de la desaparición forzada de 43 estudiantes normalistas en Iguala, Guerrero, el subsecretario de Derechos Humanos Alejandro Encinas presentó un informe sobre las investigaciones del caso Ayotzinapa, calificando lo sucedido de desaparición forzada cometida por agentes del Estado mexicano y señalando que la verdad histórica del gobierno anterior no es válida.",
+    "category": "JUDICIAL",
+    "location": "Iguala de la Independencia, Guerrero",
+    "date": null,
+    "key_people": [
+      "Alejandro Encinas Rodríguez",
+      "Andrés Manuel López Obrador",
+      "Omar Gómez Trejo",
+      "Enrique Peña Nieto",
+      "Jesús Murillo Karam",
+      "José Luis Abarca",
+      "Ángel Aguirre Rivero",
+      "Iñaki Blanco",
+      "Alejandro Tenescalco Mejía",
+      "Blanca Luz Nava",
+      "Jorge Álvarez Nava"
+    ],
+    "key_organizations": [
+      "Escuela Normal Raúl Isidro Burgos",
+      "Secretaría de Gobernación",
+      "Fiscalía General de la República",
+      "El País",
+      "Animal Político",
+      "Oficina en México del Alto Comisionado de las Naciones Unidas para los Derechos Humanos",
+      "Comisión para la Verdad y Acceso a la Justicia"
+    ],
+    "casualties": null,
+    "injured": null,
+    "affected_count": 43
+  },
+  "metadata": {
+    "source": "wikinews_judicial_20260415_009_a_cinco_años_del_caso_ayotzinapa_el_nuevo_gobierno.md",
+    "domain": "legal",
+    "subdomain": "judicial"
+  }
+}

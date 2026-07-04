@@ -1,0 +1,98 @@
+{
+  "id": "legal_legislation_003",
+  "input_text": "# Ley de bases\n\nSource: https://es.wikipedia.org/wiki/Ley_de_bases\n\nEn el Derecho de España, se conoce como ley de bases a aquella «ley de delegación»​ emanada de las Cortes Generales que sirve para delegar en el gobierno la potestad legislativa,​ cuando lo que se pretenda sea la formación de un texto articulado.​ No obstante, no se podrá facultar al gobierno mediante este procedimiento para que regule acerca de las materias constitucionalmente reservadas a las leyes orgánicas.​ Por otra parte, las leyes de bases no pueden autorizar su propia modificación, lo que supondría la desvirtuación del mandato parlamentario, así como tampoco pueden facultar al ejecutivo para que dicte normas con carácter retroactivo.​\nComo su propio nombre indica, el contenido normativo de estas normas se fundamenta en las denominadas «bases», las cuales vienen a desempeñar el papel que los artículos tienen en las leyes convencionales.​ En ellas se debe delimitar con precisión cual es el alcance y objeto de la delegación legislativa, al mismo tiempo que han de esclarecer cuales son los principios y criterios que regirán el desarrollo del texto articulado. Por tanto, ninguna ley de bases da al poder ejecutivo carta blanca para que regule a su antojo, sino que este se debe mover dentro del marco establecido por las cámaras legislativas.​\nUna vez desarrollado lo dispuesto en las bases, el Gobierno debe promulgar una norma jurídica con fuerza de ley denominada Decreto Legislativo en el que se contiene la legislación delegada.\nSu régimen fundamental se encuentra en el Título tercero, Capítulo segundo («De la elaboración de las leyes») de la Constitución española, concretamente en los artículos 82 y 83.​ \nUna de las más conocidas es la Ley de Bases de 11 de mayo de 1888, por la que se autorizó al Gobierno para publicar un Código civil, con arreglo a las condiciones y bases que se establecían en la misma. También se tramitó mediante este procedimiento la reforma del Título Preliminar del Código civil, en este caso aprobada el 17 de marzo de 1973.",
+  "instruction": "Extrae el resumen del contrato o acto legislativo",
+  "target_schema": {
+    "$defs": {
+      "JurisdictionScope": {
+        "enum": [
+          "NACIONAL",
+          "AUTONÓMICO",
+          "LOCAL",
+          "EUROPEO"
+        ],
+        "title": "JurisdictionScope",
+        "type": "string"
+      },
+      "LawRange": {
+        "enum": [
+          "LEY ORGÁNICA",
+          "LEY ORDINARIA",
+          "REAL DECRETO",
+          "REAL DECRETO-LEY",
+          "CONSTITUCIÓN",
+          "OTRA"
+        ],
+        "title": "LawRange",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Aggregates dispersed metadata and status of a Spanish law.\nComplexity: L7 (Dispersed Aggregation).",
+    "properties": {
+      "official_title": {
+        "description": "Full official title of the law",
+        "title": "Official Title",
+        "type": "string"
+      },
+      "law_range": {
+        "$ref": "#/$defs/LawRange",
+        "description": "The legal rank of the norm"
+      },
+      "sanction_date": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Date of sanction in YYYY-MM-DD",
+        "title": "Sanction Date"
+      },
+      "jurisdiction": {
+        "$ref": "#/$defs/JurisdictionScope",
+        "description": "The scope of application"
+      },
+      "is_repealed": {
+        "description": "True if the text mentions the law is no longer in effect or has been replaced",
+        "title": "Is Repealed",
+        "type": "boolean"
+      },
+      "affected_articles": {
+        "description": "List of specific articles mentioned as modified or relevant",
+        "items": {
+          "type": "string"
+        },
+        "title": "Affected Articles",
+        "type": "array"
+      }
+    },
+    "required": [
+      "official_title",
+      "law_range",
+      "jurisdiction",
+      "is_repealed"
+    ],
+    "title": "LegislativeAct",
+    "type": "object"
+  },
+  "output": {
+    "official_title": "Ley de Bases de 11 de mayo de 1888",
+    "law_range": "OTRA",
+    "sanction_date": "1888-05-11",
+    "jurisdiction": "NACIONAL",
+    "is_repealed": false,
+    "affected_articles": [
+      "artículo 82",
+      "artículo 83"
+    ]
+  },
+  "metadata": {
+    "source": "wiki_legislation_20260414_ley_de_bases.md",
+    "domain": "legal",
+    "subdomain": "legislation"
+  }
+}

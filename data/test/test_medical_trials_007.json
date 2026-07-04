@@ -1,0 +1,194 @@
+{
+  "id": "test_medical_trials_007",
+  "input_text": "El Servicio de Dermatología del Hospital Universitario La Paz, en colaboración con la Fundación para la Investigación Biomédica del Hospital La Paz (IdiPAZ), ha anunciado la conclusión del ensayo clínico fase 2 **DERMA-IL13-ES**, registrado en el Registro Español de Estudios Clínicos (REec) con el identificador **REec-2023-004217-31**. El estudio evaluó la eficacia y seguridad de un anticuerpo monoclonal experimental dirigido contra la interleucina 13 (anti-IL13) en pacientes adultos con dermatitis atópica moderada-grave (CIE-10: **L20.9**, dermatitis atópica no especificada). El estado actual del estudio es **COMPLETADO**. [...] El protocolo contemplaba **dos brazos** de tratamiento en una proporción de aleatorización 1:1:\n\n- **Brazo experimental (n=92):** administración subcutánea del anticuerpo anti-IL13 a dosis de 300 mg cada dos semanas durante 16 semanas, tras una dosis de carga inicial de 600 mg.\n- **Brazo control (n=92):** placebo subcutáneo administrado con la misma pauta y aspecto idéntico al producto en investigación, manteniendo el cegamiento. [...] ## Endpoint primario y resultados\n\nEl endpoint primario, preespecificado en el protocolo, fue la **proporción de pacientes que alcanzaban una reducción ≥75 % en el índice EASI (EASI-75) en la semana 16** respecto al valor basal. **El 64,1 % de los pacientes del brazo anti-IL13 alcanzaron EASI-75 en la semana 16, frente al 11,9 % del brazo placebo (diferencia absoluta 52,2 puntos porcentuales; IC95 % 39,8–64,6; p<0,001).** Los endpoints secundarios — incluyendo la mejoría en la escala IGA (Investigator Global Assessment) a 0 o 1, la reducción en el prurito medido mediante NRS y la calidad de vida medida con DLQI — mostraron también diferencias estadísticamente significativas a favor del brazo experimental.\n\nEl perfil de seguridad fue consistente con el conocido para esta clase terapéutica. Los eventos adversos más frecuentes fueron conjuntivitis (12,0 % en el brazo activo frente a 3,3 % en placebo), reacciones leves en el punto de inyección y cefalea. No se registraron muertes ni eventos adversos graves atribuibles al producto en investigación. [...] El estudio ha sido patrocinado por **Biotecnológica Ibérica de Inmunología S.L. (BIOIBINM)**, una compañía biofarmacéutica con sede en Tres Cantos (Madrid), en el marco de un acuerdo de codesarrollo con la Fundación IdiPAZ. La fecha de inicio efectiva del estudio fue el 14 de marzo de 2024, y la **fecha de finalización del estudio (última visita del último paciente) fue el 22 de febrero de 2026**, con el cierre de la base de datos completado en abril del mismo año.",
+  "instruction": "Extrae el registro estructurado del ensayo clínico DERMA-IL13-ES descrito en la nota de prensa, incluyendo identificador de registro, fase, estado, condición clínica con código CIE-10, tamaño muestral, brazos de tratamiento con su intervención y n, endpoint primario, fecha de finalización y resumen de resultados. Respeta la restricción: completion_date y result_summary solo deben tener valor si el estado es 'completado' o 'terminado'.",
+  "target_schema": {
+    "$defs": {
+      "TrialArm": {
+        "additionalProperties": false,
+        "description": "Un brazo del ensayo: grupo experimental o comparador.",
+        "properties": {
+          "name": {
+            "description": "Etiqueta del brazo tal como aparece en el texto (p. ej. 'brazo experimental', 'brazo comparador', 'placebo', 'control').",
+            "title": "Name",
+            "type": "string"
+          },
+          "intervention": {
+            "description": "Intervención administrada al brazo: fármaco, dosis y vía si se explicitan (p. ej. 'CLN-217 5,4 mg/kg IV cada 3 semanas').",
+            "title": "Intervention",
+            "type": "string"
+          },
+          "n": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Número de participantes asignados o reclutados a este brazo concreto. Null si el texto no lo desglosa por brazo.",
+            "title": "N"
+          }
+        },
+        "required": [
+          "name",
+          "intervention"
+        ],
+        "title": "TrialArm",
+        "type": "object"
+      },
+      "TrialPhase": {
+        "enum": [
+          "fase_1",
+          "fase_2",
+          "fase_3",
+          "fase_4",
+          "no_aplica"
+        ],
+        "title": "TrialPhase",
+        "type": "string"
+      },
+      "TrialStatus": {
+        "enum": [
+          "reclutando",
+          "activo",
+          "completado",
+          "terminado",
+          "suspendido"
+        ],
+        "title": "TrialStatus",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Registro estructurado de un ensayo clínico a partir de una nota de prensa,\ncomunicado institucional o ficha de registro en español.\n\nRestricción inter-campo crítica (trampa de null):\n- `completion_date` y `result_summary` SOLO pueden tener valor cuando\n  `status` ∈ {completado, terminado}. Si el ensayo está reclutando, activo\n  o suspendido, ambos campos deben ser null aunque el texto especule sobre\n  fechas previstas o resultados parciales.\n\nComplejidad: L7 — rigidez de restricciones inter-campo + regex de IDs.",
+    "properties": {
+      "registry_id": {
+        "description": "Identificador del ensayo en su registro. Acepta tres formatos: ClinicalTrials.gov ('NCTxxxxxxxx', 8 dígitos), EudraCT ('YYYY-NNNNNN-NN') o REec ('REec-YYYY-NNNN'). Devolver exactamente como aparece, sin prefijos descriptivos ('EudraCT', 'nº').",
+        "pattern": "^(?:NCT\\d{8}|\\d{4}-\\d{6}-\\d{2}|REec-\\d{4}-\\d{4})$",
+        "title": "Registry Id",
+        "type": "string"
+      },
+      "phase": {
+        "$ref": "#/$defs/TrialPhase",
+        "description": "Fase del ensayo. 'fase_1' a 'fase_4' para fases clásicas; 'no_aplica' para ensayos exploratorios, observacionales o sin fase declarada."
+      },
+      "status": {
+        "$ref": "#/$defs/TrialStatus",
+        "description": "Estado actual del ensayo: 'reclutando' (inclusión abierta), 'activo' (reclutamiento cerrado, seguimiento en curso), 'completado' (finalizado según protocolo), 'terminado' (finalizado prematuramente con resultados), 'suspendido' (pausa por seguridad o regulatoria)."
+      },
+      "condition": {
+        "description": "Patología, síndrome o indicación clínica que el ensayo estudia, en lenguaje del texto (p. ej. 'cáncer de mama metastásico HER2 positivo').",
+        "title": "Condition",
+        "type": "string"
+      },
+      "icd10_code": {
+        "anyOf": [
+          {
+            "pattern": "^[A-Z]\\d{2}(?:\\.\\d{1,2})?$",
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Código CIE-10 (ICD-10) de la indicación si el texto lo cita literalmente, formato 'L99' o 'L99.9'. Null si no aparece.",
+        "title": "Icd10 Code"
+      },
+      "enrollment": {
+        "anyOf": [
+          {
+            "minimum": 1,
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Tamaño muestral total previsto o reclutado, como entero. Null si el texto no lo especifica.",
+        "title": "Enrollment"
+      },
+      "arms": {
+        "description": "Lista de brazos del ensayo en el orden en que se describen. Vacía solo si el diseño es de un único brazo no etiquetado.",
+        "items": {
+          "$ref": "#/$defs/TrialArm"
+        },
+        "title": "Arms",
+        "type": "array"
+      },
+      "primary_endpoint": {
+        "description": "Variable principal de eficacia del estudio (p. ej. 'supervivencia libre de progresión', 'ACR50 a la semana 24'). Texto literal del objetivo primario.",
+        "title": "Primary Endpoint",
+        "type": "string"
+      },
+      "completion_date": {
+        "anyOf": [
+          {
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Fecha real de finalización del ensayo en formato YYYY-MM-DD. DEBE ser null salvo que status sea 'completado' o 'terminado'. Para ensayos en curso o suspendidos, ignorar fechas previstas.",
+        "title": "Completion Date"
+      },
+      "result_summary": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Resumen narrativo de los resultados del ensayo. DEBE ser null salvo que status sea 'completado' o 'terminado'. No incluir resultados intermedios ni hallazgos de seguridad parciales de ensayos en curso.",
+        "title": "Result Summary"
+      }
+    },
+    "required": [
+      "registry_id",
+      "phase",
+      "status",
+      "condition",
+      "primary_endpoint"
+    ],
+    "title": "ClinicalTrialRecord",
+    "type": "object"
+  },
+  "output": {
+    "registry_id": "2023-004217-31",
+    "phase": "fase_2",
+    "status": "completado",
+    "condition": "dermatitis atópica moderada-grave",
+    "icd10_code": "L20.9",
+    "enrollment": 184,
+    "arms": [
+      {
+        "name": "brazo experimental",
+        "intervention": "anticuerpo anti-IL13 300 mg subcutáneo cada dos semanas durante 16 semanas, tras dosis de carga inicial de 600 mg",
+        "n": 92
+      },
+      {
+        "name": "brazo control",
+        "intervention": "placebo subcutáneo con la misma pauta y aspecto idéntico al producto en investigación",
+        "n": 92
+      }
+    ],
+    "primary_endpoint": "proporción de pacientes que alcanzaban una reducción ≥75 % en el índice EASI (EASI-75) en la semana 16 respecto al valor basal",
+    "completion_date": "2026-02-22",
+    "result_summary": "El 64,1 % de los pacientes del brazo anti-IL13 alcanzaron EASI-75 en la semana 16, frente al 11,9 % del brazo placebo (diferencia absoluta 52,2 puntos porcentuales; IC95 % 39,8–64,6; p<0,001). Los endpoints secundarios (IGA 0/1, prurito NRS, calidad de vida DLQI) también mostraron diferencias estadísticamente significativas a favor del brazo experimental. Perfil de seguridad consistente con la clase: conjuntivitis (12,0 % vs 3,3 %), reacciones leves en el punto de inyección y cefalea; sin muertes ni eventos adversos graves atribuibles al producto."
+  },
+  "metadata": {
+    "source": "synthetic_20260512_007.md",
+    "domain": "medical",
+    "subdomain": "trials"
+  }
+}

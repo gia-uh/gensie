@@ -1,0 +1,29 @@
+{
+  "id": "technical_extraction_002",
+  "input_text": "# Mozilla Firefox\n\nMozilla Firefox (o simplemente Firefox) es un navegador web libre y de código abierto desarrollado para distintas plataformas, está coordinado por la Corporación Mozilla y la Fundación Mozilla. Usa el motor Gecko para renderizar páginas web, el cual implementa actuales y futuros estándares web.​​\n\n\n== Historia ==\n\nFirefox comenzó como una rama experimental del proyecto Mozilla a cargo de Dave Hyatt, Joe Hewitt y Blake Ross. En su opinión, las exigencias comerciales del patrocinio de Netscape y el gran número de características de Mozilla Application Suite comprometían la utilidad de este.​ Para combatir lo que ellos denominaban inflada Mozilla Application Suite, crearon un navegador independiente con la intención de reemplazarla. El 3 de abril de 2003, la Fundación Mozilla anuncia que centraría sus esfuerzos en Firefox y Thunderbird.​\nEl navegador cambió varias veces de nombre. Originalmente fue llamado Phoenix (en referencia al mítico pájaro fénix que renace de sus cenizas, simbolizando el resurgir de Netscape), pero por razones legales, debió ser cambiado al estar ya registrado por el desarrollador de BIOS Phoenix Technologies. El nombre elegido fue «Firebird» (Pájaro de Fuego), lo que provocó una polémica por parte de la base de datos Firebird.​ Sin embargo, la presión constante de la comunidad forzó a que, tras considerar otros nombres como «Firebird Browser» y «Mozilla Firebird», el 9 de febrero de 2004 se rebautizara finalmente como Mozilla Firefox,​ a menudo referido simplemente como «Firefox» y abreviado como «Fx» o «fx», o más común como «FF».​ Este nombre se eligió por su semejanza con Firebird y por ser único en la industria informática. Para garantizar la estabilidad del nuevo nombre, la Fundación Mozilla empezó en diciembre de 2003 el procedimiento para registrarse como marca depositada en Estados Unidos.​\n\n\n== Características ==\n\nFirefox está desarrollado para las plataformas Linux, Android, iOS, macOS y Microsoft Windows. Entre sus características incluyen la tradicional navegación por pestañas,​ corrector ortográfico (que puede ser incluido vía Mozilla Addons - Complementos de Mozilla), búsqueda progresiva, marcadores dinámicos, un administrador de descargas, lector RSS, navegación privada, navegación con georreferenciación, aceleración mediante GPU,​ e integración del motor de búsqueda que desee el usuario. Además, se puede instalar tanto sin conexión como también en línea desde la página web, este último es utilizado para descargar los componentes de segundo plano, ideal para equipos con conexiones mínimas.​\nComo elemento representativo, se pueden añadir funciones a través de complementos, uno de cuyos tipos son las extensiones, desarrollados por la propia Mozilla o por terceros aficionados y comerciales.​ Su uso significativo de usuario se debe a su amplia variedad de usos a través de la comunidad Mozilla Addons,​ lo que según algunos estudios lo convierte en el navegador más personalizable y seguro del momento.​ En el repertorio, los usuarios pueden personalizar el navegador con las extensiones (archivos que se ejecutan con la extensión XPI) y temas (extensiones con capacidad para cambiar la interfaz como fue el caso de las llamadas Personas).​ En total, el sitio addons.mozilla.org posee más de 6000 extensiones a partir de junio de 2009;​ entre los más conocidos se encuentra Adblock Plus que en 10 años de desarrollo alcanzó las 100 millones de descargas.​",
+  "instruction": "¿Qué motor utiliza Firefox para renderizar páginas web?",
+  "target_schema": {
+    "additionalProperties": false,
+    "description": "Extracts a single verbatim fragment that answers the provided instruction.\nComplexity: L1 (Literal Extraction).",
+    "properties": {
+      "answer": {
+        "description": "The verbatim fragment from the source text that answers the question",
+        "title": "Answer",
+        "type": "string"
+      }
+    },
+    "required": [
+      "answer"
+    ],
+    "title": "TextAnswer",
+    "type": "object"
+  },
+  "output": {
+    "answer": "Usa el motor Gecko para renderizar páginas web"
+  },
+  "metadata": {
+    "source": "wiki_mozilla_firefox.md",
+    "domain": "technical",
+    "subdomain": "software"
+  }
+}

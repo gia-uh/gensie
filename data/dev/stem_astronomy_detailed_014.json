@@ -1,0 +1,148 @@
+{
+  "id": "stem_astronomy_detailed_014",
+  "input_text": "# Luna\n\nLa Luna es el único satélite natural de la Tierra.​ Con un diámetro ecuatorial de 3474,8 km, es el quinto satélite más grande del sistema solar, mientras que en cuanto al tamaño proporcional respecto a su planeta es el satélite más grande: un cuarto del diámetro de la Tierra y 1/81 de su masa. Es, además, después de Ío, el segundo satélite más denso. Se encuentra en rotación síncrona con la Tierra, por lo que siempre muestra la misma cara hacia el planeta. El hemisferio visible está marcado con oscuros mares lunares de origen volcánico entre las brillantes montañas antiguas y los destacados astroblemas.\nA pesar de ser, en apariencia, el astro más brillante en el cielo terrestre después del Sol, su superficie es en realidad muy oscura, con una reflexión similar a la del carbón. Su prominencia en el cielo y su ciclo regular de fases han hecho de la Luna un elemento con importante influencia cultural desde la antigüedad, tanto en el lenguaje como en el calendario, el arte o la mitología. La influencia gravitatoria de la Luna produce las mareas y el aumento de la duración del día. La distancia orbital de la Luna, cerca de treinta veces el diámetro de la Tierra, hace que se vea en el cielo con el mismo tamaño que el Sol y permite que el satélite cubra exactamente a la estrella en los eclipses solares totales. La Luna carece de una atmósfera significativa.\nLa Luna es el único cuerpo celeste en el que el hombre ha realizado un descenso tripulado. Aunque el programa Luna de la Unión Soviética fue el primero en alcanzar el satélite terrestre con una nave espacial no tripulada, el programa Apolo de Estados Unidos realizó las únicas misiones tripuladas hasta la fecha, comenzando con la primera órbita lunar tripulada por el Apolo 8 en 1968, y seis alunizajes tripulados entre 1969 y 1972, siendo el primero el Apolo 11 en 1969, y el último el Apolo 17. Estas misiones regresaron con más de 380 kg de roca lunar, que han permitido alcanzar una detallada comprensión geológica de los orígenes de la Luna –se cree que se formó hace 4 500 000 000 (cuatro mil quinientos millones) de años después de un gran impacto–, la formación de su estructura interna y su posterior historia.\nEn 1970 la Unión Soviética puso en la superficie el primer vehículo robótico controlado desde la Tierra: Lunojod 1. El astromóvil fue enviando fotografías y vídeos de la superficie que recorrió (10 km.) durante casi un año.​\nDesde la misión Apolo 17, en 1972, ha sido visitada únicamente por sondas espaciales no tripuladas, en particular por el astromóvil soviético Lunojod 2. Desde 2004, Japón, China, India, Estados Unidos y la Agencia Espacial Europea han enviado orbitadores. Estas naves espaciales han confirmado el descubrimiento de agua helada fijada al regolito lunar en cráteres que se encuentran en la zona de sombra permanente y están ubicados en los polos.\nEl interés por la exploración de la Luna de manera robótica se ha acrecentado, en particular para confirmar la presencia de agua en ella, y desde el 2022, con la misión Artemis 1, la NASA ha puesto en marcha el programa Artemis, sucesor del programa Apolo, con el fin de volver a mandar a hombres a la superficie lunar.\nLa Luna se mantiene, bajo el Tratado sobre el espacio ultraterrestre, libre para la exploración de cualquier nación con fines pacíficos.",
+  "instruction": "Extrae las propiedades físicas y orbitales del cuerpo celeste descrito en el texto, incluyendo su nombre oficial, tipo, y parámetros disponibles como diámetro o masa.",
+  "target_schema": {
+    "$defs": {
+      "CelestialBodyType": {
+        "enum": [
+          "ASTEROIDE",
+          "COMETA",
+          "PLANETA",
+          "LUNA",
+          "PLANETA ENANO",
+          "OBJETO INTERESTELAR",
+          "OTRO"
+        ],
+        "title": "CelestialBodyType",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Extracts physical and orbital parameters of celestial bodies.\nComplexity: L5 (Precision Extraction & Normalization).",
+    "properties": {
+      "official_name": {
+        "description": "The primary scientific designation or name",
+        "title": "Official Name",
+        "type": "string"
+      },
+      "body_type": {
+        "$ref": "#/$defs/CelestialBodyType",
+        "description": "The classification of the celestial object"
+      },
+      "mass_kg": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Mass in kilograms (scientific notation or float)",
+        "title": "Mass Kg"
+      },
+      "diameter_km": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Mean diameter in kilometers",
+        "title": "Diameter Km"
+      },
+      "eccentricity": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Orbital eccentricity (e.g., 1.199)",
+        "title": "Eccentricity"
+      },
+      "orbital_period_days": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Time to complete one orbit in Earth days",
+        "title": "Orbital Period Days"
+      },
+      "semi_major_axis_au": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Average distance from the sun in AU",
+        "title": "Semi Major Axis Au"
+      },
+      "discovery_date": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Date of discovery in YYYY-MM-DD format",
+        "title": "Discovery Date"
+      },
+      "discoverer": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Name of the person or observatory that found the object",
+        "title": "Discoverer"
+      }
+    },
+    "required": [
+      "official_name",
+      "body_type"
+    ],
+    "title": "CelestialObjectProperties",
+    "type": "object"
+  },
+  "output": {
+    "official_name": "Luna",
+    "body_type": "LUNA",
+    "mass_kg": null,
+    "diameter_km": 3474.8,
+    "eccentricity": null,
+    "orbital_period_days": null,
+    "semi_major_axis_au": null,
+    "discovery_date": null,
+    "discoverer": null
+  },
+  "metadata": {
+    "source": "solar_system_14_luna.md",
+    "domain": "stem",
+    "subdomain": "astronomy_detailed"
+  }
+}

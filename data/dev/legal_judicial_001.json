@@ -1,0 +1,154 @@
+{
+  "id": "legal_judicial_001",
+  "input_text": "# \"Maldito Cris\" es abatido por la policía en un enfrentamiento\n\nEl delincuente Christopher Fuentes González, alias \"Maldito Cris\", fue abatido por la Policía Nacional del Perú en medio de un enfrentamiento en el distrito limeño de San Martín de Porres. \"Maldito Cris\", de nacionalidad venezolana, tenía en su poder 4 armas de fuego y 3 caserinas, y se encontraba junto a otros hampones cuando se inició el enfrentamiento con los agentes de la policía, enfrentamiento que, además, dejó 3 policías heridos. \nEl delincuente era buscado por diversos crímenes, entre ellos la muerte de Luis Manrique Pizarro, sereno de Surco, a quien \"Maldito Cris\" dejó gravemente herido tras intentar frustrar un asalto. El alcalde de Surco, Carlos Bruce, expresó: \"Uno no debería alegrarse de la muerte de una vida humana, pero no voy a ser hipócrita. Realmente estoy muy contento que la Policía Nacional del Perú nos haya librado de un elemento que nos generaba una sociedad insegura, que no tenía respeto por la vida humana. El Maldito Cris no solo mató al sereno Luis Manrique, también es sospechoso de haber asesinado a otros dos policías. Por tanto, era una persona que despreciaba la vida humana. Les aseguro que el Maldito Cris iba seguir matando. Su muerte esta noche hace de la sociedad peruana, una sociedad más segura. Por eso, me alegro de que haya recibido su merecido\".",
+  "instruction": "Extrae la información estructurada de este artículo de noticias sobre un enfrentamiento policial, incluyendo el titular, resumen, categoría, ubicación, personas y organizaciones clave, y cifras de víctimas y heridos.",
+  "target_schema": {
+    "$defs": {
+      "NewsCategory": {
+        "enum": [
+          "JUDICIAL",
+          "DISASTER",
+          "HEALTH",
+          "ENVIRONMENT",
+          "POLITICS",
+          "ECONOMY",
+          "SCIENCE",
+          "CULTURE",
+          "SPORTS",
+          "OTHER"
+        ],
+        "title": "NewsCategory",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Extracts structured information from general news articles.\nComplexity: L4 (Sparse Extraction) - Some fields may be null/missing.",
+    "properties": {
+      "headline": {
+        "description": "The main headline or title of the news article",
+        "title": "Headline",
+        "type": "string"
+      },
+      "summary": {
+        "description": "A brief summary of the main facts reported (1-3 sentences)",
+        "title": "Summary",
+        "type": "string"
+      },
+      "category": {
+        "$ref": "#/$defs/NewsCategory",
+        "description": "The thematic category of the news story"
+      },
+      "location": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Geographic location where the event occurred (city, country, or region)",
+        "title": "Location"
+      },
+      "date": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Date mentioned in the article (may be implicit or explicit)",
+        "title": "Date"
+      },
+      "key_people": {
+        "description": "Names of key individuals mentioned in the article",
+        "items": {
+          "type": "string"
+        },
+        "title": "Key People",
+        "type": "array"
+      },
+      "key_organizations": {
+        "description": "Names of organizations, companies, or governments mentioned",
+        "items": {
+          "type": "string"
+        },
+        "title": "Key Organizations",
+        "type": "array"
+      },
+      "casualties": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of deaths mentioned, if any",
+        "title": "Casualties"
+      },
+      "injured": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of people injured, if any",
+        "title": "Injured"
+      },
+      "affected_count": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of people affected or displaced, if applicable",
+        "title": "Affected Count"
+      }
+    },
+    "required": [
+      "headline",
+      "summary",
+      "category"
+    ],
+    "title": "NewsArticle",
+    "type": "object"
+  },
+  "output": {
+    "headline": "\"Maldito Cris\" es abatido por la policía en un enfrentamiento",
+    "summary": "El delincuente venezolano Christopher Fuentes González, alias \"Maldito Cris\", fue abatido por la Policía Nacional del Perú en un enfrentamiento en el distrito limeño de San Martín de Porres, dejando además 3 policías heridos. El delincuente era buscado por diversos crímenes, entre ellos la muerte del sereno de Surco Luis Manrique Pizarro.",
+    "category": "JUDICIAL",
+    "location": "San Martín de Porres, Lima, Perú",
+    "date": null,
+    "key_people": [
+      "Christopher Fuentes González",
+      "Luis Manrique Pizarro",
+      "Carlos Bruce"
+    ],
+    "key_organizations": [
+      "Policía Nacional del Perú"
+    ],
+    "casualties": 1,
+    "injured": 3,
+    "affected_count": null
+  },
+  "metadata": {
+    "source": "wikinews_judicial_20260415_001_maldito_cris_es_abatido_por_la_policía_en_un_enfre.md",
+    "domain": "legal",
+    "subdomain": "judicial"
+  }
+}

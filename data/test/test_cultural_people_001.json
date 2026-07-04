@@ -1,0 +1,140 @@
+{
+  "id": "test_cultural_people_001",
+  "input_text": "Magdalena Frida Carmen Kahlo y Calderón (Coyoacán, Ciudad de México, 6 de julio de 1907-Coyoacán, Ciudad de México, 13 de julio de 1954), conocida como Frida Kahlo, fue una pintora mexicana. Su obra gira temáticamente en torno a las vivencias de su vida personal. Realizó un total de 150 obras, principalmente autorretratos, en los que proyectó sus dificultades por sobrevivir. También es considerada como un icono pop de la cultura de México.​\nSu vida estuvo marcada por un grave accidente de autobús en su juventud que la mantuvo postrada en cama durante largos periodos, llegando a someterse hasta a 32 operaciones quirúrgicas.​ Llevó una vida poco convencional.​ La obra de Frida y la de su marido, el pintor Diego Rivera, se influyeron mutuamente. Ambos compartieron el gusto por el arte popular mexicano de raíces indígenas, inspirando a otros pintores mexicanos del periodo posrevolucionario.\nEn 1939, sus pinturas fueron expuestas en Francia tras haber recibido una invitación de André Breton, quien intentó convencerla de que eran «surrealistas». Sin embargo, Frida  no veía su arte reflejado en esta tendencia ya que ella consideraba que no pintaba sueños, sino su propia vida. Una de las obras de esta exposición (Autorretrato-El marco, que actualmente se encuentra en el Centro Pompidou) se convirtió en el primer cuadro de un artista mexicano adquirido por el Museo del Louvre. Su obra gozó de la admiración de destacados pintores e intelectuales de la época como Pablo Picasso, Vasili Kandinski, André Breton, Marcel Duchamp, Tina Modotti y Concha Michel. Falleció el 13 de julio de 1954, a los 47 años. Su cuerpo fue cremado y sus cenizas fueron llevadas a la Casa Azul, hoy conocida como museo Frida Kahlo.",
+  "instruction": "Extrae el perfil biográfico-artístico de la persona descrita en el párrafo introductorio. Rellena solo los campos cuya información aparezca explícitamente en el texto; deja en null (o lista vacía) cualquier campo no enunciado. No completes con conocimiento externo.",
+  "target_schema": {
+    "$defs": {
+      "ArtisticDiscipline": {
+        "enum": [
+          "literatura",
+          "pintura",
+          "escultura",
+          "música",
+          "cine",
+          "arquitectura",
+          "fotografía",
+          "otra"
+        ],
+        "title": "ArtisticDiscipline",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Perfil biográfico-artístico extraído del párrafo introductorio (lead) de un\nartículo de Wikipedia sobre un artista, autor o creador. La fuente es solo\nel resumen previo al índice: muchos datos (premios, influencias, movimiento)\nsuelen NO aparecer en esos primeros párrafos aunque sean ampliamente\nconocidos. Cualquier campo no explicitado debe devolverse como null o lista\nvacía — no completar con conocimiento externo.\n\nComplejidad: L4 — alta densidad de trampas de grounding (campos\nlegítimamente null).",
+    "properties": {
+      "full_name": {
+        "description": "Nombre completo de la persona como aparece en el texto. Incluir apellidos múltiples si están presentes (p. ej. 'Pablo Ruiz Picasso').",
+        "title": "Full Name",
+        "type": "string"
+      },
+      "birth_year": {
+        "anyOf": [
+          {
+            "maximum": 2100,
+            "minimum": 1000,
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Año de nacimiento como entero de cuatro dígitos. Null si la fecha no aparece en el texto.",
+        "title": "Birth Year"
+      },
+      "death_year": {
+        "anyOf": [
+          {
+            "maximum": 2100,
+            "minimum": 1000,
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Año de fallecimiento como entero de cuatro dígitos. Null si la persona está viva o si la fecha no aparece. No inferir muerte por ausencia de mención.",
+        "title": "Death Year"
+      },
+      "nationality": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Nacionalidad o gentilicio principal en español, en minúsculas y en singular masculino (p. ej. 'español', 'cubano', 'mexicano'). Null si no se enuncia explícitamente.",
+        "title": "Nationality"
+      },
+      "discipline": {
+        "$ref": "#/$defs/ArtisticDiscipline",
+        "description": "Disciplina artística principal de la persona según el texto. Si se mencionan varias, elegir la más prominente en la primera oración. Usar 'otra' solo si ninguna categoría aplica."
+      },
+      "movement": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Movimiento, corriente o estilo artístico al que se adscribe la persona (p. ej. 'cubismo', 'realismo mágico', 'surrealismo'). Null si el lead no lo nombra — muchos artistas no son etiquetados con un movimiento en su párrafo introductorio.",
+        "title": "Movement"
+      },
+      "notable_works": {
+        "description": "Obras destacadas citadas literalmente en el texto (títulos de novelas, pinturas, películas, álbumes...). Lista vacía si no se nombra ninguna obra concreta.",
+        "items": {
+          "type": "string"
+        },
+        "title": "Notable Works",
+        "type": "array"
+      },
+      "awards": {
+        "description": "Premios, distinciones o reconocimientos mencionados explícitamente (p. ej. 'Premio Nobel de Literatura', 'Premio Cervantes', 'Goya a la mejor dirección'). Lista vacía si el lead no enumera premios.",
+        "items": {
+          "type": "string"
+        },
+        "title": "Awards",
+        "type": "array"
+      },
+      "influenced_by": {
+        "description": "Personas, escuelas o tradiciones citadas como influencia directa sobre el artista. Lista vacía si el lead no señala influencias explícitas — campo frecuentemente vacío.",
+        "items": {
+          "type": "string"
+        },
+        "title": "Influenced By",
+        "type": "array"
+      }
+    },
+    "required": [
+      "full_name",
+      "discipline"
+    ],
+    "title": "ArtistProfile",
+    "type": "object"
+  },
+  "output": {
+    "full_name": "Magdalena Frida Carmen Kahlo y Calderón",
+    "birth_year": 1907,
+    "death_year": 1954,
+    "nationality": "mexicano",
+    "discipline": "pintura",
+    "movement": null,
+    "notable_works": [
+      "Autorretrato-El marco"
+    ],
+    "awards": [],
+    "influenced_by": []
+  },
+  "metadata": {
+    "source": "wiki_frida_kahlo.md",
+    "domain": "cultural",
+    "subdomain": "people"
+  }
+}

@@ -1,0 +1,180 @@
+{
+  "id": "test_medical_diseases_001",
+  "input_text": "La migraña, también llamada hemicránea (del griego ἡμικρανίον hemikranion ‘mitad de la cabeza’)​ o jaqueca (del árabe الشقيقة ax-xaquica, ‘media cabeza’), es una enfermedad que tiene como síntoma principal el dolor de cabeza, pulsátil, unilateral u opresivo, acompañado de náuseas o vómitos, sensibilidad a la luz o los sonidos, en ocasiones muy intenso e incapacitante para quien lo sufre.​ Es una afección muy frecuente, cuyo origen es una combinación de factores genéticos y ambientales, que afecta al 11-16 por ciento de la población general, y con una incidencia más alta entre las mujeres.​​​​​​​\nSe debe distinguir la auténtica migraña de otros tipos de cefalea o dolores de cabeza, tales como: la cefalea tensional, que es mucho más habitual, la cefalea en racimos y las cefaleas secundarias, que pueden tener multitud de causas, como gripe, meningitis, traumatismos craneoencefálicos y tumores cerebrales.​\nEl 80 por ciento de los pacientes migrañosos presentan su primer ataque antes de los 30 años. La enfermedad cursa con episodios de dolor agudo intercalados entre largos periodos libres de síntomas. La frecuencia de las crisis es muy variable, lo más usual es entre uno y cuatro episodios al mes que duran entre 4 y 72 horas, si no se realiza ningún tratamiento. El dolor puede estar precedido de manifestaciones neurológicas variadas llamadas aura que consisten en trastornos visuales o sensación de hormigueo en labio, lengua y la mitad de la cara. El dolor suele ser de gran intensidad, afecta a la mitad derecha o izquierda de la cabeza, más raramente a ambos lados simultáneamente, se acompaña de sensibilidad a la luz (fotofobia), náuseas, entumecimiento de extremidades y lengua, vómitos y empeora claramente con la actividad física. Por ello los pacientes suelen retirarse a una habitación oscura y permanecen inactivos hasta que desaparecen los síntomas.​",
+  "instruction": "Extrae un perfil estructurado de la enfermedad descrita en el texto siguiendo el esquema DiseaseProfile. Identifica el nombre de la patología, su tipo etiológico, una breve descripción de la causa, los síntomas reportados (con severidad si se menciona y si son primarios), los métodos de diagnóstico mencionados, y si se define explícitamente como crónica.",
+  "target_schema": {
+    "$defs": {
+      "EtiologyType": {
+        "enum": [
+          "INFECTIOUS",
+          "GENETIC",
+          "AUTOIMMUNE",
+          "DEGENERATIVE",
+          "UNKNOWN",
+          "OTHER"
+        ],
+        "title": "EtiologyType",
+        "type": "string"
+      },
+      "Symptom": {
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "description": "Verbatim name of the symptom",
+            "title": "Name",
+            "type": "string"
+          },
+          "severity_level": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Inferred severity if mentioned (Mild, Moderate, Severe)",
+            "title": "Severity Level"
+          },
+          "is_primary": {
+            "default": true,
+            "description": "True if this is a defining symptom of the disease",
+            "title": "Is Primary",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "name"
+        ],
+        "title": "Symptom",
+        "type": "object"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Hierarchical extraction of pathology details from medical summaries.\nComplexity: L5 (Hierarchical Grouping).",
+    "properties": {
+      "pathology_name": {
+        "description": "The medical name of the disease or disorder",
+        "title": "Pathology Name",
+        "type": "string"
+      },
+      "etiology_type": {
+        "$ref": "#/$defs/EtiologyType",
+        "description": "The primary origin or cause of the disease"
+      },
+      "etiology_description": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "A brief summary of how the disease is caused",
+        "title": "Etiology Description"
+      },
+      "symptoms": {
+        "description": "Structured list of reported symptoms",
+        "items": {
+          "$ref": "#/$defs/Symptom"
+        },
+        "title": "Symptoms",
+        "type": "array"
+      },
+      "diagnosis_methods": {
+        "description": "Clinical tests or methods mentioned for identifying the pathology",
+        "items": {
+          "type": "string"
+        },
+        "title": "Diagnosis Methods",
+        "type": "array"
+      },
+      "is_chronic": {
+        "anyOf": [
+          {
+            "type": "boolean"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "True if the text explicitly defines the disease as chronic or long-term",
+        "title": "Is Chronic"
+      }
+    },
+    "required": [
+      "pathology_name",
+      "etiology_type"
+    ],
+    "title": "DiseaseProfile",
+    "type": "object"
+  },
+  "output": {
+    "pathology_name": "Migraña",
+    "etiology_type": "GENETIC",
+    "etiology_description": "Combinación de factores genéticos y ambientales",
+    "symptoms": [
+      {
+        "name": "dolor de cabeza pulsátil, unilateral u opresivo",
+        "severity_level": "Severe",
+        "is_primary": true
+      },
+      {
+        "name": "náuseas",
+        "severity_level": null,
+        "is_primary": true
+      },
+      {
+        "name": "vómitos",
+        "severity_level": null,
+        "is_primary": true
+      },
+      {
+        "name": "sensibilidad a la luz",
+        "severity_level": null,
+        "is_primary": true
+      },
+      {
+        "name": "sensibilidad a los sonidos",
+        "severity_level": null,
+        "is_primary": true
+      },
+      {
+        "name": "aura",
+        "severity_level": null,
+        "is_primary": false
+      },
+      {
+        "name": "trastornos visuales",
+        "severity_level": null,
+        "is_primary": false
+      },
+      {
+        "name": "sensación de hormigueo en labio, lengua y la mitad de la cara",
+        "severity_level": null,
+        "is_primary": false
+      },
+      {
+        "name": "fotofobia",
+        "severity_level": null,
+        "is_primary": true
+      },
+      {
+        "name": "entumecimiento de extremidades y lengua",
+        "severity_level": null,
+        "is_primary": false
+      }
+    ],
+    "diagnosis_methods": [],
+    "is_chronic": null
+  },
+  "metadata": {
+    "source": "fresh_testset_migraña.md",
+    "domain": "medical",
+    "subdomain": "diseases"
+  }
+}

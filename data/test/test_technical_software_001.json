@@ -1,0 +1,136 @@
+{
+  "id": "test_technical_software_001",
+  "input_text": "# PostgreSQL\n\nPostgreSQL, también llamado Postgres, es un sistema de gestión de bases de datos relacional orientado a objetos y de código abierto, publicado bajo la licencia PostgreSQL,​ similar a la BSD o la MIT.\nComo muchos otros proyectos de código abierto, el desarrollo de PostgreSQL no es manejado por una empresa o persona, sino que es dirigido por una comunidad de desarrolladores que trabajan de forma desinteresada, altruista, libre o apoyados por organizaciones comerciales. Dicha comunidad es denominada el PGDG (PostgreSQL Global Development Group).\nPostgreSQL no tiene un gestor de errores (bugs), haciendo muy difícil conocer el estado de corrección de los mismos.​\n\n## Historia\nPostgreSQL ha tenido una larga evolución, la cual se inicia en 1982 con el proyecto Ingres en la Universidad de Berkeley. Este proyecto, liderado por Michael Stonebraker, fue uno de los primeros intentos en implementar un motor de base de datos relacional. Después de haber trabajado un largo tiempo en Ingres y de haber tenido una experiencia comercial con el mismo, Michael decidió volver a la Universidad en 1985 para trabajar en un nuevo proyecto sobre la experiencia de Ingres, dicho proyecto fue llamado post-ingres o simplemente POSTGRES.\nEl proyecto post-ingres pretendía resolver los problemas con el modelo de base de datos relacional que habían sido aclarados a comienzos de los años 1980. El principal de estos problemas era la incapacidad del modelo relacional de comprender \"tipos\", es decir, combinaciones de datos simples que conforman una única unidad. Actualmente estos son llamados objetos. Se esforzaron en introducir la menor cantidad posible de funcionalidades para completar el soporte de tipos. Estas funcionalidades incluían la capacidad de definir tipos, pero también la capacidad de describir relaciones - las cuales hasta ese momento eran ampliamente utilizadas pero mantenidas completamente por el usuario. En Postgres la base de datos «comprendía» las relaciones y podía obtener información de tablas relacionadas utilizando reglas. Postgres usó muchas ideas de Ingres pero no su código.\nLa siguiente lista muestra los hitos más importantes en la vida del proyecto Postgres.\n\n1986: se publicaron varios informes que describían las bases del sistema.\n1988: ya se contaba con una versión utilizable.\n1989: el grupo publicaba la versión 1 para una pequeña comunidad de usuarios.\n1990: se publicaba la versión 2 la cual tenía prácticamente reescrito el sistema de reglas.\n1991: publicación de la versión 3, esta añadía la capacidad de múltiples motores de almacenamiento.\n1993: crecimiento importante de la comunidad de usuarios, la cual demandaba más características.\n1994: después de la publicación de la versión 4, el proyecto terminó y el grupo se disolvió.\nDespués de que el proyecto POSTGRES terminara, dos graduados de la universidad, Andrew Yu y Jolly Chen, comenzaron a trabajar sobre el código de POSTGRES, esto fue posible dado que POSTGRES estaba licenciado bajo la BSD, y lo primero que hicieron fue añadir soporte para el lenguaje SQL a POSTGRES, dado que anteriormente contaba con un intérprete del lenguaje de consultas QUEL (basado en Ingres), creando así el sistema al cual denominaron Postgres95.\nPara el año 1996 se unieron al proyecto personas ajenas a la Universidad como Marc Fournier de Hub.Org Networking Services, Bruce Momjian y Vadim B. Mikheev quienes proporcionaron el primer servidor de desarrollo no universitario para el esfuerzo de desarrollo de código abierto y comenzaron a trabajar para estabilizar el código de Postgres95.\nEn el año 1996 decidieron cambiar el nombre de Postgres95 de tal modo que refleje la característica del lenguaje SQL y lo terminaron llamando PostgreSQL, cuya primera versión de código abierto fue lanzada el 1 de agosto de 1996. La primera versión formal de PostgreSQL (6.0) fue liberada en enero de 1997. Desde entonces, muchos desarrolladores entusiastas de los motores de base de datos se unieron al proyecto, coordinaron vía Internet y entre todos comenzaron a incorporar muchas características al motor.\nAunque la licencia permitía la comercialización de PostgreSQL, el código no se desarrolló en principio con fines comerciales, algo sorprendente considerando las ventajas que PostgreSQL ofrecía. La principal derivación se originó cuando Paula Hawthtorn (un miembro del equipo original de Ingres que se pasó a Postgres) y Michael Stonebraker conformaron Illustra Information Technologies para comercializar Postgres.\nEn 2000, ex inversionistas de Red Hat crearon la empresa Great Bridge para comercializar PostgreSQL y competir contra proveedores comerciales de bases de datos. Great Bridge auspició a varios desarrolladores de PostgreSQL y donó recursos de vuelta a la comunidad, pero a fines de 2001 cerró debido a la dura competencia de compañías como Red Hat y pobres condiciones del mercado.\nEn 2001, Command Prompt, Inc. lanzó Mammonth PostgreSQL, la más antigua distribución comercial de PostgreSQL. Continúa brindando soporte a la comunidad PostgreSQL a través del auspicio de desarrolladores y proyectos, incluyendo PL/Perl, PL/php y el alojamiento de proyectos de comunidades como PostgreSQL Build Farm.\nEn enero de 2005, PostgreSQL recibió apoyo del proveedor de base de datos Pervasive Software, conocido por su producto Btrieve que se utilizaba en la plataforma Novell Netware. Pervasive anunció soporte comercial y participación comunitaria y logró algo de éxito. Sin embargo, en julio de 2006 dejó el mercado de soporte de PostgreSQL.\nA mediados de 2005 otras dos compañías anunciaron planes para comercializar PostgreSQL con énfasis en nichos separados de mercados. EnterpriseDB añadió funcionalidades que le permitían a las aplicaciones escritas para trabajar con Oracle ser más fáciles de ejecutar con PostgreSQL. Greenplum contribuyó mejoras directamente orientadas a aplicaciones de Data Warehouse e Inteligencia de negocios, incluyendo el proyecto BizGres.\nEn octubre de 2005, John Loiacono, vicepresidente ejecutivo de software en Sun Microsystems comentó: \"No estamos yendo tras el OEM de Microsoft pero estamos viendo a PostgreSQL ahora\", aunque no se dieron especificaciones en ese momento. Para noviembre de 2005, Sun Solaris 10 (lanzamiento 6/06) incluía PostgreSQL.\nEn agosto de 2007 EnterpriseDB anunció el Postgres Resource Center y EnterpriseDB Postgres, diseñados para ser una distribución de PostgreSQL completamente configurada, incluyendo muchos módulos contribuidos y agregados. EnterpriseDB Postgres fue renombrado Postgres Plus en marzo de 2008.\nEl proyecto PostgreSQL continúa haciendo lanzamientos principales anualmente y lanzamientos menores de reparación de bugs, todos disponibles bajo la licencia PostgreSQL, y basados en contribuciones de proveedores comerciales, empresas aportantes y programadores de código abierto mayormente.\n\n## Características\nAlgunas de sus principales características son, entre otras:",
+  "instruction": "Extrae una descripción técnica estructurada de PostgreSQL a partir del texto fuente. Incluye nombre oficial, categoría, licencia, plataformas mencionadas, desarrollador principal y características técnicas. Para los campos opcionales (fecha exacta de lanzamiento, SHA256 y CEO actual), devuelve null si no aparecen explícitamente en el texto.",
+  "target_schema": {
+    "$defs": {
+      "SoftwareType": {
+        "enum": [
+          "ARCHIVER",
+          "WEB_BROWSER",
+          "OFFICE_SUITE",
+          "IDE_EDITOR",
+          "GRAPHICS_EDITOR",
+          "MEDIA_PLAYER",
+          "SYSTEM_TOOL",
+          "OTHER"
+        ],
+        "title": "SoftwareType",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Detailed technical description of a software application.\nComplexity: L9 (Adversarial Null Traps).",
+    "properties": {
+      "official_name": {
+        "description": "The full official name of the software",
+        "title": "Official Name",
+        "type": "string"
+      },
+      "app_category": {
+        "$ref": "#/$defs/SoftwareType",
+        "description": "The primary functional category of the app"
+      },
+      "license": {
+        "description": "The specific license mentioned (e.g., GPL, Proprietary)",
+        "title": "License",
+        "type": "string"
+      },
+      "platforms": {
+        "description": "Operating systems mentioned as supported (e.g., Windows, macOS, Linux)",
+        "items": {
+          "type": "string"
+        },
+        "title": "Platforms",
+        "type": "array"
+      },
+      "primary_developer": {
+        "description": "The individual or organization that developed the software",
+        "title": "Primary Developer",
+        "type": "string"
+      },
+      "features": {
+        "description": "List of specific technical capabilities or features mentioned",
+        "items": {
+          "type": "string"
+        },
+        "title": "Features",
+        "type": "array"
+      },
+      "exact_release_date": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "The EXACT date (DD/MM/YYYY) of the first release. RETURN NULL IF ONLY THE YEAR IS MENTIONED.",
+        "title": "Exact Release Date"
+      },
+      "latest_stable_version_sha256": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "The SHA256 checksum of the latest installer. RETURN NULL IF NOT EXPLICITLY IN THE TEXT.",
+        "title": "Latest Stable Version Sha256"
+      },
+      "current_ceo_name": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "The name of the current CEO of the developing organization. RETURN NULL IF NOT IN TEXT.",
+        "title": "Current Ceo Name"
+      }
+    },
+    "required": [
+      "official_name",
+      "app_category",
+      "license",
+      "primary_developer"
+    ],
+    "title": "SoftwareDescription",
+    "type": "object"
+  },
+  "output": {
+    "official_name": "PostgreSQL",
+    "app_category": "OTHER",
+    "license": "PostgreSQL License",
+    "platforms": [
+      "Sun Solaris 10",
+      "Novell Netware"
+    ],
+    "primary_developer": "PostgreSQL Global Development Group (PGDG)",
+    "features": [
+      "sistema de gestión de bases de datos relacional orientado a objetos",
+      "código abierto",
+      "soporte para lenguaje SQL",
+      "capacidad de definir tipos",
+      "capacidad de describir relaciones",
+      "múltiples motores de almacenamiento",
+      "reglas para obtener información de tablas relacionadas"
+    ],
+    "exact_release_date": "01/08/1996",
+    "latest_stable_version_sha256": null,
+    "current_ceo_name": null
+  },
+  "metadata": {
+    "source": "fresh_testset_postgresql.md",
+    "domain": "technical",
+    "subdomain": "software"
+  }
+}

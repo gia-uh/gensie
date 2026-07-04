@@ -1,0 +1,295 @@
+{
+  "id": "cultural_theater_002",
+  "input_text": "**Título:** *El Faro de Trasmiera*\n**Sala:** Teatro Nuevo Apolo\n**Ciudad:** Madrid\n**Temporada:** del 14 de marzo al 28 de junio de 2026\n**Duración:** 145 minutos, con un intermedio de 15 minutos [...] En un pueblo de la costa cántabra, la farera Amparo se niega a abandonar el viejo faro que su familia ha cuidado durante tres generaciones, justo cuando la Autoridad Portuaria anuncia su automatización; la llegada inesperada de su sobrino Miguel, un programador de Madrid, obliga a tía y sobrino a entenderse antes de que se apague la última bombilla. [...] | Amparo, la farera | Carmen Olmedo-Riaza | Lucía Sampedro |\n| Miguel, su sobrino | Iván Cebreiros | Pablo Hernán-Cortés |\n| Don Severo, naviero | Federico Aliaga | Marcos Ulibarri |\n| Inspectora Bermúdez | Rosalía Quintáns | — |\n| Alcalde de Trasmiera | Joaquín Berrocal | Tomás Vilaplana |\n| Tía Encarna, tabernera | Mar Encinas | Sofía Belmonte |\n| Padre Olegario | Esteban Cuadrado | (por designar) |\n| Lúa, niña del pueblo | Daniela Pasarón / Vega Robledo (en alternancia) | — |\n\n**Ensemble:** Aroa Cifuentes, Borja Mendizábal, Cintia Vergara, Damián Olabarría, Elsa Quintanilla, Fito Aramburu, Gádor Llamazares, Hugo Restrepo, Inés Cabranes, Joel Trespalacios, Karen Aizpurúa, Leyre Bustinza, Manuel Tagle, Nerea Goicoechea, Óscar Pedrueza, Paula Garrastazu, Quim Sentís, Rita Berrendero, Saúl Iturralde, Telma Vegas, Unai Cendoya, Vera Maldonado, Xián Outeiriño. [...] - **Dirección de escena:** Lorenzo Vidal-Quesada\n- **Libreto:** Aitana Ferrol-Marín\n- **Música y letras:** Núria Bassols\n- **Dirección musical:** Tobías Klein-Arrázola\n- **Coreografía:** Indira Sampaoli\n- **Escenografía:** Estudio Carbayón (Beltrán Carbayón y Mireia Solórzano)\n- **Vestuario:** Carlota Renedo\n- **Diseño de iluminación:** Pau Vergés-Mompó\n- **Diseño de sonido:** Hassan El-Mokhtar\n- **Caracterización:** Yago Brizuela\n- **Ayudantía de dirección:** Rebeca Iniesta\n- **Producción ejecutiva:** Sal de Escena S.L. (Lorena Pacheco)\n\n**Orquesta en vivo:** Catorce músicos dirigidos desde el foso por Tobías Klein-Arrázola, con sección de cuerda, viento madera, metales, percusión, piano y acordeón. [...] Este espectáculo está recomendado para todos los públicos a partir de seis años. Por favor, tengan en cuenta lo siguiente:\n\n- La función incluye **luces estroboscópicas** durante la escena de la tormenta (final del Acto I) y el encendido final del faro.\n- Se utilizan **efectos sonoros intensos** —truenos, viento y sirena de niebla— a volumen elevado en varios momentos del Acto I.\n- Hay efectos de humo escénico de baja densidad en el número *Verbena de los faros*.\n- No se permite el acceso a la sala una vez comenzada la función hasta el primer cambio de escena.",
+  "instruction": "Extrae los datos del programa de mano de esta producción teatral: título, sala, fechas, sinopsis, reparto, equipo creativo y avisos al público.",
+  "target_schema": {
+    "$defs": {
+      "CastMember": {
+        "additionalProperties": false,
+        "description": "Una intervención del reparto, con su rol y la persona que lo interpreta.",
+        "properties": {
+          "role": {
+            "description": "Nombre literal del personaje o función dramatúrgica (p. ej. 'Hamlet', 'Coro', 'Bailarín solista').",
+            "title": "Role",
+            "type": "string"
+          },
+          "actor": {
+            "description": "Nombre del intérprete que asume el rol, en el formato en que el programa lo presenta.",
+            "title": "Actor",
+            "type": "string"
+          },
+          "understudy": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Nombre del suplente para este rol si el programa lo nombra. Null si no aparece o si el programa no asigna suplentes.",
+            "title": "Understudy"
+          }
+        },
+        "required": [
+          "role",
+          "actor"
+        ],
+        "title": "CastMember",
+        "type": "object"
+      },
+      "ContentAdvisory": {
+        "enum": [
+          "ninguna",
+          "violencia",
+          "lenguaje_fuerte",
+          "contenido_sexual",
+          "tabaquismo",
+          "efectos_sonoros_intensos",
+          "luces_estroboscópicas"
+        ],
+        "title": "ContentAdvisory",
+        "type": "string"
+      },
+      "CreativeRole": {
+        "additionalProperties": false,
+        "description": "Una persona en el equipo creativo de la producción, con su función.",
+        "properties": {
+          "role": {
+            "description": "Función dentro del equipo creativo, tal como aparece en el programa (p. ej. 'Dirección', 'Dramaturgia', 'Escenografía', 'Música', 'Iluminación', 'Vestuario').",
+            "title": "Role",
+            "type": "string"
+          },
+          "name": {
+            "description": "Nombre de la persona o colectivo.",
+            "title": "Name",
+            "type": "string"
+          }
+        },
+        "required": [
+          "role",
+          "name"
+        ],
+        "title": "CreativeRole",
+        "type": "object"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Programa de mano (playbill) de una producción teatral, danza o lírica. La\ninformación se reparte entre cabecera (título + sala + fechas), reparto,\nequipo creativo, sinopsis y notas de aviso al público. La extracción debe\ndiferenciar entre intérpretes (CastMember) y equipo creativo (CreativeRole),\naunque ambos aparezcan en listados similares.\n\nComplejidad: L7 — síntesis de varias secciones con listas paralelas y\ndistinción de roles semánticamente cercanos.",
+    "properties": {
+      "title": {
+        "description": "Título de la obra tal como aparece en portada del programa.",
+        "title": "Title",
+        "type": "string"
+      },
+      "venue": {
+        "description": "Nombre de la sala o teatro donde se representa.",
+        "title": "Venue",
+        "type": "string"
+      },
+      "city": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Ciudad de la sala si el programa la menciona. Null si no aparece.",
+        "title": "City"
+      },
+      "opening_date": {
+        "description": "Fecha de estreno de esta producción en formato ISO 'YYYY-MM-DD' o, si el programa solo da mes y año, 'YYYY-MM'.",
+        "title": "Opening Date",
+        "type": "string"
+      },
+      "closing_date": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Fecha del último pase de la temporada en formato ISO. Null si la temporada está abierta o el programa no la cierra.",
+        "title": "Closing Date"
+      },
+      "runtime_minutes": {
+        "anyOf": [
+          {
+            "exclusiveMinimum": 0,
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Duración total del espectáculo en minutos, incluido intermedio si lo hay. Null si el programa no la indica.",
+        "title": "Runtime Minutes"
+      },
+      "synopsis": {
+        "description": "Resumen literal del argumento como aparece en la sección 'Sinopsis' o equivalente. Una o dos frases.",
+        "title": "Synopsis",
+        "type": "string"
+      },
+      "themes": {
+        "description": "Temas explícitamente nombrados en la nota de programa o la entrevista al director (p. ej. 'memoria histórica', 'feminismo', 'duelo'). Solo temas literalmente mencionados, no inferidos.",
+        "items": {
+          "type": "string"
+        },
+        "title": "Themes",
+        "type": "array"
+      },
+      "cast": {
+        "description": "Reparto en el orden en que aparece en el programa. Cada entrada asocia un rol dramatúrgico con su intérprete.",
+        "items": {
+          "$ref": "#/$defs/CastMember"
+        },
+        "title": "Cast",
+        "type": "array"
+      },
+      "creative_team": {
+        "description": "Equipo creativo (dirección, dramaturgia, diseño escenográfico, música, iluminación, etc.) en el orden de aparición.",
+        "items": {
+          "$ref": "#/$defs/CreativeRole"
+        },
+        "title": "Creative Team",
+        "type": "array"
+      },
+      "content_advisory": {
+        "description": "Avisos para el público presentes en el programa. 'ninguna' solo si el programa declara explícitamente apto para todos los públicos.",
+        "items": {
+          "$ref": "#/$defs/ContentAdvisory"
+        },
+        "title": "Content Advisory",
+        "type": "array"
+      }
+    },
+    "required": [
+      "title",
+      "venue",
+      "opening_date",
+      "synopsis",
+      "cast"
+    ],
+    "title": "TheaterPlaybill",
+    "type": "object"
+  },
+  "output": {
+    "title": "El Faro de Trasmiera",
+    "venue": "Teatro Nuevo Apolo",
+    "city": "Madrid",
+    "opening_date": "2026-03-14",
+    "closing_date": "2026-06-28",
+    "runtime_minutes": 145,
+    "synopsis": "En un pueblo de la costa cántabra, la farera Amparo se niega a abandonar el viejo faro que su familia ha cuidado durante tres generaciones, justo cuando la Autoridad Portuaria anuncia su automatización; la llegada inesperada de su sobrino Miguel, un programador de Madrid, obliga a tía y sobrino a entenderse antes de que se apague la última bombilla.",
+    "themes": [],
+    "cast": [
+      {
+        "role": "Amparo, la farera",
+        "actor": "Carmen Olmedo-Riaza",
+        "understudy": "Lucía Sampedro"
+      },
+      {
+        "role": "Miguel, su sobrino",
+        "actor": "Iván Cebreiros",
+        "understudy": "Pablo Hernán-Cortés"
+      },
+      {
+        "role": "Don Severo, naviero",
+        "actor": "Federico Aliaga",
+        "understudy": "Marcos Ulibarri"
+      },
+      {
+        "role": "Inspectora Bermúdez",
+        "actor": "Rosalía Quintáns",
+        "understudy": null
+      },
+      {
+        "role": "Alcalde de Trasmiera",
+        "actor": "Joaquín Berrocal",
+        "understudy": "Tomás Vilaplana"
+      },
+      {
+        "role": "Tía Encarna, tabernera",
+        "actor": "Mar Encinas",
+        "understudy": "Sofía Belmonte"
+      },
+      {
+        "role": "Padre Olegario",
+        "actor": "Esteban Cuadrado",
+        "understudy": null
+      },
+      {
+        "role": "Lúa, niña del pueblo",
+        "actor": "Daniela Pasarón / Vega Robledo (en alternancia)",
+        "understudy": null
+      }
+    ],
+    "creative_team": [
+      {
+        "role": "Dirección de escena",
+        "name": "Lorenzo Vidal-Quesada"
+      },
+      {
+        "role": "Libreto",
+        "name": "Aitana Ferrol-Marín"
+      },
+      {
+        "role": "Música y letras",
+        "name": "Núria Bassols"
+      },
+      {
+        "role": "Dirección musical",
+        "name": "Tobías Klein-Arrázola"
+      },
+      {
+        "role": "Coreografía",
+        "name": "Indira Sampaoli"
+      },
+      {
+        "role": "Escenografía",
+        "name": "Estudio Carbayón (Beltrán Carbayón y Mireia Solórzano)"
+      },
+      {
+        "role": "Vestuario",
+        "name": "Carlota Renedo"
+      },
+      {
+        "role": "Diseño de iluminación",
+        "name": "Pau Vergés-Mompó"
+      },
+      {
+        "role": "Diseño de sonido",
+        "name": "Hassan El-Mokhtar"
+      },
+      {
+        "role": "Caracterización",
+        "name": "Yago Brizuela"
+      },
+      {
+        "role": "Ayudantía de dirección",
+        "name": "Rebeca Iniesta"
+      },
+      {
+        "role": "Producción ejecutiva",
+        "name": "Sal de Escena S.L. (Lorena Pacheco)"
+      }
+    ],
+    "content_advisory": [
+      "luces_estroboscópicas",
+      "efectos_sonoros_intensos"
+    ]
+  },
+  "metadata": {
+    "source": "synthetic_20260601_002.md",
+    "domain": "cultural",
+    "subdomain": "theater"
+  }
+}

@@ -1,0 +1,158 @@
+{
+  "id": "legal_judicial_010",
+  "input_text": "# A pesar del recurso del fiscal, Garzón autoriza la apertura de la fosa de Lorca\n\nEl juez de la Audiencia Nacional de España, Baltasar Garzón, ha autorizado hoy la apertura de la fosa común en donde se pueden encontrar los restos del poeta Federico García Lorca, en cumplimiento del sumario abierto el 19 de octubre contra los crímenes del franquismo.\nSe considera que la fosa se encuentra en un lugar ubicado entre las localidades granadinas de Víznar y Alfacar. La demanda fue presentada en su día por los familiares de Francisco Galadí Melgar y Dióscoro Galindo, fusilados junto a Lorca y que podrían encontrarse en la misma fosa.\nPor turno, será el Juzgado de Instrucción número 2 de Granada quien deberá supervisar las actuaciones, y deberá coordinarse con el equipo de historiadores y forense nombrado por Garzón para todas las actuaciones del sumario.\nAyer, no obstante, se supo que el juez Garzón y el fiscal jefe de la Audiencia Nacional, Javier Zaragoza, habían llevado sus discrepancias sobre el procedimiento abierto hasta el extremo de buscar los artilugios legales necesarios, uno para rechazar el recurso y el otro para no seguir el procedimiento habitual y presentarlo ante la Sala de lo Penal. El fiscal llegó a acusar a Garzón de querer abrir un proceso \"inquisitorial\".",
+  "instruction": "Extrae la información estructurada de este artículo de noticias judiciales, incluyendo titular, resumen, categoría, ubicación, personas y organizaciones clave mencionadas.",
+  "target_schema": {
+    "$defs": {
+      "NewsCategory": {
+        "enum": [
+          "JUDICIAL",
+          "DISASTER",
+          "HEALTH",
+          "ENVIRONMENT",
+          "POLITICS",
+          "ECONOMY",
+          "SCIENCE",
+          "CULTURE",
+          "SPORTS",
+          "OTHER"
+        ],
+        "title": "NewsCategory",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Extracts structured information from general news articles.\nComplexity: L4 (Sparse Extraction) - Some fields may be null/missing.",
+    "properties": {
+      "headline": {
+        "description": "The main headline or title of the news article",
+        "title": "Headline",
+        "type": "string"
+      },
+      "summary": {
+        "description": "A brief summary of the main facts reported (1-3 sentences)",
+        "title": "Summary",
+        "type": "string"
+      },
+      "category": {
+        "$ref": "#/$defs/NewsCategory",
+        "description": "The thematic category of the news story"
+      },
+      "location": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Geographic location where the event occurred (city, country, or region)",
+        "title": "Location"
+      },
+      "date": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Date mentioned in the article (may be implicit or explicit)",
+        "title": "Date"
+      },
+      "key_people": {
+        "description": "Names of key individuals mentioned in the article",
+        "items": {
+          "type": "string"
+        },
+        "title": "Key People",
+        "type": "array"
+      },
+      "key_organizations": {
+        "description": "Names of organizations, companies, or governments mentioned",
+        "items": {
+          "type": "string"
+        },
+        "title": "Key Organizations",
+        "type": "array"
+      },
+      "casualties": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of deaths mentioned, if any",
+        "title": "Casualties"
+      },
+      "injured": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of people injured, if any",
+        "title": "Injured"
+      },
+      "affected_count": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of people affected or displaced, if applicable",
+        "title": "Affected Count"
+      }
+    },
+    "required": [
+      "headline",
+      "summary",
+      "category"
+    ],
+    "title": "NewsArticle",
+    "type": "object"
+  },
+  "output": {
+    "headline": "A pesar del recurso del fiscal, Garzón autoriza la apertura de la fosa de Lorca",
+    "summary": "El juez Baltasar Garzón de la Audiencia Nacional ha autorizado la apertura de la fosa común donde podrían encontrarse los restos de Federico García Lorca, en cumplimiento del sumario abierto contra los crímenes del franquismo. El fiscal jefe Javier Zaragoza se opuso al procedimiento, llegando a acusar a Garzón de querer abrir un proceso inquisitorial.",
+    "category": "JUDICIAL",
+    "location": "Víznar y Alfacar, Granada, España",
+    "date": "19 de octubre",
+    "key_people": [
+      "Baltasar Garzón",
+      "Federico García Lorca",
+      "Francisco Galadí Melgar",
+      "Dióscoro Galindo",
+      "Javier Zaragoza"
+    ],
+    "key_organizations": [
+      "Audiencia Nacional",
+      "Juzgado de Instrucción número 2 de Granada",
+      "Sala de lo Penal"
+    ],
+    "casualties": null,
+    "injured": null,
+    "affected_count": null
+  },
+  "metadata": {
+    "source": "wikinews_judicial_20260415_010_a_pesar_del_recurso_del_fiscal_garzón_autoriza_la_.md",
+    "domain": "legal",
+    "subdomain": "judicial"
+  }
+}

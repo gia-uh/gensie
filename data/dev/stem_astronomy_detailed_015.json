@@ -1,0 +1,148 @@
+{
+  "id": "stem_astronomy_detailed_015",
+  "input_text": "# Ío\n\nÍo es el satélite galileano más cercano a Júpiter. Es el tercer satélite por su tamaño, tiene la más alta densidad entre todos los satélites y, en proporción, la menor cantidad de agua entre todos los objetos conocidos del sistema solar. Fue descubierto por Galileo Galilei en 1610. Recibe su nombre de Ío, una de las muchas doncellas de las que Zeus se enamoró en la mitología griega, aunque inicialmente recibió el nombre de Júpiter I por ser el primer satélite de Júpiter según su cercanía al planeta.\nCon un diámetro de 3643 kilómetros, es la tercera más grande de las lunas de Júpiter. En Ío hay planicies muy extensas y también cadenas montañosas, pero la ausencia de cráteres de impacto sugiere la juventud geológica de su superficie.​ Con más de 400 volcanes activos, es el objeto más activo geológicamente del sistema solar.​ Esta actividad tan elevada se debe al calentamiento por marea, que es la respuesta a la disipación de enormes cantidades de energía proveniente de la fricción provocada en el interior del satélite. Varios volcanes producen nubes de azufre y dióxido de azufre, que se elevan hasta los 500 km. Su superficie también posee más de cien montañas que han sido levantadas por la extrema compresión en la base de la corteza de silicatos del satélite. Algunas de estas montañas son más altas que el Monte Everest.​\nA diferencia de la mayoría de los satélites externos del sistema solar, que se encuentran cubiertos de gruesas capas de hielo, Ío está compuesto principalmente por un núcleo de hierro derretido envuelto por roca de silicato.\nÍo cumplió un papel importante en el desarrollo de la astronomía durante los siglos XVII y XVIII, ayudando a la adopción del modelo heliocéntrico de Copérnico del sistema solar y de las Leyes de Kepler del movimiento planetario. La primera medición de la velocidad de la luz fue realizada por Ole Rømer midiendo el periodo de traslación de Ío.",
+  "instruction": "Extrae las propiedades físicas y orbitales del cuerpo celeste descrito en el texto, incluyendo su nombre oficial, tipo de cuerpo, diámetro y datos de descubrimiento disponibles.",
+  "target_schema": {
+    "$defs": {
+      "CelestialBodyType": {
+        "enum": [
+          "ASTEROIDE",
+          "COMETA",
+          "PLANETA",
+          "LUNA",
+          "PLANETA ENANO",
+          "OBJETO INTERESTELAR",
+          "OTRO"
+        ],
+        "title": "CelestialBodyType",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Extracts physical and orbital parameters of celestial bodies.\nComplexity: L5 (Precision Extraction & Normalization).",
+    "properties": {
+      "official_name": {
+        "description": "The primary scientific designation or name",
+        "title": "Official Name",
+        "type": "string"
+      },
+      "body_type": {
+        "$ref": "#/$defs/CelestialBodyType",
+        "description": "The classification of the celestial object"
+      },
+      "mass_kg": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Mass in kilograms (scientific notation or float)",
+        "title": "Mass Kg"
+      },
+      "diameter_km": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Mean diameter in kilometers",
+        "title": "Diameter Km"
+      },
+      "eccentricity": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Orbital eccentricity (e.g., 1.199)",
+        "title": "Eccentricity"
+      },
+      "orbital_period_days": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Time to complete one orbit in Earth days",
+        "title": "Orbital Period Days"
+      },
+      "semi_major_axis_au": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Average distance from the sun in AU",
+        "title": "Semi Major Axis Au"
+      },
+      "discovery_date": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Date of discovery in YYYY-MM-DD format",
+        "title": "Discovery Date"
+      },
+      "discoverer": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Name of the person or observatory that found the object",
+        "title": "Discoverer"
+      }
+    },
+    "required": [
+      "official_name",
+      "body_type"
+    ],
+    "title": "CelestialObjectProperties",
+    "type": "object"
+  },
+  "output": {
+    "official_name": "Ío",
+    "body_type": "LUNA",
+    "mass_kg": null,
+    "diameter_km": 3643.0,
+    "eccentricity": null,
+    "orbital_period_days": null,
+    "semi_major_axis_au": null,
+    "discovery_date": null,
+    "discoverer": "Galileo Galilei"
+  },
+  "metadata": {
+    "source": "solar_system_15_io.md",
+    "domain": "stem",
+    "subdomain": "astronomy_detailed"
+  }
+}

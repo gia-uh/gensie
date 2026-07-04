@@ -1,0 +1,29 @@
+{
+  "id": "technical_extraction_001",
+  "input_text": "# 7-Zip\n\n7-Zip es un archivador de ficheros libre desarrollado por Igor Pavlov. Por defecto utiliza el formato de archivo 7z, también libre, (con extensión .7z). Este formato usa los métodos de compresión LZMA y PPMD (más adecuado para textos), desarrollados por su autor, y puede aplicar un filtro a los ejecutables para aumentar su compresibilidad. Los archivos 7z pueden ser sólidos, donde múltiples archivos de tipo similar se comprimen en un único flujo, con el fin de explotar la redundancia combinado inherente a archivos similares, a diferencia de los ZIP, lo que mejora la compresión de conjuntos de archivos pequeños.\n\n\n== Características ==\nAlto porcentaje de compresión con el formato 7z.\n7-Zip es software libre con licencia GNU GPL.\nSegún la web oficial, comprime de 30% a 70% más que el Formato de compresión ZIP y PKZip.​\nCapacidad de autoextracción para el formato 7z.\nIntegración con el shell de Windows (explorador de archivos).\nSoporte para arrastrar y soltar.\nPotente administrador de archivos.\nPotente línea de comandos.\nExtensión para FAR Manager.",
+  "instruction": "¿Quién desarrolló el programa 7-Zip?",
+  "target_schema": {
+    "additionalProperties": false,
+    "description": "Extracts a single verbatim fragment that answers the provided instruction.\nComplexity: L1 (Literal Extraction).",
+    "properties": {
+      "answer": {
+        "description": "The verbatim fragment from the source text that answers the question",
+        "title": "Answer",
+        "type": "string"
+      }
+    },
+    "required": [
+      "answer"
+    ],
+    "title": "TextAnswer",
+    "type": "object"
+  },
+  "output": {
+    "answer": "7-Zip es un archivador de ficheros libre desarrollado por Igor Pavlov."
+  },
+  "metadata": {
+    "source": "wiki_7-zip.md",
+    "domain": "technical",
+    "subdomain": "software"
+  }
+}

@@ -1,0 +1,85 @@
+{
+  "id": "cultural_monuments_2",
+  "input_text": "# Torre de los Moros\n\nMunicipality: Monumento\nCategory: Alacón\nRegistration Code: 41°01′22″N 0°41′44″O﻿ / ﻿41.022732, -0.695421﻿ (Torre de los Moros)\nDeclaration Date: \nSource: Wikipedia Annex List\n\nNo detailed article available.\nAdditional detail line 1.\nAdditional detail line 2.\nAdditional detail line 3.\nAdditional detail line 4.\nAdditional detail line 5.",
+  "instruction": "Extrae la información",
+  "target_schema": {
+    "$defs": {
+      "BICCategory": {
+        "enum": [
+          "MONUMENTO",
+          "JARDÍN HISTÓRICO",
+          "CONJUNTO HISTÓRICO",
+          "SITIO HISTÓRICO",
+          "ZONA ARQUEOLÓGICA",
+          "OTRO"
+        ],
+        "title": "BICCategory",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Normalizes registration codes, dates, and identifiers from the Spanish BIC Registry.\nComplexity: L3 (Standard Normalization).",
+    "properties": {
+      "official_name": {
+        "description": "The official name of the monument or protected site",
+        "title": "Official Name",
+        "type": "string"
+      },
+      "municipality": {
+        "description": "The municipality or city where the monument is located",
+        "title": "Municipality",
+        "type": "string"
+      },
+      "bic_category": {
+        "$ref": "#/$defs/BICCategory",
+        "description": "The legal category of protection (e.g., Monumento, Jardín Histórico)"
+      },
+      "registration_code": {
+        "description": "The official registration ID (e.g., 'RI-51-0001091'). Must strictly follow the pattern.",
+        "pattern": "^[A-Z\\-0-9]+$",
+        "title": "Registration Code",
+        "type": "string"
+      },
+      "declaration_date": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "The date of the legal declaration in YYYY-MM-DD format (normalize from text)",
+        "title": "Declaration Date"
+      },
+      "is_declared": {
+        "default": true,
+        "description": "True if the status is 'Declarado'; False if it is 'Incoado' (pending)",
+        "title": "Is Declared",
+        "type": "boolean"
+      }
+    },
+    "required": [
+      "official_name",
+      "municipality",
+      "bic_category",
+      "registration_code"
+    ],
+    "title": "MonumentBIC",
+    "type": "object"
+  },
+  "output": {
+    "official_name": "Torre de los Moros",
+    "municipality": "Alacón",
+    "bic_category": "MONUMENTO",
+    "registration_code": "NONE",
+    "declaration_date": null,
+    "is_declared": true
+  },
+  "metadata": {
+    "source": "bic_20260414_torre_de_los_moros.md",
+    "domain": "cultural",
+    "subdomain": "monuments"
+  }
+}

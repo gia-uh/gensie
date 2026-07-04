@@ -1,0 +1,23 @@
+{
+  "participant": {
+    "team_name": "Alpha NLP",
+    "institution": "Univ. Alpha",
+    "pipelines": [
+      {
+        "name": "rag",
+        "description": "rag pipeline (example data)"
+      }
+    ]
+  },
+  "config": {
+    "model": "demo-7b-instruct",
+    "pipeline": "rag",
+    "data_source": "/data/test"
+  },
+  "metrics": {
+    "precision": 0.71,
+    "recall": 0.71,
+    "f1": 0.71
+  },
+  "tasks": []
+}

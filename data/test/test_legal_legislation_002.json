@@ -1,0 +1,68 @@
+{
+  "id": "test_legal_legislation_002",
+  "input_text": "Artículo 1. Modificación de la Ley 4/2017, de 13 de julio, del Suelo y de los Espacios Naturales Protegidos de Canarias.\nUno. Incorporación de un nuevo apartado al artículo 86 de la Ley 4/2017, de 13 de julio, del Suelo y de los Espacios Naturales Protegidos de Canarias.\nSe incorpora un nuevo apartado al artículo 86 con el siguiente texto:\n«11. El órgano ambiental podrá acordar la prórroga de la vigencia de los informes ambientales estratégicos que se hayan formulado sobre cualquier instrumento de ordenación territorial, ambiental y urbanística regulados en esta ley, así como de cualquier plan o programa, siempre que no se hayan producido cambios sustanciales en los elementos esenciales que sirvieron de base para realizar la evaluación ambiental estratégica, en los siguientes términos:\na) El órgano promotor podrá solicitar la prórroga de la vigencia del informe ambiental estratégico antes de que transcurra el plazo previsto para su vigencia. La solicitud formulada suspenderá dicho plazo de vigencia.\nb) A la vista de tal solicitud, el órgano ambiental podrá acordar la prórroga de la vigencia del informe ambiental estratégico en caso de que no se hayan producido cambios sustanciales en los elementos esenciales que sirvieron de base para realizar la evaluación ambiental estratégica, ampliando su vigencia por dos años adicionales. Previamente, el órgano ambiental solicitará informe a las Administraciones públicas afectadas por razón de la materia en relación con los elementos esenciales que sirvieron de base para realizar la evaluación ambiental estratégica. Transcurrido el plazo de dos años adicionales concedidos en la prórroga sin que se hubiera procedido a la aprobación del instrumento de ordenación, plan o programa, el promotor deberá iniciar nuevamente el procedimiento de evaluación ambiental estratégica.\nc) El órgano ambiental resolverá sobre la solicitud de prórroga en un plazo de seis meses, contados desde la fecha de presentación de dicha solicitud.\nd) Transcurrido el plazo de seis meses sin que el órgano ambiental haya notificado la prórroga de la vigencia del informe ambiental estratégico se entenderá estimada la solicitud de prórroga.»",
+  "instruction": "Responde a la pregunta jurídica analizando el texto legislativo. Indica si la condición planteada es aplicable según el texto, aporta citas verbatim como evidencia, identifica los artículos citados y señala si la respuesta es explícita o requiere inferencia.",
+  "target_schema": {
+    "additionalProperties": false,
+    "description": "Performs binary legal reasoning based on a legislative text.\nComplexity: L8 (Logical Inference & Evidence Aggregation).",
+    "properties": {
+      "question": {
+        "description": "The specific question to be answered (e.g., 'Is the death penalty prohibited?')",
+        "title": "Question",
+        "type": "string"
+      },
+      "is_applicable": {
+        "description": "True if the condition described in the question is met or permitted by the text",
+        "title": "Is Applicable",
+        "type": "boolean"
+      },
+      "evidence_quotes": {
+        "description": "Direct verbatim fragments from the text that support the answer",
+        "items": {
+          "type": "string"
+        },
+        "title": "Evidence Quotes",
+        "type": "array"
+      },
+      "cited_articles": {
+        "description": "List of article identifiers involved (e.g., 'Art. 1', 'Art. 15')",
+        "items": {
+          "type": "string"
+        },
+        "title": "Cited Articles",
+        "type": "array"
+      },
+      "is_explicit": {
+        "description": "True if the answer is literally stated; False if it requires inference or synthesis",
+        "title": "Is Explicit",
+        "type": "boolean"
+      }
+    },
+    "required": [
+      "question",
+      "is_applicable",
+      "evidence_quotes",
+      "is_explicit"
+    ],
+    "title": "LegalInquiry",
+    "type": "object"
+  },
+  "output": {
+    "question": "¿Puede el órgano ambiental acordar la prórroga de la vigencia de un informe ambiental estratégico por dos años adicionales cuando no se hayan producido cambios sustanciales en los elementos esenciales que sirvieron de base para realizar la evaluación ambiental estratégica?",
+    "is_applicable": true,
+    "evidence_quotes": [
+      "El órgano ambiental podrá acordar la prórroga de la vigencia de los informes ambientales estratégicos que se hayan formulado sobre cualquier instrumento de ordenación territorial, ambiental y urbanística regulados en esta ley, así como de cualquier plan o programa, siempre que no se hayan producido cambios sustanciales en los elementos esenciales que sirvieron de base para realizar la evaluación ambiental estratégica",
+      "el órgano ambiental podrá acordar la prórroga de la vigencia del informe ambiental estratégico en caso de que no se hayan producido cambios sustanciales en los elementos esenciales que sirvieron de base para realizar la evaluación ambiental estratégica, ampliando su vigencia por dos años adicionales"
+    ],
+    "cited_articles": [
+      "Art. 86.11",
+      "Art. 86.11.b"
+    ],
+    "is_explicit": true
+  },
+  "metadata": {
+    "source": "BOE-A-2026-10118.md",
+    "domain": "legal",
+    "subdomain": "legislation"
+  }
+}

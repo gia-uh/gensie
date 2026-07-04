@@ -1,0 +1,323 @@
+{
+  "id": "stem_observations_001",
+  "input_text": "# Cuaderno de campo — Humedales del Delta del Llobregat\n\n**Sitio:** Espacio Natural de las Lagunas del Delta del Llobregat, sector laguna de la Ricarda, El Prat de Llobregat (Barcelona).\n**Fecha:** 2026-05-23\n**Hora de inicio:** 07:10 h (hora local CEST). Hora de cierre: 10:45 h.\n**Observador/Equipo:** Marta Solé Rovira (coordinadora) junto con el equipo de seguimiento del SEO/BirdLife — Grupo Local Baix Llobregat (tres observadores en total: M. Solé, J. Carbó, L. Esteve).\n**Método declarado:** conteo por punto, con tres puntos fijos pre-establecidos (P1: torre de observación norte; P2: pantalla del carrizal medio; P3: orilla suroeste). Duración por punto: 60 minutos. Radio de detección estimado: 150 m. Se contabilizan aves vistas u oídas dentro del radio, sin contar individuos claramente en tránsito a gran altura.\n\n## Condiciones meteorológicas\n\nMañana de cielo cubierto durante toda la sesión, con techo bajo y niebla matinal disipándose hacia las 08:30. Viento flojo de componente este (4–8 km/h estimados a mano alzada, sin anemómetro disponible esta jornada). Humedad relativa muy alta, condensación visible sobre la vegetación palustre. No se registra temperatura ambiente al inicio porque el termohigrómetro de mano se quedó en la base; en cambio sí se tomó la temperatura del agua superficial (ver mediciones). La visibilidad fue regular hasta las 08:30 y buena después. No hubo precipitación durante la sesión. [...] ## Registro de especies\n\nA continuación, especies detectadas dentro de los puntos, agregadas para la sesión completa:\n\n- **Anas platyrhynchos** (ánade azulón) — 47 individuos. Comportamiento: la mayoría en reposo sobre la lámina central, con algunas parejas en cortejo. Notas: se observan al menos cuatro hembras con pollada de tamaño variable.\n- **Fulica atra** (focha común) — 28 individuos. Comportamiento: forrajeando en el cuadrante norte, con disputas territoriales frecuentes.\n- **Egretta garzetta** (garceta común) — 9 individuos. Comportamiento: pescando activamente en zonas someras de P2.\n- **Ardea cinerea** (garza real) — 3 individuos. Notas: dos adultos posados en la orilla sur y uno sobrevolando hacia el sector de los lucios.\n- **Himantopus himantopus** (cigüeñuela común) — 14 individuos. Comportamiento: alimentación en bordes inundados, con vocalizaciones de alarma sostenidas al sobrevolar un aguilucho lagunero.\n- **Acrocephalus melanopogon** (carricerín real) — 2 machos cantores. Comportamiento: cantando desde lo alto del carrizal en P1.\n- **Circus aeruginosus** (aguilucho lagunero occidental) — 1 hembra. Comportamiento: cicleando bajo sobre el carrizal en dos pasadas separadas.\n- **Phoenicopterus roseus** (flamenco común) — 6 individuos. Notas: grupo de juveniles, plumaje aún grisáceo, distribuidos en el sector más somero de P2; sin información clara de comportamiento porque permanecieron lejanos y semiocultos por la niebla residual.\n- **Larus michahellis** (gaviota patiamarilla) — 22 individuos. Notas: la mayoría en paso hacia el norte; sólo se contabilizan las que se posan o entran en el radio de detección.\n\nTotal provisional de la jornada: 132 individuos repartidos en 9 especies dentro de los puntos. [...] ## Mediciones cuantitativas\n\nSe anotan en orden de toma:\n\n- Profundidad del agua en el borde de P2 = 38 cm, medida con regla graduada de PVC.\n- Profundidad del agua en el centro accesible de P2 = 71 cm, medida con regla graduada de PVC.\n- Conductividad eléctrica del agua superficial en P2 = 4.6 mS/cm, sonda multiparamétrica Hanna HI98194.\n- Temperatura del agua superficial en P2 = 18.4 °C, sonda multiparamétrica Hanna HI98194.\n- pH del agua superficial en P2 = 8.1, sonda multiparamétrica Hanna HI98194.\n- Oxígeno disuelto en P2 = 7.2 mg/L (sin anotación de instrumento en el cuaderno; presumiblemente la misma sonda, pero no se confirma).\n- Salinidad estimada a partir de conductividad = 2.5 ppt; valor calculado por la propia sonda.\n- Distancia recorrida entre P1 y P3 = 1.85 km, GPS Garmin eTrex 22x.\n\n## Conclusiones del observador\n\n1. La composición y abundancia observadas son coherentes con las jornadas tempranas de mayo de años anteriores en la Ricarda; no se detecta ningún cambio cualitativo brusco respecto al censo de 2025.\n2. La confirmación de al menos dos machos cantores de Acrocephalus melanopogon en P1 respalda mantener la laguna como sitio prioritario para esta especie y revisar la gestión del corte de carrizo perimetral antes de la próxima temporada.\n3. La elevada conductividad medida en P2 sugiere intrusión salina persistente; conviene cruzar este dato con el registro continuo de la estación cercana antes de extraer conclusiones gestoras.\n4. Se recomienda llevar el termohigrómetro de mano en próximas sesiones para no perder la temperatura ambiental, dato que esta jornada queda sin registrar.",
+  "instruction": "Extrae los datos de esta entrada de cuaderno de campo: sitio, fecha, observador, método y meteorología, registros de especies, mediciones cuantitativas y conclusiones.",
+  "target_schema": {
+    "$defs": {
+      "Measurement": {
+        "additionalProperties": false,
+        "description": "Una medición numérica registrada durante la observación.",
+        "properties": {
+          "name": {
+            "description": "Nombre literal de la magnitud medida (p. ej. 'temperatura del agua', 'profundidad', 'altura del árbol', 'pH del suelo').",
+            "title": "Name",
+            "type": "string"
+          },
+          "value": {
+            "description": "Valor numérico tal como aparece en el cuaderno de campo.",
+            "title": "Value",
+            "type": "number"
+          },
+          "unit": {
+            "description": "Unidad de medida tal como aparece (p. ej. '°C', 'cm', 'mg/L', 'lux').",
+            "title": "Unit",
+            "type": "string"
+          },
+          "instrument": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Instrumento o sensor con el que se tomó la medición si el texto lo menciona (p. ej. 'termómetro digital', 'GPS Garmin'). Null si no.",
+            "title": "Instrument"
+          }
+        },
+        "required": [
+          "name",
+          "value",
+          "unit"
+        ],
+        "title": "Measurement",
+        "type": "object"
+      },
+      "SpeciesObservation": {
+        "additionalProperties": false,
+        "description": "Una entrada del registro de un taxón observado en el sitio.",
+        "properties": {
+          "species_name": {
+            "description": "Nombre científico binomial o nombre común consistentemente usado en el log (p. ej. 'Quercus ilex', 'pinzón vulgar').",
+            "title": "Species Name",
+            "type": "string"
+          },
+          "count": {
+            "description": "Número de individuos observados o estimados. Para presencia/ausencia sin conteo usar 1 y aclarar en 'notes'.",
+            "minimum": 0,
+            "title": "Count",
+            "type": "integer"
+          },
+          "behavior": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Comportamiento observado si el log lo describe (p. ej. 'forrajeando', 'en reposo', 'reproduciendo'). Null si no se describe.",
+            "title": "Behavior"
+          },
+          "notes": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Observación adicional literal del cuaderno (p. ej. 'juveniles', 'plumaje invernal'). Null si no hay notas.",
+            "title": "Notes"
+          }
+        },
+        "required": [
+          "species_name",
+          "count"
+        ],
+        "title": "SpeciesObservation",
+        "type": "object"
+      },
+      "StudyMethod": {
+        "enum": [
+          "transecto",
+          "cuadrante",
+          "conteo_por_punto",
+          "marcaje_recaptura",
+          "registro_acústico",
+          "fototrampeo",
+          "muestreo_oportunista"
+        ],
+        "title": "StudyMethod",
+        "type": "string"
+      },
+      "WeatherCondition": {
+        "enum": [
+          "soleado",
+          "parcialmente_nublado",
+          "cubierto",
+          "lluvia",
+          "llovizna",
+          "niebla",
+          "nieve"
+        ],
+        "title": "WeatherCondition",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Entrada de cuaderno de campo de un estudio biológico, ecológico o\ngeológico: sitio, fecha, condiciones, registros de taxones, mediciones y\nconclusiones del observador. La extracción debe distinguir entre\nobservaciones cualitativas de taxones y mediciones cuantitativas, y debe\nenlazar las condiciones ambientales con la sesión completa.\n\nComplejidad: L8 — dispersión informativa con listas heterogéneas paralelas\n(especies + mediciones) y vocabulario técnico moderado.",
+    "properties": {
+      "site_name": {
+        "description": "Nombre del sitio de observación tal como aparece en la cabecera (p. ej. 'Estación Biológica de Doñana, Lagunas del Acebuche').",
+        "title": "Site Name",
+        "type": "string"
+      },
+      "observation_date": {
+        "description": "Fecha de la sesión en formato ISO 'YYYY-MM-DD'.",
+        "title": "Observation Date",
+        "type": "string"
+      },
+      "observer": {
+        "description": "Nombre del observador o equipo que firma la entrada del cuaderno.",
+        "title": "Observer",
+        "type": "string"
+      },
+      "method": {
+        "$ref": "#/$defs/StudyMethod",
+        "description": "Método principal de muestreo declarado para la sesión. 'muestreo_oportunista' si el texto no formaliza un método estándar."
+      },
+      "weather": {
+        "$ref": "#/$defs/WeatherCondition",
+        "description": "Condición meteorológica predominante durante la sesión, según el texto."
+      },
+      "temperature_celsius": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Temperatura ambiente registrada al iniciar la sesión, en °C. Null si el log no la registra.",
+        "title": "Temperature Celsius"
+      },
+      "species_observed": {
+        "description": "Registro de taxones observados en el orden del cuaderno. Una entrada por especie / morfotipo distinto.",
+        "items": {
+          "$ref": "#/$defs/SpeciesObservation"
+        },
+        "title": "Species Observed",
+        "type": "array"
+      },
+      "measurements": {
+        "description": "Mediciones cuantitativas tomadas durante la sesión, distintas de la temperatura general (que va en su campo dedicado). Una entrada por medición.",
+        "items": {
+          "$ref": "#/$defs/Measurement"
+        },
+        "title": "Measurements",
+        "type": "array"
+      },
+      "conclusions": {
+        "description": "Conclusiones o hipótesis explícitamente formuladas por el observador al cierre de la entrada. Una conclusión por elemento.",
+        "items": {
+          "type": "string"
+        },
+        "title": "Conclusions",
+        "type": "array"
+      }
+    },
+    "required": [
+      "site_name",
+      "observation_date",
+      "observer",
+      "method",
+      "weather"
+    ],
+    "title": "ObservationLog",
+    "type": "object"
+  },
+  "output": {
+    "site_name": "Espacio Natural de las Lagunas del Delta del Llobregat, sector laguna de la Ricarda, El Prat de Llobregat (Barcelona)",
+    "observation_date": "2026-05-23",
+    "observer": "Marta Solé Rovira (coordinadora) junto con el equipo de seguimiento del SEO/BirdLife — Grupo Local Baix Llobregat (tres observadores en total: M. Solé, J. Carbó, L. Esteve)",
+    "method": "conteo_por_punto",
+    "weather": "cubierto",
+    "temperature_celsius": null,
+    "species_observed": [
+      {
+        "species_name": "Anas platyrhynchos",
+        "count": 47,
+        "behavior": "la mayoría en reposo sobre la lámina central, con algunas parejas en cortejo",
+        "notes": "se observan al menos cuatro hembras con pollada de tamaño variable"
+      },
+      {
+        "species_name": "Fulica atra",
+        "count": 28,
+        "behavior": "forrajeando en el cuadrante norte, con disputas territoriales frecuentes",
+        "notes": null
+      },
+      {
+        "species_name": "Egretta garzetta",
+        "count": 9,
+        "behavior": "pescando activamente en zonas someras de P2",
+        "notes": null
+      },
+      {
+        "species_name": "Ardea cinerea",
+        "count": 3,
+        "behavior": null,
+        "notes": "dos adultos posados en la orilla sur y uno sobrevolando hacia el sector de los lucios"
+      },
+      {
+        "species_name": "Himantopus himantopus",
+        "count": 14,
+        "behavior": "alimentación en bordes inundados, con vocalizaciones de alarma sostenidas al sobrevolar un aguilucho lagunero",
+        "notes": null
+      },
+      {
+        "species_name": "Acrocephalus melanopogon",
+        "count": 2,
+        "behavior": "cantando desde lo alto del carrizal en P1",
+        "notes": null
+      },
+      {
+        "species_name": "Circus aeruginosus",
+        "count": 1,
+        "behavior": "cicleando bajo sobre el carrizal en dos pasadas separadas",
+        "notes": null
+      },
+      {
+        "species_name": "Phoenicopterus roseus",
+        "count": 6,
+        "behavior": null,
+        "notes": "grupo de juveniles, plumaje aún grisáceo, distribuidos en el sector más somero de P2"
+      },
+      {
+        "species_name": "Larus michahellis",
+        "count": 22,
+        "behavior": null,
+        "notes": "la mayoría en paso hacia el norte; sólo se contabilizan las que se posan o entran en el radio de detección"
+      }
+    ],
+    "measurements": [
+      {
+        "name": "profundidad del agua en el borde de P2",
+        "value": 38.0,
+        "unit": "cm",
+        "instrument": "regla graduada de PVC"
+      },
+      {
+        "name": "profundidad del agua en el centro accesible de P2",
+        "value": 71.0,
+        "unit": "cm",
+        "instrument": "regla graduada de PVC"
+      },
+      {
+        "name": "conductividad eléctrica del agua superficial en P2",
+        "value": 4.6,
+        "unit": "mS/cm",
+        "instrument": "sonda multiparamétrica Hanna HI98194"
+      },
+      {
+        "name": "temperatura del agua superficial en P2",
+        "value": 18.4,
+        "unit": "°C",
+        "instrument": "sonda multiparamétrica Hanna HI98194"
+      },
+      {
+        "name": "pH del agua superficial en P2",
+        "value": 8.1,
+        "unit": "",
+        "instrument": "sonda multiparamétrica Hanna HI98194"
+      },
+      {
+        "name": "oxígeno disuelto en P2",
+        "value": 7.2,
+        "unit": "mg/L",
+        "instrument": null
+      },
+      {
+        "name": "salinidad estimada a partir de conductividad",
+        "value": 2.5,
+        "unit": "ppt",
+        "instrument": "sonda multiparamétrica Hanna HI98194"
+      },
+      {
+        "name": "distancia recorrida entre P1 y P3",
+        "value": 1.85,
+        "unit": "km",
+        "instrument": "GPS Garmin eTrex 22x"
+      }
+    ],
+    "conclusions": [
+      "La composición y abundancia observadas son coherentes con las jornadas tempranas de mayo de años anteriores en la Ricarda; no se detecta ningún cambio cualitativo brusco respecto al censo de 2025.",
+      "La confirmación de al menos dos machos cantores de Acrocephalus melanopogon en P1 respalda mantener la laguna como sitio prioritario para esta especie y revisar la gestión del corte de carrizo perimetral antes de la próxima temporada.",
+      "La elevada conductividad medida en P2 sugiere intrusión salina persistente; conviene cruzar este dato con el registro continuo de la estación cercana antes de extraer conclusiones gestoras.",
+      "Se recomienda llevar el termohigrómetro de mano en próximas sesiones para no perder la temperatura ambiental, dato que esta jornada queda sin registrar."
+    ]
+  },
+  "metadata": {
+    "source": "synthetic_20260601_001.md",
+    "domain": "stem",
+    "subdomain": "observations"
+  }
+}

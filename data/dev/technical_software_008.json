@@ -1,0 +1,137 @@
+{
+  "id": "technical_software_008",
+  "input_text": "# GIMP\n\nGIMP (siglas en inglés de GNU Image Manipulation Program) es un programa de edición de imágenes digitales en forma de mapa de bits, tanto dibujos como fotografías. Es un programa libre y gratuito.​ Forma parte del proyecto GNU y está disponible bajo la Licencia pública general de GNU y GNU Lesser General Public License.​\nEs el programa de manipulación de gráficos disponible en más sistemas operativos (Unix, GNU/Linux, FreeBSD, Solaris, Microsoft Windows y macOS, entre otros).​\nLa interfaz de GIMP está disponible en varios idiomas, entre ellos: español, inglés (el idioma original), catalán, gallego, euskera, alemán, francés, italiano, ruso, sueco, noruego, coreano y neerlandés.\nGIMP tiene herramientas que se utilizan para el retoque y edición de imágenes, dibujo de formas libres, cambiar el tamaño, recortar, hacer fotomontajes, convertir a diferentes formatos de imagen, y otras tareas más especializadas. Se pueden también crear imágenes animadas en formato GIF e imágenes animadas en formato MPEG usando un plugin de animación.​\nLos desarrolladores y encargados de mantener GIMP se esfuerzan en mantener y desarrollar una aplicación gráfica de software libre, de alta calidad para la edición y creación de imágenes originales, de fotografías, de íconos, de elementos gráficos tanto de páginas web como de elementos artísticos de interfaz de usuario.\n\n\n== Historia ==\nLos iniciadores del desarrollo de GIMP en 1995 fueron los estudiantes Spencer Kimball y Peter Mattis como un ejercicio semestral en la Universidad de Berkeley en el club informático de estudiantes.​ La primera versión de GIMP se desarrolló inicialmente en sistemas Unix y fue pensada especialmente para GNU/Linux como una herramienta libre para trabajar con imágenes.​\nLas siglas de GIMP significaban inicialmente «General Image Manipulation Program» («Programa general para manipulación de imágenes»), pero en 1997 se cambió al significado «GNU Image Manipulation Program» («Programa de manipulación de imágenes de GNU»). GIMP forma parte oficial del Proyecto GNU.​​\nGIMP sirve para procesar gráficos y fotografías digitales. Los usos típicos incluyen la creación de gráficos y logos, el cambio de tamaño, recorte y modificación de fotografías digitales, la modificación de imágenes, la combinación y alteración de colores usando un paradigma de capas, la eliminación o alteración de elementos no deseados en imágenes o la conversión entre distintos formatos de imágenes. También se puede utilizar el GIMP para crear imágenes animadas sencillas, la manipulación de vectores, y en edición avanzada de vídeo.\nGIMP es también conocido por ser quizás la primera gran aplicación libre para usuarios no profesionales o expertos. Productos libres originados anteriormente, como GCC, el núcleo Linux, etc., eran principalmente herramientas de programadores para programadores. GIMP es considerado por algunos como una demostración fehaciente de que el proceso de desarrollo de software libre puede crear aplicaciones que los usuarios comunes pueden usar de manera productiva. De esta forma, Gimp abrió camino a otros proyectos como KDE, GNOME, Mozilla Firefox, OpenOffice.org y otras aplicaciones posteriores.​",
+  "instruction": "Analiza la descripción del software para extraer detalles técnicos, desarrolladores y licencias.",
+  "target_schema": {
+    "$defs": {
+      "SoftwareType": {
+        "enum": [
+          "ARCHIVER",
+          "WEB_BROWSER",
+          "OFFICE_SUITE",
+          "IDE_EDITOR",
+          "GRAPHICS_EDITOR",
+          "MEDIA_PLAYER",
+          "SYSTEM_TOOL",
+          "OTHER"
+        ],
+        "title": "SoftwareType",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Detailed technical description of a software application.\nComplexity: L9 (Adversarial Null Traps).",
+    "properties": {
+      "official_name": {
+        "description": "The full official name of the software",
+        "title": "Official Name",
+        "type": "string"
+      },
+      "app_category": {
+        "$ref": "#/$defs/SoftwareType",
+        "description": "The primary functional category of the app"
+      },
+      "license": {
+        "description": "The specific license mentioned (e.g., GPL, Proprietary)",
+        "title": "License",
+        "type": "string"
+      },
+      "platforms": {
+        "description": "Operating systems mentioned as supported (e.g., Windows, macOS, Linux)",
+        "items": {
+          "type": "string"
+        },
+        "title": "Platforms",
+        "type": "array"
+      },
+      "primary_developer": {
+        "description": "The individual or organization that developed the software",
+        "title": "Primary Developer",
+        "type": "string"
+      },
+      "features": {
+        "description": "List of specific technical capabilities or features mentioned",
+        "items": {
+          "type": "string"
+        },
+        "title": "Features",
+        "type": "array"
+      },
+      "exact_release_date": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "The EXACT date (DD/MM/YYYY) of the first release. RETURN NULL IF ONLY THE YEAR IS MENTIONED.",
+        "title": "Exact Release Date"
+      },
+      "latest_stable_version_sha256": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "The SHA256 checksum of the latest installer. RETURN NULL IF NOT EXPLICITLY IN THE TEXT.",
+        "title": "Latest Stable Version Sha256"
+      },
+      "current_ceo_name": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "The name of the current CEO of the developing organization. RETURN NULL IF NOT IN TEXT.",
+        "title": "Current Ceo Name"
+      }
+    },
+    "required": [
+      "official_name",
+      "app_category",
+      "license",
+      "primary_developer"
+    ],
+    "title": "SoftwareDescription",
+    "type": "object"
+  },
+  "output": {
+    "official_name": "GIMP",
+    "app_category": "GRAPHICS_EDITOR",
+    "license": "GPL, LGPL",
+    "platforms": [
+      "Unix",
+      "GNU/Linux",
+      "FreeBSD",
+      "Solaris",
+      "Microsoft Windows",
+      "macOS"
+    ],
+    "primary_developer": "Proyecto GNU",
+    "features": [
+      "retoque",
+      "edición de imágenes",
+      "dibujo",
+      "fotomontajes"
+    ],
+    "exact_release_date": null,
+    "latest_stable_version_sha256": null,
+    "current_ceo_name": null
+  },
+  "metadata": {
+    "source": "wiki_gimp.md",
+    "domain": "technical",
+    "subdomain": "software"
+  }
+}

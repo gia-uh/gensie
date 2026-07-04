@@ -1,0 +1,204 @@
+{
+  "id": "lifestyle_recipes_09",
+  "input_text": "# Borreta\n\nSource: https://es.wikipedia.org/wiki/Borreta\n\nLa Borreta (pronunciación: [boˈreta]; también conocida como borreta de bacalao o borreta de melva) es un guiso tradicional de la provincia de Alicante, España, caracterizado por la combinación de patatas, espinacas, ñoras y pescado salado, generalmente bacalao o, en algunas variantes, melva. Es habitual añadir un huevo por comensal al final de la cocción, que queda escaldado dentro del guiso.​\n\nEtimología\nEl término borreta es de origen incierto y no se encuentra documentado en fuentes lingüísticas académicas. Una hipótesis sugiere que podría derivar de la palabra valenciana \"borra\", que significa \"resto\" o \"residuo\". Esta interpretación se basa en la idea de que la borreta tradicionalmente utilizaba ingredientes sencillos y sobrantes, como patatas, espinacas y pescado salado, que se cocinaban juntos para aprovechar los recursos disponibles.​\n\nHistoria\nEste plato se originó como una preparación humilde, destinada a proporcionar energía durante las largas jornadas laborales de campesinos y obreros. Su sencillez y el uso de ingredientes accesibles son parte de la tradición culinaria de la zona, donde se aprovechaban los recursos disponibles para crear comidas sustanciosas. ​\nActualmente, la borreta continúa siendo un plato emblemático de la gastronomía de la provincia de Alicante, especialmente durante las festividades de Semana Santa, donde se prepara como parte de la tradición cuaresmal. ​\n\nPreparación\nLa borreta se elabora tradicionalmente con patatas, espinacas, ñoras y pescado salado, generalmente bacalao o melva. ​\nLas patatas se pelan, se cortan en trozos y se cuecen junto con las espinacas y las ñoras previamente hidratadas o reblandecidas. El pescado salado se incorpora al guiso y se cocina. Al final de la cocción, se añade un huevo por comensal, que se deja escalfar dentro del guiso hasta alcanzar la textura deseada. ​\nEl guiso se sirve caliente y se consume generalmente como plato principal, destacando por su sabor intenso y la combinación de ingredientes locales de la provincia de Alicante. ​\n\n\n== Referencias ==",
+  "instruction": "Extrae la receta",
+  "target_schema": {
+    "$defs": {
+      "CookingTechnique": {
+        "enum": [
+          "SOFREÍR",
+          "HERVIR",
+          "HORNEAR",
+          "FREÍR",
+          "VAPOR",
+          "COCCIÓN LENTA"
+        ],
+        "title": "CookingTechnique",
+        "type": "string"
+      },
+      "DietaryTag": {
+        "enum": [
+          "VEGANO",
+          "VEGETARIANO",
+          "SIN GLUTEN",
+          "SIN LÁCTEOS",
+          "BAJO EN CARBOHIDRATOS"
+        ],
+        "title": "DietaryTag",
+        "type": "string"
+      },
+      "RecipeIngredient": {
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "description": "Verbatim name of the ingredient",
+            "title": "Name",
+            "type": "string"
+          },
+          "amount": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Numerical quantity",
+            "title": "Amount"
+          },
+          "unit": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/UnitType"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Unit of measurement"
+          }
+        },
+        "required": [
+          "name"
+        ],
+        "title": "RecipeIngredient",
+        "type": "object"
+      },
+      "UnitType": {
+        "enum": [
+          "g",
+          "ml",
+          "kg",
+          "unidad",
+          "pizca",
+          "cucharada",
+          "otro"
+        ],
+        "title": "UnitType",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Holistic reasoning over a traditional recipe.\nRequires inferring dietary suitability and complexity from steps.\nComplexity: L10 (Holistic Reasoning).",
+    "properties": {
+      "dish_name": {
+        "description": "The name of the recipe",
+        "title": "Dish Name",
+        "type": "string"
+      },
+      "servings": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of portions generated",
+        "title": "Servings"
+      },
+      "ingredients": {
+        "description": "Structured list of ingredients",
+        "items": {
+          "$ref": "#/$defs/RecipeIngredient"
+        },
+        "title": "Ingredients",
+        "type": "array"
+      },
+      "complexity_score": {
+        "description": "Inferred difficulty from 1 (easy) to 10 (pro chef) based on steps and time",
+        "maximum": 10,
+        "minimum": 1,
+        "title": "Complexity Score",
+        "type": "integer"
+      },
+      "dietary_tags": {
+        "description": "Reasoned tags based on the absence of certain ingredient types (e.g., meat, gluten)",
+        "items": {
+          "$ref": "#/$defs/DietaryTag"
+        },
+        "title": "Dietary Tags",
+        "type": "array"
+      },
+      "technique_sequence": {
+        "description": "The chronological sequence of main cooking techniques applied",
+        "items": {
+          "$ref": "#/$defs/CookingTechnique"
+        },
+        "title": "Technique Sequence",
+        "type": "array"
+      },
+      "total_time_minutes": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Normalized total duration in minutes",
+        "title": "Total Time Minutes"
+      }
+    },
+    "required": [
+      "dish_name",
+      "ingredients",
+      "complexity_score",
+      "technique_sequence"
+    ],
+    "title": "RecipeProcedural",
+    "type": "object"
+  },
+  "output": {
+    "dish_name": "Borreta",
+    "servings": null,
+    "ingredients": [
+      {
+        "name": "patatas",
+        "amount": null,
+        "unit": null
+      },
+      {
+        "name": "espinacas",
+        "amount": null,
+        "unit": null
+      },
+      {
+        "name": "ñoras",
+        "amount": null,
+        "unit": null
+      },
+      {
+        "name": "bacalao",
+        "amount": null,
+        "unit": null
+      },
+      {
+        "name": "huevo",
+        "amount": null,
+        "unit": null
+      }
+    ],
+    "complexity_score": 3,
+    "dietary_tags": [
+      "SIN GLUTEN",
+      "SIN LÁCTEOS"
+    ],
+    "technique_sequence": [
+      "HERVIR"
+    ],
+    "total_time_minutes": null
+  },
+  "metadata": {
+    "source": "wiki_recipe_20260414_borreta.md",
+    "domain": "lifestyle",
+    "subdomain": "recipes"
+  }
+}

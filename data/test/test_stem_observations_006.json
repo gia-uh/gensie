@@ -1,0 +1,281 @@
+{
+  "id": "stem_observations_006",
+  "input_text": "# Cuaderno de campo — Arroyo de la Vega del Tejo\n\n**Sitio:** Arroyo de la Vega del Tejo, tramo medio, Sierra de Garagonza (Cuenca)\n**Fecha:** 2026-05-29\n**Observador / equipo:** Marta Iribarren Pelayo (con apoyo logístico de J. Olaizola)\n**Método:** marcaje_recaptura\n**Sesión:** segunda jornada del ciclo primaveral (la primera, de marcaje inicial, se realizó el 22 de mayo). [...] ## Meteorología y entorno\n\nEl día amanece cubierto, con una capa de estratos bajos que no llega a romperse en toda la mañana; calificaría las condiciones como cubierto, sin precipitación efectiva pero con humedad relativa muy alta y goteo intermitente desde el dosel de alisos. Al iniciar la sesión a las 08:40 no tomo lectura de temperatura del aire — el termómetro ambiental se quedó en el vehículo y, francamente, no me parece prioritario para esta jornada; la temperatura del agua sí queda registrada más abajo. El cauce baja con un caudal moderado, ligeramente por encima del nivel del 22/05, probablemente por el deshielo tardío de la cota alta de la sierra. Visibilidad submarina buena, sin turbidez apreciable.\n\nEl tramo de muestreo es el mismo subtramo balizado en la jornada anterior: 50 m lineales delimitados con redes de bloqueo de 4 mm de luz de malla en cabecera y cola, lo que asegura una población cerrada durante la sesión y permite aplicar Petersen-Lincoln con razonable confianza. [...] ## Material y técnica\n\nPesca eléctrica con equipo de mochila Smith-Root LR-24, ajustada a 350 V en corriente pulsada (60 Hz, ciclo de trabajo 25 %). Dos pasadas en sentido aguas arriba con un solo operador del ánodo y dos sacaderas. Los individuos capturados se trasladan a cubas oxigenadas (aireador portátil de pila) y se procesan in situ tras dejar reposar al menos 10 minutos para reducir estrés. El marcaje primario se realiza con elastómeros visibles fluorescentes (VIE) inyectados en la región post-orbital — color naranja para esta cohorte de mayo; los individuos del 22/05 llevaban color verde, lo que facilita la lectura de recapturas sin necesidad de PIT.\n\nMediciones biométricas con ictiómetro de tabla (precisión 1 mm) y balanza electrónica de campo Kern PCB 2500-2 (precisión 0,1 g). Parámetros físico-químicos del agua medidos con sonda multiparamétrica YSI ProDSS calibrada esta misma mañana en el aparcamiento del refugio. [...] ## Registro de capturas\n\nResumen por especie, en el orden en que las anoté en el cuaderno:\n\n**Salmo trutta** (trucha común). 23 individuos capturados en total durante las dos pasadas. De ellos, 18 son nuevas capturas que se marcan con elastómero naranja y se devuelven al tramo. 5 son recapturas de la sesión del 22/05 — identificadas por la marca verde post-orbital, todas en buen estado, sin signos de infección en el punto de inyección. La cohorte está dominada por individuos de 1+ y 2+; observo dos hembras grandes (>28 cm) que liberé sin pesar para no prolongar el manejo. Comportamiento general: huida rápida hacia tablas de cantos al detectar el campo eléctrico, sin agregaciones notables; los juveniles tienden a ocultarse bajo raíces sumergidas de aliso.\n\n**Phoxinus phoxinus** (foxino, piscardo). Captura masiva — registro 142 individuos, prácticamente todos en los tres pozos profundos del subtramo. No se marcan: el VIE no es viable a este tamaño y el objetivo del estudio es la dinámica de truchas. Se cuentan, se mide una submuestra (n=30) y se liberan en su pozo de origen. Forman cardúmenes compactos, comportamiento claramente gregario incluso bajo el efecto del electrofishing — característico de la especie en aguas con cobertura limitada.\n\n**Cottus gobio** (cabot, escultín). 4 individuos. No los marcamos (cuerpo demasiado pequeño y piel demasiado delicada para VIE post-orbital con confianza). Sin comportamiento llamativo: permanecen quietos en el sustrato incluso tras el aturdimiento.\n\n**Anguilla anguilla** (anguila europea). 1 individuo, subadulto, ~38 cm. Captura sorprendente — no esperábamos anguilas en este tramo dada la distancia al mar y los obstáculos aguas abajo (presa de Garagonza). Se libera inmediatamente sin marcar. [...] ## Mediciones físico-químicas y biométricas\n\n| Parámetro | Valor | Notas |\n|---|---|---|\n| Temperatura del agua | 11,4 °C | sonda YSI ProDSS, medición a 30 cm de profundidad en pozo central, 08:55 |\n| Conductividad eléctrica | 215 µS/cm | misma sonda |\n| Oxígeno disuelto | 9,8 mg/L | misma sonda; saturación cercana al 95 % a esta temperatura |\n| pH | 7,4 | no anoto el instrumento por separado, asumo que es la misma sonda integrada |\n| Longitud total media (Salmo trutta) | 19,7 cm | media de los 23 individuos medidos, ictiómetro de tabla |\n| Peso medio (Salmo trutta) | 87,3 g | balanza Kern PCB 2500-2 |\n| Longitud total media (Phoxinus phoxinus, submuestra n=30) | 6,2 cm | ictiómetro de tabla |\n\nNo tomo conductividad ni oxígeno en cabecera y cola por separado — el subtramo es lo bastante corto y homogéneo como para asumir mezcla. [...] ## Conclusiones de la jornada\n\n- La tasa de recaptura para *Salmo trutta* (5/23 ≈ 21,7 %) está dentro del rango esperado tras una semana, y permite una primera estimación Petersen de la población local en el orden de 80–100 individuos adultos en el subtramo, pendiente de aplicar la corrección de Chapman y de incorporar la tercera sesión.\n- La abundancia de *Phoxinus phoxinus* refuerza la sospecha de que la base trófica del tramo está fuertemente sesgada hacia ciprínidos, lo que es coherente con el desarrollo somático más bien lento que vienen mostrando las truchas de esta cohorte respecto a las del arroyo vecino del Carrascalejo.\n- La aparición de una anguila merece seguimiento: si se repite en próximas jornadas habrá que replantear la hipótesis de aislamiento del tramo respecto a la cuenca baja, posiblemente por escalas naturales aún funcionales en avenidas.\n- La cohorte de marcaje naranja queda establecida; la próxima sesión (prevista para el 05 de junio si la meteorología lo permite) cerrará el diseño de tres puntos temporales y permitirá ajustar un modelo de Jolly-Seber sencillo.",
+  "instruction": "Extrae los datos de esta entrada de cuaderno de campo: sitio, fecha, observador, método y meteorología, registros de especies, mediciones cuantitativas y conclusiones.",
+  "target_schema": {
+    "$defs": {
+      "Measurement": {
+        "additionalProperties": false,
+        "description": "Una medición numérica registrada durante la observación.",
+        "properties": {
+          "name": {
+            "description": "Nombre literal de la magnitud medida (p. ej. 'temperatura del agua', 'profundidad', 'altura del árbol', 'pH del suelo').",
+            "title": "Name",
+            "type": "string"
+          },
+          "value": {
+            "description": "Valor numérico tal como aparece en el cuaderno de campo.",
+            "title": "Value",
+            "type": "number"
+          },
+          "unit": {
+            "description": "Unidad de medida tal como aparece (p. ej. '°C', 'cm', 'mg/L', 'lux').",
+            "title": "Unit",
+            "type": "string"
+          },
+          "instrument": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Instrumento o sensor con el que se tomó la medición si el texto lo menciona (p. ej. 'termómetro digital', 'GPS Garmin'). Null si no.",
+            "title": "Instrument"
+          }
+        },
+        "required": [
+          "name",
+          "value",
+          "unit"
+        ],
+        "title": "Measurement",
+        "type": "object"
+      },
+      "SpeciesObservation": {
+        "additionalProperties": false,
+        "description": "Una entrada del registro de un taxón observado en el sitio.",
+        "properties": {
+          "species_name": {
+            "description": "Nombre científico binomial o nombre común consistentemente usado en el log (p. ej. 'Quercus ilex', 'pinzón vulgar').",
+            "title": "Species Name",
+            "type": "string"
+          },
+          "count": {
+            "description": "Número de individuos observados o estimados. Para presencia/ausencia sin conteo usar 1 y aclarar en 'notes'.",
+            "minimum": 0,
+            "title": "Count",
+            "type": "integer"
+          },
+          "behavior": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Comportamiento observado si el log lo describe (p. ej. 'forrajeando', 'en reposo', 'reproduciendo'). Null si no se describe.",
+            "title": "Behavior"
+          },
+          "notes": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Observación adicional literal del cuaderno (p. ej. 'juveniles', 'plumaje invernal'). Null si no hay notas.",
+            "title": "Notes"
+          }
+        },
+        "required": [
+          "species_name",
+          "count"
+        ],
+        "title": "SpeciesObservation",
+        "type": "object"
+      },
+      "StudyMethod": {
+        "enum": [
+          "transecto",
+          "cuadrante",
+          "conteo_por_punto",
+          "marcaje_recaptura",
+          "registro_acústico",
+          "fototrampeo",
+          "muestreo_oportunista"
+        ],
+        "title": "StudyMethod",
+        "type": "string"
+      },
+      "WeatherCondition": {
+        "enum": [
+          "soleado",
+          "parcialmente_nublado",
+          "cubierto",
+          "lluvia",
+          "llovizna",
+          "niebla",
+          "nieve"
+        ],
+        "title": "WeatherCondition",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Entrada de cuaderno de campo de un estudio biológico, ecológico o\ngeológico: sitio, fecha, condiciones, registros de taxones, mediciones y\nconclusiones del observador. La extracción debe distinguir entre\nobservaciones cualitativas de taxones y mediciones cuantitativas, y debe\nenlazar las condiciones ambientales con la sesión completa.\n\nComplejidad: L8 — dispersión informativa con listas heterogéneas paralelas\n(especies + mediciones) y vocabulario técnico moderado.",
+    "properties": {
+      "site_name": {
+        "description": "Nombre del sitio de observación tal como aparece en la cabecera (p. ej. 'Estación Biológica de Doñana, Lagunas del Acebuche').",
+        "title": "Site Name",
+        "type": "string"
+      },
+      "observation_date": {
+        "description": "Fecha de la sesión en formato ISO 'YYYY-MM-DD'.",
+        "title": "Observation Date",
+        "type": "string"
+      },
+      "observer": {
+        "description": "Nombre del observador o equipo que firma la entrada del cuaderno.",
+        "title": "Observer",
+        "type": "string"
+      },
+      "method": {
+        "$ref": "#/$defs/StudyMethod",
+        "description": "Método principal de muestreo declarado para la sesión. 'muestreo_oportunista' si el texto no formaliza un método estándar."
+      },
+      "weather": {
+        "$ref": "#/$defs/WeatherCondition",
+        "description": "Condición meteorológica predominante durante la sesión, según el texto."
+      },
+      "temperature_celsius": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Temperatura ambiente registrada al iniciar la sesión, en °C. Null si el log no la registra.",
+        "title": "Temperature Celsius"
+      },
+      "species_observed": {
+        "description": "Registro de taxones observados en el orden del cuaderno. Una entrada por especie / morfotipo distinto.",
+        "items": {
+          "$ref": "#/$defs/SpeciesObservation"
+        },
+        "title": "Species Observed",
+        "type": "array"
+      },
+      "measurements": {
+        "description": "Mediciones cuantitativas tomadas durante la sesión, distintas de la temperatura general (que va en su campo dedicado). Una entrada por medición.",
+        "items": {
+          "$ref": "#/$defs/Measurement"
+        },
+        "title": "Measurements",
+        "type": "array"
+      },
+      "conclusions": {
+        "description": "Conclusiones o hipótesis explícitamente formuladas por el observador al cierre de la entrada. Una conclusión por elemento.",
+        "items": {
+          "type": "string"
+        },
+        "title": "Conclusions",
+        "type": "array"
+      }
+    },
+    "required": [
+      "site_name",
+      "observation_date",
+      "observer",
+      "method",
+      "weather"
+    ],
+    "title": "ObservationLog",
+    "type": "object"
+  },
+  "output": {
+    "site_name": "Arroyo de la Vega del Tejo, tramo medio, Sierra de Garagonza (Cuenca)",
+    "observation_date": "2026-05-29",
+    "observer": "Marta Iribarren Pelayo",
+    "method": "marcaje_recaptura",
+    "weather": "cubierto",
+    "temperature_celsius": null,
+    "species_observed": [
+      {
+        "species_name": "Salmo trutta",
+        "count": 23,
+        "behavior": "huida rápida hacia tablas de cantos al detectar el campo eléctrico, sin agregaciones notables; los juveniles tienden a ocultarse bajo raíces sumergidas de aliso",
+        "notes": "18 nuevas capturas marcadas con elastómero naranja; 5 recapturas de la sesión del 22/05 identificadas por la marca verde post-orbital"
+      },
+      {
+        "species_name": "Phoxinus phoxinus",
+        "count": 142,
+        "behavior": "Forman cardúmenes compactos, comportamiento claramente gregario incluso bajo el efecto del electrofishing",
+        "notes": "No se marcan; se mide una submuestra (n=30) y se liberan en su pozo de origen"
+      },
+      {
+        "species_name": "Cottus gobio",
+        "count": 4,
+        "behavior": "permanecen quietos en el sustrato incluso tras el aturdimiento",
+        "notes": "No los marcamos (cuerpo demasiado pequeño y piel demasiado delicada para VIE post-orbital con confianza)"
+      },
+      {
+        "species_name": "Anguilla anguilla",
+        "count": 1,
+        "behavior": null,
+        "notes": "subadulto, ~38 cm; captura sorprendente, se libera inmediatamente sin marcar"
+      }
+    ],
+    "measurements": [
+      {
+        "name": "Temperatura del agua",
+        "value": 11.4,
+        "unit": "°C",
+        "instrument": "sonda YSI ProDSS"
+      },
+      {
+        "name": "Conductividad eléctrica",
+        "value": 215,
+        "unit": "µS/cm",
+        "instrument": "sonda YSI ProDSS"
+      },
+      {
+        "name": "Oxígeno disuelto",
+        "value": 9.8,
+        "unit": "mg/L",
+        "instrument": "sonda YSI ProDSS"
+      },
+      {
+        "name": "Longitud total media (Salmo trutta)",
+        "value": 19.7,
+        "unit": "cm",
+        "instrument": "ictiómetro de tabla"
+      },
+      {
+        "name": "Peso medio (Salmo trutta)",
+        "value": 87.3,
+        "unit": "g",
+        "instrument": "balanza Kern PCB 2500-2"
+      },
+      {
+        "name": "Longitud total media (Phoxinus phoxinus, submuestra n=30)",
+        "value": 6.2,
+        "unit": "cm",
+        "instrument": "ictiómetro de tabla"
+      }
+    ],
+    "conclusions": [
+      "La tasa de recaptura para Salmo trutta (5/23 ≈ 21,7 %) está dentro del rango esperado tras una semana, y permite una primera estimación Petersen de la población local en el orden de 80–100 individuos adultos en el subtramo, pendiente de aplicar la corrección de Chapman y de incorporar la tercera sesión.",
+      "La abundancia de Phoxinus phoxinus refuerza la sospecha de que la base trófica del tramo está fuertemente sesgada hacia ciprínidos, lo que es coherente con el desarrollo somático más bien lento que vienen mostrando las truchas de esta cohorte respecto a las del arroyo vecino del Carrascalejo.",
+      "La aparición de una anguila merece seguimiento: si se repite en próximas jornadas habrá que replantear la hipótesis de aislamiento del tramo respecto a la cuenca baja, posiblemente por escalas naturales aún funcionales en avenidas.",
+      "La cohorte de marcaje naranja queda establecida; la próxima sesión (prevista para el 05 de junio si la meteorología lo permite) cerrará el diseño de tres puntos temporales y permitirá ajustar un modelo de Jolly-Seber sencillo."
+    ]
+  },
+  "metadata": {
+    "source": "synthetic_20260601_006.md",
+    "domain": "stem",
+    "subdomain": "observations"
+  }
+}

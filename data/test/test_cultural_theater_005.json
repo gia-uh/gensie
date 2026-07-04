@@ -1,0 +1,274 @@
+{
+  "id": "cultural_theater_005",
+  "input_text": "# El sombrero del señor Luna\n\n**Compañía Titiritarra Bahía** — temporada de primavera 2026\n**Sala Pequeña del Centro Cultural Almazara**, calle de los Tejares 14, Mérida [...] A partir del **sábado 11 de abril de 2026**, la Compañía Titiritarra Bahía presenta en la Sala Pequeña del Centro Cultural Almazara su nuevo montaje de creación propia: *El sombrero del señor Luna*, un cuento escénico para espectadores a partir de tres años, con marionetas de varilla, narración en directo y una banda de música hecha con cacharros de cocina.\n\nLas funciones se programan los **sábados y domingos a las 12:00 (matinal) y a las 17:30 (vespertina)** hasta finales de la temporada de primavera, con pases especiales para grupos escolares concertados los jueves por la mañana. La sala, de aforo reducido (ochenta butacas), se monta en disposición de herradura para que todos los niños y niñas puedan ver de cerca a los muñecos.\n\nCada función dura aproximadamente **cincuenta minutos sin intermedio**, tiempo pensado para sostener la atención de los más pequeños sin saturarles. [...] El señor Luna es un viejo astrónomo despistado que una noche pierde su sombrero de copa entre las nubes. Para recuperarlo emprende un viaje por el cielo en compañía de una luciérnaga charlatana y de una pequeña nube enfurruñada, y descubre que el sombrero ha sido aprovechado como casa por una familia de pájaros sin techo. Tendrá que decidir entonces qué es más importante: recobrar lo suyo o cobijar a quien lo necesita. [...] En este montaje participan cuatro intérpretes que se reparten todos los personajes — humanos, marionetas y voces — combinando manipulación, narración y canto en vivo.\n\n- **Lucía Penabad** interpreta al **señor Luna** y, en la segunda parte, da voz a la **mamá Pájara**.\n- **Marcos Iriarte Bertón** asume la **luciérnaga Caracola** y, con un cambio de guante, también al **viento del oeste**.\n- **Noa Camblor** maneja la **nube enfurruñada** y se encarga del **coro de estrellitas** que acompaña la travesía.\n- **Hugo Treviño Almagro** firma la **narración en directo** desde el atril lateral y dobla además al **pajarito menor**, el más cabezota de la nidada.\n\nLa compañía hace constar en el programa que no trabaja con sistema de suplencias: si una función no puede celebrarse por causa de fuerza mayor, se reprograma o se reembolsa la entrada. [...] - **Dirección**: Sara Otxoa Mendigutxía\n- **Dramaturgia**: Sara Otxoa Mendigutxía y Hugo Treviño Almagro, sobre una idea original de la compañía\n- **Diseño y construcción de marionetas**: Taller Cabezagorda (Pontevedra)\n- **Escenografía**: Iván Cardalda — una pieza única plegable de tres metros que representa, según se gire, el tejado del observatorio, el cielo nocturno y el nido de los pájaros\n- **Música original**: Trío La Almazuela (composición e interpretación en vivo con utensilios de cocina, acordeón diatónico y voz)\n- **Iluminación**: Berta Pizarro Quiñones\n- **Vestuario**: Ainhoa Restrepo\n\nLa pieza de escenografía fue construida durante la residencia artística que la compañía realizó el invierno pasado en la Casa de la Cultura de Almendralejo, con el apoyo material de la carpintería del propio centro. [...] El programa hace constar de forma explícita que ***El sombrero del señor Luna* es un espectáculo apto para todos los públicos**, sin violencia, sin lenguaje inapropiado, sin efectos estroboscópicos ni sonidos intensos. La iluminación trabaja con focos cálidos a intensidad baja y la banda sonora se mantiene por debajo de los niveles de presión sonora recomendados para audiencia infantil.",
+  "instruction": "Extrae los datos del programa de mano de esta producción teatral: título, sala, fechas, sinopsis, reparto, equipo creativo y avisos al público.",
+  "target_schema": {
+    "$defs": {
+      "CastMember": {
+        "additionalProperties": false,
+        "description": "Una intervención del reparto, con su rol y la persona que lo interpreta.",
+        "properties": {
+          "role": {
+            "description": "Nombre literal del personaje o función dramatúrgica (p. ej. 'Hamlet', 'Coro', 'Bailarín solista').",
+            "title": "Role",
+            "type": "string"
+          },
+          "actor": {
+            "description": "Nombre del intérprete que asume el rol, en el formato en que el programa lo presenta.",
+            "title": "Actor",
+            "type": "string"
+          },
+          "understudy": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Nombre del suplente para este rol si el programa lo nombra. Null si no aparece o si el programa no asigna suplentes.",
+            "title": "Understudy"
+          }
+        },
+        "required": [
+          "role",
+          "actor"
+        ],
+        "title": "CastMember",
+        "type": "object"
+      },
+      "ContentAdvisory": {
+        "enum": [
+          "ninguna",
+          "violencia",
+          "lenguaje_fuerte",
+          "contenido_sexual",
+          "tabaquismo",
+          "efectos_sonoros_intensos",
+          "luces_estroboscópicas"
+        ],
+        "title": "ContentAdvisory",
+        "type": "string"
+      },
+      "CreativeRole": {
+        "additionalProperties": false,
+        "description": "Una persona en el equipo creativo de la producción, con su función.",
+        "properties": {
+          "role": {
+            "description": "Función dentro del equipo creativo, tal como aparece en el programa (p. ej. 'Dirección', 'Dramaturgia', 'Escenografía', 'Música', 'Iluminación', 'Vestuario').",
+            "title": "Role",
+            "type": "string"
+          },
+          "name": {
+            "description": "Nombre de la persona o colectivo.",
+            "title": "Name",
+            "type": "string"
+          }
+        },
+        "required": [
+          "role",
+          "name"
+        ],
+        "title": "CreativeRole",
+        "type": "object"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Programa de mano (playbill) de una producción teatral, danza o lírica. La\ninformación se reparte entre cabecera (título + sala + fechas), reparto,\nequipo creativo, sinopsis y notas de aviso al público. La extracción debe\ndiferenciar entre intérpretes (CastMember) y equipo creativo (CreativeRole),\naunque ambos aparezcan en listados similares.\n\nComplejidad: L7 — síntesis de varias secciones con listas paralelas y\ndistinción de roles semánticamente cercanos.",
+    "properties": {
+      "title": {
+        "description": "Título de la obra tal como aparece en portada del programa.",
+        "title": "Title",
+        "type": "string"
+      },
+      "venue": {
+        "description": "Nombre de la sala o teatro donde se representa.",
+        "title": "Venue",
+        "type": "string"
+      },
+      "city": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Ciudad de la sala si el programa la menciona. Null si no aparece.",
+        "title": "City"
+      },
+      "opening_date": {
+        "description": "Fecha de estreno de esta producción en formato ISO 'YYYY-MM-DD' o, si el programa solo da mes y año, 'YYYY-MM'.",
+        "title": "Opening Date",
+        "type": "string"
+      },
+      "closing_date": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Fecha del último pase de la temporada en formato ISO. Null si la temporada está abierta o el programa no la cierra.",
+        "title": "Closing Date"
+      },
+      "runtime_minutes": {
+        "anyOf": [
+          {
+            "exclusiveMinimum": 0,
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Duración total del espectáculo en minutos, incluido intermedio si lo hay. Null si el programa no la indica.",
+        "title": "Runtime Minutes"
+      },
+      "synopsis": {
+        "description": "Resumen literal del argumento como aparece en la sección 'Sinopsis' o equivalente. Una o dos frases.",
+        "title": "Synopsis",
+        "type": "string"
+      },
+      "themes": {
+        "description": "Temas explícitamente nombrados en la nota de programa o la entrevista al director (p. ej. 'memoria histórica', 'feminismo', 'duelo'). Solo temas literalmente mencionados, no inferidos.",
+        "items": {
+          "type": "string"
+        },
+        "title": "Themes",
+        "type": "array"
+      },
+      "cast": {
+        "description": "Reparto en el orden en que aparece en el programa. Cada entrada asocia un rol dramatúrgico con su intérprete.",
+        "items": {
+          "$ref": "#/$defs/CastMember"
+        },
+        "title": "Cast",
+        "type": "array"
+      },
+      "creative_team": {
+        "description": "Equipo creativo (dirección, dramaturgia, diseño escenográfico, música, iluminación, etc.) en el orden de aparición.",
+        "items": {
+          "$ref": "#/$defs/CreativeRole"
+        },
+        "title": "Creative Team",
+        "type": "array"
+      },
+      "content_advisory": {
+        "description": "Avisos para el público presentes en el programa. 'ninguna' solo si el programa declara explícitamente apto para todos los públicos.",
+        "items": {
+          "$ref": "#/$defs/ContentAdvisory"
+        },
+        "title": "Content Advisory",
+        "type": "array"
+      }
+    },
+    "required": [
+      "title",
+      "venue",
+      "opening_date",
+      "synopsis",
+      "cast"
+    ],
+    "title": "TheaterPlaybill",
+    "type": "object"
+  },
+  "output": {
+    "title": "El sombrero del señor Luna",
+    "venue": "Sala Pequeña del Centro Cultural Almazara",
+    "city": "Mérida",
+    "opening_date": "2026-04-11",
+    "closing_date": null,
+    "runtime_minutes": 50,
+    "synopsis": "El señor Luna es un viejo astrónomo despistado que una noche pierde su sombrero de copa entre las nubes. Para recuperarlo emprende un viaje por el cielo en compañía de una luciérnaga charlatana y de una pequeña nube enfurruñada, y descubre que el sombrero ha sido aprovechado como casa por una familia de pájaros sin techo.",
+    "themes": [],
+    "cast": [
+      {
+        "role": "señor Luna",
+        "actor": "Lucía Penabad",
+        "understudy": null
+      },
+      {
+        "role": "mamá Pájara",
+        "actor": "Lucía Penabad",
+        "understudy": null
+      },
+      {
+        "role": "luciérnaga Caracola",
+        "actor": "Marcos Iriarte Bertón",
+        "understudy": null
+      },
+      {
+        "role": "viento del oeste",
+        "actor": "Marcos Iriarte Bertón",
+        "understudy": null
+      },
+      {
+        "role": "nube enfurruñada",
+        "actor": "Noa Camblor",
+        "understudy": null
+      },
+      {
+        "role": "coro de estrellitas",
+        "actor": "Noa Camblor",
+        "understudy": null
+      },
+      {
+        "role": "narración en directo",
+        "actor": "Hugo Treviño Almagro",
+        "understudy": null
+      },
+      {
+        "role": "pajarito menor",
+        "actor": "Hugo Treviño Almagro",
+        "understudy": null
+      }
+    ],
+    "creative_team": [
+      {
+        "role": "Dirección",
+        "name": "Sara Otxoa Mendigutxía"
+      },
+      {
+        "role": "Dramaturgia",
+        "name": "Sara Otxoa Mendigutxía y Hugo Treviño Almagro"
+      },
+      {
+        "role": "Diseño y construcción de marionetas",
+        "name": "Taller Cabezagorda"
+      },
+      {
+        "role": "Escenografía",
+        "name": "Iván Cardalda"
+      },
+      {
+        "role": "Música original",
+        "name": "Trío La Almazuela"
+      },
+      {
+        "role": "Iluminación",
+        "name": "Berta Pizarro Quiñones"
+      },
+      {
+        "role": "Vestuario",
+        "name": "Ainhoa Restrepo"
+      }
+    ],
+    "content_advisory": [
+      "ninguna"
+    ]
+  },
+  "metadata": {
+    "source": "synthetic_20260601_005.md",
+    "domain": "cultural",
+    "subdomain": "theater"
+  }
+}

@@ -1,0 +1,386 @@
+{
+  "id": "technical_security_incident_002",
+  "input_text": "# Post-mortem INC-2026-0418 — Compromiso por paquete npm typosquat\n\n- **incident_id**: INC-2026-0418\n- **detection_date**: 2026-05-22T14:07\n- **closure_date**: 2026-05-28T19:30\n- **severity**: crítica\n- **classification**: supply_chain / credential_theft\n- **affected_business_unit**: Plataforma Core (fintech B2C)\n- **reportado_por**: Equipo SOC interno (alerta CloudTrail anómala)\n- **autor_del_informe**: Marta Solana (CISO interina)\n- **revisión**: Junta de Riesgo Tecnológico (2026-05-30)\n\n--- [...] ## 2. Sistemas afectados\n\n- Workstation `dev-msolana-mbp14` (macOS 14.4, Node.js 20.11.0)\n- Cuenta AWS de producción `acme-payments-prod` (ID 6549-2210-7733)\n- Bucket S3 `prod-payments-archive` (region `eu-west-1`)\n- Perfil IAM `dev-msolana-payments-rw` (credenciales largas, ahora revocadas)\n- Registro npm público (vector de entrega; sin acción posible sobre la\n  infraestructura de npm)\n\n## 3. Cronología y análisis de la cadena de ataque\n\nA continuación se entreteje la cronología verificada con el análisis de cada\nmovimiento del adversario. Las marcas temporales provienen de los logs de\nCloudTrail, del histórico de shell de la workstation (recuperado del backup de\nTime Machine) y de los registros de proxy corporativo. [...] ### 3.1 Preparación del adversario (anterior al 2026-05-19)\n\nEl paquete `chalc-pipe@1.4.7` fue publicado en el registro npm público el\n2026-05-12T08:42Z por la cuenta `ghosthand-publisher`, dada de baja desde\nentonces. Se trata de un paquete *typosquat* del legítimo `chalk-pipe` (utilidad\nde coloreado de strings basada en `chalk`). El paquete malicioso reexporta toda\nla API del original, lo que permite que cualquier código que dependa de él\nfuncione sin fallos visibles. Aunque no encontramos correos de spear-phishing ni\nposts en foros que promocionaran el paquete, los logs de búsqueda del registro\nmuestran 47 descargas en su primera semana —compatible con una estrategia\n**oportunista** dirigida a desarrolladores que mistecleen el nombre—. No\ndisponemos de evidencia de que nuestra empresa fuera un objetivo específico; la\nfase previa al acceso debe entenderse, por tanto, como un reconocimiento\ngenérico del ecosistema npm más que como un targeting dirigido. [...] ### 3.2 Ingreso del paquete (2026-05-19T11:32)\n\nLa desarrolladora M. Solana, mientras configuraba el servicio `payments-cron`,\nejecutó:\n\n```\nnpm install chalc-pipe\n```\n\nen lugar del legítimo `chalk-pipe`. El registro del shell confirma la ausencia\nde cualquier flag de bloqueo (`--ignore-scripts` no estaba en uso ni en el\n`.npmrc` global). Esta acción constituye el **acceso inicial** del adversario a\nnuestra superficie corporativa: aunque la entrega es indirecta —vía la cadena de\nsuministro pública— el código adversario cruza la frontera de confianza en el\nmomento en que se descarga al disco. [...] ### 3.3 Ejecución del payload (2026-05-19T11:32:14)\n\nInmediatamente tras la descarga, npm invocó el script `postinstall` declarado en\nel `package.json` del paquete malicioso. Este script —un pequeño binario Node de\n~3 KB minificado— realizó las siguientes acciones, recuperadas mediante análisis\ndel tarball cacheado en `~/.npm/_cacache`:\n\n1. Lectura de `process.env` completa.\n2. Filtrado por las claves cuyo nombre matchea `/AWS_|GITHUB_|NPM_TOKEN|HOME|USER/`.\n3. Serialización a JSON y compresión con `gzip`.\n4. POST HTTPS con el payload en el cuerpo a\n   `https://cdn-metrics-collector[.]top/v1/m`.\n\nEl SHA-256 del tarball `chalc-pipe-1.4.7.tgz` es\n`8a3b2f9e7c1d4a5b6e0f8c2d9b3a7e1f4c5d6b8a9e0f1c2d3b4a5e6f7c8d9e0f`. La técnica\nempleada se cataloga como ejecución de script de instalación malicioso; aunque\nmuchas guías la asocian con **persistencia**, en nuestro caso el script no se\nauto-instaló como servicio ni modificó el `crontab` —la persistencia efectiva\ndel atacante en nuestro entorno provino, más tarde, del uso de credenciales\nrobadas, no de un implante local—. [...] ### 3.4 Robo de credenciales\n\nEl proceso `node` ejecutado por npm tenía acceso completo al entorno de la\nsesión del usuario, que incluía las variables:\n\n- `AWS_ACCESS_KEY_ID=AKIA5K7Z2QH4P9X3M8R2`\n- `AWS_SECRET_ACCESS_KEY=********` (redactado)\n- `AWS_DEFAULT_REGION=eu-west-1`\n- `GITHUB_TOKEN=ghp_********` (redactado)\n\nEstas credenciales correspondían al perfil `dev-msolana-payments-rw`, una llave\nde larga duración creada en 2025-09 para permitir despliegues manuales puntuales\ny que nunca fue rotada ni migrada al sistema de SSO. La exfiltración hacia el\ndominio C2 fue confirmada por el proxy corporativo, que registró un POST de\n2.1 KB hacia `cdn-metrics-collector[.]top` resuelto a `185.243.114.78` el\n2026-05-19T11:32:17. Conviene subrayar que la lectura del entorno no requiere\nescalada de privilegios en macOS: cualquier proceso del usuario tiene acceso a\nsus propias variables. Lo crítico fue, por tanto, **qué** había en ese entorno,\nno cómo se accedió a ello. [...] ### 3.5 Reposo del adversario y reconocimiento sobre AWS (2026-05-19 → 2026-05-22)\n\nDurante 72 horas no se observó actividad. El primer uso de las credenciales\nrobadas se registró el **2026-05-22T13:54** desde la IP `185.243.114.78`,\ngeolocalizada en un VPS de Lituania —misma dirección que recibió la\nexfiltración, lo que sugiere reutilización de infraestructura por parte del\nadversario, indicio de baja sofisticación operativa—. Las primeras llamadas\nfueron `sts:GetCallerIdentity` (para confirmar la validez de la llave) seguidas\nde `iam:ListAttachedUserPolicies` y `iam:GetUser`. Estas operaciones constituyen\n**reconocimiento** interno del entorno AWS comprometido.\n\n### 3.6 Enumeración de S3 (2026-05-22T14:01 → 14:07)\n\nEl atacante encadenó:\n\n- `s3:ListBuckets` (devolvió 17 buckets visibles para el principal).\n- `s3:GetBucketAcl` y `s3:GetBucketPolicy` sobre 4 buckets seleccionados, entre\n  ellos `prod-payments-archive`.\n- `s3:GetObject` sobre dos claves de prueba dentro de\n  `prod-payments-archive/test/` —objetos cifrados con KMS al que el principal\n  no tenía permiso `kms:Decrypt`, por lo que la operación falló con\n  `AccessDenied`—.\n\nLa alerta de GuardDuty `Recon:IAMUser/S3BucketEnumeration.Unusual` se disparó a\nlas **14:07** y notificó al SOC vía PagerDuty. [...] ### 3.7 Detección y contención (2026-05-22T14:07 → 15:42)\n\nEl analista de guardia de SOC verificó la legitimidad de la alerta a las 14:11.\nA las 14:18 se desactivó la llave `AKIA5K7Z2QH4P9X3M8R2` y se forzó la rotación\ndel perfil. Las llamadas posteriores desde la IP atacante recibieron\n`InvalidAccessKeyId`. No se observó ningún `s3:GetObject` exitoso sobre objetos\nde producción. [...] ## 4. Indicadores de compromiso (IoCs)\n\n- **Hash del paquete malicioso**: SHA-256\n  `8a3b2f9e7c1d4a5b6e0f8c2d9b3a7e1f4c5d6b8a9e0f1c2d3b4a5e6f7c8d9e0f`\n  (`chalc-pipe-1.4.7.tgz`).\n- **Dominio C2 / exfiltración**: `cdn-metrics-collector.top`.\n- **IP del atacante**: `185.243.114.78` (VPS, AS215662, Lituania). Observada\n  por primera vez el 2026-05-19T11:32:17.\n- **Cuenta del publicador npm**: `ghosthand-publisher` (suspendida por npm\n  Security el 2026-05-23).\n- **CVE relacionado**: `CVE-2024-43788` — vulnerabilidad genérica en el manejo\n  de `postinstall` por gestores de paquetes con `lifecycle scripts` habilitados\n  por defecto; citada aquí no como causa explotada de un fallo de software sino\n  como referencia normativa de la clase de problema.\n- **Regla YARA emitida internamente**:\n  `rule chalc_pipe_postinstall_exfil { strings: $s1 = \"cdn-metrics-collector\" $s2 = \"AWS_SECRET_ACCESS_KEY\" condition: all of them }`.\n\n## 5. Acciones de contención y remediación\n\n| # | Acción                                                                                                | Estado     | Responsable        |\n|---|-------------------------------------------------------------------------------------------------------|------------|--------------------|\n| 1 | Revocación de las credenciales `AKIA5K7Z2QH4P9X3M8R2` y rotación del perfil IAM                       | completada | SOC                |\n| 2 | Bloqueo del dominio `cdn-metrics-collector.top` y de la IP `185.243.114.78` en el proxy y el firewall | completada | Networking         |\n| 3 | Aislamiento de la workstation `dev-msolana-mbp14` para análisis forense                                | completada | IR Team            |\n| 4 | Notificación a npm Security para retirada del paquete `chalc-pipe`                                    | completada | CISO Office        |\n| 5 | Despliegue de regla YARA `chalc_pipe_postinstall_exfil` en EDR de todas las workstations              | en_curso   | SOC                |\n| 6 | Migración de todos los perfiles IAM de larga duración a SSO con TTL ≤ 1h                              | en_curso   | Plataforma         |\n| 7 | Adopción de un registro npm privado con allow-list para todas las máquinas de desarrollo              | pendiente  | Plataforma         |\n| 8 | Auditoría de los `package-lock.json` de todos los repos en busca de typosquats conocidos               | en_curso   | AppSec             |\n| 9 | Revisión y posible activación global de `npm config set ignore-scripts true`                          | pendiente  | Plataforma         |\n\n## 6. Causa raíz\n\nLa causa raíz inmediata fue la instalación, sin revisión previa, de un paquete\nnpm typosquat cuyo script `postinstall` exfiltró credenciales AWS de larga\nduración presentes en el entorno local de la desarrolladora; la causa raíz\nestructural es la combinación de un proceso de incorporación de dependencias sin\nallow-list y la persistencia de llaves IAM de larga duración fuera del flujo de\nSSO corporativo.",
+  "instruction": "Extrae los IoCs, la cadena de ataque por fases y las acciones de contención del post-mortem.",
+  "target_schema": {
+    "$defs": {
+      "AttackPhase": {
+        "description": "Fases de la cadena de ataque (MITRE ATT&CK simplificado).",
+        "enum": [
+          "reconocimiento",
+          "acceso_inicial",
+          "ejecución",
+          "persistencia",
+          "escalada_de_privilegios",
+          "evasión_de_defensas",
+          "acceso_a_credenciales",
+          "movimiento_lateral",
+          "exfiltración",
+          "impacto"
+        ],
+        "title": "AttackPhase",
+        "type": "string"
+      },
+      "AttackStep": {
+        "additionalProperties": false,
+        "description": "Un paso de la cadena de ataque tal como lo reconstruye el informe.",
+        "properties": {
+          "phase": {
+            "$ref": "#/$defs/AttackPhase",
+            "description": "Fase ATT&CK a la que pertenece el paso."
+          },
+          "description": {
+            "description": "Descripción de la acción del atacante en una frase (p. ej. 'Envío de correo de phishing con adjunto malicioso al departamento financiero').",
+            "title": "Description",
+            "type": "string"
+          },
+          "timestamp": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Marca temporal en formato ISO 8601 si el informe la consigna. Null si solo se indica el orden relativo.",
+            "title": "Timestamp"
+          },
+          "technique_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Identificador MITRE ATT&CK si el informe lo cita (p. ej. 'T1566.001'). Null si no aparece.",
+            "title": "Technique Id"
+          }
+        },
+        "required": [
+          "phase",
+          "description"
+        ],
+        "title": "AttackStep",
+        "type": "object"
+      },
+      "ContainmentAction": {
+        "additionalProperties": false,
+        "description": "Acción de contención o remediación tomada por el equipo de respuesta.",
+        "properties": {
+          "description": {
+            "description": "Descripción literal de la acción (p. ej. 'Aislamiento del host afectado en VLAN de cuarentena').",
+            "title": "Description",
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/$defs/ContainmentStatus",
+            "description": "Estado de ejecución de la acción al cierre del informe."
+          },
+          "owner": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Equipo o persona responsable de la acción (p. ej. 'SOC', 'Red Team'). Null si no se asigna explícitamente.",
+            "title": "Owner"
+          }
+        },
+        "required": [
+          "description",
+          "status"
+        ],
+        "title": "ContainmentAction",
+        "type": "object"
+      },
+      "ContainmentStatus": {
+        "enum": [
+          "pendiente",
+          "en_curso",
+          "completada",
+          "no_aplica"
+        ],
+        "title": "ContainmentStatus",
+        "type": "string"
+      },
+      "Indicator": {
+        "additionalProperties": false,
+        "description": "Indicador de compromiso (IoC) observado durante el incidente.",
+        "properties": {
+          "kind": {
+            "$ref": "#/$defs/IndicatorKind",
+            "description": "Tipo de indicador."
+          },
+          "value": {
+            "description": "Valor literal del indicador tal como aparece en el informe (IP, dominio, SHA-256, CVE-XXXX-XXXX, etc.). Sin modificar.",
+            "title": "Value",
+            "type": "string"
+          },
+          "first_seen": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Fecha en formato ISO en que se observó el indicador por primera vez durante el incidente. Null si el informe no la fecha.",
+            "title": "First Seen"
+          }
+        },
+        "required": [
+          "kind",
+          "value"
+        ],
+        "title": "Indicator",
+        "type": "object"
+      },
+      "IndicatorKind": {
+        "enum": [
+          "ip",
+          "dominio",
+          "url",
+          "hash",
+          "correo",
+          "cve",
+          "regla_yara"
+        ],
+        "title": "IndicatorKind",
+        "type": "string"
+      },
+      "Severity": {
+        "enum": [
+          "baja",
+          "media",
+          "alta",
+          "crítica"
+        ],
+        "title": "Severity",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Post-mortem o informe de respuesta a un incidente de ciberseguridad: IoCs\nobservados, reconstrucción de la cadena de ataque en fases ordenadas\ncronológicamente, sistemas afectados y acciones de contención con su estado.\nLa extracción debe diferenciar fases ATT&CK por su semántica (no por\nel orden literal en el informe, que puede mezclar narrativa y análisis), y\nasociar cada IoC con su tipo correcto a partir de su forma.\n\nComplejidad: L9 — cadena causal con vocabulario técnico denso, taxonomía\nrígida (fases ATT&CK), pluralidad de listas heterogéneas y enlazado\nentre acciones y sistemas.",
+    "properties": {
+      "incident_id": {
+        "description": "Identificador interno del incidente tal como aparece en el informe (p. ej. 'INC-2026-0042').",
+        "title": "Incident Id",
+        "type": "string"
+      },
+      "detection_date": {
+        "description": "Fecha de detección del incidente en formato ISO 8601 ('YYYY-MM-DDTHH:MM' o 'YYYY-MM-DD' si no hay hora).",
+        "title": "Detection Date",
+        "type": "string"
+      },
+      "severity": {
+        "$ref": "#/$defs/Severity",
+        "description": "Severidad declarada del incidente según la clasificación del informe."
+      },
+      "affected_systems": {
+        "description": "Nombres o identificadores de los sistemas, aplicaciones o redes afectados (p. ej. 'CRM corporativo', 'Active Directory', 'VPN'). Un sistema por entrada.",
+        "items": {
+          "type": "string"
+        },
+        "minItems": 1,
+        "title": "Affected Systems",
+        "type": "array"
+      },
+      "indicators": {
+        "description": "IoCs observados durante el incidente. Lista vacía si el informe declara que no se identificaron indicadores accionables.",
+        "items": {
+          "$ref": "#/$defs/Indicator"
+        },
+        "title": "Indicators",
+        "type": "array"
+      },
+      "attack_chain": {
+        "description": "Cadena de ataque reconstruida, en orden cronológico. Cada paso asignado a una única fase ATT&CK.",
+        "items": {
+          "$ref": "#/$defs/AttackStep"
+        },
+        "minItems": 1,
+        "title": "Attack Chain",
+        "type": "array"
+      },
+      "containment_actions": {
+        "description": "Acciones de contención y remediación, en el orden en que fueron ejecutadas o planificadas.",
+        "items": {
+          "$ref": "#/$defs/ContainmentAction"
+        },
+        "minItems": 1,
+        "title": "Containment Actions",
+        "type": "array"
+      },
+      "root_cause": {
+        "description": "Causa raíz declarada por el informe en una o dos frases (p. ej. 'Configuración por defecto del servidor expuesto a internet sin autenticación').",
+        "title": "Root Cause",
+        "type": "string"
+      }
+    },
+    "required": [
+      "incident_id",
+      "detection_date",
+      "severity",
+      "affected_systems",
+      "attack_chain",
+      "containment_actions",
+      "root_cause"
+    ],
+    "title": "SecurityIncident",
+    "type": "object"
+  },
+  "output": {
+    "incident_id": "INC-2026-0418",
+    "detection_date": "2026-05-22T14:07",
+    "severity": "crítica",
+    "affected_systems": [
+      "Workstation dev-msolana-mbp14",
+      "Cuenta AWS de producción acme-payments-prod",
+      "Bucket S3 prod-payments-archive",
+      "Perfil IAM dev-msolana-payments-rw",
+      "Registro npm público"
+    ],
+    "indicators": [
+      {
+        "kind": "hash",
+        "value": "8a3b2f9e7c1d4a5b6e0f8c2d9b3a7e1f4c5d6b8a9e0f1c2d3b4a5e6f7c8d9e0f",
+        "first_seen": null
+      },
+      {
+        "kind": "dominio",
+        "value": "cdn-metrics-collector.top",
+        "first_seen": "2026-05-19T11:32:17"
+      },
+      {
+        "kind": "ip",
+        "value": "185.243.114.78",
+        "first_seen": "2026-05-19T11:32:17"
+      },
+      {
+        "kind": "cve",
+        "value": "CVE-2024-43788",
+        "first_seen": null
+      },
+      {
+        "kind": "regla_yara",
+        "value": "chalc_pipe_postinstall_exfil",
+        "first_seen": null
+      }
+    ],
+    "attack_chain": [
+      {
+        "phase": "reconocimiento",
+        "description": "Publicación oportunista del paquete typosquat chalc-pipe@1.4.7 en el registro npm público, dirigida a desarrolladores que misteclean el nombre de chalk-pipe.",
+        "timestamp": "2026-05-12T08:42",
+        "technique_id": null
+      },
+      {
+        "phase": "acceso_inicial",
+        "description": "La desarrolladora ejecuta 'npm install chalc-pipe' en su workstation, introduciendo el paquete malicioso en la superficie corporativa vía la cadena de suministro.",
+        "timestamp": "2026-05-19T11:32",
+        "technique_id": null
+      },
+      {
+        "phase": "ejecución",
+        "description": "npm invoca el script postinstall declarado en el package.json del paquete malicioso, ejecutando un binario Node de ~3 KB minificado.",
+        "timestamp": "2026-05-19T11:32:14",
+        "technique_id": null
+      },
+      {
+        "phase": "acceso_a_credenciales",
+        "description": "El script lee process.env y filtra las variables AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY y GITHUB_TOKEN del entorno de la sesión.",
+        "timestamp": "2026-05-19T11:32:14",
+        "technique_id": null
+      },
+      {
+        "phase": "exfiltración",
+        "description": "El payload comprimido con gzip se envía mediante POST HTTPS a cdn-metrics-collector[.]top resuelto a 185.243.114.78.",
+        "timestamp": "2026-05-19T11:32:17",
+        "technique_id": null
+      },
+      {
+        "phase": "reconocimiento",
+        "description": "Primer uso de las credenciales robadas con sts:GetCallerIdentity, iam:ListAttachedUserPolicies y iam:GetUser para confirmar validez y enumerar permisos del principal.",
+        "timestamp": "2026-05-22T13:54",
+        "technique_id": null
+      },
+      {
+        "phase": "reconocimiento",
+        "description": "Enumeración de S3 mediante s3:ListBuckets, s3:GetBucketAcl y s3:GetBucketPolicy sobre cuatro buckets, incluido prod-payments-archive.",
+        "timestamp": "2026-05-22T14:01",
+        "technique_id": null
+      },
+      {
+        "phase": "reconocimiento",
+        "description": "Intentos de s3:GetObject sobre dos claves de prueba en prod-payments-archive/test/ que fallan con AccessDenied por falta de kms:Decrypt.",
+        "timestamp": "2026-05-22T14:07",
+        "technique_id": null
+      }
+    ],
+    "containment_actions": [
+      {
+        "description": "Revocación de las credenciales AKIA5K7Z2QH4P9X3M8R2 y rotación del perfil IAM",
+        "status": "completada",
+        "owner": "SOC"
+      },
+      {
+        "description": "Bloqueo del dominio cdn-metrics-collector.top y de la IP 185.243.114.78 en el proxy y el firewall",
+        "status": "completada",
+        "owner": "Networking"
+      },
+      {
+        "description": "Aislamiento de la workstation dev-msolana-mbp14 para análisis forense",
+        "status": "completada",
+        "owner": "IR Team"
+      },
+      {
+        "description": "Notificación a npm Security para retirada del paquete chalc-pipe",
+        "status": "completada",
+        "owner": "CISO Office"
+      },
+      {
+        "description": "Despliegue de regla YARA chalc_pipe_postinstall_exfil en EDR de todas las workstations",
+        "status": "en_curso",
+        "owner": "SOC"
+      },
+      {
+        "description": "Migración de todos los perfiles IAM de larga duración a SSO con TTL ≤ 1h",
+        "status": "en_curso",
+        "owner": "Plataforma"
+      },
+      {
+        "description": "Adopción de un registro npm privado con allow-list para todas las máquinas de desarrollo",
+        "status": "pendiente",
+        "owner": "Plataforma"
+      },
+      {
+        "description": "Auditoría de los package-lock.json de todos los repos en busca de typosquats conocidos",
+        "status": "en_curso",
+        "owner": "AppSec"
+      },
+      {
+        "description": "Revisión y posible activación global de npm config set ignore-scripts true",
+        "status": "pendiente",
+        "owner": "Plataforma"
+      }
+    ],
+    "root_cause": "Instalación sin revisión previa de un paquete npm typosquat cuyo script postinstall exfiltró credenciales AWS de larga duración presentes en el entorno local de la desarrolladora; estructuralmente, ausencia de allow-list de dependencias y persistencia de llaves IAM fuera del flujo de SSO."
+  },
+  "metadata": {
+    "source": "synthetic_20260601_002.md",
+    "domain": "technical",
+    "subdomain": "security_incident"
+  },
+  "revalued_at": "2026-06-02T11:10:31"
+}

@@ -1,0 +1,152 @@
+{
+  "id": "legal_judicial_005",
+  "input_text": "# 17 detenidos tras redada antiterrorista en Nueva Zelanda\n\nLa Policía de Nueva Zelanda ha detenido durante una redada antiterrorista a 17 personas, entre ellos activistas maoríes, pacifistas y ecologistas, bajo la acusación de formar varios grupos paramilitares.\nEl director de la Policía neozelandesa, Howard Broad, precisó en conferencia de prensa que las operaciones tuvieron lugar en supuestos campos de entrenamiento en la Bahía de Plenty, en el norte del archipiélago; la capital, Wellington, y las ciudades de Auckland y Christchurch, entre otras.",
+  "instruction": "Extrae la información estructurada de este artículo de noticias judiciales, incluyendo titular, resumen, categoría, ubicación, personas y organizaciones clave, y número de afectados.",
+  "target_schema": {
+    "$defs": {
+      "NewsCategory": {
+        "enum": [
+          "JUDICIAL",
+          "DISASTER",
+          "HEALTH",
+          "ENVIRONMENT",
+          "POLITICS",
+          "ECONOMY",
+          "SCIENCE",
+          "CULTURE",
+          "SPORTS",
+          "OTHER"
+        ],
+        "title": "NewsCategory",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Extracts structured information from general news articles.\nComplexity: L4 (Sparse Extraction) - Some fields may be null/missing.",
+    "properties": {
+      "headline": {
+        "description": "The main headline or title of the news article",
+        "title": "Headline",
+        "type": "string"
+      },
+      "summary": {
+        "description": "A brief summary of the main facts reported (1-3 sentences)",
+        "title": "Summary",
+        "type": "string"
+      },
+      "category": {
+        "$ref": "#/$defs/NewsCategory",
+        "description": "The thematic category of the news story"
+      },
+      "location": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Geographic location where the event occurred (city, country, or region)",
+        "title": "Location"
+      },
+      "date": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Date mentioned in the article (may be implicit or explicit)",
+        "title": "Date"
+      },
+      "key_people": {
+        "description": "Names of key individuals mentioned in the article",
+        "items": {
+          "type": "string"
+        },
+        "title": "Key People",
+        "type": "array"
+      },
+      "key_organizations": {
+        "description": "Names of organizations, companies, or governments mentioned",
+        "items": {
+          "type": "string"
+        },
+        "title": "Key Organizations",
+        "type": "array"
+      },
+      "casualties": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of deaths mentioned, if any",
+        "title": "Casualties"
+      },
+      "injured": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of people injured, if any",
+        "title": "Injured"
+      },
+      "affected_count": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of people affected or displaced, if applicable",
+        "title": "Affected Count"
+      }
+    },
+    "required": [
+      "headline",
+      "summary",
+      "category"
+    ],
+    "title": "NewsArticle",
+    "type": "object"
+  },
+  "output": {
+    "headline": "17 detenidos tras redada antiterrorista en Nueva Zelanda",
+    "summary": "La Policía de Nueva Zelanda detuvo a 17 personas, entre ellos activistas maoríes, pacifistas y ecologistas, acusados de formar grupos paramilitares. Las operaciones tuvieron lugar en la Bahía de Plenty, Wellington, Auckland y Christchurch.",
+    "category": "JUDICIAL",
+    "location": "Nueva Zelanda",
+    "date": null,
+    "key_people": [
+      "Howard Broad"
+    ],
+    "key_organizations": [
+      "Policía de Nueva Zelanda"
+    ],
+    "casualties": null,
+    "injured": null,
+    "affected_count": 17
+  },
+  "metadata": {
+    "source": "wikinews_judicial_20260415_005_17_detenidos_tras_redada_antiterrorista_en_nueva_z.md",
+    "domain": "legal",
+    "subdomain": "judicial"
+  }
+}

@@ -1,0 +1,88 @@
+{
+  "id": "cultural_literature_002",
+  "input_text": "# La Celestina\n\n## Introducción\nLa Celestina es el nombre con el que se ha popularizado la Tragicomedia de Calisto y Melibea, atribuida a Fernando de Rojas. Su composición se remonta a los últimos años del siglo XV, durante el reinado de los Reyes Católicos en España, y su extraordinario éxito editorial comenzó en el siglo XVI y continuó, con altibajos, hasta su prohibición en 1792. Por su argumento amoroso, su finalidad didáctica, la abundancia de citas de autoridad, la elección de sus personajes, su forma dialogada y su más que probable vinculación a un entorno universitario, se ha considerado a La Celestina un ejemplo sui generis de comedia humanística, aunque hay quien prefiere considerarla como un híbrido entre novela y drama. Su influencia en ambos géneros es muy notable, hasta el punto de que es posible hablar del género celestinesco en el que se incluyen tanto obras desarrolladas directamente a partir de su trama, sus personajes o sus temas, como ambientes o personajes celestinescos en comedias y novelas que, en principio, nada tienen que ver con La Celestina.",
+  "instruction": "Extrae los metadatos bibliográficos y temas principales de la obra literaria descrita.",
+  "target_schema": {
+    "additionalProperties": false,
+    "description": "Extracts basic bibliographic metadata and key themes from a book description or encyclopedia entry.\nComplexity: L2 (Explicit Information Retrieval).",
+    "properties": {
+      "title": {
+        "description": "The official title of the literary work",
+        "title": "Title",
+        "type": "string"
+      },
+      "author": {
+        "description": "The primary author or creator of the work",
+        "title": "Author",
+        "type": "string"
+      },
+      "publication_year": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "The year the work was first published",
+        "title": "Publication Year"
+      },
+      "genres": {
+        "description": "Literary genres associated with the work (e.g., 'Science Fiction', 'Romance')",
+        "items": {
+          "type": "string"
+        },
+        "title": "Genres",
+        "type": "array"
+      },
+      "key_themes": {
+        "description": "Main topics or themes explored in the work",
+        "items": {
+          "type": "string"
+        },
+        "title": "Key Themes",
+        "type": "array"
+      },
+      "original_language": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "The language in which the work was originally written",
+        "title": "Original Language"
+      }
+    },
+    "required": [
+      "title",
+      "author"
+    ],
+    "title": "LiteraryWork",
+    "type": "object"
+  },
+  "output": {
+    "title": "La Celestina",
+    "author": "Fernando de Rojas",
+    "publication_year": null,
+    "genres": [
+      "tragicomedia",
+      "comedia humanística"
+    ],
+    "key_themes": [
+      "amor",
+      "didáctica"
+    ],
+    "original_language": null
+  },
+  "metadata": {
+    "source": "la_celestina.md",
+    "domain": "cultural",
+    "subdomain": "literature"
+  }
+}

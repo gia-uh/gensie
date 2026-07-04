@@ -1,0 +1,252 @@
+{
+  "id": "cultural_theater_007",
+  "input_text": "# Las cartas que nunca mandé [...] **Sala Pavón Kamikaze** — Madrid\nCalle de Embajadores, 9\n\nTemporada: del 14 de marzo al 11 de mayo de 2026\nFunciones: de jueves a sábado, 20:30 h. Domingos, 19:00 h.\nDuración aproximada: 80 minutos, sin intermedio [...] Marta Cienfuegos regresa al piso de su madre tras el funeral y, ordenando armarios para vaciar la casa, da con una caja que llevaba veintitrés años sin abrir. Dentro hay treinta y dos cartas que ella misma escribió entre los catorce y los diecinueve años: cartas a un padre que se fue sin despedirse, a una profesora que la salvó sin saberlo, a un chico del barrio que murió en un accidente de moto el verano del 2001, y a una versión de sí misma que aún creía que el mundo se podía arreglar con palabras bien elegidas. Lo que empieza como una limpieza se convierte en un ajuste de cuentas con todo lo que no se dijo a tiempo. [...] ## Reparto\n\n| Personaje | Intérprete |\n| --- | --- |\n| Marta Cienfuegos | Beatriz Solano de la Hoz |\n\n*El espectáculo se interpreta por una única actriz en escena. La producción no contempla suplente para esta función. En caso de fuerza mayor, las entradas serán reembolsadas íntegramente en taquilla.* [...] - **Dirección:** Iván Castelló Marimón\n- **Dramaturgia:** Beatriz Solano de la Hoz\n- **Ayudantía de dirección:** Lucía Pendás Verdaguer\n- **Escenografía:** Estudio Trampantojo (Carmen Roldán y Néstor Bujalance)\n- **Iluminación:** Olalla Mendiburu\n- **Espacio sonoro y música original:** Quim Vendrell-Aragó\n- **Vestuario:** Inés Carbajal Otaola\n- **Diseño gráfico y cartel:** Bárbara Tagarro\n- **Fotografía de producción:** Hugo Albéniz\n- **Producción ejecutiva:** Sara Mendizábal [...] > La obra contiene **lenguaje fuerte** en pasajes puntuales y referencias explícitas al **tabaquismo** habitual de uno de los personajes evocados. Una de las cartas se lee con un cigarrillo encendido en escena (tabaco de herbolario, sin nicotina). No recomendada para menores de catorce años.",
+  "instruction": "Extrae los datos del programa de mano de esta producción teatral: título, sala, fechas, sinopsis, reparto, equipo creativo y avisos al público.",
+  "target_schema": {
+    "$defs": {
+      "CastMember": {
+        "additionalProperties": false,
+        "description": "Una intervención del reparto, con su rol y la persona que lo interpreta.",
+        "properties": {
+          "role": {
+            "description": "Nombre literal del personaje o función dramatúrgica (p. ej. 'Hamlet', 'Coro', 'Bailarín solista').",
+            "title": "Role",
+            "type": "string"
+          },
+          "actor": {
+            "description": "Nombre del intérprete que asume el rol, en el formato en que el programa lo presenta.",
+            "title": "Actor",
+            "type": "string"
+          },
+          "understudy": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Nombre del suplente para este rol si el programa lo nombra. Null si no aparece o si el programa no asigna suplentes.",
+            "title": "Understudy"
+          }
+        },
+        "required": [
+          "role",
+          "actor"
+        ],
+        "title": "CastMember",
+        "type": "object"
+      },
+      "ContentAdvisory": {
+        "enum": [
+          "ninguna",
+          "violencia",
+          "lenguaje_fuerte",
+          "contenido_sexual",
+          "tabaquismo",
+          "efectos_sonoros_intensos",
+          "luces_estroboscópicas"
+        ],
+        "title": "ContentAdvisory",
+        "type": "string"
+      },
+      "CreativeRole": {
+        "additionalProperties": false,
+        "description": "Una persona en el equipo creativo de la producción, con su función.",
+        "properties": {
+          "role": {
+            "description": "Función dentro del equipo creativo, tal como aparece en el programa (p. ej. 'Dirección', 'Dramaturgia', 'Escenografía', 'Música', 'Iluminación', 'Vestuario').",
+            "title": "Role",
+            "type": "string"
+          },
+          "name": {
+            "description": "Nombre de la persona o colectivo.",
+            "title": "Name",
+            "type": "string"
+          }
+        },
+        "required": [
+          "role",
+          "name"
+        ],
+        "title": "CreativeRole",
+        "type": "object"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Programa de mano (playbill) de una producción teatral, danza o lírica. La\ninformación se reparte entre cabecera (título + sala + fechas), reparto,\nequipo creativo, sinopsis y notas de aviso al público. La extracción debe\ndiferenciar entre intérpretes (CastMember) y equipo creativo (CreativeRole),\naunque ambos aparezcan en listados similares.\n\nComplejidad: L7 — síntesis de varias secciones con listas paralelas y\ndistinción de roles semánticamente cercanos.",
+    "properties": {
+      "title": {
+        "description": "Título de la obra tal como aparece en portada del programa.",
+        "title": "Title",
+        "type": "string"
+      },
+      "venue": {
+        "description": "Nombre de la sala o teatro donde se representa.",
+        "title": "Venue",
+        "type": "string"
+      },
+      "city": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Ciudad de la sala si el programa la menciona. Null si no aparece.",
+        "title": "City"
+      },
+      "opening_date": {
+        "description": "Fecha de estreno de esta producción en formato ISO 'YYYY-MM-DD' o, si el programa solo da mes y año, 'YYYY-MM'.",
+        "title": "Opening Date",
+        "type": "string"
+      },
+      "closing_date": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Fecha del último pase de la temporada en formato ISO. Null si la temporada está abierta o el programa no la cierra.",
+        "title": "Closing Date"
+      },
+      "runtime_minutes": {
+        "anyOf": [
+          {
+            "exclusiveMinimum": 0,
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Duración total del espectáculo en minutos, incluido intermedio si lo hay. Null si el programa no la indica.",
+        "title": "Runtime Minutes"
+      },
+      "synopsis": {
+        "description": "Resumen literal del argumento como aparece en la sección 'Sinopsis' o equivalente. Una o dos frases.",
+        "title": "Synopsis",
+        "type": "string"
+      },
+      "themes": {
+        "description": "Temas explícitamente nombrados en la nota de programa o la entrevista al director (p. ej. 'memoria histórica', 'feminismo', 'duelo'). Solo temas literalmente mencionados, no inferidos.",
+        "items": {
+          "type": "string"
+        },
+        "title": "Themes",
+        "type": "array"
+      },
+      "cast": {
+        "description": "Reparto en el orden en que aparece en el programa. Cada entrada asocia un rol dramatúrgico con su intérprete.",
+        "items": {
+          "$ref": "#/$defs/CastMember"
+        },
+        "title": "Cast",
+        "type": "array"
+      },
+      "creative_team": {
+        "description": "Equipo creativo (dirección, dramaturgia, diseño escenográfico, música, iluminación, etc.) en el orden de aparición.",
+        "items": {
+          "$ref": "#/$defs/CreativeRole"
+        },
+        "title": "Creative Team",
+        "type": "array"
+      },
+      "content_advisory": {
+        "description": "Avisos para el público presentes en el programa. 'ninguna' solo si el programa declara explícitamente apto para todos los públicos.",
+        "items": {
+          "$ref": "#/$defs/ContentAdvisory"
+        },
+        "title": "Content Advisory",
+        "type": "array"
+      }
+    },
+    "required": [
+      "title",
+      "venue",
+      "opening_date",
+      "synopsis",
+      "cast"
+    ],
+    "title": "TheaterPlaybill",
+    "type": "object"
+  },
+  "output": {
+    "title": "Las cartas que nunca mandé",
+    "venue": "Sala Pavón Kamikaze",
+    "city": "Madrid",
+    "opening_date": "2026-03-14",
+    "closing_date": "2026-05-11",
+    "runtime_minutes": 80,
+    "synopsis": "Marta Cienfuegos regresa al piso de su madre tras el funeral y, ordenando armarios para vaciar la casa, da con una caja que llevaba veintitrés años sin abrir. Dentro hay treinta y dos cartas que ella misma escribió entre los catorce y los diecinueve años: cartas a un padre que se fue sin despedirse, a una profesora que la salvó sin saberlo, a un chico del barrio que murió en un accidente de moto el verano del 2001, y a una versión de sí misma que aún creía que el mundo se podía arreglar con palabras bien elegidas. Lo que empieza como una limpieza se convierte en un ajuste de cuentas con todo lo que no se dijo a tiempo.",
+    "themes": [],
+    "cast": [
+      {
+        "role": "Marta Cienfuegos",
+        "actor": "Beatriz Solano de la Hoz",
+        "understudy": null
+      }
+    ],
+    "creative_team": [
+      {
+        "role": "Dirección",
+        "name": "Iván Castelló Marimón"
+      },
+      {
+        "role": "Dramaturgia",
+        "name": "Beatriz Solano de la Hoz"
+      },
+      {
+        "role": "Ayudantía de dirección",
+        "name": "Lucía Pendás Verdaguer"
+      },
+      {
+        "role": "Escenografía",
+        "name": "Estudio Trampantojo (Carmen Roldán y Néstor Bujalance)"
+      },
+      {
+        "role": "Iluminación",
+        "name": "Olalla Mendiburu"
+      },
+      {
+        "role": "Espacio sonoro y música original",
+        "name": "Quim Vendrell-Aragó"
+      },
+      {
+        "role": "Vestuario",
+        "name": "Inés Carbajal Otaola"
+      },
+      {
+        "role": "Diseño gráfico y cartel",
+        "name": "Bárbara Tagarro"
+      },
+      {
+        "role": "Fotografía de producción",
+        "name": "Hugo Albéniz"
+      },
+      {
+        "role": "Producción ejecutiva",
+        "name": "Sara Mendizábal"
+      }
+    ],
+    "content_advisory": [
+      "lenguaje_fuerte",
+      "tabaquismo"
+    ]
+  },
+  "metadata": {
+    "source": "synthetic_20260601_007.md",
+    "domain": "cultural",
+    "subdomain": "theater"
+  }
+}

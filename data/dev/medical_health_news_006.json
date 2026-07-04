@@ -1,0 +1,151 @@
+{
+  "id": "medical_health_news_006",
+  "input_text": "# Alemania implementa nuevas restricciones a medida que aumentan los casos\n\nLa capital de Alemania, Berlín, se unió a varios estados alemanes el lunes para limitar el acceso a restaurantes, cines, museos y salas de conciertos solo para las personas que se hayan vacunado o que se hayan recuperado recientemente. Los casos de COVID-19 continúan aumentando.\nEl centro del país para el control de enfermedades infecciosas, el Instituto Robert Koch, informó el lunes que el número de casos nuevos en el país por cada 100 000 habitantes en los últimos siete días había aumentado a 303, la primera vez que la tasa se ha incrementado. aumentó a 300 desde el inicio de la pandemia. El récord llega apenas una semana desde un salto sin precedentes a más de 200 casos nuevos por cada 100 000 habitantes.\nSolo el 67,5% de la población alemana está completamente vacunada. La variante delta, altamente contagiosa, se ha extendido entre la población no vacunada a medida que baja la temperatura y la gente permanece en el interior.\nEl parlamento alemán está programado para votar el jueves sobre un nuevo marco legal para las restricciones de COVID-19 redactado por los tres partidos que se espera que formen la próxima coalición gobernante del país: los socialdemócratas, el partido verde y los demócratas libres. Los planes se están endureciendo para permitir restricciones de contacto más estrictas de lo planeado originalmente.\nTambién se espera que la coalición, que espera completar su formación y asumir el cargo a principios del próximo mes, introduzca un mandato de vacuna en algunas áreas, una medida a la que las autoridades se han resistido hasta ahora.\nLos informes dicen que las nuevas leyes darán a los 16 estados de Alemania una gama de opciones que se pueden aplicar individualmente, ya que la tasa de infección varía ampliamente en todo el país. Se detectaron tasas más altas en las regiones con las tasas de vacunación más bajas, es decir, el este y el sur de Alemania.",
+  "instruction": "Extrae la información estructurada de este artículo de noticias sobre salud pública y restricciones sanitarias, siguiendo el esquema proporcionado. Devuelve null para los campos que no se mencionan en el texto.",
+  "target_schema": {
+    "$defs": {
+      "NewsCategory": {
+        "enum": [
+          "JUDICIAL",
+          "DISASTER",
+          "HEALTH",
+          "ENVIRONMENT",
+          "POLITICS",
+          "ECONOMY",
+          "SCIENCE",
+          "CULTURE",
+          "SPORTS",
+          "OTHER"
+        ],
+        "title": "NewsCategory",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Extracts structured information from general news articles.\nComplexity: L4 (Sparse Extraction) - Some fields may be null/missing.",
+    "properties": {
+      "headline": {
+        "description": "The main headline or title of the news article",
+        "title": "Headline",
+        "type": "string"
+      },
+      "summary": {
+        "description": "A brief summary of the main facts reported (1-3 sentences)",
+        "title": "Summary",
+        "type": "string"
+      },
+      "category": {
+        "$ref": "#/$defs/NewsCategory",
+        "description": "The thematic category of the news story"
+      },
+      "location": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Geographic location where the event occurred (city, country, or region)",
+        "title": "Location"
+      },
+      "date": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Date mentioned in the article (may be implicit or explicit)",
+        "title": "Date"
+      },
+      "key_people": {
+        "description": "Names of key individuals mentioned in the article",
+        "items": {
+          "type": "string"
+        },
+        "title": "Key People",
+        "type": "array"
+      },
+      "key_organizations": {
+        "description": "Names of organizations, companies, or governments mentioned",
+        "items": {
+          "type": "string"
+        },
+        "title": "Key Organizations",
+        "type": "array"
+      },
+      "casualties": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of deaths mentioned, if any",
+        "title": "Casualties"
+      },
+      "injured": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of people injured, if any",
+        "title": "Injured"
+      },
+      "affected_count": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of people affected or displaced, if applicable",
+        "title": "Affected Count"
+      }
+    },
+    "required": [
+      "headline",
+      "summary",
+      "category"
+    ],
+    "title": "NewsArticle",
+    "type": "object"
+  },
+  "output": {
+    "headline": "Alemania implementa nuevas restricciones a medida que aumentan los casos",
+    "summary": "Berlín y varios estados alemanes limitaron el acceso a restaurantes, cines, museos y salas de conciertos solo a personas vacunadas o recuperadas, mientras el Instituto Robert Koch informó que los casos nuevos por cada 100.000 habitantes alcanzaron 303, un récord desde el inicio de la pandemia.",
+    "category": "HEALTH",
+    "location": "Berlín, Alemania",
+    "date": null,
+    "key_people": [],
+    "key_organizations": [
+      "Instituto Robert Koch",
+      "Parlamento alemán"
+    ],
+    "casualties": null,
+    "injured": null,
+    "affected_count": null
+  },
+  "metadata": {
+    "source": "wikinews_salud_20260415_006_alemania_implementa_nuevas_restricciones_a_medida_.md",
+    "domain": "medical",
+    "subdomain": "health_news"
+  }
+}

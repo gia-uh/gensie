@@ -1,0 +1,150 @@
+{
+  "id": "general_disasters_003",
+  "input_text": "# \"Eugene\" se desplaza por el Océano Pacífico sin riesgo de tocar tierra\n\nEl huracán \"Eugene\" se desplaza por el Océano Pacífico 20 kilómetros por hora con rumbo hacia el oeste, así lo informó el Centro de Huracanes de Estados Unidos (CNH). Las posibilidades de que toque tierra en algún momento son escasas según el organismo.\nLa tormenta se formó este domingo y se encuentra a 660 kilómetros de Zihuatanejo , México; \"Eugene\" mantiene vientos de 120 kilómetros por hora.\nEl CNH informó que \"Eugene\" es la quinta tormenta que se forma en el Océano Pacífico correspondiente a la temporada de huracanes en el Pacífico del 2011.",
+  "instruction": "Extrae la información estructurada de este artículo de noticias sobre un fenómeno meteorológico, incluyendo el titular, resumen, categoría, ubicación, fecha, organizaciones clave y cualquier cifra de víctimas o afectados mencionada.",
+  "target_schema": {
+    "$defs": {
+      "NewsCategory": {
+        "enum": [
+          "JUDICIAL",
+          "DISASTER",
+          "HEALTH",
+          "ENVIRONMENT",
+          "POLITICS",
+          "ECONOMY",
+          "SCIENCE",
+          "CULTURE",
+          "SPORTS",
+          "OTHER"
+        ],
+        "title": "NewsCategory",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Extracts structured information from general news articles.\nComplexity: L4 (Sparse Extraction) - Some fields may be null/missing.",
+    "properties": {
+      "headline": {
+        "description": "The main headline or title of the news article",
+        "title": "Headline",
+        "type": "string"
+      },
+      "summary": {
+        "description": "A brief summary of the main facts reported (1-3 sentences)",
+        "title": "Summary",
+        "type": "string"
+      },
+      "category": {
+        "$ref": "#/$defs/NewsCategory",
+        "description": "The thematic category of the news story"
+      },
+      "location": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Geographic location where the event occurred (city, country, or region)",
+        "title": "Location"
+      },
+      "date": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Date mentioned in the article (may be implicit or explicit)",
+        "title": "Date"
+      },
+      "key_people": {
+        "description": "Names of key individuals mentioned in the article",
+        "items": {
+          "type": "string"
+        },
+        "title": "Key People",
+        "type": "array"
+      },
+      "key_organizations": {
+        "description": "Names of organizations, companies, or governments mentioned",
+        "items": {
+          "type": "string"
+        },
+        "title": "Key Organizations",
+        "type": "array"
+      },
+      "casualties": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of deaths mentioned, if any",
+        "title": "Casualties"
+      },
+      "injured": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of people injured, if any",
+        "title": "Injured"
+      },
+      "affected_count": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of people affected or displaced, if applicable",
+        "title": "Affected Count"
+      }
+    },
+    "required": [
+      "headline",
+      "summary",
+      "category"
+    ],
+    "title": "NewsArticle",
+    "type": "object"
+  },
+  "output": {
+    "headline": "\"Eugene\" se desplaza por el Océano Pacífico sin riesgo de tocar tierra",
+    "summary": "El huracán \"Eugene\" se desplaza por el Océano Pacífico a 20 kilómetros por hora con rumbo al oeste, con escasas posibilidades de tocar tierra según el Centro de Huracanes de Estados Unidos. La tormenta se formó el domingo y se encuentra a 660 kilómetros de Zihuatanejo, México, con vientos de 120 kilómetros por hora.",
+    "category": "DISASTER",
+    "location": "Océano Pacífico, cerca de Zihuatanejo, México",
+    "date": "temporada de huracanes del 2011",
+    "key_people": [],
+    "key_organizations": [
+      "Centro de Huracanes de Estados Unidos (CNH)"
+    ],
+    "casualties": null,
+    "injured": null,
+    "affected_count": null
+  },
+  "metadata": {
+    "source": "wikinews_desastres_y_accidentes_20260415_003_eugene_se_desplaza_por_el_océano_pacífico_sin_ries.md",
+    "domain": "general",
+    "subdomain": "disasters"
+  }
+}

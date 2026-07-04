@@ -1,0 +1,148 @@
+{
+  "id": "stem_astronomy_detailed_020",
+  "input_text": "# Encélado\n\nEncélado es el sexto satélite más grande de Saturno con algo más de  500 km de diámetro,​ aproximadamente la décima parte del de Titán, el mayor satélite saturniano. Está cubierto por una capa de hielo que refleja casi toda la luz solar que incide sobre él, por lo que la temperatura superficial es muy baja: –198 °C a mediodía. A pesar de su pequeño tamaño, tiene una amplia variedad de rasgos superficiales que van desde regiones antiguas salpicadas de cráteres a terrenos jóvenes y deformados tectónicamente que se formaron hace apenas cien millones de años.\nFue descubierto el 28 de agosto de 1789 por William Herschel, pero se sabía muy poco de él hasta que las sondas Voyager pasaron muy cerca de principios de la década de 1980.​ En 2005, la sonda Cassini comenzó una serie de sobrevuelos que revelaron mayores detalles. En concreto, descubrió penachos ricos en agua en el polo sur.​ Los criovolcanes cercanos al polo sur expulsaban al espacio, en forma de géiseres, chorros de vapor de agua, otras sustancias volátiles y material sólido que incluía cristales de cloruro sódico y partículas de hielo, con tasas de expulsión de hasta doscientos toneladas por segundo.​ Se han identificado más de cien géiseres.​ Parte del vapor de agua cae de nuevo en forma de nieve; el resto escapa y suministra la mayor parte del material que constituye el anillo E.​ Según científicos de la NASA, la composición de los penachos es similar a la de los cometas.​ En 2014, la NASA informó que había encontrado pruebas de la presencia de un gran océano subsuperficial de agua en el polo sur de unos diez kilómetros de espesor.​\nSe encuentra en resonancia orbital 2:1 con Dione, situación similar al caso de Io y Europa, lo cual pudiera proveer la energía necesaria para calentar levemente este satélite, aunque la causa (o causas) del calentamiento de Encélado es un tema de investigación; de hecho, la producción de calor en el polo sur de este satélite es de casi dieciséis megavatios, diez veces más de lo que se pensaba, y cuyo origen es desconocido por ahora.​\nDebajo de la superficie del satélite existe un océano global de agua líquida, como una capa entre el hielo de la superficie y el núcleo rocoso. Probablemente es calentado por muchas fuentes hidrotermales, lo que despierta gran interés al existir las condiciones necesarias para la vida.\nEn abril de 2017 la NASA notificó que en la superficie del satélite existen géiseres y fumarolas que expulsan vapor de agua desde su océano. Según los científicos este vapor expulsaría elementos químicos entre los que se encuentra el hidrógeno, lo que haría factible la posibilidad de vida microbiana.​​",
+  "instruction": "Extrae las propiedades físicas y orbitales del cuerpo celeste descrito en el texto, incluyendo su nombre oficial, tipo de cuerpo, diámetro y datos de descubrimiento disponibles.",
+  "target_schema": {
+    "$defs": {
+      "CelestialBodyType": {
+        "enum": [
+          "ASTEROIDE",
+          "COMETA",
+          "PLANETA",
+          "LUNA",
+          "PLANETA ENANO",
+          "OBJETO INTERESTELAR",
+          "OTRO"
+        ],
+        "title": "CelestialBodyType",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Extracts physical and orbital parameters of celestial bodies.\nComplexity: L5 (Precision Extraction & Normalization).",
+    "properties": {
+      "official_name": {
+        "description": "The primary scientific designation or name",
+        "title": "Official Name",
+        "type": "string"
+      },
+      "body_type": {
+        "$ref": "#/$defs/CelestialBodyType",
+        "description": "The classification of the celestial object"
+      },
+      "mass_kg": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Mass in kilograms (scientific notation or float)",
+        "title": "Mass Kg"
+      },
+      "diameter_km": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Mean diameter in kilometers",
+        "title": "Diameter Km"
+      },
+      "eccentricity": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Orbital eccentricity (e.g., 1.199)",
+        "title": "Eccentricity"
+      },
+      "orbital_period_days": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Time to complete one orbit in Earth days",
+        "title": "Orbital Period Days"
+      },
+      "semi_major_axis_au": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Average distance from the sun in AU",
+        "title": "Semi Major Axis Au"
+      },
+      "discovery_date": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Date of discovery in YYYY-MM-DD format",
+        "title": "Discovery Date"
+      },
+      "discoverer": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Name of the person or observatory that found the object",
+        "title": "Discoverer"
+      }
+    },
+    "required": [
+      "official_name",
+      "body_type"
+    ],
+    "title": "CelestialObjectProperties",
+    "type": "object"
+  },
+  "output": {
+    "official_name": "Encélado",
+    "body_type": "LUNA",
+    "mass_kg": null,
+    "diameter_km": 500.0,
+    "eccentricity": null,
+    "orbital_period_days": null,
+    "semi_major_axis_au": null,
+    "discovery_date": "1789-08-28",
+    "discoverer": "William Herschel"
+  },
+  "metadata": {
+    "source": "solar_system_20_encelado.md",
+    "domain": "stem",
+    "subdomain": "astronomy_detailed"
+  }
+}

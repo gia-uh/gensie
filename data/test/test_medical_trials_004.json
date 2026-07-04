@@ -1,0 +1,194 @@
+{
+  "id": "test_medical_trials_004",
+  "input_text": "El Servicio de Endocrinología y Nutrición del Hospital Universitario Ramón y Cajal de Madrid ha comunicado el avance del ensayo clínico de fase IV \"Evaluación a largo plazo de la seguridad cardiovascular y renal de dapagliflozina 10 mg en condiciones de práctica clínica habitual en pacientes adultos con diabetes mellitus tipo 2\", identificado en el registro europeo con el código EudraCT 2024-003912-27. El estudio, actualmente en estado activo y con reclutamiento abierto, forma parte de las obligaciones de farmacovigilancia post-autorización exigidas por la Agencia Europea de Medicamentos y se desarrolla de forma multicéntrica en doce hospitales de la red pública española. [...] El protocolo, aprobado por el Comité de Ética de la Investigación con medicamentos del Hospital Ramón y Cajal el 11 de septiembre de 2024, y autorizado por la Agencia Española de Medicamentos y Productos Sanitarios el 7 de noviembre de ese mismo año, contempla la inclusión de 1.480 pacientes adultos diagnosticados de diabetes mellitus tipo 2 según los criterios diagnósticos de la ADA, codificada como E11.9 en la CIE-10 (diabetes mellitus tipo 2 sin complicaciones especificadas). El inicio del reclutamiento se produjo el 15 de enero de 2025 y, a fecha del último corte administrativo, se habían incorporado al estudio 612 participantes, lo que sitúa la captación dentro del calendario previsto. La duración total del seguimiento individual será de 36 meses. [...] El diseño es paralelo, abierto y aleatorizado 1:1 en dos brazos. El primer brazo (n ≈ 740) recibe dapagliflozina 10 mg vía oral una vez al día añadida al tratamiento estándar con metformina, mientras que el segundo brazo (n ≈ 740) continúa con metformina más el ajuste habitual de tratamiento antidiabético oral según las guías de práctica clínica de la SED, sin incorporar inhibidores SGLT2. La intervención se administra durante los 36 meses de seguimiento, con visitas presenciales cada seis meses y monitorización analítica intermedia trimestral. [...] El endpoint primario combina la incidencia acumulada de un evento compuesto cardiovascular y renal mayor, definido como la primera aparición de muerte cardiovascular, hospitalización por insuficiencia cardíaca, infarto agudo de miocardio no fatal o progresión de la enfermedad renal crónica entendida como una caída sostenida del filtrado glomerular estimado ≥ 40 % respecto al valor basal. Como endpoints secundarios se evalúan la variación de HbA1c, el perfil lipídico, los cambios en el peso corporal, la tensión arterial sistólica y diastólica, así como la incidencia de infecciones genitourinarias y la calidad de vida medida con el cuestionario EQ-5D-5L.",
+  "instruction": "Extrae un registro estructurado del ensayo clínico descrito en el texto, respetando el esquema ClinicalTrialRecord. Devuelve registry_id sin prefijos descriptivos, código CIE-10 si aparece literalmente, los brazos en el orden en que se describen y el endpoint primario textual. Recuerda: completion_date y result_summary deben ser null salvo que el estado sea 'completado' o 'terminado'.",
+  "target_schema": {
+    "$defs": {
+      "TrialArm": {
+        "additionalProperties": false,
+        "description": "Un brazo del ensayo: grupo experimental o comparador.",
+        "properties": {
+          "name": {
+            "description": "Etiqueta del brazo tal como aparece en el texto (p. ej. 'brazo experimental', 'brazo comparador', 'placebo', 'control').",
+            "title": "Name",
+            "type": "string"
+          },
+          "intervention": {
+            "description": "Intervención administrada al brazo: fármaco, dosis y vía si se explicitan (p. ej. 'CLN-217 5,4 mg/kg IV cada 3 semanas').",
+            "title": "Intervention",
+            "type": "string"
+          },
+          "n": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Número de participantes asignados o reclutados a este brazo concreto. Null si el texto no lo desglosa por brazo.",
+            "title": "N"
+          }
+        },
+        "required": [
+          "name",
+          "intervention"
+        ],
+        "title": "TrialArm",
+        "type": "object"
+      },
+      "TrialPhase": {
+        "enum": [
+          "fase_1",
+          "fase_2",
+          "fase_3",
+          "fase_4",
+          "no_aplica"
+        ],
+        "title": "TrialPhase",
+        "type": "string"
+      },
+      "TrialStatus": {
+        "enum": [
+          "reclutando",
+          "activo",
+          "completado",
+          "terminado",
+          "suspendido"
+        ],
+        "title": "TrialStatus",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Registro estructurado de un ensayo clínico a partir de una nota de prensa,\ncomunicado institucional o ficha de registro en español.\n\nRestricción inter-campo crítica (trampa de null):\n- `completion_date` y `result_summary` SOLO pueden tener valor cuando\n  `status` ∈ {completado, terminado}. Si el ensayo está reclutando, activo\n  o suspendido, ambos campos deben ser null aunque el texto especule sobre\n  fechas previstas o resultados parciales.\n\nComplejidad: L7 — rigidez de restricciones inter-campo + regex de IDs.",
+    "properties": {
+      "registry_id": {
+        "description": "Identificador del ensayo en su registro. Acepta tres formatos: ClinicalTrials.gov ('NCTxxxxxxxx', 8 dígitos), EudraCT ('YYYY-NNNNNN-NN') o REec ('REec-YYYY-NNNN'). Devolver exactamente como aparece, sin prefijos descriptivos ('EudraCT', 'nº').",
+        "pattern": "^(?:NCT\\d{8}|\\d{4}-\\d{6}-\\d{2}|REec-\\d{4}-\\d{4})$",
+        "title": "Registry Id",
+        "type": "string"
+      },
+      "phase": {
+        "$ref": "#/$defs/TrialPhase",
+        "description": "Fase del ensayo. 'fase_1' a 'fase_4' para fases clásicas; 'no_aplica' para ensayos exploratorios, observacionales o sin fase declarada."
+      },
+      "status": {
+        "$ref": "#/$defs/TrialStatus",
+        "description": "Estado actual del ensayo: 'reclutando' (inclusión abierta), 'activo' (reclutamiento cerrado, seguimiento en curso), 'completado' (finalizado según protocolo), 'terminado' (finalizado prematuramente con resultados), 'suspendido' (pausa por seguridad o regulatoria)."
+      },
+      "condition": {
+        "description": "Patología, síndrome o indicación clínica que el ensayo estudia, en lenguaje del texto (p. ej. 'cáncer de mama metastásico HER2 positivo').",
+        "title": "Condition",
+        "type": "string"
+      },
+      "icd10_code": {
+        "anyOf": [
+          {
+            "pattern": "^[A-Z]\\d{2}(?:\\.\\d{1,2})?$",
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Código CIE-10 (ICD-10) de la indicación si el texto lo cita literalmente, formato 'L99' o 'L99.9'. Null si no aparece.",
+        "title": "Icd10 Code"
+      },
+      "enrollment": {
+        "anyOf": [
+          {
+            "minimum": 1,
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Tamaño muestral total previsto o reclutado, como entero. Null si el texto no lo especifica.",
+        "title": "Enrollment"
+      },
+      "arms": {
+        "description": "Lista de brazos del ensayo en el orden en que se describen. Vacía solo si el diseño es de un único brazo no etiquetado.",
+        "items": {
+          "$ref": "#/$defs/TrialArm"
+        },
+        "title": "Arms",
+        "type": "array"
+      },
+      "primary_endpoint": {
+        "description": "Variable principal de eficacia del estudio (p. ej. 'supervivencia libre de progresión', 'ACR50 a la semana 24'). Texto literal del objetivo primario.",
+        "title": "Primary Endpoint",
+        "type": "string"
+      },
+      "completion_date": {
+        "anyOf": [
+          {
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Fecha real de finalización del ensayo en formato YYYY-MM-DD. DEBE ser null salvo que status sea 'completado' o 'terminado'. Para ensayos en curso o suspendidos, ignorar fechas previstas.",
+        "title": "Completion Date"
+      },
+      "result_summary": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Resumen narrativo de los resultados del ensayo. DEBE ser null salvo que status sea 'completado' o 'terminado'. No incluir resultados intermedios ni hallazgos de seguridad parciales de ensayos en curso.",
+        "title": "Result Summary"
+      }
+    },
+    "required": [
+      "registry_id",
+      "phase",
+      "status",
+      "condition",
+      "primary_endpoint"
+    ],
+    "title": "ClinicalTrialRecord",
+    "type": "object"
+  },
+  "output": {
+    "registry_id": "2024-003912-27",
+    "phase": "fase_4",
+    "status": "activo",
+    "condition": "diabetes mellitus tipo 2",
+    "icd10_code": "E11.9",
+    "enrollment": 1480,
+    "arms": [
+      {
+        "name": "brazo experimental",
+        "intervention": "dapagliflozina 10 mg vía oral una vez al día añadida a metformina",
+        "n": 740
+      },
+      {
+        "name": "brazo control",
+        "intervention": "metformina más ajuste habitual de tratamiento antidiabético oral según guías SED, sin inhibidores SGLT2",
+        "n": 740
+      }
+    ],
+    "primary_endpoint": "incidencia acumulada de un evento compuesto cardiovascular y renal mayor (muerte cardiovascular, hospitalización por insuficiencia cardíaca, infarto agudo de miocardio no fatal o progresión de la enfermedad renal crónica definida como caída sostenida del filtrado glomerular estimado ≥ 40 % respecto al valor basal)",
+    "completion_date": null,
+    "result_summary": null
+  },
+  "metadata": {
+    "source": "synthetic_20260512_004.md",
+    "domain": "medical",
+    "subdomain": "trials"
+  }
+}

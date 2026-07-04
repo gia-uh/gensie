@@ -1,0 +1,158 @@
+{
+  "id": "medical_health_news_004",
+  "input_text": "# Al menos 71 muertos en México \"probablemente vinculada\" a brote de gripe porcina\n\nFuncionarios en México están pidiendo a sus ciudadanos a tomar medidas para reducir al mínimo la propagación del brote de la gripe porcina. Se exhorta a los ciudadanos mantenerse alejados de las grandes multitudes y evitar besar a las personas; permanecer por lo menos 6 pies (1,8 metros) de distancia el uno del otro. Además, todas las escuelas y universidades de la Ciudad de México han sido cerrados indefinidamente.\nEl domingo, los funcionarios mexicanos informaron que por lo menos 81 muertes en su país eran \"probablemente vinculada\" a la gripe porcina. Dr. Jose A. Cordova Villalobos, el secretario de salud de México, dice que al menos 20 de las muertes han sido confirmados como muertes relacionadas con la gripe porcina, mientras que la Organización Mundial de la Salud (OMS) dice que 71 personas han muerto a causa de complicaciones causadas por la enfermedad. Mientras tanto, más de 1300 personas en México han sido hospitalizadas a causa de síntomas como de gripe desde el 13 de abril.\nEn Nueva Zelanda, 25 estudiantes y maestros podrían haber sido infectados por la gripe durante su viaje a México. Dra. Julia Peters, directora de la clínica de Auckland Regional Public Health Service, dice que al menos 14 han mostrado síntomas de gripe. Todos los estudiantes y los profesores están en cuarentena en espera de los resultados de la prueba. Algo similar ocurrió en Israel.\nEn los Estados Unidos, ha habido 19 casos confirmados de gripe porcina, en estados como Kansas, Texas y California. Hoy en Nueva York, el Alcalde Michael Bloomberg informó de que al menos 8 estudiantes de una escuela preparatoria de Nueva York han contraído la cepa de gripe mutado.\nRobert Gibbs, un portavoz de la Casa Blanca, dijo que el brote de gripe porcina \"es motivo de gran preocupación a la Casa Blanca\", y que el Presidente Obama está recibiendo información sobre la cuestión de forma regular. Gibbs añadió: \"Quiero decirle a la gente que ciertamente no es un momento de pánico ... El gobierno está tomando todas las medidas que necesita y debe hacer para tomar las precauciones para hacer frente a cualquier tamaño y alcance que podría estar enfrentando.\"",
+  "instruction": "Extrae la información estructurada de este artículo de noticias sobre el brote de gripe porcina en México, siguiendo el esquema proporcionado. Devuelve null para los campos que no se mencionan en el texto.",
+  "target_schema": {
+    "$defs": {
+      "NewsCategory": {
+        "enum": [
+          "JUDICIAL",
+          "DISASTER",
+          "HEALTH",
+          "ENVIRONMENT",
+          "POLITICS",
+          "ECONOMY",
+          "SCIENCE",
+          "CULTURE",
+          "SPORTS",
+          "OTHER"
+        ],
+        "title": "NewsCategory",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Extracts structured information from general news articles.\nComplexity: L4 (Sparse Extraction) - Some fields may be null/missing.",
+    "properties": {
+      "headline": {
+        "description": "The main headline or title of the news article",
+        "title": "Headline",
+        "type": "string"
+      },
+      "summary": {
+        "description": "A brief summary of the main facts reported (1-3 sentences)",
+        "title": "Summary",
+        "type": "string"
+      },
+      "category": {
+        "$ref": "#/$defs/NewsCategory",
+        "description": "The thematic category of the news story"
+      },
+      "location": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Geographic location where the event occurred (city, country, or region)",
+        "title": "Location"
+      },
+      "date": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Date mentioned in the article (may be implicit or explicit)",
+        "title": "Date"
+      },
+      "key_people": {
+        "description": "Names of key individuals mentioned in the article",
+        "items": {
+          "type": "string"
+        },
+        "title": "Key People",
+        "type": "array"
+      },
+      "key_organizations": {
+        "description": "Names of organizations, companies, or governments mentioned",
+        "items": {
+          "type": "string"
+        },
+        "title": "Key Organizations",
+        "type": "array"
+      },
+      "casualties": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of deaths mentioned, if any",
+        "title": "Casualties"
+      },
+      "injured": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of people injured, if any",
+        "title": "Injured"
+      },
+      "affected_count": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of people affected or displaced, if applicable",
+        "title": "Affected Count"
+      }
+    },
+    "required": [
+      "headline",
+      "summary",
+      "category"
+    ],
+    "title": "NewsArticle",
+    "type": "object"
+  },
+  "output": {
+    "headline": "Al menos 71 muertos en México \"probablemente vinculada\" a brote de gripe porcina",
+    "summary": "Funcionarios mexicanos informaron que al menos 81 muertes eran probablemente vinculadas a la gripe porcina, mientras que la OMS reportó 71 muertes. Más de 1300 personas fueron hospitalizadas desde el 13 de abril. También se reportaron casos en Nueva Zelanda y Estados Unidos.",
+    "category": "HEALTH",
+    "location": "México",
+    "date": "13 de abril",
+    "key_people": [
+      "Jose A. Cordova Villalobos",
+      "Julia Peters",
+      "Michael Bloomberg",
+      "Robert Gibbs",
+      "Obama"
+    ],
+    "key_organizations": [
+      "Organización Mundial de la Salud (OMS)",
+      "Auckland Regional Public Health Service",
+      "Casa Blanca"
+    ],
+    "casualties": 71,
+    "injured": null,
+    "affected_count": 1300
+  },
+  "metadata": {
+    "source": "wikinews_salud_20260415_004_al_menos_71_muertos_en_méxico_probablemente_vincul.md",
+    "domain": "medical",
+    "subdomain": "health_news"
+  }
+}

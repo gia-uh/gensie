@@ -1,0 +1,197 @@
+{
+  "id": "lifestyle_recipes_07",
+  "input_text": "# Avellanate\n\nSource: https://es.wikipedia.org/wiki/Avellanate\n\nEl avellanate es una receta culinaria hoy prácticamente desaparecida,​ que consiste en una pasta o salsa a base de avellanas en la que se guisan carnes de todo tipo, principalmente manitas de cerdo.​​ El avellanate tiene un origen medieval, y queda ya registrado en 1520 en el Llibre de Coch de Mestre Robert (traducido al castellano en 1525 como Libro de Cozina de Ruperto de Nola).​\n\nEtimología\nProviene del idioma catalán avellanat.​ En el español del Renacimiento abundaron las recetas con el sufijo -ate, según Covarrubias, como forma de traducir el sufijo catalán -at (lat. -atu). Por ejemplo, codonyat y pinyonat se castellanizaron como codoñate y piñonate respectivamente. En el libro de Ruperto de Nola aparecen también el ‘almendrate’, el ‘calabazate’, el ‘higate’, el ‘salviate’, el ‘ordiate’, el ‘bruscate’, el ‘membrillate’, el ‘romerate’, el ‘avenate’ y el ‘persicate’. Todos indican el ingrediente principal de una salsa espesa. Señala el lexicógrafo Juan Miguel Lope Blanch que, mientras que en el español peninsular este sufijo culinario cayó en desuso, en el español de México fue llevado al extremo hasta el punto de considerarse una palabra autónoma: el ate de frutas no es más que una pasta dulce de frutas, como el ‘guayabate’ o el ‘duraznate’, pastas dulces de guayaba y durazno respectivamente.​​\n\nElaboración\nSegún la receta del Mestre Robert, las avellanas son tostadas, mondadas y majadas en el mortero poco a poco para que no se hagan aceite. La pasta resultante se mezcla con caldo de gallina, se cuela en una estameña y se cuece con azúcar.​\nEl avellanate de Miguel Ángel Almodóvar consiste en un majado de avellanas con perejil y vino blanco que agrega al caldo de la cocción de las manitas de cerdo y lo sirve todo espolvoreado con azúcar y canela.​\nVirginia Camacho Aliaga, investigadora de la cocina sefardí, propone un avellanate de avellanas, pimentón, pimienta, cayena, jengibre, cebolla, zanahoria, ajos y vino blanco.​\n\nVéase también\nHistoria de la gastronomía de España\nAvenate\n\n\n== Referencias ==",
+  "instruction": "Extrae la receta",
+  "target_schema": {
+    "$defs": {
+      "CookingTechnique": {
+        "enum": [
+          "SOFREÍR",
+          "HERVIR",
+          "HORNEAR",
+          "FREÍR",
+          "VAPOR",
+          "COCCIÓN LENTA"
+        ],
+        "title": "CookingTechnique",
+        "type": "string"
+      },
+      "DietaryTag": {
+        "enum": [
+          "VEGANO",
+          "VEGETARIANO",
+          "SIN GLUTEN",
+          "SIN LÁCTEOS",
+          "BAJO EN CARBOHIDRATOS"
+        ],
+        "title": "DietaryTag",
+        "type": "string"
+      },
+      "RecipeIngredient": {
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "description": "Verbatim name of the ingredient",
+            "title": "Name",
+            "type": "string"
+          },
+          "amount": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Numerical quantity",
+            "title": "Amount"
+          },
+          "unit": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/UnitType"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Unit of measurement"
+          }
+        },
+        "required": [
+          "name"
+        ],
+        "title": "RecipeIngredient",
+        "type": "object"
+      },
+      "UnitType": {
+        "enum": [
+          "g",
+          "ml",
+          "kg",
+          "unidad",
+          "pizca",
+          "cucharada",
+          "otro"
+        ],
+        "title": "UnitType",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Holistic reasoning over a traditional recipe.\nRequires inferring dietary suitability and complexity from steps.\nComplexity: L10 (Holistic Reasoning).",
+    "properties": {
+      "dish_name": {
+        "description": "The name of the recipe",
+        "title": "Dish Name",
+        "type": "string"
+      },
+      "servings": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of portions generated",
+        "title": "Servings"
+      },
+      "ingredients": {
+        "description": "Structured list of ingredients",
+        "items": {
+          "$ref": "#/$defs/RecipeIngredient"
+        },
+        "title": "Ingredients",
+        "type": "array"
+      },
+      "complexity_score": {
+        "description": "Inferred difficulty from 1 (easy) to 10 (pro chef) based on steps and time",
+        "maximum": 10,
+        "minimum": 1,
+        "title": "Complexity Score",
+        "type": "integer"
+      },
+      "dietary_tags": {
+        "description": "Reasoned tags based on the absence of certain ingredient types (e.g., meat, gluten)",
+        "items": {
+          "$ref": "#/$defs/DietaryTag"
+        },
+        "title": "Dietary Tags",
+        "type": "array"
+      },
+      "technique_sequence": {
+        "description": "The chronological sequence of main cooking techniques applied",
+        "items": {
+          "$ref": "#/$defs/CookingTechnique"
+        },
+        "title": "Technique Sequence",
+        "type": "array"
+      },
+      "total_time_minutes": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Normalized total duration in minutes",
+        "title": "Total Time Minutes"
+      }
+    },
+    "required": [
+      "dish_name",
+      "ingredients",
+      "complexity_score",
+      "technique_sequence"
+    ],
+    "title": "RecipeProcedural",
+    "type": "object"
+  },
+  "output": {
+    "dish_name": "Avellanate",
+    "servings": null,
+    "ingredients": [
+      {
+        "name": "avellanas",
+        "amount": null,
+        "unit": null
+      },
+      {
+        "name": "manitas de cerdo",
+        "amount": null,
+        "unit": null
+      },
+      {
+        "name": "caldo de gallina",
+        "amount": null,
+        "unit": null
+      },
+      {
+        "name": "azúcar",
+        "amount": null,
+        "unit": null
+      }
+    ],
+    "complexity_score": 8,
+    "dietary_tags": [],
+    "technique_sequence": [
+      "COCCIÓN LENTA",
+      "HERVIR"
+    ],
+    "total_time_minutes": null
+  },
+  "metadata": {
+    "source": "wiki_recipe_20260414_avellanate.md",
+    "domain": "lifestyle",
+    "subdomain": "recipes"
+  }
+}

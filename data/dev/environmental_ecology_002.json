@@ -1,0 +1,154 @@
+{
+  "id": "environmental_ecology_002",
+  "input_text": "# 35 000 morsas quedan varadas en Alaska a causa del calentamiento global\n\nAlrededor de 35 000 morsas quedaron varadas en una playa de Alaska debido a un fenómeno atribuido al deshielo del Ártico causado por el calentamiento global. Inicialmente se observaron 1500 morsas. No obstante, en los últimos días se han multiplicaron exponencialmente; Megan Ferguson, especialista de vigilancia aérea de mamíferos marinos de la Administración Nacional Oceánica y Atmosférica, señaló: \"Nuestra estimación más aproximada es 24 veces mayor\".\nFerguson advierte que se trata de una estimación visual y que podría ser cambiada. También aclaró que cada vez se están viendo más osos pardos en el área, mientras que, en contraste, las ballenas grises, presentes en la zona hasta los años 90, han desaparecido; lo que es un \"signo de un cambio de medio ambiente del Ártico\".\nPor su parte, el Servicio Geológico de los Estados Unidos (USGS, por sus siglas en inglés) asegura que \"quedan varadas en un espectáculo que se ha hecho común en los últimos seis a ocho años, como consecuencia del calentamiento climático\". \"Durante el verano, el hielo marino se retira lejos al norte de las aguas continentales del mar de Chukotka, en aguas de Estados Unidos y Rusia, una condición que no se registraba una década atrás\", señala Clarín. \"Durante sus períodos normales de descanso luego de alimentarse en el mar, las focas simplemente se amontonan en la costa\", agrega la agencia estadounidense.\nEl investigador del USGS, Jay Chadwick, asevera que la anormal cifra de morsas varadas \"\"es realmente una consecuencia del calentamiento global\" y de la \"reducción del hielo\" en el Océano Ártico al final del verano. Generalmente, estos animales viven en el hielo y se alimentan en aguas de poca profundidad, empero, el derretimiento del hielo de este verano, las obligó a reunirse en profundidades demasiado grandes para alimentarse, lo que las llevó a buscar refugio en tierra para obtener alimento.\nSegún El Mundo, \"los expertos aún no saben si este cambio en el comportamiento de las morsas puede tener un impacto en su mortalidad\", pues creen que las morsas bebés son más frágiles en tierra y que las demás pierden más energía al buscar alimento en tierra que en el hielo.",
+  "instruction": "Extrae la información estructurada de este artículo de noticias sobre un evento medioambiental, incluyendo el titular, resumen, categoría, ubicación, personas y organizaciones clave mencionadas, y cualquier cifra de víctimas o afectados si se menciona.",
+  "target_schema": {
+    "$defs": {
+      "NewsCategory": {
+        "enum": [
+          "JUDICIAL",
+          "DISASTER",
+          "HEALTH",
+          "ENVIRONMENT",
+          "POLITICS",
+          "ECONOMY",
+          "SCIENCE",
+          "CULTURE",
+          "SPORTS",
+          "OTHER"
+        ],
+        "title": "NewsCategory",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Extracts structured information from general news articles.\nComplexity: L4 (Sparse Extraction) - Some fields may be null/missing.",
+    "properties": {
+      "headline": {
+        "description": "The main headline or title of the news article",
+        "title": "Headline",
+        "type": "string"
+      },
+      "summary": {
+        "description": "A brief summary of the main facts reported (1-3 sentences)",
+        "title": "Summary",
+        "type": "string"
+      },
+      "category": {
+        "$ref": "#/$defs/NewsCategory",
+        "description": "The thematic category of the news story"
+      },
+      "location": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Geographic location where the event occurred (city, country, or region)",
+        "title": "Location"
+      },
+      "date": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Date mentioned in the article (may be implicit or explicit)",
+        "title": "Date"
+      },
+      "key_people": {
+        "description": "Names of key individuals mentioned in the article",
+        "items": {
+          "type": "string"
+        },
+        "title": "Key People",
+        "type": "array"
+      },
+      "key_organizations": {
+        "description": "Names of organizations, companies, or governments mentioned",
+        "items": {
+          "type": "string"
+        },
+        "title": "Key Organizations",
+        "type": "array"
+      },
+      "casualties": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of deaths mentioned, if any",
+        "title": "Casualties"
+      },
+      "injured": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of people injured, if any",
+        "title": "Injured"
+      },
+      "affected_count": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of people affected or displaced, if applicable",
+        "title": "Affected Count"
+      }
+    },
+    "required": [
+      "headline",
+      "summary",
+      "category"
+    ],
+    "title": "NewsArticle",
+    "type": "object"
+  },
+  "output": {
+    "headline": "35 000 morsas quedan varadas en Alaska a causa del calentamiento global",
+    "summary": "Alrededor de 35 000 morsas quedaron varadas en una playa de Alaska debido al deshielo del Ártico causado por el calentamiento global. El Servicio Geológico de los Estados Unidos asegura que es una consecuencia del calentamiento climático y la reducción del hielo en el Océano Ártico al final del verano.",
+    "category": "ENVIRONMENT",
+    "location": "Alaska",
+    "date": null,
+    "key_people": [
+      "Megan Ferguson",
+      "Jay Chadwick"
+    ],
+    "key_organizations": [
+      "Administración Nacional Oceánica y Atmosférica",
+      "Servicio Geológico de los Estados Unidos"
+    ],
+    "casualties": null,
+    "injured": null,
+    "affected_count": null
+  },
+  "metadata": {
+    "source": "wikinews_ecologia_20260415_002_35_000_morsas_quedan_varadas_en_alaska_a_causa_del.md",
+    "domain": "environmental",
+    "subdomain": "ecology"
+  }
+}

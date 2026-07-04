@@ -1,0 +1,92 @@
+{
+  "id": "test_cultural_literature_004",
+  "input_text": "Pepita Jiménez es la primera novela del diplomático, político y escritor español Juan Valera, publicada en 1874.\nSiguiendo el modelo de Cervantes, Valera hace pensar en la recuperación de un manuscrito encontrado en los papeles de una catedral de Andalucía, en el que se narra (en dos partes, una primera epistolar y una final ya narrativa) una historia sobre unos personajes a los que se cambiará el nombre para preservar su identidad.\nEn la época de Valera, la obra recibió del público lector y la crítica literaria opiniones muy favorables, siendo traducida a diez lenguas. Isaac Albéniz escribió una ópera en 1895 basada en esta obra.​\n\n## Argumento\nEl joven seminarista don Luis de Vargas regresa a su pueblo natal para unas breves vacaciones allí antes de pronunciar sus votos. Se encuentra con que su padre, Don Pedro, se dispone a contraer nupcias con la joven Pepita Jiménez de veinte años y viuda de un octogenario. Los contactos entre el futuro sacerdote y la joven viuda son novedosos para el joven ya que ha pasado su adolescencia recluido en el seminario, y poco a poco siente flaquear su vocación. El seminarista acompaña a Pepita en sus paseos por el campo, asiste a reuniones en su casa y, sin darse cuenta, cede poco a poco a una pasión que él considera pecaminosa, pero que se hace más fuerte que su vocación y que su amor por su padre, en el que ve secretamente un rival. Todo esto empieza a ser sospechado por el Deán al que el seminarista escribe sus cartas contándole sus incidencias. Luis se quiere marchar, pero Pepita, que le ama y que ha hecho todo lo posible para enamorarle, se finge enferma y le convence de que reconozca su amor y se lo comunique a su padre. Así lo hace, pero en lugar de hallar la oposición en su padre, este le dice que lo comprende y que a escondidas había estado haciendo todo lo posible para que las cosas llegasen a su solución natural.\nLa obra es en realidad una novela psicológica en que abunda una suave ironía. Encubre una novela de tesis en que defiende la primacía de lo natural y lo vital sobre lo artificial y lo afectado.",
+  "instruction": "Extrae los metadatos bibliográficos básicos y los temas clave de la obra literaria descrita en el texto. Incluye título, autor, año de publicación, géneros, temas principales e idioma original.",
+  "target_schema": {
+    "additionalProperties": false,
+    "description": "Extracts basic bibliographic metadata and key themes from a book description or encyclopedia entry.\nComplexity: L2 (Explicit Information Retrieval).",
+    "properties": {
+      "title": {
+        "description": "The official title of the literary work",
+        "title": "Title",
+        "type": "string"
+      },
+      "author": {
+        "description": "The primary author or creator of the work",
+        "title": "Author",
+        "type": "string"
+      },
+      "publication_year": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "The year the work was first published",
+        "title": "Publication Year"
+      },
+      "genres": {
+        "description": "Literary genres associated with the work (e.g., 'Science Fiction', 'Romance')",
+        "items": {
+          "type": "string"
+        },
+        "title": "Genres",
+        "type": "array"
+      },
+      "key_themes": {
+        "description": "Main topics or themes explored in the work",
+        "items": {
+          "type": "string"
+        },
+        "title": "Key Themes",
+        "type": "array"
+      },
+      "original_language": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "The language in which the work was originally written",
+        "title": "Original Language"
+      }
+    },
+    "required": [
+      "title",
+      "author"
+    ],
+    "title": "LiteraryWork",
+    "type": "object"
+  },
+  "output": {
+    "title": "Pepita Jiménez",
+    "author": "Juan Valera",
+    "publication_year": 1874,
+    "genres": [
+      "novela psicológica",
+      "novela de tesis",
+      "novela epistolar"
+    ],
+    "key_themes": [
+      "vocación religiosa",
+      "amor",
+      "conflicto entre lo natural y lo artificial",
+      "pasión",
+      "ironía"
+    ],
+    "original_language": "español"
+  },
+  "metadata": {
+    "source": "fresh_testset_pepita_jiménez.md",
+    "domain": "cultural",
+    "subdomain": "literature"
+  }
+}

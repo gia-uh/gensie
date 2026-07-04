@@ -1,0 +1,338 @@
+{
+  "id": "medical_discharge_008",
+  "input_text": "**Servicio:** Traumatología y Cirugía Ortopédica\n**Fecha de ingreso:** 19/05/2026\n**Fecha de alta:** 27/05/2026\n**Médico responsable:** Dr. [DESIDENTIFICADO] [...] Acude a Urgencias trasladada por el SAMU tras sufrir caída casual en domicilio desde su propia altura al levantarse de la cama, con imposibilidad para la bipedestación posterior y dolor intenso en cadera derecha. [...] 1. Fractura subcapital de cadera derecha desplazada (S72.01) — **principal**.\n2. Anemia postquirúrgica que requirió transfusión de 2 concentrados de hematíes — **complicación**.\n3. Osteoporosis establecida (M81.0) — **comorbilidad**.\n4. Hipertensión arterial esencial (I10) — **comorbilidad**.\n5. Deterioro cognitivo leve-moderado tipo Alzheimer (G30.9) — **comorbilidad**. [...] - **Paracetamol** 1 g vía oral cada 8 horas de forma pautada, para control del dolor basal.\n- **Metamizol** 575 mg vía oral cada 8 horas alternado con paracetamol, como analgesia de rescate si dolor moderado.\n- **Tramadol** 50 mg vía oral cada 12 horas durante 7 días, si dolor intenso no controlado.\n- **Enoxaparina** 40 mg subcutánea cada 24 horas durante 5 semanas, como profilaxis antitrombótica postquirúrgica.\n- **Carbonato cálcico / colecalciferol** 1500 mg / 800 UI vía oral cada 24 horas, como suplementación para osteoporosis.\n- **Ácido alendrónico** 70 mg vía oral una vez por semana, para el tratamiento de la osteoporosis.\n- **Enalapril** 10 mg vía oral cada 24 horas, para el control tensional (se mantiene su medicación habitual).\n- **Omeprazol** 20 mg vía oral cada 24 horas durante el tratamiento analgésico, como gastroprotección. [...] - Carga progresiva sobre miembro inferior derecho con apoyo de caminador durante las primeras 4 semanas; no realizar carga completa sin supervisión.\n- Evitar flexión de cadera derecha superior a 90 grados durante las primeras 6 semanas.\n- No cruzar las piernas ni dormir en decúbito lateral sobre el lado intervenido durante 6 semanas.\n- Mantener cura plana de la herida quirúrgica cada 48 horas hasta retirada completa de grapas.\n- Dieta rica en calcio y proteínas, hidratación adecuada. [...] Acudir nuevamente al Servicio de Urgencias en caso de:\n\n- Fiebre superior a 38 ºC.\n- Aumento de dolor, enrojecimiento, calor o supuración en la herida quirúrgica.\n- Hinchazón, dolor o enrojecimiento de la pantorrilla compatibles con trombosis venosa profunda.\n- Dificultad respiratoria súbita o dolor torácico.\n- Caída o nuevo traumatismo sobre la cadera intervenida.\n- Sangrado activo por la herida o sangrado anormal en otras localizaciones. [...] - Revisión en consulta externa de Traumatología en 4 semanas, con radiografía de control de cadera derecha previa.\n- Control por Atención Primaria en los próximos 7 días para retirada del resto de grapas y valoración general.\n- Continuar programa de rehabilitación ambulatoria en centro de referencia, iniciándolo en las próximas 2 semanas tras derivación tramitada al alta.\n- Mantener seguimiento habitual por Neurología y Geriatría según calendario previo.",
+  "instruction": "Extrae el resumen del alta hospitalaria: servicio, estancia, motivo de consulta, diagnósticos al alta con su papel, medicación al alta, restricciones, signos de alarma y plan de seguimiento.",
+  "target_schema": {
+    "$defs": {
+      "Diagnosis": {
+        "additionalProperties": false,
+        "description": "Diagnóstico al alta del paciente.",
+        "properties": {
+          "description": {
+            "description": "Descripción literal del diagnóstico tal como aparece en la sección 'Diagnósticos al alta' o equivalente (p. ej. 'Neumonía adquirida en la comunidad por S. pneumoniae').",
+            "title": "Description",
+            "type": "string"
+          },
+          "icd10_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Código CIE-10 entre paréntesis o adyacente al diagnóstico, si el informe lo incluye (p. ej. 'J18.1'). Null si no aparece.",
+            "title": "Icd10 Code"
+          },
+          "role": {
+            "$ref": "#/$defs/DiagnosisRole",
+            "description": "Papel del diagnóstico en la hospitalización: 'principal' = motivo de ingreso; 'secundario' = diagnóstico adicional relevante; 'comorbilidad' = condición preexistente activa; 'complicación' = evento surgido durante el ingreso."
+          }
+        },
+        "required": [
+          "description",
+          "role"
+        ],
+        "title": "Diagnosis",
+        "type": "object"
+      },
+      "DiagnosisRole": {
+        "enum": [
+          "principal",
+          "secundario",
+          "comorbilidad",
+          "complicación"
+        ],
+        "title": "DiagnosisRole",
+        "type": "string"
+      },
+      "DischargeMedication": {
+        "additionalProperties": false,
+        "description": "Medicación prescrita al alta para continuar en domicilio.",
+        "properties": {
+          "name": {
+            "description": "Nombre del principio activo o del medicamento comercial, tal como aparece en la prescripción (p. ej. 'Amoxicilina', 'Eliquis').",
+            "title": "Name",
+            "type": "string"
+          },
+          "dose": {
+            "description": "Dosis y vía tal como aparece (p. ej. '500 mg vía oral cada 8 horas', '40 UI subcutáneas cada 12 horas').",
+            "title": "Dose",
+            "type": "string"
+          },
+          "duration": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Duración total del tratamiento si el informe la especifica (p. ej. 'durante 7 días', 'hasta nueva valoración'). Null si no.",
+            "title": "Duration"
+          },
+          "indication": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Indicación clínica del fármaco si el informe la asocia (p. ej. 'para el control tensional'). Null si la indicación no se explicita.",
+            "title": "Indication"
+          }
+        },
+        "required": [
+          "name",
+          "dose"
+        ],
+        "title": "DischargeMedication",
+        "type": "object"
+      },
+      "FollowUpInstruction": {
+        "additionalProperties": false,
+        "description": "Una instrucción de seguimiento tras el alta.",
+        "properties": {
+          "description": {
+            "description": "Descripción literal del control o cita (p. ej. 'Revisión en consulta de cardiología', 'Analítica de control').",
+            "title": "Description",
+            "type": "string"
+          },
+          "urgency": {
+            "$ref": "#/$defs/FollowUpUrgency",
+            "description": "Urgencia del seguimiento: 'urgente_24h' si el informe dice acudir en 24 horas; 'en_una_semana' / 'en_un_mes' según ventana mencionada; 'rutinaria' si no se da plazo apremiante."
+          },
+          "responsible_service": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Servicio responsable del seguimiento (p. ej. 'Cardiología', 'Atención Primaria'). Null si no se especifica.",
+            "title": "Responsible Service"
+          }
+        },
+        "required": [
+          "description",
+          "urgency"
+        ],
+        "title": "FollowUpInstruction",
+        "type": "object"
+      },
+      "FollowUpUrgency": {
+        "enum": [
+          "urgente_24h",
+          "en_una_semana",
+          "en_un_mes",
+          "rutinaria"
+        ],
+        "title": "FollowUpUrgency",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Informe de alta hospitalaria desidentificado. La información se reparte\nentre la cabecera (servicio, días de ingreso), motivos de consulta,\ndiagnósticos, evolución, medicación al alta, recomendaciones y plan de\nseguimiento. La extracción debe vincular cada medicación a su indicación\nclínica cuando aparezca, y clasificar diagnósticos por su papel.\n\nComplejidad: L8 — síntesis con listas heterogéneas, jerarquía implícita\nentre diagnósticos y enlace transversal medicamento↔indicación.",
+    "properties": {
+      "admitting_service": {
+        "description": "Servicio hospitalario responsable del ingreso (p. ej. 'Medicina Interna', 'Urgencias', 'UCI').",
+        "title": "Admitting Service",
+        "type": "string"
+      },
+      "length_of_stay_days": {
+        "description": "Duración total del ingreso en días, calculada a partir de las fechas de ingreso y alta del informe.",
+        "minimum": 0,
+        "title": "Length Of Stay Days",
+        "type": "integer"
+      },
+      "chief_complaint": {
+        "description": "Motivo principal de consulta o ingreso tal como lo refiere el paciente, en la sección 'Motivo de consulta' o equivalente.",
+        "title": "Chief Complaint",
+        "type": "string"
+      },
+      "diagnoses": {
+        "description": "Diagnósticos consignados al alta. Debe incluir al menos uno con rol 'principal'.",
+        "items": {
+          "$ref": "#/$defs/Diagnosis"
+        },
+        "minItems": 1,
+        "title": "Diagnoses",
+        "type": "array"
+      },
+      "discharge_medications": {
+        "description": "Medicación prescrita para continuar en domicilio. Lista vacía si el informe declara explícitamente que se mantiene la medicación previa.",
+        "items": {
+          "$ref": "#/$defs/DischargeMedication"
+        },
+        "title": "Discharge Medications",
+        "type": "array"
+      },
+      "activity_restrictions": {
+        "description": "Restricciones de actividad indicadas al paciente (p. ej. 'evitar esfuerzos físicos intensos durante 2 semanas', 'no conducir hasta revisión'). Una entrada por restricción literal.",
+        "items": {
+          "type": "string"
+        },
+        "title": "Activity Restrictions",
+        "type": "array"
+      },
+      "red_flag_symptoms": {
+        "description": "Síntomas o signos por los que el paciente debe volver a urgencias (p. ej. 'fiebre > 38.5 ºC', 'sangrado activo'). Solo los nombrados.",
+        "items": {
+          "type": "string"
+        },
+        "title": "Red Flag Symptoms",
+        "type": "array"
+      },
+      "follow_up": {
+        "description": "Plan de seguimiento ambulatorio. Cada cita o control va como una instrucción separada.",
+        "items": {
+          "$ref": "#/$defs/FollowUpInstruction"
+        },
+        "title": "Follow Up",
+        "type": "array"
+      }
+    },
+    "required": [
+      "admitting_service",
+      "length_of_stay_days",
+      "chief_complaint",
+      "diagnoses"
+    ],
+    "title": "DischargeSummary",
+    "type": "object"
+  },
+  "output": {
+    "admitting_service": "Traumatología y Cirugía Ortopédica",
+    "length_of_stay_days": 8,
+    "chief_complaint": "Acude a Urgencias trasladada por el SAMU tras sufrir caída casual en domicilio desde su propia altura al levantarse de la cama, con imposibilidad para la bipedestación posterior y dolor intenso en cadera derecha.",
+    "diagnoses": [
+      {
+        "description": "Fractura subcapital de cadera derecha desplazada",
+        "icd10_code": "S72.01",
+        "role": "principal"
+      },
+      {
+        "description": "Anemia postquirúrgica que requirió transfusión de 2 concentrados de hematíes",
+        "icd10_code": null,
+        "role": "complicación"
+      },
+      {
+        "description": "Osteoporosis establecida",
+        "icd10_code": "M81.0",
+        "role": "comorbilidad"
+      },
+      {
+        "description": "Hipertensión arterial esencial",
+        "icd10_code": "I10",
+        "role": "comorbilidad"
+      },
+      {
+        "description": "Deterioro cognitivo leve-moderado tipo Alzheimer",
+        "icd10_code": "G30.9",
+        "role": "comorbilidad"
+      }
+    ],
+    "discharge_medications": [
+      {
+        "name": "Paracetamol",
+        "dose": "1 g vía oral cada 8 horas",
+        "duration": null,
+        "indication": "control del dolor basal"
+      },
+      {
+        "name": "Metamizol",
+        "dose": "575 mg vía oral cada 8 horas",
+        "duration": null,
+        "indication": "analgesia de rescate si dolor moderado"
+      },
+      {
+        "name": "Tramadol",
+        "dose": "50 mg vía oral cada 12 horas",
+        "duration": "durante 7 días",
+        "indication": "si dolor intenso no controlado"
+      },
+      {
+        "name": "Enoxaparina",
+        "dose": "40 mg subcutánea cada 24 horas",
+        "duration": "durante 5 semanas",
+        "indication": "profilaxis antitrombótica postquirúrgica"
+      },
+      {
+        "name": "Carbonato cálcico / colecalciferol",
+        "dose": "1500 mg / 800 UI vía oral cada 24 horas",
+        "duration": null,
+        "indication": "suplementación para osteoporosis"
+      },
+      {
+        "name": "Ácido alendrónico",
+        "dose": "70 mg vía oral una vez por semana",
+        "duration": null,
+        "indication": "tratamiento de la osteoporosis"
+      },
+      {
+        "name": "Enalapril",
+        "dose": "10 mg vía oral cada 24 horas",
+        "duration": null,
+        "indication": "control tensional"
+      },
+      {
+        "name": "Omeprazol",
+        "dose": "20 mg vía oral cada 24 horas",
+        "duration": "durante el tratamiento analgésico",
+        "indication": "gastroprotección"
+      }
+    ],
+    "activity_restrictions": [
+      "Carga progresiva sobre miembro inferior derecho con apoyo de caminador durante las primeras 4 semanas; no realizar carga completa sin supervisión.",
+      "Evitar flexión de cadera derecha superior a 90 grados durante las primeras 6 semanas.",
+      "No cruzar las piernas ni dormir en decúbito lateral sobre el lado intervenido durante 6 semanas.",
+      "Mantener cura plana de la herida quirúrgica cada 48 horas hasta retirada completa de grapas.",
+      "Dieta rica en calcio y proteínas, hidratación adecuada."
+    ],
+    "red_flag_symptoms": [
+      "Fiebre superior a 38 ºC",
+      "Aumento de dolor, enrojecimiento, calor o supuración en la herida quirúrgica",
+      "Hinchazón, dolor o enrojecimiento de la pantorrilla compatibles con trombosis venosa profunda",
+      "Dificultad respiratoria súbita o dolor torácico",
+      "Caída o nuevo traumatismo sobre la cadera intervenida",
+      "Sangrado activo por la herida o sangrado anormal en otras localizaciones"
+    ],
+    "follow_up": [
+      {
+        "description": "Revisión en consulta externa de Traumatología en 4 semanas, con radiografía de control de cadera derecha previa",
+        "urgency": "en_un_mes",
+        "responsible_service": "Traumatología"
+      },
+      {
+        "description": "Control por Atención Primaria en los próximos 7 días para retirada del resto de grapas y valoración general",
+        "urgency": "en_una_semana",
+        "responsible_service": "Atención Primaria"
+      },
+      {
+        "description": "Continuar programa de rehabilitación ambulatoria en centro de referencia, iniciándolo en las próximas 2 semanas tras derivación tramitada al alta",
+        "urgency": "en_un_mes",
+        "responsible_service": "Rehabilitación"
+      },
+      {
+        "description": "Mantener seguimiento habitual por Neurología y Geriatría según calendario previo",
+        "urgency": "rutinaria",
+        "responsible_service": "Neurología y Geriatría"
+      }
+    ]
+  },
+  "metadata": {
+    "source": "synthetic_20260601_008.md",
+    "domain": "medical",
+    "subdomain": "discharge"
+  }
+}

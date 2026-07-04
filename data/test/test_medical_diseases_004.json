@@ -1,0 +1,170 @@
+{
+  "id": "test_medical_diseases_004",
+  "input_text": "La fibromialgia es una enfermedad crónica que se caracteriza por dolor musculoesquelético generalizado, con una exagerada hipersensibilidad (alodinia e hiperalgesia) en múltiples áreas corporales y puntos predefinidos (tender points), sin alteraciones orgánicas demostrables. Se relaciona con una gran variedad de síntomas, entre los que destacan la fatiga persistente y el sueño no reparador. Además suele coexistir con otros trastornos reumatológicos y psiquiátricos.​​​​​​\nA mediados del siglo XX, algunos autores consideraron la fibromialgia como un trastorno de somatización, es decir, pacientes que se quejan persistentemente de varios síntomas que no tienen un origen físico identificable. Sin embargo, en los últimos años y tras diversos estudios, esta creencia se ha desestimado. La fibromialgia está considerada como enfermedad por la Organización Mundial de la Salud desde 1992 y, si bien la definición nosológica y su consideración en el ámbito médico no ha estado exenta de controversia, los resultados de las investigaciones indican con bastante consenso que su origen es neurológico, y que el dolor resultaría de desequilibrios neuroquímicos a nivel del sistema nervioso central que generan alodinia e hiperalgesia generalizadas.​​​​​\nNo existe una cura universal para la fibromialgia. Los tratamientos empleados van enfocados a controlar los síntomas, incluyendo el ejercicio, las terapias conductuales y ciertos fármacos.​ En una parte de pacientes se ha demostrado una relación con la sensibilidad al gluten no celíaca y la recuperación o mejoría con el seguimiento de una dieta sin gluten.​​ [...] Los pacientes con fibromialgia no presentan anormalidades características en las pruebas de laboratorio. Sin embargo, los estudios de laboratorio de rutina y de imagen son importantes para ayudar a descartar enfermedades con síntomas similares y para ayudar en el diagnóstico de ciertas enfermedades inflamatorias que aparecen frecuentemente junto con la fibromialgia.​ No existe una prueba específica —ni analítica, ni de imagen, ni patológica— para el diagnóstico de la fibromialgia; por lo tanto, cualquier prueba que se realice se hará principalmente para excluir otras enfermedades que pueden simular a la fibromialgia o para descartar una enfermedad asociada.​ Si no hay motivos de sospecha clínica de otras enfermedades que requieran técnicas de diagnóstico por imágenes (por ejemplo, enfermedades articulares), no se recomienda realizar radiografías u otras pruebas de imagen.​\nLo aconsejado por los expertos es solicitar unos análisis, incluyendo un hemograma -recuento celular sanguíneo completo-, velocidad de sedimentación globular (VSG), enzimas musculares​​​ pruebas de función tiroidea, proteína C reactiva (PCR),​​ un perfil bioquímico general,​ estudio del hierro (hierro sérico, capacidad total de fijación del hierro, índice de saturación y ferritina), vitamina D, vitamina B12, magnesio, análisis de orina​ y, probablemente, algunas pruebas reumáticas, como factor reumatoide y ANAs. Algunos autores desaconsejan la realización de estas últimas pruebas de modo sistemático, pues pueden ser positivas en la población sana y por sí mismas tienen un pobre valor predictivo.​​​ Dependiendo de la historia clínica y el examen médico, pueden ser necesarias más pruebas sanguíneas, si se sospecha de otros diagnósticos diferenciales.​\nEs aconsejable, mediante una cuidadosa historia clínica, identificar la presencia de trastornos del sueño o del estado de ánimo, y actuar en consecuencia.​​ Los estudios del sueño pueden ser útiles en pacientes cuyo sueño no mejora con las medidas conservadoras habituales (por ejemplo, la eliminación de la cafeína, la prescripción de hipnóticos o de antidepresivos tricíclicos nocturnos). Estos estudios se pueden realizar como parte de una evaluación formal por un neurólogo o un neumólogo con experiencia en trastornos del sueño.​\nComo tal, el diagnóstico de la fibromialgia se basa en los síntomas del paciente, consistentes fundamentalmente en dolor difuso y crónico. Los pacientes refieren artralgias —dolores articulares— y mialgias —dolores musculares—, pero no hay evidencias objetivas de inflamación articular o muscular en la exploración física, ni en los análisis. A la exploración se encuentran múltiples puntos dolorosos a la presión en localizaciones extraarticulares.​\nEl diagnóstico de fibromialgia debería ser considerado en cualquier paciente que se queje de que \"me duele todo\". En general, la mayoría de los médicos diagnostican el síndrome de fibromialgia por la sintomatología clínica, la exploración física y la exclusión de otros procesos que puedan causar síntomas semejantes.​ Con el objetivo de un diagnóstico precoz y aplicando criterios para una buena relación de coste-efectividad, algunos autores desaconsejan una búsqueda general, sin una orientación clínica clara —“vamos a ver si encontramos algo”— para descartar cualquier potencial causa de dolor y cansancio.​",
+  "instruction": "Extrae un perfil estructurado de la enfermedad descrita en el texto, incluyendo nombre, etiología, síntomas, métodos de diagnóstico y si es crónica.",
+  "target_schema": {
+    "$defs": {
+      "EtiologyType": {
+        "enum": [
+          "INFECTIOUS",
+          "GENETIC",
+          "AUTOIMMUNE",
+          "DEGENERATIVE",
+          "UNKNOWN",
+          "OTHER"
+        ],
+        "title": "EtiologyType",
+        "type": "string"
+      },
+      "Symptom": {
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "description": "Verbatim name of the symptom",
+            "title": "Name",
+            "type": "string"
+          },
+          "severity_level": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Inferred severity if mentioned (Mild, Moderate, Severe)",
+            "title": "Severity Level"
+          },
+          "is_primary": {
+            "default": true,
+            "description": "True if this is a defining symptom of the disease",
+            "title": "Is Primary",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "name"
+        ],
+        "title": "Symptom",
+        "type": "object"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Hierarchical extraction of pathology details from medical summaries.\nComplexity: L5 (Hierarchical Grouping).",
+    "properties": {
+      "pathology_name": {
+        "description": "The medical name of the disease or disorder",
+        "title": "Pathology Name",
+        "type": "string"
+      },
+      "etiology_type": {
+        "$ref": "#/$defs/EtiologyType",
+        "description": "The primary origin or cause of the disease"
+      },
+      "etiology_description": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "A brief summary of how the disease is caused",
+        "title": "Etiology Description"
+      },
+      "symptoms": {
+        "description": "Structured list of reported symptoms",
+        "items": {
+          "$ref": "#/$defs/Symptom"
+        },
+        "title": "Symptoms",
+        "type": "array"
+      },
+      "diagnosis_methods": {
+        "description": "Clinical tests or methods mentioned for identifying the pathology",
+        "items": {
+          "type": "string"
+        },
+        "title": "Diagnosis Methods",
+        "type": "array"
+      },
+      "is_chronic": {
+        "anyOf": [
+          {
+            "type": "boolean"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "True if the text explicitly defines the disease as chronic or long-term",
+        "title": "Is Chronic"
+      }
+    },
+    "required": [
+      "pathology_name",
+      "etiology_type"
+    ],
+    "title": "DiseaseProfile",
+    "type": "object"
+  },
+  "output": {
+    "pathology_name": "Fibromialgia",
+    "etiology_type": "OTHER",
+    "etiology_description": "Origen neurológico; el dolor resulta de desequilibrios neuroquímicos a nivel del sistema nervioso central que generan alodinia e hiperalgesia generalizadas.",
+    "symptoms": [
+      {
+        "name": "dolor musculoesquelético generalizado",
+        "severity_level": null,
+        "is_primary": true
+      },
+      {
+        "name": "alodinia",
+        "severity_level": null,
+        "is_primary": true
+      },
+      {
+        "name": "hiperalgesia",
+        "severity_level": null,
+        "is_primary": true
+      },
+      {
+        "name": "fatiga persistente",
+        "severity_level": null,
+        "is_primary": true
+      },
+      {
+        "name": "sueño no reparador",
+        "severity_level": null,
+        "is_primary": true
+      }
+    ],
+    "diagnosis_methods": [
+      "hemograma",
+      "velocidad de sedimentación globular (VSG)",
+      "enzimas musculares",
+      "pruebas de función tiroidea",
+      "proteína C reactiva (PCR)",
+      "perfil bioquímico general",
+      "estudio del hierro",
+      "vitamina D",
+      "vitamina B12",
+      "magnesio",
+      "análisis de orina",
+      "factor reumatoide",
+      "ANAs",
+      "estudios del sueño"
+    ],
+    "is_chronic": true
+  },
+  "metadata": {
+    "source": "fresh_testset_fibromialgia.md",
+    "domain": "medical",
+    "subdomain": "diseases"
+  }
+}

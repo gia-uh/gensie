@@ -9,6 +9,42 @@ Inside the repository at `data/starter/`, you will find **40 JSON instances** co
 !!! warning "Data Curation"
     These examples have been generated using Gemini 3 Pro and **manually curated** for grounding and correctness. However, they have not yet passed the official "Gold Curation" protocol. Expect this set to be updated when the full development set is released. The **format**, however, is final and will not change.
 
+## 1.5 Development Data (v0.1 - Silver)
+
+**150 instances** are available in `data/dev/dev.jsonl` covering 8 domains:
+
+| Domain | Subdomain | Tasks |
+|:-------|:---------| ------:|
+| cultural | literature, monuments, movie_reviews | 29 |
+| environmental | ecology | 10 |
+| general | disasters | 10 |
+| legal | contracts, judicial, legislation | 22 |
+| lifestyle | recipes | 10 |
+| medical | diseases, drug_safety, health_news | 31 |
+| stem | astronomy_detailed | 20 |
+| technical | software | 18 |
+
+### Data Collection
+- Sources: Wikipedia, Wikinoticias, BOE, CIMA (drug safety), Espinof (movie reviews)
+- Web crawling + synthetic generation pipelines
+
+### Generation & Quality Assurance
+- Generated with **Claude Opus 4.6** via specialized subagents
+- Passed through **1-2 audit phases** with silver-auditor subagent
+- Manually spot-checked for broad inconsistencies
+
+### ⚠️ Known Limitations
+This is **NOT gold-standard data** - may contain errors:
+- Some grounding may be incomplete
+- Schema alignment edge cases not fully resolved
+- Use for **development** only
+
+### Reporting Errors
+Found an issue? Please submit at: https://github.com/gia-uh/gensie/issues
+
+### Status
+- **Silver** - Will be replaced with curated gold data when available
+
 ## 2. Reference Implementation & Baselines
 
 The kit provides a high-quality Python baseline in `src/gensie/baseline.py` that is fully compliant with the competition's hardware and connectivity constraints.
@@ -16,9 +52,11 @@ The kit provides a high-quality Python baseline in `src/gensie/baseline.py` that
 *   **`BasicAgent`**: A reference agent that uses the OpenAI client. It is **model-agnostic**, meaning it respects the `model` parameter passed by the evaluator instead of hardcoding a specific model.
 *   **`OfficialParticipant`**: The entry point for your submission. It acts as a factory that can host up to **three distinct pipelines**.
 
-### Public Baselines
+### Evaluation Models & Public Baselines
 
-During the evaluation period, the organizers will provide three open-source baselines executed via standard zero-shot prompting with grammar-constrained decoding. These target different compute tiers:
+Your system will be evaluated against **several models**, not one. Some are the published/recommended models below; others are **held out and not disclosed before the results** — all of them are small (<~14B) open-source models from different families, the kind you could run on your own hardware. For each model the organizers also run an official zero-shot baseline (standard prompting with grammar-constrained decoding), and your ranking is based on how much of the baseline-to-perfect gap you close, averaged over all models — see the [Task Description → Evaluation Metrics](./description.md#evaluation-metrics). **Do not tune to any single model.**
+
+Published/recommended models, spanning different compute tiers:
 
 *   **Tiny:** Llama 3.2 3B Instruct
 *   **Small:** Salamandra 7b Instruct (native Spanish language model)
@@ -84,6 +122,24 @@ gensie eval
 
 !!! note "First Run & Embeddings"
     On its first run, `gensie eval` will automatically download the lightweight `BAAI/bge-small-en-v1.5` embedding model via `fastembed`. This is used for fast semantic similarity calculations on your CPU. The official leaderboard evaluation will use a more robust, heavier model (e.g., `paraphrase-multilingual-mpnet-base-v2`).
+
+!!! note "Timing in the report"
+    `gensie eval` records the wall-clock time per instance and adds a `timing` block to the report (`avg_elapsed_s`, `max_elapsed_s`, `over_budget_count`, `avg_within_budget`). It does **not** hard-stop a run at the 60s target — the budget is a soft average over the test set (see [Submission Guidelines §4](./submission.md#4-resource-quotas--qualification)). Tune `--time-budget-s` / `--request-timeout-s` if needed.
+
+!!! note "Token usage in the report"
+    `gensie eval --usage-log <path>` attributes per-instance token usage from the inference server's JSONL usage log; without it, the evaluator falls back to the `X-GenSIE-Token-Usage` response header your agent emits. Either way the report gains a `token_usage` block (`avg_total_per_instance`, `max_total`, `over_target_count`, `over_soft_count`, `avg_within_target`, `source`). The 32K target is a soft average over the test set — same spirit as the time budget. The reference agent reports the header automatically via `gensie.usage.UsageTracker`; reuse it in your own agent: `self.usage = UsageTracker()` in `__init__`, `self.usage.reset()` at the top of `run()`, `self.usage.add(response.usage)` after each model call. (Completion requests must be non-streaming — `stream: false`.)
+
+### Ranking against a baseline
+
+Once you have one or more reports (and a baseline report with `--pipeline baseline`), `gensie rank` reproduces the official primary leaderboard — the fraction of the baseline→perfect F1 gap closed, averaged over models:
+
+```bash
+gensie rank results/            # rich tables
+gensie rank results/ --plain    # Markdown
+gensie rank results/examples    # a runnable example with synthetic data
+```
+
+See [Task Description → Evaluation Metrics](./description.md#evaluation-metrics) for what the numbers mean.
 
 ## 5. How to Hack
 

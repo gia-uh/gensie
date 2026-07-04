@@ -1,0 +1,349 @@
+{
+  "id": "medical_discharge_004",
+  "input_text": "## Datos administrativos\n\nServicio responsable: Medicina Interna (Unidad funcional de Insuficiencia Cardiaca, en coordinación con Cardiología).\nFecha de ingreso: 19 de mayo de 2026.\nFecha de alta: 30 de mayo de 2026.\nDuración total del ingreso: once días.\nMédico responsable al alta: Dra. [DESIDENTIFICADO], Medicina Interna. [...] ## Motivo de consulta\n\nMujer de 84 años, autónoma para las actividades básicas de la vida diaria con apoyo familiar, que acude al Servicio de Urgencias acompañada por su hija refiriendo \"que llevo cuatro o cinco días que no puedo respirar bien y por las noches me ahogo cuando me acuesto\". Describe además aumento progresivo del perímetro de los tobillos en la última semana, con ganancia ponderal de unos tres kilos respecto a su peso habitual registrado en domicilio. [...] ## Diagnósticos al alta\n\n1. Descompensación aguda de insuficiencia cardiaca crónica con fracción de eyección levemente reducida (I50.32).\n2. Fibrilación auricular permanente.\n3. Hipertensión arterial esencial.\n4. Diabetes mellitus tipo 2.\n5. Enfermedad renal crónica estadio III.\n6. Lesión renal aguda KDIGO 1 sobre ERC, resuelta parcialmente al alta. [...] ## Medicación al alta\n\nSe prescribe el siguiente tratamiento para continuar en domicilio:\n\n- **Furosemida** 40 mg por vía oral, un comprimido por la mañana y medio comprimido al mediodía, para el control de la congestión.\n- **Losartán** 50 mg por vía oral, un comprimido cada 24 horas con el desayuno, para el control tensional y nefroprotección.\n- **Bisoprolol** 2,5 mg por vía oral, un comprimido cada 24 horas, durante al menos un mes hasta nueva valoración cardiológica.\n- **Apixabán** 2,5 mg por vía oral cada 12 horas, de forma indefinida, para la prevención de embolismo sistémico en fibrilación auricular (dosis reducida por edad ≥ 80 años y función renal).\n- **Metformina** 850 mg por vía oral cada 12 horas con las comidas principales, para el control glucémico.\n- **Empagliflozina** 10 mg por vía oral cada 24 horas, para el control glucémico y beneficio en insuficiencia cardiaca.\n- **Atorvastatina** 20 mg por vía oral por la noche.\n- **Pantoprazol** 20 mg por vía oral cada 24 horas en ayunas, durante cuatro semanas, como gastroprotección durante el ajuste de tratamiento.\n- **Cloruro potásico** 600 mg por vía oral cada 12 horas, durante diez días, hasta nuevo control analítico.\n\nSe entrega hoja de tratamiento con horario detallado y se realiza educación sanitaria a la paciente y a su hija sobre la importancia de la adherencia. [...] ## Recomendaciones y restricciones de actividad\n\n- Dieta hiposódica estricta (menos de 2 gramos de sal al día) y restricción hídrica a 1,5 litros diarios.\n- Control diario del peso en ayunas, en la misma báscula y a la misma hora, anotándolo en una libreta.\n- Evitar antiinflamatorios no esteroideos en cualquier presentación.\n- Reposo relativo durante la primera semana, con deambulación progresiva por domicilio sin esfuerzos.\n- No conducir vehículos hasta nueva valoración cardiológica. [...] ## Signos de alarma\n\nLa paciente y sus familiares han sido instruidos para acudir nuevamente a Urgencias si presenta cualquiera de los siguientes:\n\n- Aumento de peso superior a dos kilogramos en tres días.\n- Reaparición de disnea de reposo o de ortopnea.\n- Edemas progresivos en miembros inferiores que no ceden con el tratamiento pautado.\n- Mareo intenso, síncope o palpitaciones mantenidas.\n- Sangrado activo de cualquier localización (gingivorragia abundante, hematuria, melenas, hematomas espontáneos extensos).\n- Fiebre superior a 38 ºC mantenida más de 24 horas. [...] ## Plan de seguimiento\n\n- Analítica de sangre con función renal, iones y NT-proBNP en su Centro de Salud en un plazo de 7 días tras el alta.\n- Revisión por su médica de Atención Primaria en una semana para valoración clínica y revisión de la pauta.\n- Cita en Hospital de Día de Insuficiencia Cardiaca en dos semanas para titulación de tratamiento y control de volemia.\n- Revisión en consulta externa de Cardiología en un mes, con ecocardiograma de control previo.\n- Se recomienda recibir la vacunación antigripal anual y la antineumocócica según calendario, a coordinar desde su centro de salud.",
+  "instruction": "Extrae el resumen del alta hospitalaria: servicio, estancia, motivo de consulta, diagnósticos al alta con su papel, medicación al alta, restricciones, signos de alarma y plan de seguimiento.",
+  "target_schema": {
+    "$defs": {
+      "Diagnosis": {
+        "additionalProperties": false,
+        "description": "Diagnóstico al alta del paciente.",
+        "properties": {
+          "description": {
+            "description": "Descripción literal del diagnóstico tal como aparece en la sección 'Diagnósticos al alta' o equivalente (p. ej. 'Neumonía adquirida en la comunidad por S. pneumoniae').",
+            "title": "Description",
+            "type": "string"
+          },
+          "icd10_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Código CIE-10 entre paréntesis o adyacente al diagnóstico, si el informe lo incluye (p. ej. 'J18.1'). Null si no aparece.",
+            "title": "Icd10 Code"
+          },
+          "role": {
+            "$ref": "#/$defs/DiagnosisRole",
+            "description": "Papel del diagnóstico en la hospitalización: 'principal' = motivo de ingreso; 'secundario' = diagnóstico adicional relevante; 'comorbilidad' = condición preexistente activa; 'complicación' = evento surgido durante el ingreso."
+          }
+        },
+        "required": [
+          "description",
+          "role"
+        ],
+        "title": "Diagnosis",
+        "type": "object"
+      },
+      "DiagnosisRole": {
+        "enum": [
+          "principal",
+          "secundario",
+          "comorbilidad",
+          "complicación"
+        ],
+        "title": "DiagnosisRole",
+        "type": "string"
+      },
+      "DischargeMedication": {
+        "additionalProperties": false,
+        "description": "Medicación prescrita al alta para continuar en domicilio.",
+        "properties": {
+          "name": {
+            "description": "Nombre del principio activo o del medicamento comercial, tal como aparece en la prescripción (p. ej. 'Amoxicilina', 'Eliquis').",
+            "title": "Name",
+            "type": "string"
+          },
+          "dose": {
+            "description": "Dosis y vía tal como aparece (p. ej. '500 mg vía oral cada 8 horas', '40 UI subcutáneas cada 12 horas').",
+            "title": "Dose",
+            "type": "string"
+          },
+          "duration": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Duración total del tratamiento si el informe la especifica (p. ej. 'durante 7 días', 'hasta nueva valoración'). Null si no.",
+            "title": "Duration"
+          },
+          "indication": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Indicación clínica del fármaco si el informe la asocia (p. ej. 'para el control tensional'). Null si la indicación no se explicita.",
+            "title": "Indication"
+          }
+        },
+        "required": [
+          "name",
+          "dose"
+        ],
+        "title": "DischargeMedication",
+        "type": "object"
+      },
+      "FollowUpInstruction": {
+        "additionalProperties": false,
+        "description": "Una instrucción de seguimiento tras el alta.",
+        "properties": {
+          "description": {
+            "description": "Descripción literal del control o cita (p. ej. 'Revisión en consulta de cardiología', 'Analítica de control').",
+            "title": "Description",
+            "type": "string"
+          },
+          "urgency": {
+            "$ref": "#/$defs/FollowUpUrgency",
+            "description": "Urgencia del seguimiento: 'urgente_24h' si el informe dice acudir en 24 horas; 'en_una_semana' / 'en_un_mes' según ventana mencionada; 'rutinaria' si no se da plazo apremiante."
+          },
+          "responsible_service": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Servicio responsable del seguimiento (p. ej. 'Cardiología', 'Atención Primaria'). Null si no se especifica.",
+            "title": "Responsible Service"
+          }
+        },
+        "required": [
+          "description",
+          "urgency"
+        ],
+        "title": "FollowUpInstruction",
+        "type": "object"
+      },
+      "FollowUpUrgency": {
+        "enum": [
+          "urgente_24h",
+          "en_una_semana",
+          "en_un_mes",
+          "rutinaria"
+        ],
+        "title": "FollowUpUrgency",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Informe de alta hospitalaria desidentificado. La información se reparte\nentre la cabecera (servicio, días de ingreso), motivos de consulta,\ndiagnósticos, evolución, medicación al alta, recomendaciones y plan de\nseguimiento. La extracción debe vincular cada medicación a su indicación\nclínica cuando aparezca, y clasificar diagnósticos por su papel.\n\nComplejidad: L8 — síntesis con listas heterogéneas, jerarquía implícita\nentre diagnósticos y enlace transversal medicamento↔indicación.",
+    "properties": {
+      "admitting_service": {
+        "description": "Servicio hospitalario responsable del ingreso (p. ej. 'Medicina Interna', 'Urgencias', 'UCI').",
+        "title": "Admitting Service",
+        "type": "string"
+      },
+      "length_of_stay_days": {
+        "description": "Duración total del ingreso en días, calculada a partir de las fechas de ingreso y alta del informe.",
+        "minimum": 0,
+        "title": "Length Of Stay Days",
+        "type": "integer"
+      },
+      "chief_complaint": {
+        "description": "Motivo principal de consulta o ingreso tal como lo refiere el paciente, en la sección 'Motivo de consulta' o equivalente.",
+        "title": "Chief Complaint",
+        "type": "string"
+      },
+      "diagnoses": {
+        "description": "Diagnósticos consignados al alta. Debe incluir al menos uno con rol 'principal'.",
+        "items": {
+          "$ref": "#/$defs/Diagnosis"
+        },
+        "minItems": 1,
+        "title": "Diagnoses",
+        "type": "array"
+      },
+      "discharge_medications": {
+        "description": "Medicación prescrita para continuar en domicilio. Lista vacía si el informe declara explícitamente que se mantiene la medicación previa.",
+        "items": {
+          "$ref": "#/$defs/DischargeMedication"
+        },
+        "title": "Discharge Medications",
+        "type": "array"
+      },
+      "activity_restrictions": {
+        "description": "Restricciones de actividad indicadas al paciente (p. ej. 'evitar esfuerzos físicos intensos durante 2 semanas', 'no conducir hasta revisión'). Una entrada por restricción literal.",
+        "items": {
+          "type": "string"
+        },
+        "title": "Activity Restrictions",
+        "type": "array"
+      },
+      "red_flag_symptoms": {
+        "description": "Síntomas o signos por los que el paciente debe volver a urgencias (p. ej. 'fiebre > 38.5 ºC', 'sangrado activo'). Solo los nombrados.",
+        "items": {
+          "type": "string"
+        },
+        "title": "Red Flag Symptoms",
+        "type": "array"
+      },
+      "follow_up": {
+        "description": "Plan de seguimiento ambulatorio. Cada cita o control va como una instrucción separada.",
+        "items": {
+          "$ref": "#/$defs/FollowUpInstruction"
+        },
+        "title": "Follow Up",
+        "type": "array"
+      }
+    },
+    "required": [
+      "admitting_service",
+      "length_of_stay_days",
+      "chief_complaint",
+      "diagnoses"
+    ],
+    "title": "DischargeSummary",
+    "type": "object"
+  },
+  "output": {
+    "admitting_service": "Medicina Interna (Unidad funcional de Insuficiencia Cardiaca, en coordinación con Cardiología)",
+    "length_of_stay_days": 11,
+    "chief_complaint": "que llevo cuatro o cinco días que no puedo respirar bien y por las noches me ahogo cuando me acuesto",
+    "diagnoses": [
+      {
+        "description": "Descompensación aguda de insuficiencia cardiaca crónica con fracción de eyección levemente reducida",
+        "icd10_code": "I50.32",
+        "role": "principal"
+      },
+      {
+        "description": "Fibrilación auricular permanente",
+        "icd10_code": null,
+        "role": "comorbilidad"
+      },
+      {
+        "description": "Hipertensión arterial esencial",
+        "icd10_code": null,
+        "role": "comorbilidad"
+      },
+      {
+        "description": "Diabetes mellitus tipo 2",
+        "icd10_code": null,
+        "role": "comorbilidad"
+      },
+      {
+        "description": "Enfermedad renal crónica estadio III",
+        "icd10_code": null,
+        "role": "comorbilidad"
+      },
+      {
+        "description": "Lesión renal aguda KDIGO 1 sobre ERC, resuelta parcialmente al alta",
+        "icd10_code": null,
+        "role": "complicación"
+      }
+    ],
+    "discharge_medications": [
+      {
+        "name": "Furosemida",
+        "dose": "40 mg por vía oral, un comprimido por la mañana y medio comprimido al mediodía",
+        "duration": null,
+        "indication": "para el control de la congestión"
+      },
+      {
+        "name": "Losartán",
+        "dose": "50 mg por vía oral, un comprimido cada 24 horas con el desayuno",
+        "duration": null,
+        "indication": "para el control tensional y nefroprotección"
+      },
+      {
+        "name": "Bisoprolol",
+        "dose": "2,5 mg por vía oral, un comprimido cada 24 horas",
+        "duration": "durante al menos un mes hasta nueva valoración cardiológica",
+        "indication": null
+      },
+      {
+        "name": "Apixabán",
+        "dose": "2,5 mg por vía oral cada 12 horas",
+        "duration": "de forma indefinida",
+        "indication": "para la prevención de embolismo sistémico en fibrilación auricular"
+      },
+      {
+        "name": "Metformina",
+        "dose": "850 mg por vía oral cada 12 horas con las comidas principales",
+        "duration": null,
+        "indication": "para el control glucémico"
+      },
+      {
+        "name": "Empagliflozina",
+        "dose": "10 mg por vía oral cada 24 horas",
+        "duration": null,
+        "indication": "para el control glucémico y beneficio en insuficiencia cardiaca"
+      },
+      {
+        "name": "Atorvastatina",
+        "dose": "20 mg por vía oral por la noche",
+        "duration": null,
+        "indication": null
+      },
+      {
+        "name": "Pantoprazol",
+        "dose": "20 mg por vía oral cada 24 horas en ayunas",
+        "duration": "durante cuatro semanas",
+        "indication": "como gastroprotección durante el ajuste de tratamiento"
+      },
+      {
+        "name": "Cloruro potásico",
+        "dose": "600 mg por vía oral cada 12 horas",
+        "duration": "durante diez días, hasta nuevo control analítico",
+        "indication": null
+      }
+    ],
+    "activity_restrictions": [
+      "Dieta hiposódica estricta (menos de 2 gramos de sal al día) y restricción hídrica a 1,5 litros diarios",
+      "Control diario del peso en ayunas, en la misma báscula y a la misma hora, anotándolo en una libreta",
+      "Evitar antiinflamatorios no esteroideos en cualquier presentación",
+      "Reposo relativo durante la primera semana, con deambulación progresiva por domicilio sin esfuerzos",
+      "No conducir vehículos hasta nueva valoración cardiológica"
+    ],
+    "red_flag_symptoms": [
+      "Aumento de peso superior a dos kilogramos en tres días",
+      "Reaparición de disnea de reposo o de ortopnea",
+      "Edemas progresivos en miembros inferiores que no ceden con el tratamiento pautado",
+      "Mareo intenso, síncope o palpitaciones mantenidas",
+      "Sangrado activo de cualquier localización",
+      "Fiebre superior a 38 ºC mantenida más de 24 horas"
+    ],
+    "follow_up": [
+      {
+        "description": "Analítica de sangre con función renal, iones y NT-proBNP en su Centro de Salud",
+        "urgency": "en_una_semana",
+        "responsible_service": "Atención Primaria"
+      },
+      {
+        "description": "Revisión por su médica de Atención Primaria para valoración clínica y revisión de la pauta",
+        "urgency": "en_una_semana",
+        "responsible_service": "Atención Primaria"
+      },
+      {
+        "description": "Cita en Hospital de Día de Insuficiencia Cardiaca para titulación de tratamiento y control de volemia",
+        "urgency": "en_un_mes",
+        "responsible_service": "Hospital de Día de Insuficiencia Cardiaca"
+      },
+      {
+        "description": "Revisión en consulta externa de Cardiología, con ecocardiograma de control previo",
+        "urgency": "en_un_mes",
+        "responsible_service": "Cardiología"
+      }
+    ]
+  },
+  "metadata": {
+    "source": "synthetic_20260601_004.md",
+    "domain": "medical",
+    "subdomain": "discharge"
+  }
+}

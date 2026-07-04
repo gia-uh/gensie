@@ -1,0 +1,331 @@
+{
+  "id": "medical_discharge_002",
+  "input_text": "**Servicio:** Cardiología - Unidad de Cuidados Intensivos Cardiológicos (UCIC) [...] **Fecha de ingreso:** 24/05/2026\n**Fecha de alta:** 30/05/2026 [...] Paciente que acude al Servicio de Urgencias trasladado en ambulancia medicalizada por dolor torácico opresivo retroesternal de 90 minutos de evolución, irradiado a brazo izquierdo y mandíbula, acompañado de sudoración profusa, náuseas y sensación de muerte inminente. El dolor se inició en reposo, sin desencadenante claro, y no cedió con nitroglicerina sublingual administrada por el servicio de emergencias. [...] 1. Infarto agudo de miocardio con elevación del ST anterior extenso (IAMCEST) (I21.0) — principal.\n2. Enfermedad coronaria de un vaso con angioplastia primaria y stent farmacoactivo en DA proximal — secundario.\n3. Disfunción sistólica ligera del ventrículo izquierdo de origen isquémico (FEVI 46%) — secundario.\n4. Hipertensión arterial esencial — comorbilidad.\n5. Dislipidemia mixta — comorbilidad. [...] - **Ácido acetilsalicílico** 100 mg, vía oral, 1 comprimido al desayuno, de forma indefinida, para antiagregación plaquetaria.\n- **Ticagrelor** 90 mg, vía oral, 1 comprimido cada 12 horas, durante 12 meses, para doble antiagregación tras stent farmacoactivo.\n- **Atorvastatina** 80 mg, vía oral, 1 comprimido por la noche, para control intensivo del LDL-c.\n- **Bisoprolol** 2,5 mg, vía oral, 1 comprimido por la mañana.\n- **Ramipril** 5 mg, vía oral, 1 comprimido al día.\n- **Omeprazol** 20 mg, vía oral, 1 cápsula en ayunas, mientras dure la doble antiagregación, como gastroprotección.\n- **Nitroglicerina sublingual** 0,4 mg, en caso de dolor torácico, hasta 3 dosis separadas por 5 minutos. [...] - No conducir vehículos durante las próximas 4 semanas.\n- Evitar esfuerzos físicos intensos durante 6 semanas.\n- Reposo relativo domiciliario la primera semana, con paseos cortos en llano.\n- Abstención absoluta del tabaco y del alcohol.\n- Dieta cardiosaludable hiposódica y baja en grasas saturadas. [...] - Dolor torácico opresivo similar al del ingreso, que no cede tras 3 dosis de nitroglicerina sublingual.\n- Disnea súbita o de aparición progresiva en reposo.\n- Palpitaciones mantenidas o síncope.\n- Sangrado activo (gingival, digestivo, urinario, cutáneo extenso) en relación con la doble antiagregación.\n- Edemas progresivos en extremidades inferiores. [...] - Revisión en consulta externa de Cardiología en 4 semanas con ecocardiograma de control y analítica con perfil lipídico.\n- Inicio de programa de rehabilitación cardíaca en el Hospital de Día de Cardiología en 2 semanas.\n- Control por Atención Primaria en 7 días para valoración clínica general, ajuste de dosis de antihipertensivos si procede y verificación de adherencia terapéutica.\n- Analítica de control en 6 semanas: hemograma, función renal, perfil hepático y lipídico.",
+  "instruction": "Extrae el resumen del alta hospitalaria: servicio, estancia, motivo de consulta, diagnósticos al alta con su papel, medicación al alta, restricciones, signos de alarma y plan de seguimiento.",
+  "target_schema": {
+    "$defs": {
+      "Diagnosis": {
+        "additionalProperties": false,
+        "description": "Diagnóstico al alta del paciente.",
+        "properties": {
+          "description": {
+            "description": "Descripción literal del diagnóstico tal como aparece en la sección 'Diagnósticos al alta' o equivalente (p. ej. 'Neumonía adquirida en la comunidad por S. pneumoniae').",
+            "title": "Description",
+            "type": "string"
+          },
+          "icd10_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Código CIE-10 entre paréntesis o adyacente al diagnóstico, si el informe lo incluye (p. ej. 'J18.1'). Null si no aparece.",
+            "title": "Icd10 Code"
+          },
+          "role": {
+            "$ref": "#/$defs/DiagnosisRole",
+            "description": "Papel del diagnóstico en la hospitalización: 'principal' = motivo de ingreso; 'secundario' = diagnóstico adicional relevante; 'comorbilidad' = condición preexistente activa; 'complicación' = evento surgido durante el ingreso."
+          }
+        },
+        "required": [
+          "description",
+          "role"
+        ],
+        "title": "Diagnosis",
+        "type": "object"
+      },
+      "DiagnosisRole": {
+        "enum": [
+          "principal",
+          "secundario",
+          "comorbilidad",
+          "complicación"
+        ],
+        "title": "DiagnosisRole",
+        "type": "string"
+      },
+      "DischargeMedication": {
+        "additionalProperties": false,
+        "description": "Medicación prescrita al alta para continuar en domicilio.",
+        "properties": {
+          "name": {
+            "description": "Nombre del principio activo o del medicamento comercial, tal como aparece en la prescripción (p. ej. 'Amoxicilina', 'Eliquis').",
+            "title": "Name",
+            "type": "string"
+          },
+          "dose": {
+            "description": "Dosis y vía tal como aparece (p. ej. '500 mg vía oral cada 8 horas', '40 UI subcutáneas cada 12 horas').",
+            "title": "Dose",
+            "type": "string"
+          },
+          "duration": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Duración total del tratamiento si el informe la especifica (p. ej. 'durante 7 días', 'hasta nueva valoración'). Null si no.",
+            "title": "Duration"
+          },
+          "indication": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Indicación clínica del fármaco si el informe la asocia (p. ej. 'para el control tensional'). Null si la indicación no se explicita.",
+            "title": "Indication"
+          }
+        },
+        "required": [
+          "name",
+          "dose"
+        ],
+        "title": "DischargeMedication",
+        "type": "object"
+      },
+      "FollowUpInstruction": {
+        "additionalProperties": false,
+        "description": "Una instrucción de seguimiento tras el alta.",
+        "properties": {
+          "description": {
+            "description": "Descripción literal del control o cita (p. ej. 'Revisión en consulta de cardiología', 'Analítica de control').",
+            "title": "Description",
+            "type": "string"
+          },
+          "urgency": {
+            "$ref": "#/$defs/FollowUpUrgency",
+            "description": "Urgencia del seguimiento: 'urgente_24h' si el informe dice acudir en 24 horas; 'en_una_semana' / 'en_un_mes' según ventana mencionada; 'rutinaria' si no se da plazo apremiante."
+          },
+          "responsible_service": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Servicio responsable del seguimiento (p. ej. 'Cardiología', 'Atención Primaria'). Null si no se especifica.",
+            "title": "Responsible Service"
+          }
+        },
+        "required": [
+          "description",
+          "urgency"
+        ],
+        "title": "FollowUpInstruction",
+        "type": "object"
+      },
+      "FollowUpUrgency": {
+        "enum": [
+          "urgente_24h",
+          "en_una_semana",
+          "en_un_mes",
+          "rutinaria"
+        ],
+        "title": "FollowUpUrgency",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Informe de alta hospitalaria desidentificado. La información se reparte\nentre la cabecera (servicio, días de ingreso), motivos de consulta,\ndiagnósticos, evolución, medicación al alta, recomendaciones y plan de\nseguimiento. La extracción debe vincular cada medicación a su indicación\nclínica cuando aparezca, y clasificar diagnósticos por su papel.\n\nComplejidad: L8 — síntesis con listas heterogéneas, jerarquía implícita\nentre diagnósticos y enlace transversal medicamento↔indicación.",
+    "properties": {
+      "admitting_service": {
+        "description": "Servicio hospitalario responsable del ingreso (p. ej. 'Medicina Interna', 'Urgencias', 'UCI').",
+        "title": "Admitting Service",
+        "type": "string"
+      },
+      "length_of_stay_days": {
+        "description": "Duración total del ingreso en días, calculada a partir de las fechas de ingreso y alta del informe.",
+        "minimum": 0,
+        "title": "Length Of Stay Days",
+        "type": "integer"
+      },
+      "chief_complaint": {
+        "description": "Motivo principal de consulta o ingreso tal como lo refiere el paciente, en la sección 'Motivo de consulta' o equivalente.",
+        "title": "Chief Complaint",
+        "type": "string"
+      },
+      "diagnoses": {
+        "description": "Diagnósticos consignados al alta. Debe incluir al menos uno con rol 'principal'.",
+        "items": {
+          "$ref": "#/$defs/Diagnosis"
+        },
+        "minItems": 1,
+        "title": "Diagnoses",
+        "type": "array"
+      },
+      "discharge_medications": {
+        "description": "Medicación prescrita para continuar en domicilio. Lista vacía si el informe declara explícitamente que se mantiene la medicación previa.",
+        "items": {
+          "$ref": "#/$defs/DischargeMedication"
+        },
+        "title": "Discharge Medications",
+        "type": "array"
+      },
+      "activity_restrictions": {
+        "description": "Restricciones de actividad indicadas al paciente (p. ej. 'evitar esfuerzos físicos intensos durante 2 semanas', 'no conducir hasta revisión'). Una entrada por restricción literal.",
+        "items": {
+          "type": "string"
+        },
+        "title": "Activity Restrictions",
+        "type": "array"
+      },
+      "red_flag_symptoms": {
+        "description": "Síntomas o signos por los que el paciente debe volver a urgencias (p. ej. 'fiebre > 38.5 ºC', 'sangrado activo'). Solo los nombrados.",
+        "items": {
+          "type": "string"
+        },
+        "title": "Red Flag Symptoms",
+        "type": "array"
+      },
+      "follow_up": {
+        "description": "Plan de seguimiento ambulatorio. Cada cita o control va como una instrucción separada.",
+        "items": {
+          "$ref": "#/$defs/FollowUpInstruction"
+        },
+        "title": "Follow Up",
+        "type": "array"
+      }
+    },
+    "required": [
+      "admitting_service",
+      "length_of_stay_days",
+      "chief_complaint",
+      "diagnoses"
+    ],
+    "title": "DischargeSummary",
+    "type": "object"
+  },
+  "output": {
+    "admitting_service": "Cardiología - Unidad de Cuidados Intensivos Cardiológicos (UCIC)",
+    "length_of_stay_days": 6,
+    "chief_complaint": "Dolor torácico opresivo retroesternal de 90 minutos de evolución, irradiado a brazo izquierdo y mandíbula, acompañado de sudoración profusa, náuseas y sensación de muerte inminente.",
+    "diagnoses": [
+      {
+        "description": "Infarto agudo de miocardio con elevación del ST anterior extenso (IAMCEST)",
+        "icd10_code": "I21.0",
+        "role": "principal"
+      },
+      {
+        "description": "Enfermedad coronaria de un vaso con angioplastia primaria y stent farmacoactivo en DA proximal",
+        "icd10_code": null,
+        "role": "secundario"
+      },
+      {
+        "description": "Disfunción sistólica ligera del ventrículo izquierdo de origen isquémico (FEVI 46%)",
+        "icd10_code": null,
+        "role": "secundario"
+      },
+      {
+        "description": "Hipertensión arterial esencial",
+        "icd10_code": null,
+        "role": "comorbilidad"
+      },
+      {
+        "description": "Dislipidemia mixta",
+        "icd10_code": null,
+        "role": "comorbilidad"
+      }
+    ],
+    "discharge_medications": [
+      {
+        "name": "Ácido acetilsalicílico",
+        "dose": "100 mg vía oral, 1 comprimido al desayuno",
+        "duration": "de forma indefinida",
+        "indication": "para antiagregación plaquetaria"
+      },
+      {
+        "name": "Ticagrelor",
+        "dose": "90 mg vía oral, 1 comprimido cada 12 horas",
+        "duration": "durante 12 meses",
+        "indication": "para doble antiagregación tras stent farmacoactivo"
+      },
+      {
+        "name": "Atorvastatina",
+        "dose": "80 mg vía oral, 1 comprimido por la noche",
+        "duration": null,
+        "indication": "para control intensivo del LDL-c"
+      },
+      {
+        "name": "Bisoprolol",
+        "dose": "2,5 mg vía oral, 1 comprimido por la mañana",
+        "duration": null,
+        "indication": null
+      },
+      {
+        "name": "Ramipril",
+        "dose": "5 mg vía oral, 1 comprimido al día",
+        "duration": null,
+        "indication": null
+      },
+      {
+        "name": "Omeprazol",
+        "dose": "20 mg vía oral, 1 cápsula en ayunas",
+        "duration": "mientras dure la doble antiagregación",
+        "indication": "como gastroprotección"
+      },
+      {
+        "name": "Nitroglicerina sublingual",
+        "dose": "0,4 mg, hasta 3 dosis separadas por 5 minutos",
+        "duration": null,
+        "indication": "en caso de dolor torácico"
+      }
+    ],
+    "activity_restrictions": [
+      "No conducir vehículos durante las próximas 4 semanas.",
+      "Evitar esfuerzos físicos intensos durante 6 semanas.",
+      "Reposo relativo domiciliario la primera semana, con paseos cortos en llano.",
+      "Abstención absoluta del tabaco y del alcohol.",
+      "Dieta cardiosaludable hiposódica y baja en grasas saturadas."
+    ],
+    "red_flag_symptoms": [
+      "Dolor torácico opresivo similar al del ingreso, que no cede tras 3 dosis de nitroglicerina sublingual.",
+      "Disnea súbita o de aparición progresiva en reposo.",
+      "Palpitaciones mantenidas o síncope.",
+      "Sangrado activo (gingival, digestivo, urinario, cutáneo extenso) en relación con la doble antiagregación.",
+      "Edemas progresivos en extremidades inferiores."
+    ],
+    "follow_up": [
+      {
+        "description": "Revisión en consulta externa de Cardiología en 4 semanas con ecocardiograma de control y analítica con perfil lipídico.",
+        "urgency": "en_un_mes",
+        "responsible_service": "Cardiología"
+      },
+      {
+        "description": "Inicio de programa de rehabilitación cardíaca en el Hospital de Día de Cardiología en 2 semanas.",
+        "urgency": "en_un_mes",
+        "responsible_service": "Cardiología"
+      },
+      {
+        "description": "Control por Atención Primaria en 7 días para valoración clínica general, ajuste de dosis de antihipertensivos si procede y verificación de adherencia terapéutica.",
+        "urgency": "en_una_semana",
+        "responsible_service": "Atención Primaria"
+      },
+      {
+        "description": "Analítica de control en 6 semanas: hemograma, función renal, perfil hepático y lipídico.",
+        "urgency": "en_un_mes",
+        "responsible_service": null
+      }
+    ]
+  },
+  "metadata": {
+    "source": "synthetic_20260601_002.md",
+    "domain": "medical",
+    "subdomain": "discharge"
+  }
+}

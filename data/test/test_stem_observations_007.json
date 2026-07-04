@@ -1,0 +1,304 @@
+{
+  "id": "stem_observations_007",
+  "input_text": "**Sitio:** Sector noroeste de Montaña Pelada, malpaís de Güímar (Tenerife, Islas Canarias)\n**Fecha:** 28 de mayo de 2026\n**Observador:** Equipo de campo Vulcanología UCanarias — coordina Lucía Hernández-Marrero\n**Método:** Muestreo oportunista durante caminata de reconocimiento (sin transecto formalizado; el objetivo era cartografiar a ojo el contacto entre las coladas basálticas inferiores y los piroclastos sálicos suprayacentes antes de planificar el levantamiento sistemático de junio). [...] Salimos del aparcamiento bajo del malpaís a las 08:42, con el sol ya bien levantado y sin una sola nube en el horizonte hacia el Teide; el día se mantuvo despejado durante toda la sesión, con visibilidad excepcional hasta la silueta de La Palma al oeste a media mañana. El viento alisio soplaba racheado del NE, estimado a ojo en 25–30 km/h en las cumbres del cono y algo más calmo (12–15 km/h) en el flanco protegido. Anoté una temperatura ambiente de **19.4 °C** al iniciar la caminata, medida con el termohigrómetro Kestrel 3000 a la sombra del primer afloramiento, a 1.5 m del suelo. Humedad relativa baja, aunque no la registré por número porque el sensor de humedad del Kestrel viene dando lecturas inestables desde marzo y aún no ha llegado el repuesto. [...] A los pocos minutos de empezar a subir por la pista de tierra, ya en el flanco SE del cono, una **lagartija tizón** (*Gallotia galloti*) macho adulto salió disparada de debajo de una piedra y se quedó tomando sol sobre una roca clara. Plumaje —bueno, *librea*— bien marcada, azul intenso en la garganta y los flancos; típico de territorio reproductivo. Anoté el avistamiento como individuo único termorregulando. Más adelante, hacia las 09:20, vi al menos **tres lagartijas tizón más**, todas hembras o juveniles a juzgar por la falta del azul, pero las cuento como entrada separada porque no pude confirmar ID a nivel de subespecie en ninguna y la primera ya iba con etiqueta de macho confirmado.\n\nSobre los matorrales bajos pasaron dos **cuervos canarios** (*Corvus corax canariensis*) graznando alto, en vuelo hacia el SW; no se posaron. Comportamiento típico de patrullaje territorial — los registré como pareja en vuelo.\n\nLa vegetación pionera del malpaís es la habitual: dominan los cojines de **tabaiba dulce** (*Euphorbia balsamifera*), conté **al menos 40 individuos** a lo largo del primer tramo de unos 200 m, muchos ya con frutos secos. Salpicada entre ellas, **verode** (*Kleinia neriifolia*) con tallos suculentos pero sin floración aún — anoté **12 individuos**, todos por debajo de 60 cm de altura. Vi también un único **cardón** (*Euphorbia canariensis*) joven, de unos cuatro tallos, aislado en una grieta — el único de la sesión. [...] Llegamos al afloramiento de interés (lo llamamos **AFL-MP-NW-01** internamente) a las 10:05. Es un corte natural de unos 8 m de altura donde un dique alimentador atraviesa una colada `aa` masiva y queda sobreyacido por una capa de lapilli pumítico claro. [...] - Dirección de buzamiento medida con brújula Brunton: **N 38° E**, vertical o subvertical (no logré medir el buzamiento exacto porque la cara está demasiado erosionada arriba).\n- Espesor del dique en la cota accesible: **0.85 m**, medido con cinta métrica metálica de 5 m.\n- La roca del dique es un basalto afanítico gris oscuro, muy denso. Dureza estimada por rayado con la punta de acero del martillo y la uña: raya el vidrio limpiamente, no se raya con cuchillo; lo apunto como **dureza Mohs ≈ 6** (estimación de campo, sin escalera de minerales calibrada hoy — la caja de Mohs sigue en el laboratorio). [...] - Espesor visible de la unidad: **3.2 m** entre el contacto inferior cubierto y el techo escoriáceo, también con cinta.\n- Temperatura superficial de la roca expuesta al sol a las 11:15: **41.8 °C**, medida con pirómetro infrarrojo Fluke 62 MAX apuntando a la cara vertical S del afloramiento (cara más insolada). Como referencia, la cara N en sombra dio 23.1 °C en la misma pasada, pero esa lectura va al cuaderno aparte porque no era el objetivo de la medición principal. [...] - Espesor de la capa de lapilli pumítico claro: **1.10 m**, con cinta. [...] - Temperatura del agua a la salida: **15.2 °C**, con termómetro digital de inmersión Hanna HI 98103 (sonda calibrada el mes pasado).\n- Conductividad eléctrica: **612 µS/cm**, con conductímetro Hanna DiST 5. Lectura compatible con agua basáltica con cierto enriquecimiento iónico por residencia corta en el acuífero somero.\n- pH del agua: no medí. El pHmetro de campo se rompió en abril y aún esperamos el reemplazo. [...] 1. La orientación del dique (N 38° E) es coherente con el campo de esfuerzos extensional del rift NE de Tenerife descrito en la bibliografía clásica, lo que refuerza la hipótesis de que AFL-MP-NW-01 forma parte del mismo enjambre de diques alimentadores que ya cartografiamos al norte el año pasado.\n2. El contraste térmico de roca insolada vs. sombra (41.8 °C frente a 23.1 °C) confirma que cualquier campaña termográfica posterior tiene que hacerse antes de las 10:00 o después de las 18:00 para minimizar el ruido por insolación diferencial — confirmar con el equipo de teledetección.\n3. La conductividad del manantial (612 µS/cm) está en el rango bajo-medio típico de aguas basálticas jóvenes; sugiere tiempo de residencia corto y descarta —al menos provisionalmente— una contribución significativa de aguas profundas hidrotermales en este punto, lo que conviene apuntar de cara al muestreo isotópico previsto para octubre.",
+  "instruction": "Extrae los datos de esta entrada de cuaderno de campo: sitio, fecha, observador, método y meteorología, registros de especies, mediciones cuantitativas y conclusiones.",
+  "target_schema": {
+    "$defs": {
+      "Measurement": {
+        "additionalProperties": false,
+        "description": "Una medición numérica registrada durante la observación.",
+        "properties": {
+          "name": {
+            "description": "Nombre literal de la magnitud medida (p. ej. 'temperatura del agua', 'profundidad', 'altura del árbol', 'pH del suelo').",
+            "title": "Name",
+            "type": "string"
+          },
+          "value": {
+            "description": "Valor numérico tal como aparece en el cuaderno de campo.",
+            "title": "Value",
+            "type": "number"
+          },
+          "unit": {
+            "description": "Unidad de medida tal como aparece (p. ej. '°C', 'cm', 'mg/L', 'lux').",
+            "title": "Unit",
+            "type": "string"
+          },
+          "instrument": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Instrumento o sensor con el que se tomó la medición si el texto lo menciona (p. ej. 'termómetro digital', 'GPS Garmin'). Null si no.",
+            "title": "Instrument"
+          }
+        },
+        "required": [
+          "name",
+          "value",
+          "unit"
+        ],
+        "title": "Measurement",
+        "type": "object"
+      },
+      "SpeciesObservation": {
+        "additionalProperties": false,
+        "description": "Una entrada del registro de un taxón observado en el sitio.",
+        "properties": {
+          "species_name": {
+            "description": "Nombre científico binomial o nombre común consistentemente usado en el log (p. ej. 'Quercus ilex', 'pinzón vulgar').",
+            "title": "Species Name",
+            "type": "string"
+          },
+          "count": {
+            "description": "Número de individuos observados o estimados. Para presencia/ausencia sin conteo usar 1 y aclarar en 'notes'.",
+            "minimum": 0,
+            "title": "Count",
+            "type": "integer"
+          },
+          "behavior": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Comportamiento observado si el log lo describe (p. ej. 'forrajeando', 'en reposo', 'reproduciendo'). Null si no se describe.",
+            "title": "Behavior"
+          },
+          "notes": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Observación adicional literal del cuaderno (p. ej. 'juveniles', 'plumaje invernal'). Null si no hay notas.",
+            "title": "Notes"
+          }
+        },
+        "required": [
+          "species_name",
+          "count"
+        ],
+        "title": "SpeciesObservation",
+        "type": "object"
+      },
+      "StudyMethod": {
+        "enum": [
+          "transecto",
+          "cuadrante",
+          "conteo_por_punto",
+          "marcaje_recaptura",
+          "registro_acústico",
+          "fototrampeo",
+          "muestreo_oportunista"
+        ],
+        "title": "StudyMethod",
+        "type": "string"
+      },
+      "WeatherCondition": {
+        "enum": [
+          "soleado",
+          "parcialmente_nublado",
+          "cubierto",
+          "lluvia",
+          "llovizna",
+          "niebla",
+          "nieve"
+        ],
+        "title": "WeatherCondition",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Entrada de cuaderno de campo de un estudio biológico, ecológico o\ngeológico: sitio, fecha, condiciones, registros de taxones, mediciones y\nconclusiones del observador. La extracción debe distinguir entre\nobservaciones cualitativas de taxones y mediciones cuantitativas, y debe\nenlazar las condiciones ambientales con la sesión completa.\n\nComplejidad: L8 — dispersión informativa con listas heterogéneas paralelas\n(especies + mediciones) y vocabulario técnico moderado.",
+    "properties": {
+      "site_name": {
+        "description": "Nombre del sitio de observación tal como aparece en la cabecera (p. ej. 'Estación Biológica de Doñana, Lagunas del Acebuche').",
+        "title": "Site Name",
+        "type": "string"
+      },
+      "observation_date": {
+        "description": "Fecha de la sesión en formato ISO 'YYYY-MM-DD'.",
+        "title": "Observation Date",
+        "type": "string"
+      },
+      "observer": {
+        "description": "Nombre del observador o equipo que firma la entrada del cuaderno.",
+        "title": "Observer",
+        "type": "string"
+      },
+      "method": {
+        "$ref": "#/$defs/StudyMethod",
+        "description": "Método principal de muestreo declarado para la sesión. 'muestreo_oportunista' si el texto no formaliza un método estándar."
+      },
+      "weather": {
+        "$ref": "#/$defs/WeatherCondition",
+        "description": "Condición meteorológica predominante durante la sesión, según el texto."
+      },
+      "temperature_celsius": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Temperatura ambiente registrada al iniciar la sesión, en °C. Null si el log no la registra.",
+        "title": "Temperature Celsius"
+      },
+      "species_observed": {
+        "description": "Registro de taxones observados en el orden del cuaderno. Una entrada por especie / morfotipo distinto.",
+        "items": {
+          "$ref": "#/$defs/SpeciesObservation"
+        },
+        "title": "Species Observed",
+        "type": "array"
+      },
+      "measurements": {
+        "description": "Mediciones cuantitativas tomadas durante la sesión, distintas de la temperatura general (que va en su campo dedicado). Una entrada por medición.",
+        "items": {
+          "$ref": "#/$defs/Measurement"
+        },
+        "title": "Measurements",
+        "type": "array"
+      },
+      "conclusions": {
+        "description": "Conclusiones o hipótesis explícitamente formuladas por el observador al cierre de la entrada. Una conclusión por elemento.",
+        "items": {
+          "type": "string"
+        },
+        "title": "Conclusions",
+        "type": "array"
+      }
+    },
+    "required": [
+      "site_name",
+      "observation_date",
+      "observer",
+      "method",
+      "weather"
+    ],
+    "title": "ObservationLog",
+    "type": "object"
+  },
+  "output": {
+    "site_name": "Sector noroeste de Montaña Pelada, malpaís de Güímar (Tenerife, Islas Canarias)",
+    "observation_date": "2026-05-28",
+    "observer": "Equipo de campo Vulcanología UCanarias — coordina Lucía Hernández-Marrero",
+    "method": "muestreo_oportunista",
+    "weather": "soleado",
+    "temperature_celsius": 19.4,
+    "species_observed": [
+      {
+        "species_name": "Gallotia galloti",
+        "count": 1,
+        "behavior": "termorregulando",
+        "notes": "macho adulto con librea azul intensa en garganta y flancos; territorio reproductivo"
+      },
+      {
+        "species_name": "Gallotia galloti",
+        "count": 3,
+        "behavior": null,
+        "notes": "hembras o juveniles, sin librea azul; sin confirmar subespecie"
+      },
+      {
+        "species_name": "Corvus corax canariensis",
+        "count": 2,
+        "behavior": "en vuelo, graznando, patrullaje territorial",
+        "notes": "pareja en vuelo hacia el SW, no se posaron"
+      },
+      {
+        "species_name": "Euphorbia balsamifera",
+        "count": 40,
+        "behavior": null,
+        "notes": "al menos 40 individuos en los primeros 200 m, muchos con frutos secos"
+      },
+      {
+        "species_name": "Kleinia neriifolia",
+        "count": 12,
+        "behavior": null,
+        "notes": "sin floración, todos por debajo de 60 cm de altura"
+      },
+      {
+        "species_name": "Euphorbia canariensis",
+        "count": 1,
+        "behavior": null,
+        "notes": "ejemplar joven de unos cuatro tallos, aislado en una grieta"
+      }
+    ],
+    "measurements": [
+      {
+        "name": "dirección de buzamiento del dique",
+        "value": 38.0,
+        "unit": "° (N..E)",
+        "instrument": "brújula Brunton"
+      },
+      {
+        "name": "espesor del dique",
+        "value": 0.85,
+        "unit": "m",
+        "instrument": "cinta métrica metálica de 5 m"
+      },
+      {
+        "name": "dureza Mohs del basalto del dique",
+        "value": 6.0,
+        "unit": "Mohs",
+        "instrument": null
+      },
+      {
+        "name": "espesor de la colada aa",
+        "value": 3.2,
+        "unit": "m",
+        "instrument": "cinta"
+      },
+      {
+        "name": "temperatura superficial de la roca insolada",
+        "value": 41.8,
+        "unit": "°C",
+        "instrument": "pirómetro infrarrojo Fluke 62 MAX"
+      },
+      {
+        "name": "espesor de la capa de lapilli pumítico",
+        "value": 1.1,
+        "unit": "m",
+        "instrument": "cinta"
+      },
+      {
+        "name": "temperatura del agua del manantial",
+        "value": 15.2,
+        "unit": "°C",
+        "instrument": "termómetro digital de inmersión Hanna HI 98103"
+      },
+      {
+        "name": "conductividad eléctrica del agua del manantial",
+        "value": 612.0,
+        "unit": "µS/cm",
+        "instrument": "conductímetro Hanna DiST 5"
+      }
+    ],
+    "conclusions": [
+      "La orientación del dique (N 38° E) es coherente con el campo de esfuerzos extensional del rift NE de Tenerife y refuerza que AFL-MP-NW-01 pertenece al mismo enjambre de diques alimentadores cartografiado al norte el año pasado.",
+      "El contraste térmico entre roca insolada y en sombra (41.8 °C frente a 23.1 °C) implica que cualquier campaña termográfica posterior debe hacerse antes de las 10:00 o después de las 18:00 para minimizar el ruido por insolación diferencial.",
+      "La conductividad del manantial (612 µS/cm) está en el rango bajo-medio típico de aguas basálticas jóvenes, sugiere tiempo de residencia corto y descarta provisionalmente una contribución significativa de aguas profundas hidrotermales en este punto."
+    ]
+  },
+  "metadata": {
+    "source": "synthetic_20260601_007.md",
+    "domain": "stem",
+    "subdomain": "observations"
+  }
+}

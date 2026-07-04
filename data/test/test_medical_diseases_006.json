@@ -1,0 +1,132 @@
+{
+  "id": "test_medical_diseases_006",
+  "input_text": "# Hipotiroidismo\n\nEl hipotiroidismo es una enfermedad del sistema endocrino caracterizada por la producción insuficiente de  hormonas tiroideas,​ principalmente por una alteración de la glándula tiroidea (hipotiroidismo primario), o también por una estimulación deficiente de la glándula tiroides debido a un trastorno que altere la producción de la hormona tiroestimulante en el sistema hipotálamo-hipofisario (hipotiroidismo secundario).​\nEn las zonas donde la ingesta de yodo es insuficiente, la tiroiditis crónica autoinmune (enfermedad de Hashimoto) es la causa más común del hipotiroidismo. A escala mundial, la deficiencia de yodo sigue siendo la causa más frecuente.​​ Las manifestaciones clínicas son poco específicas. El diagnóstico se basa en pruebas de laboratorio, principalmente la determinación de los niveles de tirotropina en la sangre como método de cribado. El tratamiento consiste en administrar levotiroxina por vía oral, con dosis individualizadas según la magnitud del hipotiroidismo, la edad del paciente y los antecedentes de cardiopatía isquémica.​\n\n## Diagnóstico\nLa única prueba validada para diagnosticar el hipotiroidismo primario es la medida de la hormona estimulante del tiroides (TSH) y de la tiroxina libre (T4-L). Sin embargo, sus niveles pueden verse afectados por enfermedades no tiroideas.\n\n## Tratamiento\nEl hipotiroidismo se trata con levotiroxina, cuya dosis puede variar según los resultados de laboratorio.\nEs frecuente encontrar una parte de pacientes que no responden adecuadamente al tratamiento y necesitan dosis inesperadamente elevadas de levotiroxina, o cuya respuesta al tratamiento es irregular, necesitando frecuentes ajustes de las dosis de medicación, con períodos de dosis más altas o más bajas. Este hecho es un indicio, habitualmente ignorado, de que el fármaco no se está absorbiendo correctamente en el intestino. Las principales razones incluyen enfermedades gastrointestinales no diagnosticadas (especialmente la enfermedad celíaca, frecuentemente asociada y no reconocida), interacciones con otros tratamientos, intolerancia a ciertos excipientes (como el gluten en enfermos celíacos) o el momento de ingestión del fármaco en relación con las comidas y bebidas, incluyendo el café.​\nEs controvertido el tema de si se debe dar tratamiento a un paciente con hipotiroidismo subclínico, pero en algunos casos estaría indicado como ser: mujeres embarazadas, niños, dislipidemia, depresión, etc. Todo tratamiento debe ser valorado y individualizado por el médico.",
+  "instruction": "Extrae el perfil de la enfermedad",
+  "target_schema": {
+    "$defs": {
+      "EtiologyType": {
+        "enum": [
+          "INFECTIOUS",
+          "GENETIC",
+          "AUTOIMMUNE",
+          "DEGENERATIVE",
+          "UNKNOWN",
+          "OTHER"
+        ],
+        "title": "EtiologyType",
+        "type": "string"
+      },
+      "Symptom": {
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "description": "Verbatim name of the symptom",
+            "title": "Name",
+            "type": "string"
+          },
+          "severity_level": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Inferred severity if mentioned (Mild, Moderate, Severe)",
+            "title": "Severity Level"
+          },
+          "is_primary": {
+            "default": true,
+            "description": "True if this is a defining symptom of the disease",
+            "title": "Is Primary",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "name"
+        ],
+        "title": "Symptom",
+        "type": "object"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Hierarchical extraction of pathology details from medical summaries.\nComplexity: L5 (Hierarchical Grouping).",
+    "properties": {
+      "pathology_name": {
+        "description": "The medical name of the disease or disorder",
+        "title": "Pathology Name",
+        "type": "string"
+      },
+      "etiology_type": {
+        "$ref": "#/$defs/EtiologyType",
+        "description": "The primary origin or cause of the disease"
+      },
+      "etiology_description": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "A brief summary of how the disease is caused",
+        "title": "Etiology Description"
+      },
+      "symptoms": {
+        "description": "Structured list of reported symptoms",
+        "items": {
+          "$ref": "#/$defs/Symptom"
+        },
+        "title": "Symptoms",
+        "type": "array"
+      },
+      "diagnosis_methods": {
+        "description": "Clinical tests or methods mentioned for identifying the pathology",
+        "items": {
+          "type": "string"
+        },
+        "title": "Diagnosis Methods",
+        "type": "array"
+      },
+      "is_chronic": {
+        "anyOf": [
+          {
+            "type": "boolean"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "True if the text explicitly defines the disease as chronic or long-term",
+        "title": "Is Chronic"
+      }
+    },
+    "required": [
+      "pathology_name",
+      "etiology_type"
+    ],
+    "title": "DiseaseProfile",
+    "type": "object"
+  },
+  "output": {
+    "pathology_name": "Hipotiroidismo",
+    "etiology_type": "OTHER",
+    "etiology_description": "Producción insuficiente de hormonas tiroideas, principalmente por alteración de la glándula tiroidea (hipotiroidismo primario) o por estimulación deficiente debida a un trastorno hipotálamo-hipofisario (hipotiroidismo secundario). En zonas con ingesta insuficiente de yodo, la tiroiditis crónica autoinmune (enfermedad de Hashimoto) es la causa más común; a escala mundial, la deficiencia de yodo sigue siendo la causa más frecuente.",
+    "symptoms": [],
+    "diagnosis_methods": [
+      "determinación de los niveles de tirotropina (TSH) en la sangre",
+      "medida de la tiroxina libre (T4-L)"
+    ],
+    "is_chronic": null
+  },
+  "metadata": {
+    "source": "fresh_testset_hipotiroidismo.md",
+    "domain": "medical",
+    "subdomain": "diseases"
+  }
+}

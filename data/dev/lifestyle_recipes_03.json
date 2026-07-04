@@ -1,0 +1,196 @@
+{
+  "id": "lifestyle_recipes_03",
+  "input_text": "# Almendras garrapiñadas\n\nSource: https://es.wikipedia.org/wiki/Almendras_garrapi%C3%B1adas\n\nLas almendras garrapiñadas (pronunciación: [ɡara.piˈɲaðas]; también conocidas como almendras caramelizadas) son un dulce consistente en almendras recubiertas con caramelo, típico de varias regiones de España, destacando especialmente Alcalá de Henares, donde se documentan​ desde el siglo XVIII y se elaboran tradicionalmente en el Convento de las Clarisas de San Diego.​\n\nEtimología\nEl término garrapiñadas proviene del verbo español garrapiñar, que significa “Bañar (una almendra u otro fruto seco) en un almíbar que forma grumos”. ​ La palabra hace referencia directa a la técnica de preparación utilizada y no al fruto en sí. Se cree que garrapiñar tiene su origen en el español antiguo, con posibles influencias del árabe andalusí.​\n\nHistoria\nLas almendras garrapiñadas tienen su origen vinculado a las técnicas de confitería y caramelización de frutos secos en distintas culturas. Se cree que sus antecedentes se encuentran en la China imperial, donde se utilizaban almendras recubiertas de azúcar durante festividades y celebraciones. Posteriormente, esta técnica se difundió hacia Persia y el mundo árabe, extendiéndose a la Península Ibérica durante la ocupación musulmana.\nSe dice que la primera receta de almendras garrapiñadas fue inventada en el siglo XVII por Clément Jaluzot, jefe de cocina del Mariscal du Plessis-Praslin. Esta preparación sirvió como antecedente del praliné francés, en el que las almendras se trituran tras caramelizar el azúcar, obteniendo una pasta utilizada posteriormente en repostería. ​\n\nEn España, las almendras garrapiñadas se documentan desde al menos el siglo XVIII. El confitero Juan de la Mata las menciona en su obra Arte de Repostería (1747), describiendo la técnica de caramelización de almendras y otros frutos secos. Durante los siglos XIX y XX, la producción se extendió por distintas regiones de la península, tanto en ámbitos domésticos como en talleres artesanales y conventos, que mantenían la tradición de elaborarlas para festividades religiosas y ferias locales. ​\nAlcalá de Henares es uno de los lugares donde la tradición culinaria se conserva gracias a la producción artesanal de las monjas del Convento de las Clarisas de San Diego. Asimismo, en Villafrechós, provincia de Valladolid, las almendras garrapiñadas adquirieron notoriedad al ser premiadas en la Exposición Universal de Barcelona de 1888. ​\n\nPreparación\nLa preparación tradicional comienza tostando ligeramente las almendras en una sartén o recipiente de fondo grueso. A continuación, se añade azúcar y, opcionalmente, un poco de agua para facilitar la disolución.\nLa mezcla se calienta a fuego medio, removiendo de manera constante hasta que el azúcar se carameliza y recubre uniformemente las almendras, adquiriendo un color marrón característico. Durante el proceso, es importante mantener la agitación para evitar que el azúcar se queme o se cristalice de manera irregular.\nUna vez que el azúcar ha cubierto por completo las almendras, se retiran del fuego y se extienden sobre una superficie antiadherente o papel vegetal para que se enfríen y endurezcan. En algunas variantes se añade canela, vainilla o ralladura de cítricos para aportar matices aromáticos.\nEl resultado es un fruto seco duro, dulce y crujiente, que se consume como aperitivo o acompañamiento durante festividades y ferias. La técnica de preparación se mantiene prácticamente inalterada desde su documentación en la tradición repostera española del siglo XVIII.\n\nVéase también\nAlmendras de Jordania\nGarrapiñada (maní)\nPatrimonio Cultural Inmaterial de Alcalá de Henares\n\n\n== Referencias ==",
+  "instruction": "Extrae la receta",
+  "target_schema": {
+    "$defs": {
+      "CookingTechnique": {
+        "enum": [
+          "SOFREÍR",
+          "HERVIR",
+          "HORNEAR",
+          "FREÍR",
+          "VAPOR",
+          "COCCIÓN LENTA"
+        ],
+        "title": "CookingTechnique",
+        "type": "string"
+      },
+      "DietaryTag": {
+        "enum": [
+          "VEGANO",
+          "VEGETARIANO",
+          "SIN GLUTEN",
+          "SIN LÁCTEOS",
+          "BAJO EN CARBOHIDRATOS"
+        ],
+        "title": "DietaryTag",
+        "type": "string"
+      },
+      "RecipeIngredient": {
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "description": "Verbatim name of the ingredient",
+            "title": "Name",
+            "type": "string"
+          },
+          "amount": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Numerical quantity",
+            "title": "Amount"
+          },
+          "unit": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/UnitType"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Unit of measurement"
+          }
+        },
+        "required": [
+          "name"
+        ],
+        "title": "RecipeIngredient",
+        "type": "object"
+      },
+      "UnitType": {
+        "enum": [
+          "g",
+          "ml",
+          "kg",
+          "unidad",
+          "pizca",
+          "cucharada",
+          "otro"
+        ],
+        "title": "UnitType",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Holistic reasoning over a traditional recipe.\nRequires inferring dietary suitability and complexity from steps.\nComplexity: L10 (Holistic Reasoning).",
+    "properties": {
+      "dish_name": {
+        "description": "The name of the recipe",
+        "title": "Dish Name",
+        "type": "string"
+      },
+      "servings": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of portions generated",
+        "title": "Servings"
+      },
+      "ingredients": {
+        "description": "Structured list of ingredients",
+        "items": {
+          "$ref": "#/$defs/RecipeIngredient"
+        },
+        "title": "Ingredients",
+        "type": "array"
+      },
+      "complexity_score": {
+        "description": "Inferred difficulty from 1 (easy) to 10 (pro chef) based on steps and time",
+        "maximum": 10,
+        "minimum": 1,
+        "title": "Complexity Score",
+        "type": "integer"
+      },
+      "dietary_tags": {
+        "description": "Reasoned tags based on the absence of certain ingredient types (e.g., meat, gluten)",
+        "items": {
+          "$ref": "#/$defs/DietaryTag"
+        },
+        "title": "Dietary Tags",
+        "type": "array"
+      },
+      "technique_sequence": {
+        "description": "The chronological sequence of main cooking techniques applied",
+        "items": {
+          "$ref": "#/$defs/CookingTechnique"
+        },
+        "title": "Technique Sequence",
+        "type": "array"
+      },
+      "total_time_minutes": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Normalized total duration in minutes",
+        "title": "Total Time Minutes"
+      }
+    },
+    "required": [
+      "dish_name",
+      "ingredients",
+      "complexity_score",
+      "technique_sequence"
+    ],
+    "title": "RecipeProcedural",
+    "type": "object"
+  },
+  "output": {
+    "dish_name": "Almendras garrapiñadas",
+    "servings": null,
+    "ingredients": [
+      {
+        "name": "almendras",
+        "amount": null,
+        "unit": null
+      },
+      {
+        "name": "azúcar",
+        "amount": null,
+        "unit": null
+      },
+      {
+        "name": "agua",
+        "amount": null,
+        "unit": null
+      }
+    ],
+    "complexity_score": 4,
+    "dietary_tags": [
+      "VEGANO",
+      "VEGETARIANO",
+      "SIN GLUTEN",
+      "SIN LÁCTEOS"
+    ],
+    "technique_sequence": [
+      "SOFREÍR"
+    ],
+    "total_time_minutes": null
+  },
+  "metadata": {
+    "source": "wiki_recipe_20260414_almendras_garrapiñadas.md",
+    "domain": "lifestyle",
+    "subdomain": "recipes"
+  }
+}

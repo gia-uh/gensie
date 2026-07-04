@@ -1,0 +1,142 @@
+{
+  "id": "test_cultural_people_002",
+  "input_text": "Camilo José Cela y Trulock (Iria Flavia, 11 de mayo de 1916-Madrid, 17 de enero de 2002) fue un escritor español. Representante de la literatura de posguerra, ejerció como novelista, periodista, ensayista, editor de revistas literarias y conferenciante. Fue académico de la Real Academia Española y resultó galardonado, entre otros, con el Premio Príncipe de Asturias de las Letras en 1987, el Premio Nobel de Literatura en 1989 y el Premio Cervantes en 1995.\nPor sus méritos literarios, en 1996 el rey Juan Carlos I le otorgó el marquesado de Iria Flavia, creado ex profeso. En el año 2000, Cela puso la primera piedra, junto a Felipe Segovia Olmo, de la Universidad Camilo José Cela, de la que fue rector honorífico.",
+  "instruction": "Extrae el perfil biográfico-artístico de la persona descrita en el párrafo introductorio. Devuelve null o lista vacía para cualquier campo no enunciado explícitamente en el texto; no completes con conocimiento externo.",
+  "target_schema": {
+    "$defs": {
+      "ArtisticDiscipline": {
+        "enum": [
+          "literatura",
+          "pintura",
+          "escultura",
+          "música",
+          "cine",
+          "arquitectura",
+          "fotografía",
+          "otra"
+        ],
+        "title": "ArtisticDiscipline",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Perfil biográfico-artístico extraído del párrafo introductorio (lead) de un\nartículo de Wikipedia sobre un artista, autor o creador. La fuente es solo\nel resumen previo al índice: muchos datos (premios, influencias, movimiento)\nsuelen NO aparecer en esos primeros párrafos aunque sean ampliamente\nconocidos. Cualquier campo no explicitado debe devolverse como null o lista\nvacía — no completar con conocimiento externo.\n\nComplejidad: L4 — alta densidad de trampas de grounding (campos\nlegítimamente null).",
+    "properties": {
+      "full_name": {
+        "description": "Nombre completo de la persona como aparece en el texto. Incluir apellidos múltiples si están presentes (p. ej. 'Pablo Ruiz Picasso').",
+        "title": "Full Name",
+        "type": "string"
+      },
+      "birth_year": {
+        "anyOf": [
+          {
+            "maximum": 2100,
+            "minimum": 1000,
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Año de nacimiento como entero de cuatro dígitos. Null si la fecha no aparece en el texto.",
+        "title": "Birth Year"
+      },
+      "death_year": {
+        "anyOf": [
+          {
+            "maximum": 2100,
+            "minimum": 1000,
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Año de fallecimiento como entero de cuatro dígitos. Null si la persona está viva o si la fecha no aparece. No inferir muerte por ausencia de mención.",
+        "title": "Death Year"
+      },
+      "nationality": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Nacionalidad o gentilicio principal en español, en minúsculas y en singular masculino (p. ej. 'español', 'cubano', 'mexicano'). Null si no se enuncia explícitamente.",
+        "title": "Nationality"
+      },
+      "discipline": {
+        "$ref": "#/$defs/ArtisticDiscipline",
+        "description": "Disciplina artística principal de la persona según el texto. Si se mencionan varias, elegir la más prominente en la primera oración. Usar 'otra' solo si ninguna categoría aplica."
+      },
+      "movement": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Movimiento, corriente o estilo artístico al que se adscribe la persona (p. ej. 'cubismo', 'realismo mágico', 'surrealismo'). Null si el lead no lo nombra — muchos artistas no son etiquetados con un movimiento en su párrafo introductorio.",
+        "title": "Movement"
+      },
+      "notable_works": {
+        "description": "Obras destacadas citadas literalmente en el texto (títulos de novelas, pinturas, películas, álbumes...). Lista vacía si no se nombra ninguna obra concreta.",
+        "items": {
+          "type": "string"
+        },
+        "title": "Notable Works",
+        "type": "array"
+      },
+      "awards": {
+        "description": "Premios, distinciones o reconocimientos mencionados explícitamente (p. ej. 'Premio Nobel de Literatura', 'Premio Cervantes', 'Goya a la mejor dirección'). Lista vacía si el lead no enumera premios.",
+        "items": {
+          "type": "string"
+        },
+        "title": "Awards",
+        "type": "array"
+      },
+      "influenced_by": {
+        "description": "Personas, escuelas o tradiciones citadas como influencia directa sobre el artista. Lista vacía si el lead no señala influencias explícitas — campo frecuentemente vacío.",
+        "items": {
+          "type": "string"
+        },
+        "title": "Influenced By",
+        "type": "array"
+      }
+    },
+    "required": [
+      "full_name",
+      "discipline"
+    ],
+    "title": "ArtistProfile",
+    "type": "object"
+  },
+  "output": {
+    "full_name": "Camilo José Cela y Trulock",
+    "birth_year": 1916,
+    "death_year": 2002,
+    "nationality": "español",
+    "discipline": "literatura",
+    "movement": "literatura de posguerra",
+    "notable_works": [],
+    "awards": [
+      "Premio Príncipe de Asturias de las Letras",
+      "Premio Nobel de Literatura",
+      "Premio Cervantes"
+    ],
+    "influenced_by": []
+  },
+  "metadata": {
+    "source": "wiki_camilo_josé_cela.md",
+    "domain": "cultural",
+    "subdomain": "people"
+  }
+}

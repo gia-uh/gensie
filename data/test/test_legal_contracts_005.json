@@ -1,0 +1,125 @@
+{
+  "id": "test_legal_contracts_005",
+  "input_text": "# ARRENDAMIENTO DE FORMACIÓN METEOROLÓGICA (NUBE CÚMULONIMBO)\n\nCelebrado en altitud de crucero (35.000 pies) sobre el Océano Atlántico, el 4 de julio de 2026. Este arrendamiento iniciará su vigencia cuando la formación meteorológica descrita alcance una densidad pluviométrica de 400 mm, o el 10 de julio de 2026, lo que ocurra primero.\n\n**INTERVINIENTES**\n\nEL PROPIETARIO: *Climate Control Corp.*, entidad domiciliada fiscalmente en las Islas Caimán, que opera el satélite de siembra de nubes \"RainMaker-1\".\n\nEL ARRENDATARIO: *Sindicato de Agricultores del Desierto de Atacama* (S.A.D.A.), representado por su secretario general, Mateo Silva.\n\n**CONDICIONES**\n\n**1. Descripción del Bien:**\nEl Propietario cede temporalmente los derechos de precipitación de la nube catalogada como \"Cúmulonimbo C-445\", garantizando su desplazamiento controlado hacia las coordenadas del Arrendatario.\n\n**2. Propiedad Intelectual y Discreción:**\nLos químicos utilizados en la siembra de la nube (Anexo 1) constituyen información confidencial patentada. El Arrendatario no podrá analizar químicamente el agua de lluvia ni compartir sus descubrimientos con laboratorios independientes. Cualquier intento de ingeniería inversa meteorológica será severamente sancionado.\n\n**3. Fuero Aplicable:**\nCualquier litigio derivado de inundaciones no planificadas será resuelto bajo el Derecho Internacional Marítimo (por la evaporación inicial). Sin embargo, las disputas puramente comerciales se someterán a los juzgados civiles de Londres, Reino Unido.",
+  "instruction": "Extrae los parámetros esenciales del contrato siguiendo el esquema ContractSummary.",
+  "target_schema": {
+    "$defs": {
+      "ContractType": {
+        "enum": [
+          "PRESTACIÓN DE SERVICIOS",
+          "COMPRAVENTA",
+          "LABORAL",
+          "CONFIDENCIALIDAD",
+          "ACUERDO MARCO",
+          "OTRO"
+        ],
+        "title": "ContractType",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Identifies the core parameters and semantic structure of an agreement.\nComplexity: L5 (Hierarchical & Semantic Extraction).",
+    "properties": {
+      "contract_title": {
+        "description": "The formal title or heading of the contract",
+        "title": "Contract Title",
+        "type": "string"
+      },
+      "contract_type": {
+        "$ref": "#/$defs/ContractType",
+        "description": "The broad legal category of the agreement"
+      },
+      "effective_date": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "The date the contract goes into effect (YYYY-MM-DD or verbatim)",
+        "title": "Effective Date"
+      },
+      "parties": {
+        "description": "The names of the individuals or organizations entering into the agreement",
+        "items": {
+          "type": "string"
+        },
+        "title": "Parties",
+        "type": "array"
+      },
+      "total_clauses": {
+        "description": "Total number of numbered or named sections (e.g., PRIMERO, SEGUNDO...)",
+        "title": "Total Clauses",
+        "type": "integer"
+      },
+      "governing_law_jurisdiction": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "The state, country, or jurisdiction whose laws govern the contract",
+        "title": "Governing Law Jurisdiction"
+      },
+      "has_nda_clause": {
+        "default": false,
+        "description": "True if the text explicitly mentions confidentiality or non-disclosure",
+        "title": "Has Nda Clause",
+        "type": "boolean"
+      },
+      "has_liability_limitation": {
+        "default": false,
+        "description": "True if there is an explicit clause limiting or exempting liability",
+        "title": "Has Liability Limitation",
+        "type": "boolean"
+      },
+      "monetary_amount": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Total amount of the contract if specified numerically",
+        "title": "Monetary Amount"
+      }
+    },
+    "required": [
+      "contract_title",
+      "contract_type",
+      "parties",
+      "total_clauses"
+    ],
+    "title": "ContractSummary",
+    "type": "object"
+  },
+  "output": {
+    "contract_title": "ARRENDAMIENTO DE FORMACIÓN METEOROLÓGICA (NUBE CÚMULONIMBO)",
+    "contract_type": "OTRO",
+    "effective_date": "2026-07-10",
+    "parties": [
+      "Climate Control Corp.",
+      "Sindicato de Agricultores del Desierto de Atacama (S.A.D.A.)"
+    ],
+    "total_clauses": 3,
+    "governing_law_jurisdiction": "Derecho Internacional Marítimo; juzgados civiles de Londres, Reino Unido",
+    "has_nda_clause": true,
+    "has_liability_limitation": false,
+    "monetary_amount": null
+  },
+  "metadata": {
+    "source": "synthetic_20260414_010.md",
+    "domain": "legal",
+    "subdomain": "contracts"
+  }
+}

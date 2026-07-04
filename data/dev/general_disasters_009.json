@@ -1,0 +1,154 @@
+{
+  "id": "general_disasters_009",
+  "input_text": "# 12 muertos y 32 heridos tras tiroteo en base militar de Texas\n\nSegún la cadena de noticias ABC News los disparos habrían sido realizados por un soldado recientemente convertido al Islam, Malik Nadal Hassan, abatido durante el tiroteo. Otros dos soldados fueron detenidos acusados de ser cómplices del mismo. El saldo parcial del tiroteo es de 12 muertos y 32 heridos.\nEl hecho aún es confuso, pero, según las primeras informaciones, éste se produjo a las 13:30 hs locales y los disparos los habrían realizado dos soldados (algunos informan de un soldado). Hasta el momento no se sabe si las víctimas de este son cíviles o militares. De acuerdo con distintas cadenas de televisión, los soldados de la base pudieron haber sido tiroteados con sus propias armas contra los hombres que efectuaron los disparos, estos armados con ametralladoras M-16.\nLa base de Fort Hood es la base militar estadounidense más grande del mundo. Allí conviven 65.000 soldados, muchos de ellos que han luchado en Iraq y Afganistán, tienen síndrome postraumático. El ejército estadounidense, ya desde hace un año, sufre cifras récords de suicidios y desórdenes mentales.\nEl presidente de Estados Unidos, Barack Obama, sin dar muchos detalles, ha calificado el hecho como \"un horrible incidente de violencia\". También aclaró que todavía no conocen detalles y que los informarán apenas cuenten con más información.",
+  "instruction": "Extrae la información estructurada de este artículo de noticias sobre un tiroteo, incluyendo el titular, un resumen de los hechos principales, la categoría temática, la ubicación geográfica, las personas y organizaciones clave mencionadas, y cualquier cifra de víctimas o heridos.",
+  "target_schema": {
+    "$defs": {
+      "NewsCategory": {
+        "enum": [
+          "JUDICIAL",
+          "DISASTER",
+          "HEALTH",
+          "ENVIRONMENT",
+          "POLITICS",
+          "ECONOMY",
+          "SCIENCE",
+          "CULTURE",
+          "SPORTS",
+          "OTHER"
+        ],
+        "title": "NewsCategory",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Extracts structured information from general news articles.\nComplexity: L4 (Sparse Extraction) - Some fields may be null/missing.",
+    "properties": {
+      "headline": {
+        "description": "The main headline or title of the news article",
+        "title": "Headline",
+        "type": "string"
+      },
+      "summary": {
+        "description": "A brief summary of the main facts reported (1-3 sentences)",
+        "title": "Summary",
+        "type": "string"
+      },
+      "category": {
+        "$ref": "#/$defs/NewsCategory",
+        "description": "The thematic category of the news story"
+      },
+      "location": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Geographic location where the event occurred (city, country, or region)",
+        "title": "Location"
+      },
+      "date": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Date mentioned in the article (may be implicit or explicit)",
+        "title": "Date"
+      },
+      "key_people": {
+        "description": "Names of key individuals mentioned in the article",
+        "items": {
+          "type": "string"
+        },
+        "title": "Key People",
+        "type": "array"
+      },
+      "key_organizations": {
+        "description": "Names of organizations, companies, or governments mentioned",
+        "items": {
+          "type": "string"
+        },
+        "title": "Key Organizations",
+        "type": "array"
+      },
+      "casualties": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of deaths mentioned, if any",
+        "title": "Casualties"
+      },
+      "injured": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of people injured, if any",
+        "title": "Injured"
+      },
+      "affected_count": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of people affected or displaced, if applicable",
+        "title": "Affected Count"
+      }
+    },
+    "required": [
+      "headline",
+      "summary",
+      "category"
+    ],
+    "title": "NewsArticle",
+    "type": "object"
+  },
+  "output": {
+    "headline": "12 muertos y 32 heridos tras tiroteo en base militar de Texas",
+    "summary": "Un soldado convertido al Islam, Malik Nadal Hassan, realizó un tiroteo en la base militar de Fort Hood en Texas, dejando un saldo de 12 muertos y 32 heridos. El atacante fue abatido durante el tiroteo y otros dos soldados fueron detenidos como cómplices.",
+    "category": "DISASTER",
+    "location": "Fort Hood, Texas",
+    "date": null,
+    "key_people": [
+      "Malik Nadal Hassan",
+      "Barack Obama"
+    ],
+    "key_organizations": [
+      "ABC News",
+      "ejército estadounidense"
+    ],
+    "casualties": 12,
+    "injured": 32,
+    "affected_count": null
+  },
+  "metadata": {
+    "source": "wikinews_desastres_y_accidentes_20260415_009_12_muertos_y_32_heridos_tras_tiroteo_en_base_milit.md",
+    "domain": "general",
+    "subdomain": "disasters"
+  }
+}

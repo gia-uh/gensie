@@ -1,0 +1,203 @@
+{
+  "id": "test_stem_biology_007",
+  "input_text": "# Tyrannosaurus rex [...] Tyrannosaurus rex (del griego latinizado tyrannus 'tirano' y saurus 'lagarto', y el latín rex, 'rey')​ es una especie y tipo del género extinto Tyrannosaurus de dinosaurio terópodo tiranosáurido, que vivió a finales del período Cretácico, hace aproximadamente entre 68 y 66 millones de años,​​ en el Maastrichtiense, en lo que es hoy América del Norte. Su distribución en el continente fue mucho más amplia que la de otros tiranosáuridos; es una figura común en la cultura popular. Fue uno de los últimos dinosaurios no avianos que existieron antes de la extinción masiva del Cretácico-Terciario. También es conocido como t-rex y castellanizado como tiranosaurio rex, tiranosaurio e incluso tiranosaurio rey.​​ [...] ## Taxonomía (taxobox)\n\n- **Dominio**: Eukaryota\n- **Reino**: Animalia\n- **Subreino**: Eumetazoa\n- **Superfilo**: Deuterostomia\n- **Filo**: Chordata\n- **Subfilo**: Vertebrata\n- **Infrafilo**: Gnathostomata\n- **Superclase**: Tetrapoda\n- **Clase**: Sauropsida\n- **Subclase**: Diapsida\n- **Infraclase**: Archosauromorpha\n- **Superorden**: Dinosauria\n- **Orden**: Saurischia\n- **Suborden**: Theropoda\n- **Infraorden**: Coelurosauria\n- **Superfamilia**: Tyrannosauroidea\n- **Familia**: Tyrannosauridae\n- **Subfamilia**: Tyrannosaurinae\n- **Tribu**: Tyrannosaurini\n- **Género**: Tyrannosaurus\n- **Especie**: T. rex Osborn, 1905\n\n## Metadatos del taxobox\n\n- **rango_temporal**: Rango temporal : 68 Ma - 66 Ma PreЄ Є O S D C P T J K Pg N ↓ Cretácico Superior",
+  "instruction": "Extrae la clasificación taxonómica jerárquica de Tyrannosaurus rex a partir del taxobox y del párrafo introductorio. Construye el árbol desde el rango más alto presente (dominio) hasta la especie, anidando cada rango como hijo del anterior. Usa únicamente los rangos principales del enum (dominio, reino, filo, clase, orden, familia, género, especie); omite rangos auxiliares como subreino, superfilo, subfilo, infrafilo, superclase, subclase, infraclase, superorden, suborden, infraorden, superfamilia, subfamilia y tribu si no encajan en el enum. Marca extinct=true en la especie y en el género porque el texto afirma explícitamente que se trata de un género extinto. Incluye nombre común sólo cuando el texto lo indique explícitamente para ese taxón.",
+  "target_schema": {
+    "$defs": {
+      "ConservationStatus": {
+        "enum": [
+          "extinto",
+          "en_peligro_crítico",
+          "en_peligro",
+          "vulnerable",
+          "casi_amenazado",
+          "preocupación_menor",
+          "datos_insuficientes",
+          "no_evaluado"
+        ],
+        "title": "ConservationStatus",
+        "type": "string"
+      },
+      "Taxon": {
+        "additionalProperties": false,
+        "description": "A single node in a taxonomic tree. May contain nested child taxa of a\nlower rank, forming an arbitrarily deep hierarchy from dominio down to\nsubespecie.",
+        "properties": {
+          "rank": {
+            "$ref": "#/$defs/TaxonomicRank",
+            "description": "Categoría taxonómica del nodo. Usar uno de los rangos principales: dominio, reino, filo, clase, orden, familia, género, especie, subespecie. Ignorar prefijos como sub-, super-, infra-: por ejemplo 'Subfilo' se mapea a 'filo'."
+          },
+          "scientific_name": {
+            "description": "Nombre científico literal del taxón tal como aparece en el texto (p. ej. 'Mammalia', 'Carnivora', 'Panthera leo'). Sin autoría ni fechas.",
+            "title": "Scientific Name",
+            "type": "string"
+          },
+          "common_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Nombre común en español si el texto lo indica explícitamente para este taxón. Devolver null si no se menciona — la mayoría de los rangos superiores no tienen nombre común.",
+            "title": "Common Name"
+          },
+          "extinct": {
+            "default": false,
+            "description": "True solo si el texto afirma de forma explícita que el taxón está extinto (p. ej. 'extinguido', '†', 'desapareció en el Pleistoceno'). False en caso contrario.",
+            "title": "Extinct",
+            "type": "boolean"
+          },
+          "children": {
+            "description": "Lista de taxones inmediatamente subordinados a éste en la jerarquía. Vacía si el nodo es una hoja (típicamente la especie o subespecie). El orden refleja la cadena taxonómica del texto.",
+            "items": {
+              "$ref": "#/$defs/Taxon"
+            },
+            "title": "Children",
+            "type": "array"
+          }
+        },
+        "required": [
+          "rank",
+          "scientific_name"
+        ],
+        "title": "Taxon",
+        "type": "object"
+      },
+      "TaxonomicRank": {
+        "enum": [
+          "dominio",
+          "reino",
+          "filo",
+          "clase",
+          "orden",
+          "familia",
+          "género",
+          "especie",
+          "subespecie"
+        ],
+        "title": "TaxonomicRank",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Clasificación taxonómica jerárquica de un organismo a partir de su artículo\nde Wikipedia (taxobox + sección de Taxonomía). El árbol parte del rango más\nalto presente en el texto y desciende, anidando cada rango como hijo del\nanterior.\nComplejidad: L6 — profundidad estructural recursiva.",
+    "properties": {
+      "canonical_name": {
+        "description": "Nombre científico canónico del organismo objeto del artículo (la hoja del árbol o el binomio más específico citado).",
+        "title": "Canonical Name",
+        "type": "string"
+      },
+      "common_name": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Nombre común en español del organismo principal si el artículo lo indica (p. ej. 'león' para Panthera leo). Null si no se menciona.",
+        "title": "Common Name"
+      },
+      "conservation_status": {
+        "anyOf": [
+          {
+            "$ref": "#/$defs/ConservationStatus"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Estado de conservación según la UICN si el texto lo enuncia para el organismo principal. Null si no aparece o solo se menciona de forma genérica sin categoría."
+      },
+      "classification_tree": {
+        "$ref": "#/$defs/Taxon",
+        "description": "Raíz del árbol taxonómico: el rango más alto citado en el texto (típicamente 'dominio' o 'reino'). Sus descendientes encadenan recursivamente los rangos hasta la especie o subespecie del organismo."
+      }
+    },
+    "required": [
+      "canonical_name",
+      "classification_tree"
+    ],
+    "title": "TaxonomicClassification",
+    "type": "object"
+  },
+  "output": {
+    "canonical_name": "Tyrannosaurus rex",
+    "common_name": "tiranosaurio rex",
+    "conservation_status": "extinto",
+    "classification_tree": {
+      "rank": "dominio",
+      "scientific_name": "Eukaryota",
+      "common_name": null,
+      "extinct": false,
+      "children": [
+        {
+          "rank": "reino",
+          "scientific_name": "Animalia",
+          "common_name": null,
+          "extinct": false,
+          "children": [
+            {
+              "rank": "filo",
+              "scientific_name": "Chordata",
+              "common_name": null,
+              "extinct": false,
+              "children": [
+                {
+                  "rank": "clase",
+                  "scientific_name": "Sauropsida",
+                  "common_name": null,
+                  "extinct": false,
+                  "children": [
+                    {
+                      "rank": "orden",
+                      "scientific_name": "Saurischia",
+                      "common_name": null,
+                      "extinct": false,
+                      "children": [
+                        {
+                          "rank": "familia",
+                          "scientific_name": "Tyrannosauridae",
+                          "common_name": null,
+                          "extinct": false,
+                          "children": [
+                            {
+                              "rank": "género",
+                              "scientific_name": "Tyrannosaurus",
+                              "common_name": null,
+                              "extinct": true,
+                              "children": [
+                                {
+                                  "rank": "especie",
+                                  "scientific_name": "Tyrannosaurus rex",
+                                  "common_name": "tiranosaurio rex",
+                                  "extinct": true,
+                                  "children": []
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "metadata": {
+    "source": "wiki_tyrannosaurus_rex.md",
+    "domain": "stem",
+    "subdomain": "biology"
+  }
+}

@@ -59,8 +59,10 @@ Note that `clinical_outcome` requires **semantic reasoning** mapping "94.1%" to 
 
 A crucial aspect of the GenSIE challenge is that it is a **zero-shot schema** task.
 
-* **Development Phase:** Participants will be given examples with a set of schemas (e.g., `Event`, `Biography`, `Recipe`).
-* **Test Phase:** The private evaluation set will contain **entirely new schemas** (e.g., `LegalContract`, `MedicalProcedure`, `ProductSpec`) that the model has not seen in the training data, along with some schemas that were present in the development set.
+* **Development Phase:** Participants are given the dev set (150 silver instances) with a set of schemas (e.g., `Event`, `Biography`, `Recipe`).
+* **Test Phase:** The private evaluation set has **100 brand-new instances**, split roughly evenly:
+    * **~50%** use schemas that *do* appear in the dev set, but extracted from **new source documents** you have not seen.
+    * **~50%** use **entirely new schemas** (e.g., `LegalContract`, `MedicalProcedure`, `ProductSpec`) that do not appear anywhere in the dev set.
 
 This forces participants to build systems that can generalize to *any* structure, rather than overfitting to specific entity types. You must leverage the schema's field names, types, and descriptions dynamically at inference time.
 
@@ -102,6 +104,7 @@ $$\Phi(J) = \{ (k_1, v_1), (k_2, v_2), \dots, (k_n, v_n) \}$$
 Once aligned by keys, we compare the values. The scoring method depends strictly on the **data type** defined in the schema.
 
 #### Case A: Rigid Types
+
 For fields where precision is binary (Numbers, Dates, Booleans, and Enum Strings), we require an **Exact Match**.
 
 $$ Sim(g_k, s_k) = \mathbb{I}(g_k = s_k) $$
@@ -109,6 +112,7 @@ $$ Sim(g_k, s_k) = \mathbb{I}(g_k = s_k) $$
 * **Example:** If the Gold schema expects `"clinical_outcome": "POSITIVE"` and the system outputs `"positive"` (lowercase) or `"SUCCESS"`, the score is $0$.
 
 #### Case B: Free Text
+
 For fields describing content (Descriptions, Summaries), we use a hybrid metric combining semantic and lexical similarity.
 
 $$ Sim(g_k, s_k) = \alpha \cdot \text{CosSim}(\mathbf{e}_{g_k}, \mathbf{e}_{s_k}) + (1 - \alpha) \cdot \text{Lexical}(g_k, s_k) $$
@@ -117,27 +121,65 @@ $$ Sim(g_k, s_k) = \alpha \cdot \text{CosSim}(\mathbf{e}_{g_k}, \mathbf{e}_{s_k}
 * **Lexical:** A normalized token-overlap score.
 * **$\alpha$:** Weighting parameter (default $\approx 0.7$).
 
-### Aggregated Metrics
+#### Case C: Null Values (Hallucination Penalty)
 
-We calculate the total **True Positive Score (TPS)** by summing the similarity scores of all shared keys.
+The evaluator penalizes hallucinations where the system fabricates information not present in the source text:
+
+| Gold | System | Score |
+|:-----|:-------|:------|
+| `"field": "value"` | `"field": null` | 0.0 ❌ (hallucinated null) |
+| `"field": null` | `"field": "value"` | 0.0 ❌ (hallucinated value) |
+| `"field": null` | `"field": null` | 1.0 ✅ (correct null) |
+| missing key | `"field": "value"` | Ignored (precision penalty via denominator) |
+
+- If gold has a value but system returns `null`: score 0.0
+- If gold has `null` but system returns a value: score 0.0
+- System keys not in gold do not contribute to similarity but increase the system size, reducing precision
+
+#### Lists: Order-Independent Matching
+
+Since JSON lists have no inherent order, we use a **greedy bipartite matching** heuristic to maximize the alignment score:
+
+1. Construct a similarity matrix between all gold items and all system items
+2. Iteratively pick the highest-similarity pair, remove both from consideration, repeat
+3. Score = sum of matched similarities
+4. Normalize by Jaccard index: `|gold| + |system| - |matches|`
+
+This allows flexibility in list ordering while penalizing missing or extra items.
+
+### Per-Model Score: Micro-F1
+
+For a given evaluation model, we calculate the total **True Positive Score (TPS)** by summing the similarity scores of all shared keys, then aggregate into a **Micro-F1** over the whole test set:
 
 $$ TPS = \sum_{k \in K} Sim(G[k], S[k]) $$
 
-Final rankings are based on **Micro-F1**:
+$$ Precision = \frac{TPS}{|S|} \quad, \quad Recall = \frac{TPS}{|G|} \quad, \quad F1 = \frac{2 \cdot Precision \cdot Recall}{Precision + Recall} $$
 
-$$ Precision = \frac{TPS}{|S|} \quad, \quad Recall = \frac{TPS}{|G|} $$
+### Multi-Model Evaluation
 
-$$ F1 = \frac{2 \cdot Precision \cdot Recall}{Precision + Recall} $$
+Every submitted pipeline is run against **several models** — some published/recommended, some held out and not disclosed before the results (see the [Submission Guidelines](./submission.md#3-infrastructure--connectivity)). We compute the Micro-F1 above **independently for each model**, and we run the official zero-shot baseline against each model as well.
 
-### Secondary Leaderboard: Efficiency
+### Primary Leaderboard: Gap Closed over Baseline
 
-In addition to performance, we maintain an **Efficiency Leaderboard** to reward sustainable AI.
+The team ranking is **not** the raw F1. For each evaluation model, let $F1_b$ be the official baseline's Micro-F1 and $F1_s$ be your system's Micro-F1 on that model. The **gap closed** is the fraction of the baseline-to-perfect error that your system eliminates:
 
-We calculate the **Performance-to-Cost Ratio**:
+$$ \text{GapClosed} = \max\!\left(0,\ \frac{F1_s - F1_b}{1 - F1_b}\right) $$
 
-$$ \text{Ratio} = \frac{\text{Average F1}}{\text{Total Token Consumption}} $$
+!!! example "Why gap-closed, not raw F1"
+    Baseline scores 60 F1 → it has 40 points of error left. System **A** scores 80 → 20 points of error left → it closed **50%** of the gap. System **B** scores 90 → 10 points of error left → it closed **75%** of the gap. **B ranks above A** — it made the bigger jump over the baseline.
 
-* **Total Token Consumption:** The sum of all input and output tokens generated across all API calls required to solve a single instance (including reasoning steps, retries, and self-corrections).
+Your **primary score is the average of `GapClosed` over all evaluation models**, and the team ranking is by that average.
+
+**Rationale.** Improving from 90→95 F1 is far harder than 70→75 — returns diminish near the optimum, so a fixed F1 delta does not represent a fixed amount of progress. And raw macro/micro-F1 is hard to compare across models (a gain on one model and a loss on another do not cancel cleanly when the baselines differ). The gap-closed fraction is normalized per model, so it is **comparable and averageable across models**, and it directly rewards what GenSIE is about: closing the *innovation gap* — pulling small models as close as possible to frontier-model performance.
+
+### Secondary Leaderboards
+
+* **Raw Micro-F1:** the plain average of Micro-F1 across all evaluation models. Reported for reference, but not the basis of the team ranking.
+* **Efficiency:** a **Performance-to-Cost Ratio** to reward sustainable AI:
+
+    $$ \text{Ratio} = \frac{\text{Average F1}}{\text{Total Token Consumption}} $$
+
+    * **Total Token Consumption:** the sum of all input and output tokens generated across every model call required to solve an instance (including reasoning steps, retries and self-corrections), as recorded by the inference server's usage log — the same numbers `gensie eval` reports in its `token_usage` block.
 
 ## Rules & Submission
 
@@ -162,4 +204,5 @@ You **cannot** fine-tune the Language Model weights.
 ### Inference Environment
 
 * **Hardware:** NVIDIA A100 GPUs.
-* **Model Access:** Your code connects to a local endpoint (e.g., `http://inference-server:8000/v1`) serving the official models (Llama 3, Salamandra, Qwen).
+* **Model Access:** Your code connects to a local endpoint (e.g., `http://inference-server:8000/v1`). Several models are served — some published/recommended (e.g. Llama 3, Salamandra, Qwen) and some **held out and not disclosed before the results**. All are small (<~14B) open-source models from different families. The model name is passed to your `/run` endpoint at evaluation time; your system must respect it and must not assume a specific model.
+* **Resource budgets:** Token and time budgets are soft averages over the test set, not hard per-instance caps — see [Submission Guidelines §4](./submission.md#4-resource-quotas--qualification).

@@ -1,0 +1,211 @@
+{
+  "id": "medical_drug_003",
+  "input_text": "FICHA TECNICA PARACETAMOL NORMON 500 mg COMPRIMIDOS EFG [...] # 1. NOMBRE DEL MEDICAMENTO\n\nParacetamol Normon 650 mg comprimidos EFG\n\nParacetamol Normon 500 mg comprimidos EFG [...] # 3. FORMA FARMACÉUTICA\n\nComprimido. [...] ## 4.2. Posología y forma de administración\n\nPosología\n\nAdultos:\n\nDosis de 250 mg a 650 mg cada 4-6 horas. No se excederá de 3 g cada 24 horas.\n\nSe debe evitar la administración de dosis altas de paracetamol durante periodos prolongados de tiempo ya que se incrementa el riesgo de daño hepático.\n\nSi el dolor se mantiene durante más de 5 días, la fiebre durante más de 3 días o bien el dolor o la fiebre empeoran o aparecen otros síntomas, se deberá evaluar la situación clínica.\n\nPacientes con insuficiencia renal o hepática:\n\nVer sección 4.3 y 4.4.\n\nPoblación pediátrica:\n\nPuede establecerse un esquema de dosificación de 10 mg/kg de peso, por toma, con un intervalo mínimo de 4 horas, o bien de 15 mg/kg de peso, por toma, cada 6 horas. Las edades se dan como referencias orientativas.\n\nLas dosis siguientes pueden repetirse con un intervalo mínimo de 4 horas, sin exceder de un total de 5 tomas en 24 horas.\n\nNiños de 6 a 10 años: 250 mg – 325 mg de paracetamol cada 4-6 horas; máximo 1250-1950 mg de paracetamol cada 24 horas según el peso del niño.\n\nNiños de 11 años: 250 mg – 325 mg de paracetamol cada 4-6 horas; máximo 2000 mg de paracetamol cada 24 horas.\n\nAdolescentes desde 12 años: 500 ó 650 mg de paracetamol cada 4-6 horas; máximo 2600 mg de paracetamol cada 24 horas [...] ## 4.8. Reacciones adversas\n\nLas reacciones adversas del paracetamol son, por lo general, raras o muy raras.\n\nFrecuencia estimada: Muy frecuentes (≥1/10); frecuentes (≥1/100,<1/10); poco\n\nfrecuentes (≥1/1.000, <1/100); raras (≥1/10.000,<1/1.000); muy raras (<1/10.000).\n\nTrastornos generales y alteraciones en el lugar de administración:\n\nRaras: Malestar\n\nMuy raras: Reacciones de hipersensibilidad que oscilan, entre una simple erupción\n\ncutánea o una urticaria y shock anafiláctico.\n\nTrastornos gastrointestinales:\n\nRaras: Niveles aumentados de transaminasas hepáticas.\n\nMuy raras: Hepatotoxicidad (ictericia).\n\nTrastornos del metabolismo y de la nutrición:\n\nMuy raras: Hipoglucemia.\n\nFrecuencia no conocida: Acidosis metabólica con déficit aniónico elevado.Trastornos de la sangre y del sistema linfático:\n\nMuy raras: Trombocitopenia, agranulocitosis, leucopenia, neutropenia, anemia\n\nhemolítica.\n\nTrastornos vasculares:\n\nRaras: Hipotensión\n\nTrastornos renales y urinarios:\n\nMuy raras: Piuria estéril (orina turbia), efectos renales adversos (véase sección 4.4.).",
+  "instruction": "Extrae el perfil del medicamento Paracetamol Normon 500 mg, indicando si es apto para niños y sus efectos adversos conocidos.",
+  "target_schema": {
+    "$defs": {
+      "FrequencyLevel": {
+        "enum": [
+          "HIGH",
+          "MEDIUM",
+          "LOW",
+          "UNKNOWN"
+        ],
+        "title": "FrequencyLevel",
+        "type": "string"
+      },
+      "ImpactLevel": {
+        "enum": [
+          "MILD",
+          "MODERATE",
+          "SEVERE",
+          "CRITICAL"
+        ],
+        "title": "ImpactLevel",
+        "type": "string"
+      },
+      "SideEffect": {
+        "additionalProperties": false,
+        "description": "Detailed description of an adverse reaction.",
+        "properties": {
+          "reaction": {
+            "description": "Name of the adverse effect in Spanish",
+            "title": "Reaction",
+            "type": "string"
+          },
+          "system_organ_class": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Affected body system (e.g., Trastornos vasculares)",
+            "title": "System Organ Class"
+          },
+          "probability": {
+            "$ref": "#/$defs/FrequencyLevel",
+            "description": "Frequency based on text: Raras/Muy raras -> LOW, Frecuentes -> HIGH"
+          },
+          "impact": {
+            "$ref": "#/$defs/ImpactLevel",
+            "description": "Inferred clinical severity of the reaction"
+          }
+        },
+        "required": [
+          "reaction",
+          "probability",
+          "impact"
+        ],
+        "title": "SideEffect",
+        "type": "object"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Comprehensive structured description of a medication.\nComplexity: L8 (Nested Lists & Semantic Mapping).",
+    "properties": {
+      "common_name": {
+        "description": "The generic name of the active principle",
+        "title": "Common Name",
+        "type": "string"
+      },
+      "official_name": {
+        "description": "The full commercial or official name of the drug",
+        "title": "Official Name",
+        "type": "string"
+      },
+      "pharmaceutical_format": {
+        "description": "The physical form (e.g., Comprimido, Cápsula, Solución)",
+        "title": "Pharmaceutical Format",
+        "type": "string"
+      },
+      "standard_doses": {
+        "description": "List of available strengths or doses mentioned (e.g., ['1 g', '500 mg'])",
+        "items": {
+          "type": "string"
+        },
+        "title": "Standard Doses",
+        "type": "array"
+      },
+      "is_pediatric": {
+        "description": "True if the drug is indicated for children or infants",
+        "title": "Is Pediatric",
+        "type": "boolean"
+      },
+      "side_effects": {
+        "description": "Structured list of all adverse reactions found in section 4.8",
+        "items": {
+          "$ref": "#/$defs/SideEffect"
+        },
+        "title": "Side Effects",
+        "type": "array"
+      }
+    },
+    "required": [
+      "common_name",
+      "official_name",
+      "pharmaceutical_format",
+      "is_pediatric"
+    ],
+    "title": "DrugDescription",
+    "type": "object"
+  },
+  "output": {
+    "common_name": "Paracetamol",
+    "official_name": "Paracetamol Normon 500 mg comprimidos EFG",
+    "pharmaceutical_format": "Comprimido",
+    "standard_doses": [
+      "500 mg",
+      "650 mg"
+    ],
+    "is_pediatric": true,
+    "side_effects": [
+      {
+        "reaction": "Malestar",
+        "system_organ_class": "Trastornos generales y alteraciones en el lugar de administración",
+        "probability": "LOW",
+        "impact": "MILD"
+      },
+      {
+        "reaction": "Reacciones de hipersensibilidad",
+        "system_organ_class": "Trastornos generales y alteraciones en el lugar de administración",
+        "probability": "LOW",
+        "impact": "SEVERE"
+      },
+      {
+        "reaction": "Niveles aumentados de transaminasas hepáticas",
+        "system_organ_class": "Trastornos gastrointestinales",
+        "probability": "LOW",
+        "impact": "MODERATE"
+      },
+      {
+        "reaction": "Hepatotoxicidad (ictericia)",
+        "system_organ_class": "Trastornos gastrointestinales",
+        "probability": "LOW",
+        "impact": "SEVERE"
+      },
+      {
+        "reaction": "Hipoglucemia",
+        "system_organ_class": "Trastornos del metabolismo y de la nutrición",
+        "probability": "LOW",
+        "impact": "MODERATE"
+      },
+      {
+        "reaction": "Trombocitopenia",
+        "system_organ_class": "Trastornos de la sangre y del sistema linfático",
+        "probability": "LOW",
+        "impact": "SEVERE"
+      },
+      {
+        "reaction": "agranulocitosis",
+        "system_organ_class": "Trastornos de la sangre y del sistema linfático",
+        "probability": "LOW",
+        "impact": "CRITICAL"
+      },
+      {
+        "reaction": "leucopenia",
+        "system_organ_class": "Trastornos de la sangre y del sistema linfático",
+        "probability": "LOW",
+        "impact": "SEVERE"
+      },
+      {
+        "reaction": "neutropenia",
+        "system_organ_class": "Trastornos de la sangre y del sistema linfático",
+        "probability": "LOW",
+        "impact": "SEVERE"
+      },
+      {
+        "reaction": "anemia hemolítica",
+        "system_organ_class": "Trastornos de la sangre y del sistema linfático",
+        "probability": "LOW",
+        "impact": "SEVERE"
+      },
+      {
+        "reaction": "Hipotensión",
+        "system_organ_class": "Trastornos vasculares",
+        "probability": "LOW",
+        "impact": "MODERATE"
+      },
+      {
+        "reaction": "Piuria estéril (orina turbia)",
+        "system_organ_class": "Trastornos renales y urinarios",
+        "probability": "LOW",
+        "impact": "MILD"
+      },
+      {
+        "reaction": "efectos renales adversos",
+        "system_organ_class": "Trastornos renales y urinarios",
+        "probability": "LOW",
+        "impact": "SEVERE"
+      }
+    ]
+  },
+  "metadata": {
+    "source": "CIMA_68330.md",
+    "domain": "medical",
+    "subdomain": "drug_safety"
+  }
+}

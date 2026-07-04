@@ -1,0 +1,379 @@
+{
+  "id": "technical_security_incident_006",
+  "input_text": "# Informe Post-Mortem — Incidente INC-2026-0117\n\n**Clasificación**: Confidencial / Distribución restringida (CISO, Legal, RRHH, Dirección)\n**Autor**: Equipo de Respuesta a Incidentes (CSIRT interno)\n**Fecha de emisión del informe**: 30 de mayo de 2026\n**Identificador interno**: INC-2026-0117\n**Tipo**: Insider threat — exfiltración deliberada por empleado con preaviso de baja\n**Severidad declarada**: alta\n\n---\n\n## 1. Resumen ejecutivo\n\nEl 27 de mayo de 2026 a las 22:14, la plataforma DLP corporativa (Symantec DLP, política `EGRESS-ATTACH-VOLUME-V3`) generó la alerta `DLP-ALERT-887421` por un volumen anómalo de adjuntos salientes a través del relay SMTP corporativo (`smtp-out.intra.example.com`). El origen era la cuenta `j.morales@example.com`, perteneciente a Javier Morales, ingeniero senior del equipo de Plataforma con preaviso de baja efectivo desde el 5 de mayo y último día programado para el 30 de mayo de 2026.\n\nLa investigación posterior, iniciada el 28 de mayo a las 09:02, confirmó que entre los días 18 y 27 de mayo el empleado había navegado deliberadamente por repositorios Git internos a los que no contribuía habitualmente (servicio `pricing-engine`, librería `customer-segmentation-sdk`), clonado parcialmente sus contenidos a su laptop corporativo y, en una ventana de tres días, exfiltrado código fuente propietario más un export del CRM (listado completo de cuentas activas) a dos direcciones de correo personales mediante adjuntos comprimidos enviados desde su cuenta corporativa.\n\nEl incidente se clasifica como **alta** severidad por el carácter doloso, la cobertura del material exfiltrado (~2.3 GB en total) y la potencial activación de cláusulas contractuales de propiedad intelectual y RGPD (los registros del CRM contienen datos personales de contactos comerciales en la UE).\n\nLa causa raíz combina dos factores estructurales: (a) la política DLP estaba configurada con un umbral acumulado por ventana de 24h en lugar de inspección por contenido en tiempo real, lo que retrasó la detección unas 60 horas respecto al primer envío; y (b) el procedimiento de baja interna no contemplaba revocación escalonada de privilegios sensibles (acceso a repositorios fuera del equipo nominal, export del CRM) durante el periodo de preaviso, dejando una superficie de abuso de 25 días naturales con accesos legítimos intactos. [...] ## 2. Sistemas afectados\n\nLos siguientes sistemas y servicios estuvieron involucrados, sea como origen del dato sustraído, vector de salida o sistema de detección:\n\n- Repositorio Git interno corporativo (instancia self-hosted de Gitea, hostname `git.intra.example.com`).\n- CRM corporativo (Salesforce, organización `example-prod`), específicamente el módulo `Accounts` y los reports de exportación masiva.\n- Relay SMTP corporativo de salida (`smtp-out.intra.example.com`).\n- Laptop corporativo asignado al empleado (hostname `LAP-MORALES-01`, inventario `INV-2024-3318`, MacBook Pro 14\").\n- Directorio activo / IdP corporativo (Okta, tenant `example.okta.com`) — origen de las credenciales revocadas en la fase de contención. [...] ### 3.1 Periodo previo (18 — 24 de mayo de 2026)\n\n- **2026-05-18 14:22** — [acción] Primer acceso anómalo del usuario `j.morales` al repositorio `pricing-engine` en `git.intra.example.com`. El usuario no figuraba como contribuidor del repo en los últimos 18 meses y su equipo (Plataforma) no es propietario del servicio. Auditoría posterior identifica una sesión de 47 minutos navegando la estructura de directorios y leyendo el README, sin emitir commits ni issues. Este comportamiento se interpreta como **reconocimiento** previo a la exfiltración: el empleado mapeó los activos de interés.\n\n- **2026-05-19 a 2026-05-21** — [acción] Accesos análogos a `customer-segmentation-sdk`, `billing-rules-v2` y `data-export-utils`. Los logs de Gitea muestran 23 operaciones de `git clone` parcial (clones superficiales con `--depth=1`) ejecutadas desde la IP corporativa `10.42.18.117` asignada por DHCP al laptop `LAP-MORALES-01`. El clonado en sí mismo no es anómalo para un ingeniero senior; lo es la selección de repos fuera de su ámbito.\n\n- **2026-05-22 11:08** — [acción] El usuario abre Salesforce y ejecuta el report `Accounts — All Active EMEA` (ID `00O5g000004XyZk`), exportando el resultado a CSV. El export contiene 8.412 registros de cuentas con datos de contacto comercial (nombre, email, teléfono, sector). Esta exportación entra en el rango de uso documentado del rol del empleado (acceso a reports para análisis técnico) y por sí sola no levantó alertas.\n\n### 3.2 Ventana de exfiltración (25 — 27 de mayo de 2026)\n\n- **2026-05-25 19:47** — [acción] Primer envío exfiltrante. El empleado, desde una IP **externa** `82.158.44.211` (red doméstica geolocalizada en Madrid) tras conexión VPN al laptop corporativo, comprime los clones de `pricing-engine` y `customer-segmentation-sdk` en un único archivo `proyectos_personales.zip` (SHA-256 `e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855`) de 1.4 GB y lo envía como adjunto desde su Outlook corporativo a `javier.morales.dev@gmail.com`. El relay SMTP procesa el envío.\n\n- **2026-05-26 21:33** — [acción] Segundo envío. Adjunto `notas_tecnicas.zip` (SHA-256 `9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08`), 612 MB, conteniendo `billing-rules-v2` y `data-export-utils` más el CSV `accounts_emea.csv` del CRM. Destinatario: `j.morales.backup@protonmail.com`. Origen: misma IP doméstica `82.158.44.211`.\n\n- **2026-05-27 22:14** — [acción] Tercer envío. Adjunto `archivo_personal.zip` (SHA-256 `2c26b46b68ffc68ff99b453c1d30413413422d706483bfa0f98a5e886266e7ae`), 287 MB, con scripts internos y documentación de arquitectura. Destinatario: `javier.morales.dev@gmail.com`. **Este envío cruza el umbral acumulado de 2 GB en 72h de la política DLP y dispara la alerta DLP-ALERT-887421.**\n\n- **2026-05-27 22:14** — [análisis] La política `EGRESS-ATTACH-VOLUME-V3` está diseñada como detector de volumen acumulado (suma del tamaño de adjuntos salientes por usuario en ventana móvil de 72h) y no como inspección de contenido por adjunto individual. Esta configuración explica el desfase de 60h entre la primera exfiltración real y la alerta. Se discute en §6.\n\n### 3.3 Respuesta (28 — 30 de mayo de 2026)\n\n- **2026-05-28 09:02** — El SOC recoge la alerta en la cola matutina (la alerta DLP nocturna no tenía pager rotation para severidad media-inicial). Se abre el ticket `INC-2026-0117`.\n\n- **2026-05-28 09:45** — El analista de guardia escala el caso al CSIRT al observar que el destino de los adjuntos es una dirección personal del propio remitente y que el remitente tiene preaviso de baja activo.\n\n- **2026-05-28 10:30** — El CISO autoriza la apertura formal de investigación interna. Se notifica a Legal y RRHH conforme al procedimiento `PR-SEC-019 — Incidentes con implicaciones laborales`.\n\n- **2026-05-28 11:15** — Se suspende la cuenta `j.morales@example.com` en Okta. Todas las sesiones activas son invalidadas. Se revocan los tokens personales de Gitea (3 PATs activos identificados, todos creados entre el 14 y el 20 de mayo) y la sesión Salesforce.\n\n- **2026-05-28 12:00** — Equipo IT confisca el laptop `LAP-MORALES-01` en presencia de Legal y RRHH. Se realiza imagen forense (procedimiento `FORENSIC-OP-04`) custodiada por el CSIRT.\n\n- **2026-05-29 a 2026-05-30** — Análisis forense del laptop, correlación con logs SMTP, logs de Gitea y logs Salesforce. Reconstrucción de la cronología que precede. Cuantificación del material exfiltrado: ~2.3 GB de código fuente más 8.412 registros de CRM.\n\n- **2026-05-30 16:00** — Reunión de cierre. Legal inicia requerimiento extrajudicial al empleado solicitando la eliminación verificable del material en sus cuentas personales y aceptación de auditoría. RRHH formaliza la baja con efecto inmediato (anticipando 0 días sobre el calendario previsto) y activa las cláusulas de confidencialidad y propiedad intelectual del contrato. [...] | Tipo | Valor | Primera observación |\n|---|---|---|\n| correo (destino) | `javier.morales.dev@gmail.com` | 2026-05-25 |\n| correo (destino) | `j.morales.backup@protonmail.com` | 2026-05-26 |\n| hash (archivo exfiltrado) | `e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855` | 2026-05-25 |\n| hash (archivo exfiltrado) | `9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08` | 2026-05-26 |\n| hash (archivo exfiltrado) | `2c26b46b68ffc68ff99b453c1d30413413422d706483bfa0f98a5e886266e7ae` | 2026-05-27 |\n| ip (origen externo del envío) | `82.158.44.211` | 2026-05-25 |\n\nNota: la IP corporativa interna `10.42.18.117` se registra en logs pero no se reporta como IoC porque corresponde a la red de oficina del propio empleado y carece de valor de detección cruzada. [...] Las acciones se listan en el orden en que fueron ejecutadas o planificadas. El estado se evalúa al cierre de este informe (30 de mayo de 2026).\n\n1. **Suspensión inmediata de la cuenta corporativa `j.morales@example.com` en Okta** y revocación de todas las sesiones activas. Responsable: SOC. Estado: completada.\n\n2. **Revocación de los 3 Personal Access Tokens del usuario en Gitea** y purga de claves SSH asociadas al perfil. Responsable: Plataforma. Estado: completada.\n\n3. **Invalidación de la sesión Salesforce y eliminación del usuario del perfil de export masivo**. Responsable: equipo CRM. Estado: completada.\n\n4. **Confiscación e imagen forense del laptop `LAP-MORALES-01`** bajo cadena de custodia. Responsable: CSIRT. Estado: completada.\n\n5. **Requerimiento extrajudicial al empleado** solicitando eliminación verificable del material en sus cuentas personales y consentimiento de auditoría. Responsable: Legal. Estado: en_curso.\n\n6. **Rotación de secretos y credenciales** referenciados en los repositorios exfiltrados (claves de API de pasarelas de pago, tokens de servicios de terceros, claves de cifrado de la BD de pricing). Responsable: Plataforma + SecOps. Estado: en_curso.\n\n7. **Notificación a la AEPD** por posible incidente con datos personales (8.412 registros con datos de contacto comercial salidos a buzones personales no controlados). Responsable: DPO. Estado: pendiente, condicionada al dictamen legal sobre umbral de notificabilidad.\n\n8. **Auditoría de empleados activos con preaviso de baja en los últimos 6 meses** para detección retrospectiva de patrones análogos. Responsable: CSIRT. Estado: pendiente.\n\n---\n\n## 6. Causa raíz\n\nLa causa raíz se atribuye a la combinación de dos deficiencias estructurales: controles DLP insuficientes (la política `EGRESS-ATTACH-VOLUME-V3` mide volumen acumulado en ventana de 72h en lugar de inspeccionar contenido por adjunto, lo que introdujo un retardo de aproximadamente 60 horas en la detección) y la ausencia de revocación escalonada de privilegios sensibles durante el periodo de preaviso de baja del empleado, que mantuvo intacta su superficie de acceso legítimo (incluido el acceso a repositorios fuera de su ámbito de equipo) durante los 25 días entre la comunicación de la baja y el último día previsto.",
+  "instruction": "Extrae el incidente de seguridad estructurado conforme al esquema SecurityIncident: identificador, fecha de detección, severidad, sistemas afectados, IoCs (tipo y valor), cadena de ataque (fase ATT&CK ordenada cronológicamente), acciones de contención con estado y causa raíz.",
+  "target_schema": {
+    "$defs": {
+      "AttackPhase": {
+        "description": "Fases de la cadena de ataque (MITRE ATT&CK simplificado).",
+        "enum": [
+          "reconocimiento",
+          "acceso_inicial",
+          "ejecución",
+          "persistencia",
+          "escalada_de_privilegios",
+          "evasión_de_defensas",
+          "acceso_a_credenciales",
+          "movimiento_lateral",
+          "exfiltración",
+          "impacto"
+        ],
+        "title": "AttackPhase",
+        "type": "string"
+      },
+      "AttackStep": {
+        "additionalProperties": false,
+        "description": "Un paso de la cadena de ataque tal como lo reconstruye el informe.",
+        "properties": {
+          "phase": {
+            "$ref": "#/$defs/AttackPhase",
+            "description": "Fase ATT&CK a la que pertenece el paso."
+          },
+          "description": {
+            "description": "Descripción de la acción del atacante en una frase (p. ej. 'Envío de correo de phishing con adjunto malicioso al departamento financiero').",
+            "title": "Description",
+            "type": "string"
+          },
+          "timestamp": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Marca temporal en formato ISO 8601 si el informe la consigna. Null si solo se indica el orden relativo.",
+            "title": "Timestamp"
+          },
+          "technique_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Identificador MITRE ATT&CK si el informe lo cita (p. ej. 'T1566.001'). Null si no aparece.",
+            "title": "Technique Id"
+          }
+        },
+        "required": [
+          "phase",
+          "description"
+        ],
+        "title": "AttackStep",
+        "type": "object"
+      },
+      "ContainmentAction": {
+        "additionalProperties": false,
+        "description": "Acción de contención o remediación tomada por el equipo de respuesta.",
+        "properties": {
+          "description": {
+            "description": "Descripción literal de la acción (p. ej. 'Aislamiento del host afectado en VLAN de cuarentena').",
+            "title": "Description",
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/$defs/ContainmentStatus",
+            "description": "Estado de ejecución de la acción al cierre del informe."
+          },
+          "owner": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Equipo o persona responsable de la acción (p. ej. 'SOC', 'Red Team'). Null si no se asigna explícitamente.",
+            "title": "Owner"
+          }
+        },
+        "required": [
+          "description",
+          "status"
+        ],
+        "title": "ContainmentAction",
+        "type": "object"
+      },
+      "ContainmentStatus": {
+        "enum": [
+          "pendiente",
+          "en_curso",
+          "completada",
+          "no_aplica"
+        ],
+        "title": "ContainmentStatus",
+        "type": "string"
+      },
+      "Indicator": {
+        "additionalProperties": false,
+        "description": "Indicador de compromiso (IoC) observado durante el incidente.",
+        "properties": {
+          "kind": {
+            "$ref": "#/$defs/IndicatorKind",
+            "description": "Tipo de indicador."
+          },
+          "value": {
+            "description": "Valor literal del indicador tal como aparece en el informe (IP, dominio, SHA-256, CVE-XXXX-XXXX, etc.). Sin modificar.",
+            "title": "Value",
+            "type": "string"
+          },
+          "first_seen": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Fecha en formato ISO en que se observó el indicador por primera vez durante el incidente. Null si el informe no la fecha.",
+            "title": "First Seen"
+          }
+        },
+        "required": [
+          "kind",
+          "value"
+        ],
+        "title": "Indicator",
+        "type": "object"
+      },
+      "IndicatorKind": {
+        "enum": [
+          "ip",
+          "dominio",
+          "url",
+          "hash",
+          "correo",
+          "cve",
+          "regla_yara"
+        ],
+        "title": "IndicatorKind",
+        "type": "string"
+      },
+      "Severity": {
+        "enum": [
+          "baja",
+          "media",
+          "alta",
+          "crítica"
+        ],
+        "title": "Severity",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Post-mortem o informe de respuesta a un incidente de ciberseguridad: IoCs\nobservados, reconstrucción de la cadena de ataque en fases ordenadas\ncronológicamente, sistemas afectados y acciones de contención con su estado.\nLa extracción debe diferenciar fases ATT&CK por su semántica (no por\nel orden literal en el informe, que puede mezclar narrativa y análisis), y\nasociar cada IoC con su tipo correcto a partir de su forma.\n\nComplejidad: L9 — cadena causal con vocabulario técnico denso, taxonomía\nrígida (fases ATT&CK), pluralidad de listas heterogéneas y enlazado\nentre acciones y sistemas.",
+    "properties": {
+      "incident_id": {
+        "description": "Identificador interno del incidente tal como aparece en el informe (p. ej. 'INC-2026-0042').",
+        "title": "Incident Id",
+        "type": "string"
+      },
+      "detection_date": {
+        "description": "Fecha de detección del incidente en formato ISO 8601 ('YYYY-MM-DDTHH:MM' o 'YYYY-MM-DD' si no hay hora).",
+        "title": "Detection Date",
+        "type": "string"
+      },
+      "severity": {
+        "$ref": "#/$defs/Severity",
+        "description": "Severidad declarada del incidente según la clasificación del informe."
+      },
+      "affected_systems": {
+        "description": "Nombres o identificadores de los sistemas, aplicaciones o redes afectados (p. ej. 'CRM corporativo', 'Active Directory', 'VPN'). Un sistema por entrada.",
+        "items": {
+          "type": "string"
+        },
+        "minItems": 1,
+        "title": "Affected Systems",
+        "type": "array"
+      },
+      "indicators": {
+        "description": "IoCs observados durante el incidente. Lista vacía si el informe declara que no se identificaron indicadores accionables.",
+        "items": {
+          "$ref": "#/$defs/Indicator"
+        },
+        "title": "Indicators",
+        "type": "array"
+      },
+      "attack_chain": {
+        "description": "Cadena de ataque reconstruida, en orden cronológico. Cada paso asignado a una única fase ATT&CK.",
+        "items": {
+          "$ref": "#/$defs/AttackStep"
+        },
+        "minItems": 1,
+        "title": "Attack Chain",
+        "type": "array"
+      },
+      "containment_actions": {
+        "description": "Acciones de contención y remediación, en el orden en que fueron ejecutadas o planificadas.",
+        "items": {
+          "$ref": "#/$defs/ContainmentAction"
+        },
+        "minItems": 1,
+        "title": "Containment Actions",
+        "type": "array"
+      },
+      "root_cause": {
+        "description": "Causa raíz declarada por el informe en una o dos frases (p. ej. 'Configuración por defecto del servidor expuesto a internet sin autenticación').",
+        "title": "Root Cause",
+        "type": "string"
+      }
+    },
+    "required": [
+      "incident_id",
+      "detection_date",
+      "severity",
+      "affected_systems",
+      "attack_chain",
+      "containment_actions",
+      "root_cause"
+    ],
+    "title": "SecurityIncident",
+    "type": "object"
+  },
+  "output": {
+    "incident_id": "INC-2026-0117",
+    "detection_date": "2026-05-27T22:14",
+    "severity": "alta",
+    "affected_systems": [
+      "Repositorio Git interno corporativo (Gitea, git.intra.example.com)",
+      "CRM corporativo (Salesforce, organización example-prod)",
+      "Relay SMTP corporativo de salida (smtp-out.intra.example.com)",
+      "Laptop corporativo LAP-MORALES-01",
+      "Directorio activo / IdP corporativo (Okta, example.okta.com)"
+    ],
+    "indicators": [
+      {
+        "kind": "correo",
+        "value": "javier.morales.dev@gmail.com",
+        "first_seen": "2026-05-25"
+      },
+      {
+        "kind": "correo",
+        "value": "j.morales.backup@protonmail.com",
+        "first_seen": "2026-05-26"
+      },
+      {
+        "kind": "hash",
+        "value": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "first_seen": "2026-05-25"
+      },
+      {
+        "kind": "hash",
+        "value": "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08",
+        "first_seen": "2026-05-26"
+      },
+      {
+        "kind": "hash",
+        "value": "2c26b46b68ffc68ff99b453c1d30413413422d706483bfa0f98a5e886266e7ae",
+        "first_seen": "2026-05-27"
+      },
+      {
+        "kind": "ip",
+        "value": "82.158.44.211",
+        "first_seen": "2026-05-25"
+      }
+    ],
+    "attack_chain": [
+      {
+        "phase": "reconocimiento",
+        "description": "Acceso anómalo del usuario j.morales al repositorio pricing-engine en git.intra.example.com, navegando estructura de directorios sin contribuir, mapeando activos de interés.",
+        "timestamp": "2026-05-18T14:22",
+        "technique_id": null
+      },
+      {
+        "phase": "reconocimiento",
+        "description": "Accesos análogos a customer-segmentation-sdk, billing-rules-v2 y data-export-utils con 23 operaciones de git clone superficial desde la IP corporativa 10.42.18.117.",
+        "timestamp": null,
+        "technique_id": null
+      },
+      {
+        "phase": "ejecución",
+        "description": "Ejecución del report Accounts — All Active EMEA en Salesforce y exportación a CSV de 8.412 registros de cuentas con datos de contacto comercial.",
+        "timestamp": "2026-05-22T11:08",
+        "technique_id": null
+      },
+      {
+        "phase": "exfiltración",
+        "description": "Primer envío exfiltrante: archivo proyectos_personales.zip (1.4 GB) con clones de pricing-engine y customer-segmentation-sdk, enviado como adjunto desde Outlook corporativo a javier.morales.dev@gmail.com desde IP externa 82.158.44.211.",
+        "timestamp": "2026-05-25T19:47",
+        "technique_id": null
+      },
+      {
+        "phase": "exfiltración",
+        "description": "Segundo envío: adjunto notas_tecnicas.zip (612 MB) con billing-rules-v2, data-export-utils y el CSV accounts_emea.csv del CRM, destino j.morales.backup@protonmail.com.",
+        "timestamp": "2026-05-26T21:33",
+        "technique_id": null
+      },
+      {
+        "phase": "exfiltración",
+        "description": "Tercer envío: adjunto archivo_personal.zip (287 MB) con scripts internos y documentación de arquitectura, destino javier.morales.dev@gmail.com. Cruza el umbral DLP y dispara la alerta DLP-ALERT-887421.",
+        "timestamp": "2026-05-27T22:14",
+        "technique_id": null
+      },
+      {
+        "phase": "impacto",
+        "description": "Cuantificación del material exfiltrado: ~2.3 GB de código fuente propietario más 8.412 registros de CRM en buzones personales no controlados, con potencial activación de cláusulas de propiedad intelectual y RGPD.",
+        "timestamp": null,
+        "technique_id": null
+      }
+    ],
+    "containment_actions": [
+      {
+        "description": "Suspensión inmediata de la cuenta corporativa j.morales@example.com en Okta y revocación de todas las sesiones activas.",
+        "status": "completada",
+        "owner": "SOC"
+      },
+      {
+        "description": "Revocación de los 3 Personal Access Tokens del usuario en Gitea y purga de claves SSH asociadas al perfil.",
+        "status": "completada",
+        "owner": "Plataforma"
+      },
+      {
+        "description": "Invalidación de la sesión Salesforce y eliminación del usuario del perfil de export masivo.",
+        "status": "completada",
+        "owner": "equipo CRM"
+      },
+      {
+        "description": "Confiscación e imagen forense del laptop LAP-MORALES-01 bajo cadena de custodia.",
+        "status": "completada",
+        "owner": "CSIRT"
+      },
+      {
+        "description": "Requerimiento extrajudicial al empleado solicitando eliminación verificable del material en sus cuentas personales y consentimiento de auditoría.",
+        "status": "en_curso",
+        "owner": "Legal"
+      },
+      {
+        "description": "Rotación de secretos y credenciales referenciados en los repositorios exfiltrados (claves de API de pasarelas de pago, tokens de servicios de terceros, claves de cifrado de la BD de pricing).",
+        "status": "en_curso",
+        "owner": "Plataforma + SecOps"
+      },
+      {
+        "description": "Notificación a la AEPD por posible incidente con datos personales (8.412 registros con datos de contacto comercial salidos a buzones personales no controlados).",
+        "status": "pendiente",
+        "owner": "DPO"
+      },
+      {
+        "description": "Auditoría de empleados activos con preaviso de baja en los últimos 6 meses para detección retrospectiva de patrones análogos.",
+        "status": "pendiente",
+        "owner": "CSIRT"
+      }
+    ],
+    "root_cause": "Combinación de controles DLP insuficientes (la política EGRESS-ATTACH-VOLUME-V3 medía volumen acumulado en ventana de 72h en lugar de inspeccionar contenido por adjunto, lo que retrasó la detección unas 60 horas) y ausencia de revocación escalonada de privilegios sensibles durante el preaviso de baja del empleado, que mantuvo su superficie de acceso legítimo intacta durante 25 días."
+  },
+  "metadata": {
+    "source": "synthetic_20260601_006.md",
+    "domain": "technical",
+    "subdomain": "security_incident"
+  }
+}

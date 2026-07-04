@@ -1,0 +1,113 @@
+{
+  "id": "technical_entities_003",
+  "input_text": "# Mozilla Firefox\n\nMozilla Firefox (o simplemente Firefox) es un navegador web libre y de código abierto desarrollado para distintas plataformas, está coordinado por la Corporación Mozilla y la Fundación Mozilla. Usa el motor Gecko para renderizar páginas web, el cual implementa actuales y futuros estándares web.​​\n\n\n== Historia ==\n\nFirefox comenzó como una rama experimental del proyecto Mozilla a cargo de Dave Hyatt, Joe Hewitt y Blake Ross. En su opinión, las exigencias comerciales del patrocinio de Netscape y el gran número de características de Mozilla Application Suite comprometían la utilidad de este.​ Para combatir lo que ellos denominaban inflada Mozilla Application Suite, crearon un navegador independiente con la intención de reemplazarla. El 3 de abril de 2003, la Fundación Mozilla anuncia que centraría sus esfuerzos en Firefox y Thunderbird.​",
+  "instruction": "Extrae las entidades nombradas (organizaciones, personas, software, motores) del resumen histórico de Firefox.",
+  "target_schema": {
+    "$defs": {
+      "Entity": {
+        "additionalProperties": false,
+        "description": "A single named entity mention.",
+        "properties": {
+          "text": {
+            "description": "The verbatim text mention from the source",
+            "title": "Text",
+            "type": "string"
+          },
+          "label": {
+            "$ref": "#/$defs/EntityType",
+            "description": "The category of the entity"
+          }
+        },
+        "required": [
+          "text",
+          "label"
+        ],
+        "title": "Entity",
+        "type": "object"
+      },
+      "EntityType": {
+        "enum": [
+          "PERSON",
+          "ORGANIZATION",
+          "LOCATION",
+          "DATE",
+          "EVENT",
+          "MISCELLANEOUS"
+        ],
+        "title": "EntityType",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Extracts named entity mentions categorized by type in a single list.\nComplexity: L5 (Hierarchical Grouping).",
+    "properties": {
+      "entities": {
+        "description": "List of all recognized named entities",
+        "items": {
+          "$ref": "#/$defs/Entity"
+        },
+        "title": "Entities",
+        "type": "array"
+      }
+    },
+    "title": "NamedEntities",
+    "type": "object"
+  },
+  "output": {
+    "entities": [
+      {
+        "text": "Dave Hyatt",
+        "label": "PERSON"
+      },
+      {
+        "text": "Joe Hewitt",
+        "label": "PERSON"
+      },
+      {
+        "text": "Blake Ross",
+        "label": "PERSON"
+      },
+      {
+        "text": "Corporación Mozilla",
+        "label": "ORGANIZATION"
+      },
+      {
+        "text": "Fundación Mozilla",
+        "label": "ORGANIZATION"
+      },
+      {
+        "text": "Netscape",
+        "label": "ORGANIZATION"
+      },
+      {
+        "text": "3 de abril de 2003",
+        "label": "DATE"
+      },
+      {
+        "text": "Mozilla Firefox",
+        "label": "MISCELLANEOUS"
+      },
+      {
+        "text": "Firefox",
+        "label": "MISCELLANEOUS"
+      },
+      {
+        "text": "Gecko",
+        "label": "MISCELLANEOUS"
+      },
+      {
+        "text": "Mozilla Application Suite",
+        "label": "MISCELLANEOUS"
+      },
+      {
+        "text": "Thunderbird",
+        "label": "MISCELLANEOUS"
+      }
+    ]
+  },
+  "metadata": {
+    "source": "wiki_mozilla_firefox.md",
+    "domain": "technical",
+    "subdomain": "software"
+  }
+}

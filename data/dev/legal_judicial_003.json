@@ -1,0 +1,159 @@
+{
+  "id": "legal_judicial_003",
+  "input_text": "# 112 miembros de Los Rastrojos desertaron en el Chocó\n\nEn el área rural del municipio chocoano entregaron sus armas y equipamientos de guerra un total de 112 miembros de Los rastrojos, que quedaron a disposición de la Decimoséptima Brigada del Ejército Nacional.\nLa noticia fue confirmada por el ministro Juan Manuel Santos en la base militar de Tolemaida y arguyó que el motivo de la desmovilización de miembros de este grupo paramilitar radica en la presión que habían ejercido sobre ellos las fuerzas militares nacionales.\nEl fiscal general Mario Iguarán planteó dar beneficios jurídicos a los desertores en caso de que colaboren para \"desarticular la organización\", según lo contempla la Ley de Justicia y Paz. Por el contrario, Frank Pearl, alto comisionado para la paz, dice que no podrá ser así puesto que no se trató de una desmovilización en sí, sino un sometimiento a las autoridades originado por la presión de la fuerza pública, aunque podrían recibir beneficios según sus aportaciones a esas autoridades.\nSe trata de una banda que fue fundada por Wílber Varela (Jabón) como resultado de su guerra contra Diego Montoya (Don Diego) en la búsqueda del control del Cartel del Norte del Valle. Según el gobierno, sus actividades se centran en el narcotráfico de cocaína hacia los Estados Unidos; el grupo en cambio, dice ser un grupo paramilitar que siguió con sus armas pese a la desmovilización de las Autodefensas.",
+  "instruction": "Extrae la información estructurada de este artículo de noticias judiciales, incluyendo titular, resumen, categoría, ubicación, personas y organizaciones clave mencionadas.",
+  "target_schema": {
+    "$defs": {
+      "NewsCategory": {
+        "enum": [
+          "JUDICIAL",
+          "DISASTER",
+          "HEALTH",
+          "ENVIRONMENT",
+          "POLITICS",
+          "ECONOMY",
+          "SCIENCE",
+          "CULTURE",
+          "SPORTS",
+          "OTHER"
+        ],
+        "title": "NewsCategory",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Extracts structured information from general news articles.\nComplexity: L4 (Sparse Extraction) - Some fields may be null/missing.",
+    "properties": {
+      "headline": {
+        "description": "The main headline or title of the news article",
+        "title": "Headline",
+        "type": "string"
+      },
+      "summary": {
+        "description": "A brief summary of the main facts reported (1-3 sentences)",
+        "title": "Summary",
+        "type": "string"
+      },
+      "category": {
+        "$ref": "#/$defs/NewsCategory",
+        "description": "The thematic category of the news story"
+      },
+      "location": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Geographic location where the event occurred (city, country, or region)",
+        "title": "Location"
+      },
+      "date": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Date mentioned in the article (may be implicit or explicit)",
+        "title": "Date"
+      },
+      "key_people": {
+        "description": "Names of key individuals mentioned in the article",
+        "items": {
+          "type": "string"
+        },
+        "title": "Key People",
+        "type": "array"
+      },
+      "key_organizations": {
+        "description": "Names of organizations, companies, or governments mentioned",
+        "items": {
+          "type": "string"
+        },
+        "title": "Key Organizations",
+        "type": "array"
+      },
+      "casualties": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of deaths mentioned, if any",
+        "title": "Casualties"
+      },
+      "injured": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of people injured, if any",
+        "title": "Injured"
+      },
+      "affected_count": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Number of people affected or displaced, if applicable",
+        "title": "Affected Count"
+      }
+    },
+    "required": [
+      "headline",
+      "summary",
+      "category"
+    ],
+    "title": "NewsArticle",
+    "type": "object"
+  },
+  "output": {
+    "headline": "112 miembros de Los Rastrojos desertaron en el Chocó",
+    "summary": "Un total de 112 miembros de Los Rastrojos entregaron sus armas en el área rural del municipio chocoano, quedando a disposición de la Decimoséptima Brigada del Ejército Nacional. El ministro Juan Manuel Santos confirmó la noticia y atribuyó la desmovilización a la presión ejercida por las fuerzas militares nacionales.",
+    "category": "JUDICIAL",
+    "location": "Chocó, Colombia",
+    "date": null,
+    "key_people": [
+      "Juan Manuel Santos",
+      "Mario Iguarán",
+      "Frank Pearl",
+      "Wílber Varela",
+      "Diego Montoya"
+    ],
+    "key_organizations": [
+      "Los Rastrojos",
+      "Decimoséptima Brigada del Ejército Nacional",
+      "Cartel del Norte del Valle",
+      "Autodefensas"
+    ],
+    "casualties": null,
+    "injured": null,
+    "affected_count": 112
+  },
+  "metadata": {
+    "source": "wikinews_judicial_20260415_003_112_miembros_de_los_rastrojos_desertaron_en_el_cho.md",
+    "domain": "legal",
+    "subdomain": "judicial"
+  }
+}

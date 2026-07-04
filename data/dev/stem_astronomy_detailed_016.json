@@ -1,0 +1,148 @@
+{
+  "id": "stem_astronomy_detailed_016",
+  "input_text": "# Europa\n\nEuropa es el sexto satélite natural de Júpiter en orden creciente de distancia y el más pequeño de los cuatro satélites galileanos. Fue descubierto en 1610 por Galileo ​ y nombrado por Europa, la madre del rey Minos de Creta y amante de Zeus. Simon Marius sugirió el nombre tras su descubrimiento, pero este nombre, así como el nombre de los otros satélites galileanos, no fue de uso común hasta mediados del siglo XX. En gran parte de la literatura astronómica temprana aparece mencionado por su designación numeral romana, Júpiter II, o como el segundo satélite de Júpiter. Además de haber sido observado mediante telescopios terrestres, varias sondas espaciales (las primeras a principios de los años 1970) lo han examinado de cerca. Es el sexto satélite más grande del sistema solar.​\nLigeramente más pequeño que la Luna, Europa está compuesto principalmente por silicatos, tiene una corteza de hielo de agua ​ y un probable núcleo de hierro y níquel. Cuenta con una tenue atmósfera compuesta de oxígeno, entre otros gases. Su superficie está estriada por grietas y rayas, mientras que los cráteres son relativamente raros. Tiene la superficie más lisa de cualquier objeto conocido del sistema solar. Esta aparente juventud y suavidad ha dado lugar a la hipótesis de que existe un océano debajo de la superficie, el cual podría servir de morada para la vida.​ Esta hipótesis propone que el calor de las fuerzas de marea causa que el océano se mantenga líquido y conduzca la actividad geológica igual que lo harían las placas tectónicas.​ El 8 de septiembre de 2014 la NASA informó de que había encontrado pruebas que apoyaban indicios tempranos de placas tectónicas en la gruesa cubierta helada de Europa, la primera señal de tal actividad geológica en otro mundo distinto de la Tierra.​ El 12 de mayo de 2015, varios científicos anunciaron que la sal marina del océano subsuperficial podía estar cubriendo algunas características geológicas de Europa, lo que sugiere que el océano está interactuando con el fondo del mar. Esto puede ser importante para determinar si el satélite podría ser apto para la vida.​\nEl 21 de septiembre de 2023 se anuncia que el telescopio espacial James Webb, de NASA/ESA/CSA, detectó dióxido de carbono en su superficie, probablemente procedente de su océano subterráneo y acumulado en épocas geológicamente recientes, lo que implicaría que Europa podría tener condiciones adecuadas para albergar vida.​",
+  "instruction": "Extrae las propiedades físicas y orbitales del cuerpo celeste descrito en el texto, incluyendo su nombre oficial, tipo de cuerpo, y los datos de descubrimiento disponibles.",
+  "target_schema": {
+    "$defs": {
+      "CelestialBodyType": {
+        "enum": [
+          "ASTEROIDE",
+          "COMETA",
+          "PLANETA",
+          "LUNA",
+          "PLANETA ENANO",
+          "OBJETO INTERESTELAR",
+          "OTRO"
+        ],
+        "title": "CelestialBodyType",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Extracts physical and orbital parameters of celestial bodies.\nComplexity: L5 (Precision Extraction & Normalization).",
+    "properties": {
+      "official_name": {
+        "description": "The primary scientific designation or name",
+        "title": "Official Name",
+        "type": "string"
+      },
+      "body_type": {
+        "$ref": "#/$defs/CelestialBodyType",
+        "description": "The classification of the celestial object"
+      },
+      "mass_kg": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Mass in kilograms (scientific notation or float)",
+        "title": "Mass Kg"
+      },
+      "diameter_km": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Mean diameter in kilometers",
+        "title": "Diameter Km"
+      },
+      "eccentricity": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Orbital eccentricity (e.g., 1.199)",
+        "title": "Eccentricity"
+      },
+      "orbital_period_days": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Time to complete one orbit in Earth days",
+        "title": "Orbital Period Days"
+      },
+      "semi_major_axis_au": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Average distance from the sun in AU",
+        "title": "Semi Major Axis Au"
+      },
+      "discovery_date": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Date of discovery in YYYY-MM-DD format",
+        "title": "Discovery Date"
+      },
+      "discoverer": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Name of the person or observatory that found the object",
+        "title": "Discoverer"
+      }
+    },
+    "required": [
+      "official_name",
+      "body_type"
+    ],
+    "title": "CelestialObjectProperties",
+    "type": "object"
+  },
+  "output": {
+    "official_name": "Europa",
+    "body_type": "LUNA",
+    "mass_kg": null,
+    "diameter_km": null,
+    "eccentricity": null,
+    "orbital_period_days": null,
+    "semi_major_axis_au": null,
+    "discovery_date": null,
+    "discoverer": "Galileo"
+  },
+  "metadata": {
+    "source": "solar_system_16_europa.md",
+    "domain": "stem",
+    "subdomain": "astronomy_detailed"
+  }
+}

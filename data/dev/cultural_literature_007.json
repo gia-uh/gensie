@@ -1,0 +1,89 @@
+{
+  "id": "cultural_literature_007",
+  "input_text": "# La familia de Pascual Duarte\n\n## Introducción\nLa familia de Pascual Duarte es una novela de Camilo José Cela, publicada en el año 1942. Está incluida en la lista de las 100 mejores novelas en español del siglo XX del periódico español El Mundo.​\nEsta novela epistolar es fundadora del género que se dio a conocer como tremendismo,​ el cual entronca con la tradición realista española: la picaresca, el naturalismo del siglo XIX y la novela social de los años treinta. Es un punto de encuentro de estilos que surgen en la España de posguerra, dentro de los que podemos destacar el existencialismo​ y el extremo realismo.​ Los personajes viven en un ambiente de marginación, sumidos en la incultura, el dolor y la angustia; esto hace que las historias giren en torno a lo grotesco o repulsivo buscando con ello impactar al lector. Puede por tanto decirse que el tremendismo es un tipo de crítica social.\nEl arquetipo de estos personajes es el protagonista de esta novela, Pascual Duarte, es un habitante de Torremejía, en la Extremadura​ rural. Su vida se desarrolla entre 1882 y 1937, años en los que la realidad sociopolítica española estaba marcada por un clima de profunda inestabilidad. Es una de las épocas más agitadas dentro del constitucionalismo histórico con bruscos cambios de gobierno y de constitución, siendo estas cartas magnas más teóricas que fácticas. Es un personaje que carece de toda habilidad social y que solamente conoce la violencia como único recurso para solucionar los problemas que se le van planteando en la vida. Por esto, la historia tiene un argumento truculento, sórdido, abundante en escenas de violencia.\nLa novela tiene un narrador, el propio protagonista, Pascual Duarte, quien cuenta la historia de su vida con un lenguaje que evoca el habla rural y que recurre, a menudo, a comparaciones con la naturaleza y frecuentemente al uso del refranero español, cuando no encuentra palabras para expresar lo que siente o piensa.​\nEl protagonista de la obra, naturalmente también se ve influenciado, condicionado e impregnado por el clima social reinante en el momento y aunque en ocasiones las referencias explícitas sean difíciles de deducir, en determinados momentos parece que el autor está refiriéndose implícitamente a las mismas.",
+  "instruction": "Extrae los metadatos bibliográficos y temas principales de la obra literaria descrita.",
+  "target_schema": {
+    "additionalProperties": false,
+    "description": "Extracts basic bibliographic metadata and key themes from a book description or encyclopedia entry.\nComplexity: L2 (Explicit Information Retrieval).",
+    "properties": {
+      "title": {
+        "description": "The official title of the literary work",
+        "title": "Title",
+        "type": "string"
+      },
+      "author": {
+        "description": "The primary author or creator of the work",
+        "title": "Author",
+        "type": "string"
+      },
+      "publication_year": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "The year the work was first published",
+        "title": "Publication Year"
+      },
+      "genres": {
+        "description": "Literary genres associated with the work (e.g., 'Science Fiction', 'Romance')",
+        "items": {
+          "type": "string"
+        },
+        "title": "Genres",
+        "type": "array"
+      },
+      "key_themes": {
+        "description": "Main topics or themes explored in the work",
+        "items": {
+          "type": "string"
+        },
+        "title": "Key Themes",
+        "type": "array"
+      },
+      "original_language": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "The language in which the work was originally written",
+        "title": "Original Language"
+      }
+    },
+    "required": [
+      "title",
+      "author"
+    ],
+    "title": "LiteraryWork",
+    "type": "object"
+  },
+  "output": {
+    "title": "La familia de Pascual Duarte",
+    "author": "Camilo José Cela",
+    "publication_year": 1942,
+    "genres": [
+      "novela epistolar",
+      "tremendismo"
+    ],
+    "key_themes": [
+      "violencia",
+      "marginación",
+      "crítica social"
+    ],
+    "original_language": "español"
+  },
+  "metadata": {
+    "source": "la_familia_de_pascual_duarte.md",
+    "domain": "cultural",
+    "subdomain": "literature"
+  }
+}

@@ -1,0 +1,92 @@
+{
+  "id": "test_cultural_literature_003",
+  "input_text": "# Misericordia (novela)\n\nMisericordia es una novela del escritor español Benito Pérez Galdós publicada en la primavera de 1897, dentro del ciclo \"espiritualista\" de las \"Novelas españolas contemporáneas\". A la venta pocos días después de ser concluida, se publicaron fragmentos de promoción en El Imparcial y El Liberal que no fueron suficientes para evitar que cayera en el olvido; habrían de pasar más de treinta años para que se imprimiese una segunda edición.​\nAlgunos críticos y galdosistas la consideran, junto a Fortunata y Jacinta una de las obras del autor con valores universales.​ \nHa sido llevada al teatro, la televisión y el cine en diferentes versiones.​\n\n## Argumento\nMisericordia, cuyo título encierra un doble sentido,​ que si bien parece inspirado por el nombre de la popular institución de beneficencia, el Hospital de la Misericordia de Madrid, con más contundencia argumental hace referencia al supuesto atributo divino,​ encarnado en la piedad de su protagonista, la criada y mendiga Benina.​​ Narra, en medio de un descarnado desfile de pordioseros, tullidos y demás menesterosos de los bajos fondos de la capital de España, las andanzas mendicantes de Benina y el ciego \"Almudena\".​",
+  "instruction": "Extrae los metadatos bibliográficos básicos y los temas clave de la novela descrita en el texto.",
+  "target_schema": {
+    "additionalProperties": false,
+    "description": "Extracts basic bibliographic metadata and key themes from a book description or encyclopedia entry.\nComplexity: L2 (Explicit Information Retrieval).",
+    "properties": {
+      "title": {
+        "description": "The official title of the literary work",
+        "title": "Title",
+        "type": "string"
+      },
+      "author": {
+        "description": "The primary author or creator of the work",
+        "title": "Author",
+        "type": "string"
+      },
+      "publication_year": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "The year the work was first published",
+        "title": "Publication Year"
+      },
+      "genres": {
+        "description": "Literary genres associated with the work (e.g., 'Science Fiction', 'Romance')",
+        "items": {
+          "type": "string"
+        },
+        "title": "Genres",
+        "type": "array"
+      },
+      "key_themes": {
+        "description": "Main topics or themes explored in the work",
+        "items": {
+          "type": "string"
+        },
+        "title": "Key Themes",
+        "type": "array"
+      },
+      "original_language": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "The language in which the work was originally written",
+        "title": "Original Language"
+      }
+    },
+    "required": [
+      "title",
+      "author"
+    ],
+    "title": "LiteraryWork",
+    "type": "object"
+  },
+  "output": {
+    "title": "Misericordia",
+    "author": "Benito Pérez Galdós",
+    "publication_year": 1897,
+    "genres": [
+      "Novela",
+      "Novela espiritualista"
+    ],
+    "key_themes": [
+      "misericordia",
+      "piedad",
+      "mendicidad",
+      "pobreza",
+      "bajos fondos de Madrid",
+      "beneficencia"
+    ],
+    "original_language": "español"
+  },
+  "metadata": {
+    "source": "fresh_testset_misericordia_novela.md",
+    "domain": "cultural",
+    "subdomain": "literature"
+  }
+}
