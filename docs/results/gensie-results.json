@@ -161,19 +161,19 @@
       "institution": "Gradiant",
       "avg_gap_closed": 0.0,
       "gemma4-e4b": {
-        "pipeline": "limited",
+        "pipeline": "stable",
         "mode": "nothink",
-        "f1": 0.6792,
-        "precision": 0.608,
-        "recall": 0.7691,
+        "f1": 0.7092,
+        "precision": 0.7785,
+        "recall": 0.6513,
         "gap_closed": 0.0
       },
       "qwen3-14b": {
-        "pipeline": "limited",
+        "pipeline": "stable",
         "mode": "nothink",
-        "f1": 0.7564,
-        "precision": 0.737,
-        "recall": 0.7767,
+        "f1": 0.7766,
+        "precision": 0.79,
+        "recall": 0.7636,
         "gap_closed": 0.0
       }
     },
@@ -204,13 +204,20 @@
       "team": "JSONautas",
       "institution": "UHO-UO-UCI",
       "avg_gap_closed": 0.0,
-      "gemma4-e4b": null,
-      "qwen3-14b": {
-        "pipeline": "baseline",
+      "gemma4-e4b": {
+        "pipeline": "grammar_cd",
         "mode": "nothink",
-        "f1": 0.5805,
-        "precision": 0.62,
-        "recall": 0.5457,
+        "f1": 0.6139,
+        "precision": 0.7007,
+        "recall": 0.5463,
+        "gap_closed": 0.0
+      },
+      "qwen3-14b": {
+        "pipeline": "prompt_eng",
+        "mode": "nothink",
+        "f1": 0.6534,
+        "precision": 0.708,
+        "recall": 0.6066,
         "gap_closed": 0.0
       }
     },
@@ -442,10 +449,11 @@
           }
         },
         "caveats": [
-          "Modes: nothink = spec config (thinking off); think = June formal run (thinking on). Each team's best reported 125-instance result is used regardless of mode.",
-          "VerbaNex gemma: all three gemma pipelines destabilise the shared gemma backend at full-run scale (they complete in isolation, smoke F1 ~ 0.76); VerbaNex gets gap 0 on gemma and is carried by its qwen result — true gemma standing is likely higher.",
-          "Engine stability: the gemma backend (llama.cpp) crashes under sustained load; results were repaired per-instance on a restarted engine.",
-          "Third-party self-eval data (CodeStrange, JSONautas) and June think-mode data are used where a team lacked a clean spec-config run of their own."
+          "Selection: each team's single best REPORTED result per model is used — the highest-F1 pipeline across any run (ours or the team's own self-evaluation), any thinking mode, with no per-run reliability gate. A run's F1 already counts its failed/collapsed instances as misses, so the number is a faithful floor.",
+          "Modes: nothink = spec config (thinking off); think = June formal run (thinking on).",
+          "Reliability of best cells: some best cells come from runs that failed on a handful of instances. JSONautas qwen (prompt_eng, F1 0.6534) had 5 instances that hard-failed on our inference backend (no output) — counted as misses, so its true F1 is a lower bound. GRADIANT's best cells (stable, 0.7092 gemma / 0.7766 qwen) come from its higher-variance pipeline, which collapses to near-empty output on some instances (24 gemma / 5 qwen); its steadier 'limited' pipeline scores 0.6792 / 0.7564. GRADIANT's own test-set reports reproduce these numbers exactly.",
+          "VerbaNex gemma: all its gemma pipelines destabilise the shared gemma backend at full-run scale (they complete in isolation, smoke F1 ~ 0.76) and produce no reliable full-run score, so gemma is left n/a; VerbaNex is carried by its strong qwen result and its true gemma standing is likely higher.",
+          "Engine stability: the gemma backend (llama.cpp) crashes under sustained load; results were repaired per-instance on a restarted engine."
         ]
       }
     },
@@ -697,10 +705,11 @@
           }
         },
         "caveats": [
-          "Modes: nothink = spec config (thinking off); think = June formal run (thinking on). Each team's best reported 125-instance result is used regardless of mode.",
-          "VerbaNex gemma: all three gemma pipelines destabilise the shared gemma backend at full-run scale (they complete in isolation, smoke F1 ~ 0.76); VerbaNex gets gap 0 on gemma and is carried by its qwen result — true gemma standing is likely higher.",
-          "Engine stability: the gemma backend (llama.cpp) crashes under sustained load; results were repaired per-instance on a restarted engine.",
-          "Third-party self-eval data (CodeStrange, JSONautas) and June think-mode data are used where a team lacked a clean spec-config run of their own."
+          "Selection: each team's single best REPORTED result per model is used — the highest-F1 pipeline across any run (ours or the team's own self-evaluation), any thinking mode, with no per-run reliability gate. A run's F1 already counts its failed/collapsed instances as misses, so the number is a faithful floor.",
+          "Modes: nothink = spec config (thinking off); think = June formal run (thinking on).",
+          "Reliability of best cells: some best cells come from runs that failed on a handful of instances. JSONautas qwen (prompt_eng, F1 0.6534) had 5 instances that hard-failed on our inference backend (no output) — counted as misses, so its true F1 is a lower bound. GRADIANT's best cells (stable, 0.7092 gemma / 0.7766 qwen) come from its higher-variance pipeline, which collapses to near-empty output on some instances (24 gemma / 5 qwen); its steadier 'limited' pipeline scores 0.6792 / 0.7564. GRADIANT's own test-set reports reproduce these numbers exactly.",
+          "VerbaNex gemma: all its gemma pipelines destabilise the shared gemma backend at full-run scale (they complete in isolation, smoke F1 ~ 0.76) and produce no reliable full-run score, so gemma is left n/a; VerbaNex is carried by its strong qwen result and its true gemma standing is likely higher.",
+          "Engine stability: the gemma backend (llama.cpp) crashes under sustained load; results were repaired per-instance on a restarted engine."
         ]
       }
     },
@@ -820,10 +829,11 @@
           }
         },
         "caveats": [
-          "Modes: nothink = spec config (thinking off); think = June formal run (thinking on). Each team's best reported 125-instance result is used regardless of mode.",
-          "VerbaNex gemma: all three gemma pipelines destabilise the shared gemma backend at full-run scale (they complete in isolation, smoke F1 ~ 0.76); VerbaNex gets gap 0 on gemma and is carried by its qwen result — true gemma standing is likely higher.",
-          "Engine stability: the gemma backend (llama.cpp) crashes under sustained load; results were repaired per-instance on a restarted engine.",
-          "Third-party self-eval data (CodeStrange, JSONautas) and June think-mode data are used where a team lacked a clean spec-config run of their own."
+          "Selection: each team's single best REPORTED result per model is used — the highest-F1 pipeline across any run (ours or the team's own self-evaluation), any thinking mode, with no per-run reliability gate. A run's F1 already counts its failed/collapsed instances as misses, so the number is a faithful floor.",
+          "Modes: nothink = spec config (thinking off); think = June formal run (thinking on).",
+          "Reliability of best cells: some best cells come from runs that failed on a handful of instances. JSONautas qwen (prompt_eng, F1 0.6534) had 5 instances that hard-failed on our inference backend (no output) — counted as misses, so its true F1 is a lower bound. GRADIANT's best cells (stable, 0.7092 gemma / 0.7766 qwen) come from its higher-variance pipeline, which collapses to near-empty output on some instances (24 gemma / 5 qwen); its steadier 'limited' pipeline scores 0.6792 / 0.7564. GRADIANT's own test-set reports reproduce these numbers exactly.",
+          "VerbaNex gemma: all its gemma pipelines destabilise the shared gemma backend at full-run scale (they complete in isolation, smoke F1 ~ 0.76) and produce no reliable full-run score, so gemma is left n/a; VerbaNex is carried by its strong qwen result and its true gemma standing is likely higher.",
+          "Engine stability: the gemma backend (llama.cpp) crashes under sustained load; results were repaired per-instance on a restarted engine."
         ]
       }
     },
@@ -987,10 +997,11 @@
           }
         },
         "caveats": [
-          "Modes: nothink = spec config (thinking off); think = June formal run (thinking on). Each team's best reported 125-instance result is used regardless of mode.",
-          "VerbaNex gemma: all three gemma pipelines destabilise the shared gemma backend at full-run scale (they complete in isolation, smoke F1 ~ 0.76); VerbaNex gets gap 0 on gemma and is carried by its qwen result — true gemma standing is likely higher.",
-          "Engine stability: the gemma backend (llama.cpp) crashes under sustained load; results were repaired per-instance on a restarted engine.",
-          "Third-party self-eval data (CodeStrange, JSONautas) and June think-mode data are used where a team lacked a clean spec-config run of their own."
+          "Selection: each team's single best REPORTED result per model is used — the highest-F1 pipeline across any run (ours or the team's own self-evaluation), any thinking mode, with no per-run reliability gate. A run's F1 already counts its failed/collapsed instances as misses, so the number is a faithful floor.",
+          "Modes: nothink = spec config (thinking off); think = June formal run (thinking on).",
+          "Reliability of best cells: some best cells come from runs that failed on a handful of instances. JSONautas qwen (prompt_eng, F1 0.6534) had 5 instances that hard-failed on our inference backend (no output) — counted as misses, so its true F1 is a lower bound. GRADIANT's best cells (stable, 0.7092 gemma / 0.7766 qwen) come from its higher-variance pipeline, which collapses to near-empty output on some instances (24 gemma / 5 qwen); its steadier 'limited' pipeline scores 0.6792 / 0.7564. GRADIANT's own test-set reports reproduce these numbers exactly.",
+          "VerbaNex gemma: all its gemma pipelines destabilise the shared gemma backend at full-run scale (they complete in isolation, smoke F1 ~ 0.76) and produce no reliable full-run score, so gemma is left n/a; VerbaNex is carried by its strong qwen result and its true gemma standing is likely higher.",
+          "Engine stability: the gemma backend (llama.cpp) crashes under sustained load; results were repaired per-instance on a restarted engine."
         ]
       }
     },
@@ -1198,10 +1209,11 @@
           }
         },
         "caveats": [
-          "Modes: nothink = spec config (thinking off); think = June formal run (thinking on). Each team's best reported 125-instance result is used regardless of mode.",
-          "VerbaNex gemma: all three gemma pipelines destabilise the shared gemma backend at full-run scale (they complete in isolation, smoke F1 ~ 0.76); VerbaNex gets gap 0 on gemma and is carried by its qwen result — true gemma standing is likely higher.",
-          "Engine stability: the gemma backend (llama.cpp) crashes under sustained load; results were repaired per-instance on a restarted engine.",
-          "Third-party self-eval data (CodeStrange, JSONautas) and June think-mode data are used where a team lacked a clean spec-config run of their own."
+          "Selection: each team's single best REPORTED result per model is used — the highest-F1 pipeline across any run (ours or the team's own self-evaluation), any thinking mode, with no per-run reliability gate. A run's F1 already counts its failed/collapsed instances as misses, so the number is a faithful floor.",
+          "Modes: nothink = spec config (thinking off); think = June formal run (thinking on).",
+          "Reliability of best cells: some best cells come from runs that failed on a handful of instances. JSONautas qwen (prompt_eng, F1 0.6534) had 5 instances that hard-failed on our inference backend (no output) — counted as misses, so its true F1 is a lower bound. GRADIANT's best cells (stable, 0.7092 gemma / 0.7766 qwen) come from its higher-variance pipeline, which collapses to near-empty output on some instances (24 gemma / 5 qwen); its steadier 'limited' pipeline scores 0.6792 / 0.7564. GRADIANT's own test-set reports reproduce these numbers exactly.",
+          "VerbaNex gemma: all its gemma pipelines destabilise the shared gemma backend at full-run scale (they complete in isolation, smoke F1 ~ 0.76) and produce no reliable full-run score, so gemma is left n/a; VerbaNex is carried by its strong qwen result and its true gemma standing is likely higher.",
+          "Engine stability: the gemma backend (llama.cpp) crashes under sustained load; results were repaired per-instance on a restarted engine."
         ]
       }
     },
@@ -1413,10 +1425,11 @@
           }
         },
         "caveats": [
-          "Modes: nothink = spec config (thinking off); think = June formal run (thinking on). Each team's best reported 125-instance result is used regardless of mode.",
-          "VerbaNex gemma: all three gemma pipelines destabilise the shared gemma backend at full-run scale (they complete in isolation, smoke F1 ~ 0.76); VerbaNex gets gap 0 on gemma and is carried by its qwen result — true gemma standing is likely higher.",
-          "Engine stability: the gemma backend (llama.cpp) crashes under sustained load; results were repaired per-instance on a restarted engine.",
-          "Third-party self-eval data (CodeStrange, JSONautas) and June think-mode data are used where a team lacked a clean spec-config run of their own."
+          "Selection: each team's single best REPORTED result per model is used — the highest-F1 pipeline across any run (ours or the team's own self-evaluation), any thinking mode, with no per-run reliability gate. A run's F1 already counts its failed/collapsed instances as misses, so the number is a faithful floor.",
+          "Modes: nothink = spec config (thinking off); think = June formal run (thinking on).",
+          "Reliability of best cells: some best cells come from runs that failed on a handful of instances. JSONautas qwen (prompt_eng, F1 0.6534) had 5 instances that hard-failed on our inference backend (no output) — counted as misses, so its true F1 is a lower bound. GRADIANT's best cells (stable, 0.7092 gemma / 0.7766 qwen) come from its higher-variance pipeline, which collapses to near-empty output on some instances (24 gemma / 5 qwen); its steadier 'limited' pipeline scores 0.6792 / 0.7564. GRADIANT's own test-set reports reproduce these numbers exactly.",
+          "VerbaNex gemma: all its gemma pipelines destabilise the shared gemma backend at full-run scale (they complete in isolation, smoke F1 ~ 0.76) and produce no reliable full-run score, so gemma is left n/a; VerbaNex is carried by its strong qwen result and its true gemma standing is likely higher.",
+          "Engine stability: the gemma backend (llama.cpp) crashes under sustained load; results were repaired per-instance on a restarted engine."
         ]
       }
     },
@@ -1536,10 +1549,11 @@
           }
         },
         "caveats": [
-          "Modes: nothink = spec config (thinking off); think = June formal run (thinking on). Each team's best reported 125-instance result is used regardless of mode.",
-          "VerbaNex gemma: all three gemma pipelines destabilise the shared gemma backend at full-run scale (they complete in isolation, smoke F1 ~ 0.76); VerbaNex gets gap 0 on gemma and is carried by its qwen result — true gemma standing is likely higher.",
-          "Engine stability: the gemma backend (llama.cpp) crashes under sustained load; results were repaired per-instance on a restarted engine.",
-          "Third-party self-eval data (CodeStrange, JSONautas) and June think-mode data are used where a team lacked a clean spec-config run of their own."
+          "Selection: each team's single best REPORTED result per model is used — the highest-F1 pipeline across any run (ours or the team's own self-evaluation), any thinking mode, with no per-run reliability gate. A run's F1 already counts its failed/collapsed instances as misses, so the number is a faithful floor.",
+          "Modes: nothink = spec config (thinking off); think = June formal run (thinking on).",
+          "Reliability of best cells: some best cells come from runs that failed on a handful of instances. JSONautas qwen (prompt_eng, F1 0.6534) had 5 instances that hard-failed on our inference backend (no output) — counted as misses, so its true F1 is a lower bound. GRADIANT's best cells (stable, 0.7092 gemma / 0.7766 qwen) come from its higher-variance pipeline, which collapses to near-empty output on some instances (24 gemma / 5 qwen); its steadier 'limited' pipeline scores 0.6792 / 0.7564. GRADIANT's own test-set reports reproduce these numbers exactly.",
+          "VerbaNex gemma: all its gemma pipelines destabilise the shared gemma backend at full-run scale (they complete in isolation, smoke F1 ~ 0.76) and produce no reliable full-run score, so gemma is left n/a; VerbaNex is carried by its strong qwen result and its true gemma standing is likely higher.",
+          "Engine stability: the gemma backend (llama.cpp) crashes under sustained load; results were repaired per-instance on a restarted engine."
         ]
       }
     },
@@ -1550,19 +1564,19 @@
       "avg_gap_closed": 0.0,
       "best": {
         "gemma4-e4b": {
-          "pipeline": "limited",
+          "pipeline": "stable",
           "mode": "nothink",
-          "f1": 0.6792,
-          "precision": 0.608,
-          "recall": 0.7691,
+          "f1": 0.7092,
+          "precision": 0.7785,
+          "recall": 0.6513,
           "gap_closed": 0.0
         },
         "qwen3-14b": {
-          "pipeline": "limited",
+          "pipeline": "stable",
           "mode": "nothink",
-          "f1": 0.7564,
-          "precision": 0.737,
-          "recall": 0.7767,
+          "f1": 0.7766,
+          "precision": 0.79,
+          "recall": 0.7636,
           "gap_closed": 0.0
         }
       },
@@ -1659,10 +1673,11 @@
           }
         },
         "caveats": [
-          "Modes: nothink = spec config (thinking off); think = June formal run (thinking on). Each team's best reported 125-instance result is used regardless of mode.",
-          "VerbaNex gemma: all three gemma pipelines destabilise the shared gemma backend at full-run scale (they complete in isolation, smoke F1 ~ 0.76); VerbaNex gets gap 0 on gemma and is carried by its qwen result — true gemma standing is likely higher.",
-          "Engine stability: the gemma backend (llama.cpp) crashes under sustained load; results were repaired per-instance on a restarted engine.",
-          "Third-party self-eval data (CodeStrange, JSONautas) and June think-mode data are used where a team lacked a clean spec-config run of their own."
+          "Selection: each team's single best REPORTED result per model is used — the highest-F1 pipeline across any run (ours or the team's own self-evaluation), any thinking mode, with no per-run reliability gate. A run's F1 already counts its failed/collapsed instances as misses, so the number is a faithful floor.",
+          "Modes: nothink = spec config (thinking off); think = June formal run (thinking on).",
+          "Reliability of best cells: some best cells come from runs that failed on a handful of instances. JSONautas qwen (prompt_eng, F1 0.6534) had 5 instances that hard-failed on our inference backend (no output) — counted as misses, so its true F1 is a lower bound. GRADIANT's best cells (stable, 0.7092 gemma / 0.7766 qwen) come from its higher-variance pipeline, which collapses to near-empty output on some instances (24 gemma / 5 qwen); its steadier 'limited' pipeline scores 0.6792 / 0.7564. GRADIANT's own test-set reports reproduce these numbers exactly.",
+          "VerbaNex gemma: all its gemma pipelines destabilise the shared gemma backend at full-run scale (they complete in isolation, smoke F1 ~ 0.76) and produce no reliable full-run score, so gemma is left n/a; VerbaNex is carried by its strong qwen result and its true gemma standing is likely higher.",
+          "Engine stability: the gemma backend (llama.cpp) crashes under sustained load; results were repaired per-instance on a restarted engine."
         ]
       }
     },
@@ -1782,10 +1797,11 @@
           }
         },
         "caveats": [
-          "Modes: nothink = spec config (thinking off); think = June formal run (thinking on). Each team's best reported 125-instance result is used regardless of mode.",
-          "VerbaNex gemma: all three gemma pipelines destabilise the shared gemma backend at full-run scale (they complete in isolation, smoke F1 ~ 0.76); VerbaNex gets gap 0 on gemma and is carried by its qwen result — true gemma standing is likely higher.",
-          "Engine stability: the gemma backend (llama.cpp) crashes under sustained load; results were repaired per-instance on a restarted engine.",
-          "Third-party self-eval data (CodeStrange, JSONautas) and June think-mode data are used where a team lacked a clean spec-config run of their own."
+          "Selection: each team's single best REPORTED result per model is used — the highest-F1 pipeline across any run (ours or the team's own self-evaluation), any thinking mode, with no per-run reliability gate. A run's F1 already counts its failed/collapsed instances as misses, so the number is a faithful floor.",
+          "Modes: nothink = spec config (thinking off); think = June formal run (thinking on).",
+          "Reliability of best cells: some best cells come from runs that failed on a handful of instances. JSONautas qwen (prompt_eng, F1 0.6534) had 5 instances that hard-failed on our inference backend (no output) — counted as misses, so its true F1 is a lower bound. GRADIANT's best cells (stable, 0.7092 gemma / 0.7766 qwen) come from its higher-variance pipeline, which collapses to near-empty output on some instances (24 gemma / 5 qwen); its steadier 'limited' pipeline scores 0.6792 / 0.7564. GRADIANT's own test-set reports reproduce these numbers exactly.",
+          "VerbaNex gemma: all its gemma pipelines destabilise the shared gemma backend at full-run scale (they complete in isolation, smoke F1 ~ 0.76) and produce no reliable full-run score, so gemma is left n/a; VerbaNex is carried by its strong qwen result and its true gemma standing is likely higher.",
+          "Engine stability: the gemma backend (llama.cpp) crashes under sustained load; results were repaired per-instance on a restarted engine."
         ]
       }
     },
@@ -1795,13 +1811,20 @@
       "rank": 10,
       "avg_gap_closed": 0.0,
       "best": {
-        "gemma4-e4b": null,
-        "qwen3-14b": {
-          "pipeline": "baseline",
+        "gemma4-e4b": {
+          "pipeline": "grammar_cd",
           "mode": "nothink",
-          "f1": 0.5805,
-          "precision": 0.62,
-          "recall": 0.5457,
+          "f1": 0.6139,
+          "precision": 0.7007,
+          "recall": 0.5463,
+          "gap_closed": 0.0
+        },
+        "qwen3-14b": {
+          "pipeline": "prompt_eng",
+          "mode": "nothink",
+          "f1": 0.6534,
+          "precision": 0.708,
+          "recall": 0.6066,
           "gap_closed": 0.0
         }
       },
@@ -1920,10 +1943,11 @@
           }
         },
         "caveats": [
-          "Modes: nothink = spec config (thinking off); think = June formal run (thinking on). Each team's best reported 125-instance result is used regardless of mode.",
-          "VerbaNex gemma: all three gemma pipelines destabilise the shared gemma backend at full-run scale (they complete in isolation, smoke F1 ~ 0.76); VerbaNex gets gap 0 on gemma and is carried by its qwen result — true gemma standing is likely higher.",
-          "Engine stability: the gemma backend (llama.cpp) crashes under sustained load; results were repaired per-instance on a restarted engine.",
-          "Third-party self-eval data (CodeStrange, JSONautas) and June think-mode data are used where a team lacked a clean spec-config run of their own."
+          "Selection: each team's single best REPORTED result per model is used — the highest-F1 pipeline across any run (ours or the team's own self-evaluation), any thinking mode, with no per-run reliability gate. A run's F1 already counts its failed/collapsed instances as misses, so the number is a faithful floor.",
+          "Modes: nothink = spec config (thinking off); think = June formal run (thinking on).",
+          "Reliability of best cells: some best cells come from runs that failed on a handful of instances. JSONautas qwen (prompt_eng, F1 0.6534) had 5 instances that hard-failed on our inference backend (no output) — counted as misses, so its true F1 is a lower bound. GRADIANT's best cells (stable, 0.7092 gemma / 0.7766 qwen) come from its higher-variance pipeline, which collapses to near-empty output on some instances (24 gemma / 5 qwen); its steadier 'limited' pipeline scores 0.6792 / 0.7564. GRADIANT's own test-set reports reproduce these numbers exactly.",
+          "VerbaNex gemma: all its gemma pipelines destabilise the shared gemma backend at full-run scale (they complete in isolation, smoke F1 ~ 0.76) and produce no reliable full-run score, so gemma is left n/a; VerbaNex is carried by its strong qwen result and its true gemma standing is likely higher.",
+          "Engine stability: the gemma backend (llama.cpp) crashes under sustained load; results were repaired per-instance on a restarted engine."
         ]
       }
     },
@@ -2065,10 +2089,11 @@
           }
         },
         "caveats": [
-          "Modes: nothink = spec config (thinking off); think = June formal run (thinking on). Each team's best reported 125-instance result is used regardless of mode.",
-          "VerbaNex gemma: all three gemma pipelines destabilise the shared gemma backend at full-run scale (they complete in isolation, smoke F1 ~ 0.76); VerbaNex gets gap 0 on gemma and is carried by its qwen result — true gemma standing is likely higher.",
-          "Engine stability: the gemma backend (llama.cpp) crashes under sustained load; results were repaired per-instance on a restarted engine.",
-          "Third-party self-eval data (CodeStrange, JSONautas) and June think-mode data are used where a team lacked a clean spec-config run of their own."
+          "Selection: each team's single best REPORTED result per model is used — the highest-F1 pipeline across any run (ours or the team's own self-evaluation), any thinking mode, with no per-run reliability gate. A run's F1 already counts its failed/collapsed instances as misses, so the number is a faithful floor.",
+          "Modes: nothink = spec config (thinking off); think = June formal run (thinking on).",
+          "Reliability of best cells: some best cells come from runs that failed on a handful of instances. JSONautas qwen (prompt_eng, F1 0.6534) had 5 instances that hard-failed on our inference backend (no output) — counted as misses, so its true F1 is a lower bound. GRADIANT's best cells (stable, 0.7092 gemma / 0.7766 qwen) come from its higher-variance pipeline, which collapses to near-empty output on some instances (24 gemma / 5 qwen); its steadier 'limited' pipeline scores 0.6792 / 0.7564. GRADIANT's own test-set reports reproduce these numbers exactly.",
+          "VerbaNex gemma: all its gemma pipelines destabilise the shared gemma backend at full-run scale (they complete in isolation, smoke F1 ~ 0.76) and produce no reliable full-run score, so gemma is left n/a; VerbaNex is carried by its strong qwen result and its true gemma standing is likely higher.",
+          "Engine stability: the gemma backend (llama.cpp) crashes under sustained load; results were repaired per-instance on a restarted engine."
         ]
       }
     }
@@ -2098,10 +2123,11 @@
       }
     },
     "caveats": [
-      "Modes: nothink = spec config (thinking off); think = June formal run (thinking on). Each team's best reported 125-instance result is used regardless of mode.",
-      "VerbaNex gemma: all three gemma pipelines destabilise the shared gemma backend at full-run scale (they complete in isolation, smoke F1 ~ 0.76); VerbaNex gets gap 0 on gemma and is carried by its qwen result — true gemma standing is likely higher.",
-      "Engine stability: the gemma backend (llama.cpp) crashes under sustained load; results were repaired per-instance on a restarted engine.",
-      "Third-party self-eval data (CodeStrange, JSONautas) and June think-mode data are used where a team lacked a clean spec-config run of their own."
+      "Selection: each team's single best REPORTED result per model is used — the highest-F1 pipeline across any run (ours or the team's own self-evaluation), any thinking mode, with no per-run reliability gate. A run's F1 already counts its failed/collapsed instances as misses, so the number is a faithful floor.",
+      "Modes: nothink = spec config (thinking off); think = June formal run (thinking on).",
+      "Reliability of best cells: some best cells come from runs that failed on a handful of instances. JSONautas qwen (prompt_eng, F1 0.6534) had 5 instances that hard-failed on our inference backend (no output) — counted as misses, so its true F1 is a lower bound. GRADIANT's best cells (stable, 0.7092 gemma / 0.7766 qwen) come from its higher-variance pipeline, which collapses to near-empty output on some instances (24 gemma / 5 qwen); its steadier 'limited' pipeline scores 0.6792 / 0.7564. GRADIANT's own test-set reports reproduce these numbers exactly.",
+      "VerbaNex gemma: all its gemma pipelines destabilise the shared gemma backend at full-run scale (they complete in isolation, smoke F1 ~ 0.76) and produce no reliable full-run score, so gemma is left n/a; VerbaNex is carried by its strong qwen result and its true gemma standing is likely higher.",
+      "Engine stability: the gemma backend (llama.cpp) crashes under sustained load; results were repaired per-instance on a restarted engine."
     ]
   }
 }

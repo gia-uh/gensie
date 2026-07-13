@@ -2,7 +2,7 @@
 
 Final results of the **GenSIE @ IberLEF 2026** shared task.
 
-Primary metric: **gap closed over baseline**, `gap = max(0, (F1 − F1_base) / (1 − F1_base))`, averaged over the two evaluation models (**Gemma 4 E4B**, **Qwen3-14B**). Each team's best-reported valid pipeline is used (any thinking config), scored with micro-F1 on the **125-instance** test set (the full 145 instances minus a 20-instance drop-set — see [Methodology](#methodology)).
+Primary metric: **gap closed over baseline**, `gap = max(0, (F1 − F1_base) / (1 − F1_base))`, averaged over the two evaluation models (**Gemma 4 E4B**, **Qwen3-14B**). Each team's single best-reported pipeline per model is used — the highest-F1 run from either our evaluation or the team's own self-evaluation, any thinking config, with no per-run reliability gate — scored with micro-F1 on the **125-instance** test set (the full 145 instances minus a 20-instance drop-set — see [Methodology](#methodology)).
 
 Baselines (125-instance, official participant): gemma4-e4b = **0.7895**, qwen3-14b = **0.7805**.
 
@@ -17,9 +17,9 @@ Baselines (125-instance, official participant): gemma4-e4b = **0.7895**, qwen3-1
 | 5 | SEsml | **0.0481** | 0.7746 | 0.8017 |
 | 6 | VerbaNex | **0.0473** | n/a | 0.8013 |
 | 7 | UC3M | **0.0212** | 0.7984 | 0.3629 |
-| 8 | GRADIANT | **0.0000** | 0.6792 | 0.7564 |
+| 8 | GRADIANT | **0.0000** | 0.7092 | 0.7766 |
 | 9 | Inigo | **0.0000** | 0.7504 | 0.7320 |
-| 10 | JSONautas | **0.0000** | n/a | 0.5805 |
+| 10 | JSONautas | **0.0000** | 0.6139 | 0.6534 |
 | 11 | MOLD | **0.0000** | 0.7354 | 0.7115 |
 
 ## Per-team best pipeline
@@ -33,9 +33,9 @@ Baselines (125-instance, official participant): gemma4-e4b = **0.7895**, qwen3-1
 | SEsml | baseline | 0.7746 | nothink | adaptive | 0.8017 | think |
 | VerbaNex | — | n/a | — | precision_master | 0.8013 | nothink |
 | UC3M | prompted | 0.7984 | nothink | prompted | 0.3629 | nothink |
-| GRADIANT | limited | 0.6792 | nothink | limited | 0.7564 | nothink |
+| GRADIANT | stable | 0.7092 | nothink | stable | 0.7766 | nothink |
 | Inigo | e232 | 0.7504 | nothink | e232 | 0.7320 | nothink |
-| JSONautas | — | n/a | — | baseline | 0.5805 | nothink |
+| JSONautas | grammar_cd | 0.6139 | nothink | prompt_eng | 0.6534 | nothink |
 | MOLD | vigil | 0.7354 | nothink | arcane | 0.7115 | nothink |
 
 ## Downloads
@@ -71,7 +71,9 @@ Scoring is on the remaining **125 instances**. The exclusion is uniform, so gap-
 
 ### Caveats
 
-- **Modes:** `nothink` = spec config (thinking off); `think` = June formal run (thinking on). Each team's best *reported* 125-instance result is used regardless of mode.
-- **VerbaNex gemma:** all three VerbaNex gemma pipelines reliably destabilise the shared gemma backend over a full run (they complete in isolation, smoke F1 ≈ 0.76). VerbaNex therefore receives gap 0 on gemma and is carried by its strong qwen result; its true gemma standing is likely higher.
+- **Selection:** each team's single best *reported* result per model is used — the highest-F1 pipeline across any run (ours or the team's own self-evaluation), any thinking mode, with **no per-run reliability gate**. A run's F1 already counts its failed or collapsed instances as misses, so the reported number is a faithful lower bound.
+- **Modes:** `nothink` = spec config (thinking off); `think` = June formal run (thinking on).
+- **Reliability of best cells:** some best cells come from runs that failed on a few instances. **JSONautas** qwen (`prompt_eng`, 0.6534) had 5 instances that hard-failed on our inference backend (no output) — counted as misses, so its true F1 is a lower bound. **GRADIANT**'s best cells (`stable`, 0.7092 gemma / 0.7766 qwen) come from its higher-variance pipeline, which collapses to near-empty output on some instances (24 gemma / 5 qwen); its steadier `limited` pipeline scores 0.6792 / 0.7564. GRADIANT's own test-set reports reproduce these numbers exactly.
+- **VerbaNex gemma:** all VerbaNex gemma pipelines reliably destabilise the shared gemma backend over a full run (they complete in isolation, smoke F1 ≈ 0.76) and produce no reliable full-run score, so gemma is left n/a. VerbaNex receives gap 0 on gemma and is carried by its strong qwen result; its true gemma standing is likely higher.
 - **Engine stability:** the gemma backend (llama.cpp) crashes under sustained load; results were repaired per-instance on a restarted engine.
-- Third-party self-eval data (CodeStrange, JSONautas) and June think-mode data are used where a team lacked a clean spec-config run of its own.
+- Third-party self-eval data (CodeStrange, JSONautas, GRADIANT) and June think-mode data are used where a team's best result came from its own run.
