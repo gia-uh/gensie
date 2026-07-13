@@ -4,22 +4,22 @@
   "repo": "https://github.com/gia-uh/gensie",
   "primary_metric": "micro-F1 on 125 instances (145 test minus a 20-instance drop-set), and gap-closed over baseline, gap = max(0, (F1 - F1_base) / (1 - F1_base)), averaged over gemma4-e4b and qwen3-14b.",
   "baselines_125_instance": {
-    "gemma4-e4b": 0.7895,
-    "qwen3-14b": 0.7805
+    "gemma4-e4b": 0.778,
+    "qwen3-14b": 0.7542
   },
   "leaderboard": [
     {
       "rank": 1,
       "team": "DRILLER",
       "institution": "Universidad de La Habana",
-      "avg_gap_closed": 0.2158,
+      "avg_gap_closed": 0.2773,
       "gemma4-e4b": {
         "pipeline": "mixed-extractors-self-consistency-rag",
         "mode": "think",
         "f1": 0.8285,
         "precision": 0.8285,
         "recall": 0.8285,
-        "gap_closed": 0.1854
+        "gap_closed": 0.2277
       },
       "qwen3-14b": {
         "pipeline": "enriched-schema-rag",
@@ -27,21 +27,21 @@
         "f1": 0.8346,
         "precision": 0.8346,
         "recall": 0.8346,
-        "gap_closed": 0.2463
+        "gap_closed": 0.327
       }
     },
     {
       "rank": 2,
       "team": "Krishan",
       "institution": "Independent",
-      "avg_gap_closed": 0.1202,
+      "avg_gap_closed": 0.19,
       "gemma4-e4b": {
         "pipeline": "schema_dynamic",
         "mode": "nothink",
         "f1": 0.8142,
         "precision": 0.8142,
         "recall": 0.8142,
-        "gap_closed": 0.1172
+        "gap_closed": 0.163
       },
       "qwen3-14b": {
         "pipeline": "schema_dynamic",
@@ -49,21 +49,21 @@
         "f1": 0.8076,
         "precision": 0.8076,
         "recall": 0.8076,
-        "gap_closed": 0.1232
+        "gap_closed": 0.217
       }
     },
     {
       "rank": 3,
       "team": "CodeStrange",
       "institution": "Independent / UH",
-      "avg_gap_closed": 0.0995,
+      "avg_gap_closed": 0.1709,
       "gemma4-e4b": {
         "pipeline": "combo_guard_react_repair_ref",
         "mode": "nothink",
         "f1": 0.809,
         "precision": 0.809,
         "recall": 0.809,
-        "gap_closed": 0.0925
+        "gap_closed": 0.1396
       },
       "qwen3-14b": {
         "pipeline": "combo_guard_react_repair_ref",
@@ -71,21 +71,21 @@
         "f1": 0.8039,
         "precision": 0.8068,
         "recall": 0.8011,
-        "gap_closed": 0.1065
+        "gap_closed": 0.2022
       }
     },
     {
       "rank": 4,
       "team": "FranRodrigo",
       "institution": "Official",
-      "avg_gap_closed": 0.0629,
+      "avg_gap_closed": 0.1171,
       "gemma4-e4b": {
         "pipeline": "cot",
         "mode": "nothink",
         "f1": 0.7812,
         "precision": 0.7742,
         "recall": 0.7884,
-        "gap_closed": 0.0
+        "gap_closed": 0.0147
       },
       "qwen3-14b": {
         "pipeline": "cot",
@@ -93,14 +93,14 @@
         "f1": 0.8081,
         "precision": 0.8086,
         "recall": 0.8077,
-        "gap_closed": 0.1258
+        "gap_closed": 0.2194
       }
     },
     {
       "rank": 5,
       "team": "SEsml",
       "institution": "Universidad de La Habana",
-      "avg_gap_closed": 0.0481,
+      "avg_gap_closed": 0.0965,
       "gemma4-e4b": {
         "pipeline": "baseline",
         "mode": "nothink",
@@ -115,14 +115,14 @@
         "f1": 0.8017,
         "precision": 0.7902,
         "recall": 0.8135,
-        "gap_closed": 0.0962
+        "gap_closed": 0.193
       }
     },
     {
       "rank": 6,
       "team": "VerbaNex",
       "institution": "Universidad Tecnológica de Bolívar (UTB), Colombia",
-      "avg_gap_closed": 0.0473,
+      "avg_gap_closed": 0.0958,
       "gemma4-e4b": null,
       "qwen3-14b": {
         "pipeline": "precision_master",
@@ -130,21 +130,21 @@
         "f1": 0.8013,
         "precision": 0.8013,
         "recall": 0.8013,
-        "gap_closed": 0.0946
+        "gap_closed": 0.1916
       }
     },
     {
       "rank": 7,
       "team": "UC3M",
       "institution": "Universidad Carlos III de Madrid",
-      "avg_gap_closed": 0.0212,
+      "avg_gap_closed": 0.0461,
       "gemma4-e4b": {
         "pipeline": "prompted",
         "mode": "nothink",
         "f1": 0.7984,
         "precision": 0.8234,
         "recall": 0.7749,
-        "gap_closed": 0.0424
+        "gap_closed": 0.0921
       },
       "qwen3-14b": {
         "pipeline": "prompted",
@@ -159,7 +159,7 @@
       "rank": 8,
       "team": "GRADIANT",
       "institution": "Gradiant",
-      "avg_gap_closed": 0.0,
+      "avg_gap_closed": 0.0455,
       "gemma4-e4b": {
         "pipeline": "stable",
         "mode": "nothink",
@@ -174,7 +174,7 @@
         "f1": 0.7766,
         "precision": 0.79,
         "recall": 0.7636,
-        "gap_closed": 0.0
+        "gap_closed": 0.0909
       }
     },
     {
@@ -249,7 +249,7 @@
       "team": "DRILLER",
       "institution": "Universidad de La Habana",
       "rank": 1,
-      "avg_gap_closed": 0.2158,
+      "avg_gap_closed": 0.2773,
       "best": {
         "gemma4-e4b": {
           "pipeline": "mixed-extractors-self-consistency-rag",
@@ -257,7 +257,7 @@
           "f1": 0.8285,
           "precision": 0.8285,
           "recall": 0.8285,
-          "gap_closed": 0.1854
+          "gap_closed": 0.2277
         },
         "qwen3-14b": {
           "pipeline": "enriched-schema-rag",
@@ -265,7 +265,7 @@
           "f1": 0.8346,
           "precision": 0.8346,
           "recall": 0.8346,
-          "gap_closed": 0.2463
+          "gap_closed": 0.327
         }
       },
       "pipelines": [
@@ -427,8 +427,8 @@
       "methodology": {
         "metric": "micro-F1 on 125 instances (145 test minus a 20-instance drop-set), and gap-closed over baseline, gap = max(0, (F1 - F1_base) / (1 - F1_base)), averaged over gemma4-e4b and qwen3-14b.",
         "baselines_125_instance": {
-          "gemma4-e4b": 0.7895,
-          "qwen3-14b": 0.7805
+          "gemma4-e4b": 0.778,
+          "qwen3-14b": 0.7542
         },
         "drop_set": {
           "n_excluded": 20,
@@ -449,6 +449,7 @@
           }
         },
         "caveats": [
+          "Reproducibility: these numbers are illustrative, not exactly reproducible. Teams did not all run on the same hardware — our own uniform evaluation was blocked for several teams by container/dependency errors, so some cells are teams' self-reported runs on their own machines. Hardware differences shift scores beyond ordinary LLM stochasticity. The baseline itself varied across runs; we report the MEDIAN of three reference no-think runs (Gemma {0.7739, 0.7780, 0.7895}, Qwen {0.7379, 0.7542, 0.7805}) — CodeStrange's independent replication, the only run whose raw outputs were retained and independently re-scored. Take absolute numbers with caution; the value is the comparison of strategies, not the exact ranking.",
           "Selection: each team's single best REPORTED result per model is used — the highest-F1 pipeline across any run (ours or the team's own self-evaluation), any thinking mode, with no per-run reliability gate. A run's F1 already counts its failed/collapsed instances as misses, so the number is a faithful floor.",
           "Modes: nothink = spec config (thinking off); think = June formal run (thinking on).",
           "Reliability of best cells: some best cells come from runs that failed on a handful of instances. JSONautas qwen (prompt_eng, F1 0.6534) had 5 instances that hard-failed on our inference backend (no output) — counted as misses, so its true F1 is a lower bound. GRADIANT's best cells (stable, 0.7092 gemma / 0.7766 qwen) come from its higher-variance pipeline, which collapses to near-empty output on some instances (24 gemma / 5 qwen); its steadier 'limited' pipeline scores 0.6792 / 0.7564. GRADIANT's own test-set reports reproduce these numbers exactly.",
@@ -461,7 +462,7 @@
       "team": "Krishan",
       "institution": "Independent",
       "rank": 2,
-      "avg_gap_closed": 0.1202,
+      "avg_gap_closed": 0.19,
       "best": {
         "gemma4-e4b": {
           "pipeline": "schema_dynamic",
@@ -469,7 +470,7 @@
           "f1": 0.8142,
           "precision": 0.8142,
           "recall": 0.8142,
-          "gap_closed": 0.1172
+          "gap_closed": 0.163
         },
         "qwen3-14b": {
           "pipeline": "schema_dynamic",
@@ -477,7 +478,7 @@
           "f1": 0.8076,
           "precision": 0.8076,
           "recall": 0.8076,
-          "gap_closed": 0.1232
+          "gap_closed": 0.217
         }
       },
       "pipelines": [
@@ -683,8 +684,8 @@
       "methodology": {
         "metric": "micro-F1 on 125 instances (145 test minus a 20-instance drop-set), and gap-closed over baseline, gap = max(0, (F1 - F1_base) / (1 - F1_base)), averaged over gemma4-e4b and qwen3-14b.",
         "baselines_125_instance": {
-          "gemma4-e4b": 0.7895,
-          "qwen3-14b": 0.7805
+          "gemma4-e4b": 0.778,
+          "qwen3-14b": 0.7542
         },
         "drop_set": {
           "n_excluded": 20,
@@ -705,6 +706,7 @@
           }
         },
         "caveats": [
+          "Reproducibility: these numbers are illustrative, not exactly reproducible. Teams did not all run on the same hardware — our own uniform evaluation was blocked for several teams by container/dependency errors, so some cells are teams' self-reported runs on their own machines. Hardware differences shift scores beyond ordinary LLM stochasticity. The baseline itself varied across runs; we report the MEDIAN of three reference no-think runs (Gemma {0.7739, 0.7780, 0.7895}, Qwen {0.7379, 0.7542, 0.7805}) — CodeStrange's independent replication, the only run whose raw outputs were retained and independently re-scored. Take absolute numbers with caution; the value is the comparison of strategies, not the exact ranking.",
           "Selection: each team's single best REPORTED result per model is used — the highest-F1 pipeline across any run (ours or the team's own self-evaluation), any thinking mode, with no per-run reliability gate. A run's F1 already counts its failed/collapsed instances as misses, so the number is a faithful floor.",
           "Modes: nothink = spec config (thinking off); think = June formal run (thinking on).",
           "Reliability of best cells: some best cells come from runs that failed on a handful of instances. JSONautas qwen (prompt_eng, F1 0.6534) had 5 instances that hard-failed on our inference backend (no output) — counted as misses, so its true F1 is a lower bound. GRADIANT's best cells (stable, 0.7092 gemma / 0.7766 qwen) come from its higher-variance pipeline, which collapses to near-empty output on some instances (24 gemma / 5 qwen); its steadier 'limited' pipeline scores 0.6792 / 0.7564. GRADIANT's own test-set reports reproduce these numbers exactly.",
@@ -717,7 +719,7 @@
       "team": "CodeStrange",
       "institution": "Independent / UH",
       "rank": 3,
-      "avg_gap_closed": 0.0995,
+      "avg_gap_closed": 0.1709,
       "best": {
         "gemma4-e4b": {
           "pipeline": "combo_guard_react_repair_ref",
@@ -725,7 +727,7 @@
           "f1": 0.809,
           "precision": 0.809,
           "recall": 0.809,
-          "gap_closed": 0.0925
+          "gap_closed": 0.1396
         },
         "qwen3-14b": {
           "pipeline": "combo_guard_react_repair_ref",
@@ -733,7 +735,7 @@
           "f1": 0.8039,
           "precision": 0.8068,
           "recall": 0.8011,
-          "gap_closed": 0.1065
+          "gap_closed": 0.2022
         }
       },
       "pipelines": [
@@ -807,8 +809,8 @@
       "methodology": {
         "metric": "micro-F1 on 125 instances (145 test minus a 20-instance drop-set), and gap-closed over baseline, gap = max(0, (F1 - F1_base) / (1 - F1_base)), averaged over gemma4-e4b and qwen3-14b.",
         "baselines_125_instance": {
-          "gemma4-e4b": 0.7895,
-          "qwen3-14b": 0.7805
+          "gemma4-e4b": 0.778,
+          "qwen3-14b": 0.7542
         },
         "drop_set": {
           "n_excluded": 20,
@@ -829,6 +831,7 @@
           }
         },
         "caveats": [
+          "Reproducibility: these numbers are illustrative, not exactly reproducible. Teams did not all run on the same hardware — our own uniform evaluation was blocked for several teams by container/dependency errors, so some cells are teams' self-reported runs on their own machines. Hardware differences shift scores beyond ordinary LLM stochasticity. The baseline itself varied across runs; we report the MEDIAN of three reference no-think runs (Gemma {0.7739, 0.7780, 0.7895}, Qwen {0.7379, 0.7542, 0.7805}) — CodeStrange's independent replication, the only run whose raw outputs were retained and independently re-scored. Take absolute numbers with caution; the value is the comparison of strategies, not the exact ranking.",
           "Selection: each team's single best REPORTED result per model is used — the highest-F1 pipeline across any run (ours or the team's own self-evaluation), any thinking mode, with no per-run reliability gate. A run's F1 already counts its failed/collapsed instances as misses, so the number is a faithful floor.",
           "Modes: nothink = spec config (thinking off); think = June formal run (thinking on).",
           "Reliability of best cells: some best cells come from runs that failed on a handful of instances. JSONautas qwen (prompt_eng, F1 0.6534) had 5 instances that hard-failed on our inference backend (no output) — counted as misses, so its true F1 is a lower bound. GRADIANT's best cells (stable, 0.7092 gemma / 0.7766 qwen) come from its higher-variance pipeline, which collapses to near-empty output on some instances (24 gemma / 5 qwen); its steadier 'limited' pipeline scores 0.6792 / 0.7564. GRADIANT's own test-set reports reproduce these numbers exactly.",
@@ -841,7 +844,7 @@
       "team": "FranRodrigo",
       "institution": "Official",
       "rank": 4,
-      "avg_gap_closed": 0.0629,
+      "avg_gap_closed": 0.1171,
       "best": {
         "gemma4-e4b": {
           "pipeline": "cot",
@@ -849,7 +852,7 @@
           "f1": 0.7812,
           "precision": 0.7742,
           "recall": 0.7884,
-          "gap_closed": 0.0
+          "gap_closed": 0.0147
         },
         "qwen3-14b": {
           "pipeline": "cot",
@@ -857,7 +860,7 @@
           "f1": 0.8081,
           "precision": 0.8086,
           "recall": 0.8077,
-          "gap_closed": 0.1258
+          "gap_closed": 0.2194
         }
       },
       "pipelines": [
@@ -975,8 +978,8 @@
       "methodology": {
         "metric": "micro-F1 on 125 instances (145 test minus a 20-instance drop-set), and gap-closed over baseline, gap = max(0, (F1 - F1_base) / (1 - F1_base)), averaged over gemma4-e4b and qwen3-14b.",
         "baselines_125_instance": {
-          "gemma4-e4b": 0.7895,
-          "qwen3-14b": 0.7805
+          "gemma4-e4b": 0.778,
+          "qwen3-14b": 0.7542
         },
         "drop_set": {
           "n_excluded": 20,
@@ -997,6 +1000,7 @@
           }
         },
         "caveats": [
+          "Reproducibility: these numbers are illustrative, not exactly reproducible. Teams did not all run on the same hardware — our own uniform evaluation was blocked for several teams by container/dependency errors, so some cells are teams' self-reported runs on their own machines. Hardware differences shift scores beyond ordinary LLM stochasticity. The baseline itself varied across runs; we report the MEDIAN of three reference no-think runs (Gemma {0.7739, 0.7780, 0.7895}, Qwen {0.7379, 0.7542, 0.7805}) — CodeStrange's independent replication, the only run whose raw outputs were retained and independently re-scored. Take absolute numbers with caution; the value is the comparison of strategies, not the exact ranking.",
           "Selection: each team's single best REPORTED result per model is used — the highest-F1 pipeline across any run (ours or the team's own self-evaluation), any thinking mode, with no per-run reliability gate. A run's F1 already counts its failed/collapsed instances as misses, so the number is a faithful floor.",
           "Modes: nothink = spec config (thinking off); think = June formal run (thinking on).",
           "Reliability of best cells: some best cells come from runs that failed on a handful of instances. JSONautas qwen (prompt_eng, F1 0.6534) had 5 instances that hard-failed on our inference backend (no output) — counted as misses, so its true F1 is a lower bound. GRADIANT's best cells (stable, 0.7092 gemma / 0.7766 qwen) come from its higher-variance pipeline, which collapses to near-empty output on some instances (24 gemma / 5 qwen); its steadier 'limited' pipeline scores 0.6792 / 0.7564. GRADIANT's own test-set reports reproduce these numbers exactly.",
@@ -1009,7 +1013,7 @@
       "team": "SEsml",
       "institution": "Universidad de La Habana",
       "rank": 5,
-      "avg_gap_closed": 0.0481,
+      "avg_gap_closed": 0.0965,
       "best": {
         "gemma4-e4b": {
           "pipeline": "baseline",
@@ -1025,7 +1029,7 @@
           "f1": 0.8017,
           "precision": 0.7902,
           "recall": 0.8135,
-          "gap_closed": 0.0962
+          "gap_closed": 0.193
         }
       },
       "pipelines": [
@@ -1187,8 +1191,8 @@
       "methodology": {
         "metric": "micro-F1 on 125 instances (145 test minus a 20-instance drop-set), and gap-closed over baseline, gap = max(0, (F1 - F1_base) / (1 - F1_base)), averaged over gemma4-e4b and qwen3-14b.",
         "baselines_125_instance": {
-          "gemma4-e4b": 0.7895,
-          "qwen3-14b": 0.7805
+          "gemma4-e4b": 0.778,
+          "qwen3-14b": 0.7542
         },
         "drop_set": {
           "n_excluded": 20,
@@ -1209,6 +1213,7 @@
           }
         },
         "caveats": [
+          "Reproducibility: these numbers are illustrative, not exactly reproducible. Teams did not all run on the same hardware — our own uniform evaluation was blocked for several teams by container/dependency errors, so some cells are teams' self-reported runs on their own machines. Hardware differences shift scores beyond ordinary LLM stochasticity. The baseline itself varied across runs; we report the MEDIAN of three reference no-think runs (Gemma {0.7739, 0.7780, 0.7895}, Qwen {0.7379, 0.7542, 0.7805}) — CodeStrange's independent replication, the only run whose raw outputs were retained and independently re-scored. Take absolute numbers with caution; the value is the comparison of strategies, not the exact ranking.",
           "Selection: each team's single best REPORTED result per model is used — the highest-F1 pipeline across any run (ours or the team's own self-evaluation), any thinking mode, with no per-run reliability gate. A run's F1 already counts its failed/collapsed instances as misses, so the number is a faithful floor.",
           "Modes: nothink = spec config (thinking off); think = June formal run (thinking on).",
           "Reliability of best cells: some best cells come from runs that failed on a handful of instances. JSONautas qwen (prompt_eng, F1 0.6534) had 5 instances that hard-failed on our inference backend (no output) — counted as misses, so its true F1 is a lower bound. GRADIANT's best cells (stable, 0.7092 gemma / 0.7766 qwen) come from its higher-variance pipeline, which collapses to near-empty output on some instances (24 gemma / 5 qwen); its steadier 'limited' pipeline scores 0.6792 / 0.7564. GRADIANT's own test-set reports reproduce these numbers exactly.",
@@ -1221,7 +1226,7 @@
       "team": "VerbaNex",
       "institution": "Universidad Tecnológica de Bolívar (UTB), Colombia",
       "rank": 6,
-      "avg_gap_closed": 0.0473,
+      "avg_gap_closed": 0.0958,
       "best": {
         "gemma4-e4b": null,
         "qwen3-14b": {
@@ -1230,7 +1235,7 @@
           "f1": 0.8013,
           "precision": 0.8013,
           "recall": 0.8013,
-          "gap_closed": 0.0946
+          "gap_closed": 0.1916
         }
       },
       "pipelines": [
@@ -1403,8 +1408,8 @@
       "methodology": {
         "metric": "micro-F1 on 125 instances (145 test minus a 20-instance drop-set), and gap-closed over baseline, gap = max(0, (F1 - F1_base) / (1 - F1_base)), averaged over gemma4-e4b and qwen3-14b.",
         "baselines_125_instance": {
-          "gemma4-e4b": 0.7895,
-          "qwen3-14b": 0.7805
+          "gemma4-e4b": 0.778,
+          "qwen3-14b": 0.7542
         },
         "drop_set": {
           "n_excluded": 20,
@@ -1425,6 +1430,7 @@
           }
         },
         "caveats": [
+          "Reproducibility: these numbers are illustrative, not exactly reproducible. Teams did not all run on the same hardware — our own uniform evaluation was blocked for several teams by container/dependency errors, so some cells are teams' self-reported runs on their own machines. Hardware differences shift scores beyond ordinary LLM stochasticity. The baseline itself varied across runs; we report the MEDIAN of three reference no-think runs (Gemma {0.7739, 0.7780, 0.7895}, Qwen {0.7379, 0.7542, 0.7805}) — CodeStrange's independent replication, the only run whose raw outputs were retained and independently re-scored. Take absolute numbers with caution; the value is the comparison of strategies, not the exact ranking.",
           "Selection: each team's single best REPORTED result per model is used — the highest-F1 pipeline across any run (ours or the team's own self-evaluation), any thinking mode, with no per-run reliability gate. A run's F1 already counts its failed/collapsed instances as misses, so the number is a faithful floor.",
           "Modes: nothink = spec config (thinking off); think = June formal run (thinking on).",
           "Reliability of best cells: some best cells come from runs that failed on a handful of instances. JSONautas qwen (prompt_eng, F1 0.6534) had 5 instances that hard-failed on our inference backend (no output) — counted as misses, so its true F1 is a lower bound. GRADIANT's best cells (stable, 0.7092 gemma / 0.7766 qwen) come from its higher-variance pipeline, which collapses to near-empty output on some instances (24 gemma / 5 qwen); its steadier 'limited' pipeline scores 0.6792 / 0.7564. GRADIANT's own test-set reports reproduce these numbers exactly.",
@@ -1437,7 +1443,7 @@
       "team": "UC3M",
       "institution": "Universidad Carlos III de Madrid",
       "rank": 7,
-      "avg_gap_closed": 0.0212,
+      "avg_gap_closed": 0.0461,
       "best": {
         "gemma4-e4b": {
           "pipeline": "prompted",
@@ -1445,7 +1451,7 @@
           "f1": 0.7984,
           "precision": 0.8234,
           "recall": 0.7749,
-          "gap_closed": 0.0424
+          "gap_closed": 0.0921
         },
         "qwen3-14b": {
           "pipeline": "prompted",
@@ -1527,8 +1533,8 @@
       "methodology": {
         "metric": "micro-F1 on 125 instances (145 test minus a 20-instance drop-set), and gap-closed over baseline, gap = max(0, (F1 - F1_base) / (1 - F1_base)), averaged over gemma4-e4b and qwen3-14b.",
         "baselines_125_instance": {
-          "gemma4-e4b": 0.7895,
-          "qwen3-14b": 0.7805
+          "gemma4-e4b": 0.778,
+          "qwen3-14b": 0.7542
         },
         "drop_set": {
           "n_excluded": 20,
@@ -1549,6 +1555,7 @@
           }
         },
         "caveats": [
+          "Reproducibility: these numbers are illustrative, not exactly reproducible. Teams did not all run on the same hardware — our own uniform evaluation was blocked for several teams by container/dependency errors, so some cells are teams' self-reported runs on their own machines. Hardware differences shift scores beyond ordinary LLM stochasticity. The baseline itself varied across runs; we report the MEDIAN of three reference no-think runs (Gemma {0.7739, 0.7780, 0.7895}, Qwen {0.7379, 0.7542, 0.7805}) — CodeStrange's independent replication, the only run whose raw outputs were retained and independently re-scored. Take absolute numbers with caution; the value is the comparison of strategies, not the exact ranking.",
           "Selection: each team's single best REPORTED result per model is used — the highest-F1 pipeline across any run (ours or the team's own self-evaluation), any thinking mode, with no per-run reliability gate. A run's F1 already counts its failed/collapsed instances as misses, so the number is a faithful floor.",
           "Modes: nothink = spec config (thinking off); think = June formal run (thinking on).",
           "Reliability of best cells: some best cells come from runs that failed on a handful of instances. JSONautas qwen (prompt_eng, F1 0.6534) had 5 instances that hard-failed on our inference backend (no output) — counted as misses, so its true F1 is a lower bound. GRADIANT's best cells (stable, 0.7092 gemma / 0.7766 qwen) come from its higher-variance pipeline, which collapses to near-empty output on some instances (24 gemma / 5 qwen); its steadier 'limited' pipeline scores 0.6792 / 0.7564. GRADIANT's own test-set reports reproduce these numbers exactly.",
@@ -1561,7 +1568,7 @@
       "team": "GRADIANT",
       "institution": "Gradiant",
       "rank": 8,
-      "avg_gap_closed": 0.0,
+      "avg_gap_closed": 0.0455,
       "best": {
         "gemma4-e4b": {
           "pipeline": "stable",
@@ -1577,7 +1584,7 @@
           "f1": 0.7766,
           "precision": 0.79,
           "recall": 0.7636,
-          "gap_closed": 0.0
+          "gap_closed": 0.0909
         }
       },
       "pipelines": [
@@ -1651,8 +1658,8 @@
       "methodology": {
         "metric": "micro-F1 on 125 instances (145 test minus a 20-instance drop-set), and gap-closed over baseline, gap = max(0, (F1 - F1_base) / (1 - F1_base)), averaged over gemma4-e4b and qwen3-14b.",
         "baselines_125_instance": {
-          "gemma4-e4b": 0.7895,
-          "qwen3-14b": 0.7805
+          "gemma4-e4b": 0.778,
+          "qwen3-14b": 0.7542
         },
         "drop_set": {
           "n_excluded": 20,
@@ -1673,6 +1680,7 @@
           }
         },
         "caveats": [
+          "Reproducibility: these numbers are illustrative, not exactly reproducible. Teams did not all run on the same hardware — our own uniform evaluation was blocked for several teams by container/dependency errors, so some cells are teams' self-reported runs on their own machines. Hardware differences shift scores beyond ordinary LLM stochasticity. The baseline itself varied across runs; we report the MEDIAN of three reference no-think runs (Gemma {0.7739, 0.7780, 0.7895}, Qwen {0.7379, 0.7542, 0.7805}) — CodeStrange's independent replication, the only run whose raw outputs were retained and independently re-scored. Take absolute numbers with caution; the value is the comparison of strategies, not the exact ranking.",
           "Selection: each team's single best REPORTED result per model is used — the highest-F1 pipeline across any run (ours or the team's own self-evaluation), any thinking mode, with no per-run reliability gate. A run's F1 already counts its failed/collapsed instances as misses, so the number is a faithful floor.",
           "Modes: nothink = spec config (thinking off); think = June formal run (thinking on).",
           "Reliability of best cells: some best cells come from runs that failed on a handful of instances. JSONautas qwen (prompt_eng, F1 0.6534) had 5 instances that hard-failed on our inference backend (no output) — counted as misses, so its true F1 is a lower bound. GRADIANT's best cells (stable, 0.7092 gemma / 0.7766 qwen) come from its higher-variance pipeline, which collapses to near-empty output on some instances (24 gemma / 5 qwen); its steadier 'limited' pipeline scores 0.6792 / 0.7564. GRADIANT's own test-set reports reproduce these numbers exactly.",
@@ -1775,8 +1783,8 @@
       "methodology": {
         "metric": "micro-F1 on 125 instances (145 test minus a 20-instance drop-set), and gap-closed over baseline, gap = max(0, (F1 - F1_base) / (1 - F1_base)), averaged over gemma4-e4b and qwen3-14b.",
         "baselines_125_instance": {
-          "gemma4-e4b": 0.7895,
-          "qwen3-14b": 0.7805
+          "gemma4-e4b": 0.778,
+          "qwen3-14b": 0.7542
         },
         "drop_set": {
           "n_excluded": 20,
@@ -1797,6 +1805,7 @@
           }
         },
         "caveats": [
+          "Reproducibility: these numbers are illustrative, not exactly reproducible. Teams did not all run on the same hardware — our own uniform evaluation was blocked for several teams by container/dependency errors, so some cells are teams' self-reported runs on their own machines. Hardware differences shift scores beyond ordinary LLM stochasticity. The baseline itself varied across runs; we report the MEDIAN of three reference no-think runs (Gemma {0.7739, 0.7780, 0.7895}, Qwen {0.7379, 0.7542, 0.7805}) — CodeStrange's independent replication, the only run whose raw outputs were retained and independently re-scored. Take absolute numbers with caution; the value is the comparison of strategies, not the exact ranking.",
           "Selection: each team's single best REPORTED result per model is used — the highest-F1 pipeline across any run (ours or the team's own self-evaluation), any thinking mode, with no per-run reliability gate. A run's F1 already counts its failed/collapsed instances as misses, so the number is a faithful floor.",
           "Modes: nothink = spec config (thinking off); think = June formal run (thinking on).",
           "Reliability of best cells: some best cells come from runs that failed on a handful of instances. JSONautas qwen (prompt_eng, F1 0.6534) had 5 instances that hard-failed on our inference backend (no output) — counted as misses, so its true F1 is a lower bound. GRADIANT's best cells (stable, 0.7092 gemma / 0.7766 qwen) come from its higher-variance pipeline, which collapses to near-empty output on some instances (24 gemma / 5 qwen); its steadier 'limited' pipeline scores 0.6792 / 0.7564. GRADIANT's own test-set reports reproduce these numbers exactly.",
@@ -1921,8 +1930,8 @@
       "methodology": {
         "metric": "micro-F1 on 125 instances (145 test minus a 20-instance drop-set), and gap-closed over baseline, gap = max(0, (F1 - F1_base) / (1 - F1_base)), averaged over gemma4-e4b and qwen3-14b.",
         "baselines_125_instance": {
-          "gemma4-e4b": 0.7895,
-          "qwen3-14b": 0.7805
+          "gemma4-e4b": 0.778,
+          "qwen3-14b": 0.7542
         },
         "drop_set": {
           "n_excluded": 20,
@@ -1943,6 +1952,7 @@
           }
         },
         "caveats": [
+          "Reproducibility: these numbers are illustrative, not exactly reproducible. Teams did not all run on the same hardware — our own uniform evaluation was blocked for several teams by container/dependency errors, so some cells are teams' self-reported runs on their own machines. Hardware differences shift scores beyond ordinary LLM stochasticity. The baseline itself varied across runs; we report the MEDIAN of three reference no-think runs (Gemma {0.7739, 0.7780, 0.7895}, Qwen {0.7379, 0.7542, 0.7805}) — CodeStrange's independent replication, the only run whose raw outputs were retained and independently re-scored. Take absolute numbers with caution; the value is the comparison of strategies, not the exact ranking.",
           "Selection: each team's single best REPORTED result per model is used — the highest-F1 pipeline across any run (ours or the team's own self-evaluation), any thinking mode, with no per-run reliability gate. A run's F1 already counts its failed/collapsed instances as misses, so the number is a faithful floor.",
           "Modes: nothink = spec config (thinking off); think = June formal run (thinking on).",
           "Reliability of best cells: some best cells come from runs that failed on a handful of instances. JSONautas qwen (prompt_eng, F1 0.6534) had 5 instances that hard-failed on our inference backend (no output) — counted as misses, so its true F1 is a lower bound. GRADIANT's best cells (stable, 0.7092 gemma / 0.7766 qwen) come from its higher-variance pipeline, which collapses to near-empty output on some instances (24 gemma / 5 qwen); its steadier 'limited' pipeline scores 0.6792 / 0.7564. GRADIANT's own test-set reports reproduce these numbers exactly.",
@@ -2067,8 +2077,8 @@
       "methodology": {
         "metric": "micro-F1 on 125 instances (145 test minus a 20-instance drop-set), and gap-closed over baseline, gap = max(0, (F1 - F1_base) / (1 - F1_base)), averaged over gemma4-e4b and qwen3-14b.",
         "baselines_125_instance": {
-          "gemma4-e4b": 0.7895,
-          "qwen3-14b": 0.7805
+          "gemma4-e4b": 0.778,
+          "qwen3-14b": 0.7542
         },
         "drop_set": {
           "n_excluded": 20,
@@ -2089,6 +2099,7 @@
           }
         },
         "caveats": [
+          "Reproducibility: these numbers are illustrative, not exactly reproducible. Teams did not all run on the same hardware — our own uniform evaluation was blocked for several teams by container/dependency errors, so some cells are teams' self-reported runs on their own machines. Hardware differences shift scores beyond ordinary LLM stochasticity. The baseline itself varied across runs; we report the MEDIAN of three reference no-think runs (Gemma {0.7739, 0.7780, 0.7895}, Qwen {0.7379, 0.7542, 0.7805}) — CodeStrange's independent replication, the only run whose raw outputs were retained and independently re-scored. Take absolute numbers with caution; the value is the comparison of strategies, not the exact ranking.",
           "Selection: each team's single best REPORTED result per model is used — the highest-F1 pipeline across any run (ours or the team's own self-evaluation), any thinking mode, with no per-run reliability gate. A run's F1 already counts its failed/collapsed instances as misses, so the number is a faithful floor.",
           "Modes: nothink = spec config (thinking off); think = June formal run (thinking on).",
           "Reliability of best cells: some best cells come from runs that failed on a handful of instances. JSONautas qwen (prompt_eng, F1 0.6534) had 5 instances that hard-failed on our inference backend (no output) — counted as misses, so its true F1 is a lower bound. GRADIANT's best cells (stable, 0.7092 gemma / 0.7766 qwen) come from its higher-variance pipeline, which collapses to near-empty output on some instances (24 gemma / 5 qwen); its steadier 'limited' pipeline scores 0.6792 / 0.7564. GRADIANT's own test-set reports reproduce these numbers exactly.",
@@ -2101,8 +2112,8 @@
   "methodology": {
     "metric": "micro-F1 on 125 instances (145 test minus a 20-instance drop-set), and gap-closed over baseline, gap = max(0, (F1 - F1_base) / (1 - F1_base)), averaged over gemma4-e4b and qwen3-14b.",
     "baselines_125_instance": {
-      "gemma4-e4b": 0.7895,
-      "qwen3-14b": 0.7805
+      "gemma4-e4b": 0.778,
+      "qwen3-14b": 0.7542
     },
     "drop_set": {
       "n_excluded": 20,
@@ -2123,6 +2134,7 @@
       }
     },
     "caveats": [
+      "Reproducibility: these numbers are illustrative, not exactly reproducible. Teams did not all run on the same hardware — our own uniform evaluation was blocked for several teams by container/dependency errors, so some cells are teams' self-reported runs on their own machines. Hardware differences shift scores beyond ordinary LLM stochasticity. The baseline itself varied across runs; we report the MEDIAN of three reference no-think runs (Gemma {0.7739, 0.7780, 0.7895}, Qwen {0.7379, 0.7542, 0.7805}) — CodeStrange's independent replication, the only run whose raw outputs were retained and independently re-scored. Take absolute numbers with caution; the value is the comparison of strategies, not the exact ranking.",
       "Selection: each team's single best REPORTED result per model is used — the highest-F1 pipeline across any run (ours or the team's own self-evaluation), any thinking mode, with no per-run reliability gate. A run's F1 already counts its failed/collapsed instances as misses, so the number is a faithful floor.",
       "Modes: nothink = spec config (thinking off); think = June formal run (thinking on).",
       "Reliability of best cells: some best cells come from runs that failed on a handful of instances. JSONautas qwen (prompt_eng, F1 0.6534) had 5 instances that hard-failed on our inference backend (no output) — counted as misses, so its true F1 is a lower bound. GRADIANT's best cells (stable, 0.7092 gemma / 0.7766 qwen) come from its higher-variance pipeline, which collapses to near-empty output on some instances (24 gemma / 5 qwen); its steadier 'limited' pipeline scores 0.6792 / 0.7564. GRADIANT's own test-set reports reproduce these numbers exactly.",

@@ -4,20 +4,20 @@ Final results of the **GenSIE @ IberLEF 2026** shared task.
 
 Primary metric: **gap closed over baseline**, `gap = max(0, (F1 − F1_base) / (1 − F1_base))`, averaged over the two evaluation models (**Gemma 4 E4B**, **Qwen3-14B**). Each team's single best-reported pipeline per model is used — the highest-F1 run from either our evaluation or the team's own self-evaluation, any thinking config, with no per-run reliability gate — scored with micro-F1 on the **125-instance** test set (the full 145 instances minus a 20-instance drop-set — see [Methodology](#methodology)).
 
-Baselines (125-instance, official participant): gemma4-e4b = **0.7895**, qwen3-14b = **0.7805**.
+Baseline (125-instance, reference no-think baseline — the median of three runs; see [Methodology](#methodology)): gemma4-e4b = **0.7780**, qwen3-14b = **0.7542**.
 
 ## Leaderboard
 
 | # | Team | Avg gap closed | gemma F1 | qwen F1 |
 |--:|:--|--:|--:|--:|
-| 1 | DRILLER | **0.2158** | 0.8285 | 0.8346 |
-| 2 | Krishan | **0.1202** | 0.8142 | 0.8076 |
-| 3 | CodeStrange | **0.0995** | 0.8090 | 0.8039 |
-| 4 | FranRodrigo | **0.0629** | 0.7812 | 0.8081 |
-| 5 | SEsml | **0.0481** | 0.7746 | 0.8017 |
-| 6 | VerbaNex | **0.0473** | n/a | 0.8013 |
-| 7 | UC3M | **0.0212** | 0.7984 | 0.3629 |
-| 8 | GRADIANT | **0.0000** | 0.7092 | 0.7766 |
+| 1 | DRILLER | **0.2773** | 0.8285 | 0.8346 |
+| 2 | Krishan | **0.1900** | 0.8142 | 0.8076 |
+| 3 | CodeStrange | **0.1709** | 0.8090 | 0.8039 |
+| 4 | FranRodrigo | **0.1171** | 0.7812 | 0.8081 |
+| 5 | SEsml | **0.0965** | 0.7746 | 0.8017 |
+| 6 | VerbaNex | **0.0958** | n/a | 0.8013 |
+| 7 | UC3M | **0.0461** | 0.7984 | 0.3629 |
+| 8 | GRADIANT | **0.0455** | 0.7092 | 0.7766 |
 | 9 | Inigo | **0.0000** | 0.7504 | 0.7320 |
 | 10 | JSONautas | **0.0000** | 0.6139 | 0.6534 |
 | 11 | MOLD | **0.0000** | 0.7354 | 0.7115 |
@@ -68,6 +68,12 @@ Per-team bundles — each `.zip` contains a `summary.json` (that team's slice of
 - **`stem_biology` (10):** a **recursive** `$ref` taxonomic-tree schema (arbitrarily deep) that triggers parser recursion failures in participant systems (e.g. DRILLER's `maximum recursion depth exceeded`).
 
 Scoring is on the remaining **125 instances**. The exclusion is uniform, so gap-closed comparisons remain fair.
+
+**Baseline.** The floor is the reference no-think baseline (the official starter-kit agent). It was run three times, and the runs disagree slightly — Gemma **{0.7739, 0.7780, 0.7895}**, Qwen **{0.7379, 0.7542, 0.7805}** — because they ran on different hardware. We report the **median** run (Gemma **0.7780** / Qwen **0.7542**), which is also the only run whose raw outputs were retained, so it is the only baseline we could independently re-score (it reproduced bit-for-bit). We deliberately avoid taking the maximum, which would set the least-reproducible, highest floor and understate every participant.
+
+### Reproducibility
+
+**These numbers are illustrative, not exactly reproducible, and should be read with caution.** Two effects move them beyond ordinary LLM stochasticity: (1) teams did not all run on the same hardware — our own uniform evaluation was blocked for several teams by container-implementation and dependency errors, so some cells are teams' self-reported runs on their own machines; and (2) hardware differences alone shift model scores. This is not a weakness specific to GenSIE: it is intrinsic to shared tasks where each participant runs their own system on their own compute. The point of the leaderboard is the **comparison of strategies**, not an exact win/lose ordering — several teams below the baseline contributed ideas well worth analysing and re-running under stronger compute.
 
 ### Caveats
 
