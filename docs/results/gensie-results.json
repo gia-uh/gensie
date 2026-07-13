@@ -1,0 +1,2107 @@
+{
+  "task": "GenSIE @ IberLEF 2026 — General-purpose Schema-guided Information Extraction",
+  "site": "https://uhgia.org/gensie",
+  "repo": "https://github.com/gia-uh/gensie",
+  "primary_metric": "micro-F1 on 125 instances (145 test minus a 20-instance drop-set), and gap-closed over baseline, gap = max(0, (F1 - F1_base) / (1 - F1_base)), averaged over gemma4-e4b and qwen3-14b.",
+  "baselines_125_instance": {
+    "gemma4-e4b": 0.7895,
+    "qwen3-14b": 0.7805
+  },
+  "leaderboard": [
+    {
+      "rank": 1,
+      "team": "DRILLER",
+      "institution": "Universidad de La Habana",
+      "avg_gap_closed": 0.2158,
+      "gemma4-e4b": {
+        "pipeline": "mixed-extractors-self-consistency-rag",
+        "mode": "think",
+        "f1": 0.8285,
+        "precision": 0.8285,
+        "recall": 0.8285,
+        "gap_closed": 0.1854
+      },
+      "qwen3-14b": {
+        "pipeline": "enriched-schema-rag",
+        "mode": "nothink",
+        "f1": 0.8346,
+        "precision": 0.8346,
+        "recall": 0.8346,
+        "gap_closed": 0.2463
+      }
+    },
+    {
+      "rank": 2,
+      "team": "Krishan",
+      "institution": "Independent",
+      "avg_gap_closed": 0.1202,
+      "gemma4-e4b": {
+        "pipeline": "schema_dynamic",
+        "mode": "nothink",
+        "f1": 0.8142,
+        "precision": 0.8142,
+        "recall": 0.8142,
+        "gap_closed": 0.1172
+      },
+      "qwen3-14b": {
+        "pipeline": "schema_dynamic",
+        "mode": "nothink",
+        "f1": 0.8076,
+        "precision": 0.8076,
+        "recall": 0.8076,
+        "gap_closed": 0.1232
+      }
+    },
+    {
+      "rank": 3,
+      "team": "CodeStrange",
+      "institution": "Independent / UH",
+      "avg_gap_closed": 0.0995,
+      "gemma4-e4b": {
+        "pipeline": "combo_guard_react_repair_ref",
+        "mode": "nothink",
+        "f1": 0.809,
+        "precision": 0.809,
+        "recall": 0.809,
+        "gap_closed": 0.0925
+      },
+      "qwen3-14b": {
+        "pipeline": "combo_guard_react_repair_ref",
+        "mode": "nothink",
+        "f1": 0.8039,
+        "precision": 0.8068,
+        "recall": 0.8011,
+        "gap_closed": 0.1065
+      }
+    },
+    {
+      "rank": 4,
+      "team": "FranRodrigo",
+      "institution": "Official",
+      "avg_gap_closed": 0.0629,
+      "gemma4-e4b": {
+        "pipeline": "cot",
+        "mode": "nothink",
+        "f1": 0.7812,
+        "precision": 0.7742,
+        "recall": 0.7884,
+        "gap_closed": 0.0
+      },
+      "qwen3-14b": {
+        "pipeline": "cot",
+        "mode": "nothink",
+        "f1": 0.8081,
+        "precision": 0.8086,
+        "recall": 0.8077,
+        "gap_closed": 0.1258
+      }
+    },
+    {
+      "rank": 5,
+      "team": "SEsml",
+      "institution": "Universidad de La Habana",
+      "avg_gap_closed": 0.0481,
+      "gemma4-e4b": {
+        "pipeline": "baseline",
+        "mode": "nothink",
+        "f1": 0.7746,
+        "precision": 0.7975,
+        "recall": 0.753,
+        "gap_closed": 0.0
+      },
+      "qwen3-14b": {
+        "pipeline": "adaptive",
+        "mode": "think",
+        "f1": 0.8017,
+        "precision": 0.7902,
+        "recall": 0.8135,
+        "gap_closed": 0.0962
+      }
+    },
+    {
+      "rank": 6,
+      "team": "VerbaNex",
+      "institution": "Universidad Tecnológica de Bolívar (UTB), Colombia",
+      "avg_gap_closed": 0.0473,
+      "gemma4-e4b": null,
+      "qwen3-14b": {
+        "pipeline": "precision_master",
+        "mode": "nothink",
+        "f1": 0.8013,
+        "precision": 0.8013,
+        "recall": 0.8013,
+        "gap_closed": 0.0946
+      }
+    },
+    {
+      "rank": 7,
+      "team": "UC3M",
+      "institution": "Universidad Carlos III de Madrid",
+      "avg_gap_closed": 0.0212,
+      "gemma4-e4b": {
+        "pipeline": "prompted",
+        "mode": "nothink",
+        "f1": 0.7984,
+        "precision": 0.8234,
+        "recall": 0.7749,
+        "gap_closed": 0.0424
+      },
+      "qwen3-14b": {
+        "pipeline": "prompted",
+        "mode": "nothink",
+        "f1": 0.3629,
+        "precision": 0.4518,
+        "recall": 0.3032,
+        "gap_closed": 0.0
+      }
+    },
+    {
+      "rank": 8,
+      "team": "GRADIANT",
+      "institution": "Gradiant",
+      "avg_gap_closed": 0.0,
+      "gemma4-e4b": {
+        "pipeline": "limited",
+        "mode": "nothink",
+        "f1": 0.6792,
+        "precision": 0.608,
+        "recall": 0.7691,
+        "gap_closed": 0.0
+      },
+      "qwen3-14b": {
+        "pipeline": "limited",
+        "mode": "nothink",
+        "f1": 0.7564,
+        "precision": 0.737,
+        "recall": 0.7767,
+        "gap_closed": 0.0
+      }
+    },
+    {
+      "rank": 9,
+      "team": "Inigo",
+      "institution": "Universidad Pública de Navarra",
+      "avg_gap_closed": 0.0,
+      "gemma4-e4b": {
+        "pipeline": "e232",
+        "mode": "nothink",
+        "f1": 0.7504,
+        "precision": 0.7734,
+        "recall": 0.7287,
+        "gap_closed": 0.0
+      },
+      "qwen3-14b": {
+        "pipeline": "e232",
+        "mode": "nothink",
+        "f1": 0.732,
+        "precision": 0.7508,
+        "recall": 0.7142,
+        "gap_closed": 0.0
+      }
+    },
+    {
+      "rank": 10,
+      "team": "JSONautas",
+      "institution": "UHO-UO-UCI",
+      "avg_gap_closed": 0.0,
+      "gemma4-e4b": null,
+      "qwen3-14b": {
+        "pipeline": "baseline",
+        "mode": "nothink",
+        "f1": 0.5805,
+        "precision": 0.62,
+        "recall": 0.5457,
+        "gap_closed": 0.0
+      }
+    },
+    {
+      "rank": 11,
+      "team": "MOLD",
+      "institution": "University of Havana",
+      "avg_gap_closed": 0.0,
+      "gemma4-e4b": {
+        "pipeline": "vigil",
+        "mode": "nothink",
+        "f1": 0.7354,
+        "precision": 0.711,
+        "recall": 0.7616,
+        "gap_closed": 0.0
+      },
+      "qwen3-14b": {
+        "pipeline": "arcane",
+        "mode": "nothink",
+        "f1": 0.7115,
+        "precision": 0.7079,
+        "recall": 0.7151,
+        "gap_closed": 0.0
+      }
+    }
+  ],
+  "teams_detail": [
+    {
+      "team": "DRILLER",
+      "institution": "Universidad de La Habana",
+      "rank": 1,
+      "avg_gap_closed": 0.2158,
+      "best": {
+        "gemma4-e4b": {
+          "pipeline": "mixed-extractors-self-consistency-rag",
+          "mode": "think",
+          "f1": 0.8285,
+          "precision": 0.8285,
+          "recall": 0.8285,
+          "gap_closed": 0.1854
+        },
+        "qwen3-14b": {
+          "pipeline": "enriched-schema-rag",
+          "mode": "nothink",
+          "f1": 0.8346,
+          "precision": 0.8346,
+          "recall": 0.8346,
+          "gap_closed": 0.2463
+        }
+      },
+      "pipelines": [
+        {
+          "pipeline": "mixed-extractors-self-consistency-rag",
+          "model": "gemma",
+          "mode": "think",
+          "f1": 0.8285,
+          "precision": 0.8285,
+          "recall": 0.8285,
+          "n_instances": 125,
+          "valid": true,
+          "source_event": "2026-06-formal-eval"
+        },
+        {
+          "pipeline": "enriched-schema-rag",
+          "model": "gemma",
+          "mode": "think",
+          "f1": 0.8256,
+          "precision": 0.8256,
+          "recall": 0.8256,
+          "n_instances": 125,
+          "valid": true,
+          "source_event": "2026-06-formal-eval"
+        },
+        {
+          "pipeline": "enriched-schema-rag",
+          "model": "gemma",
+          "mode": "nothink",
+          "f1": 0.8211,
+          "precision": 0.8211,
+          "recall": 0.8211,
+          "n_instances": 125,
+          "valid": true,
+          "source_event": "2026-07-06-final-harvest"
+        },
+        {
+          "pipeline": "enriched-inline-reasoning-rag",
+          "model": "gemma",
+          "mode": "think",
+          "f1": 0.8181,
+          "precision": 0.8249,
+          "recall": 0.8115,
+          "n_instances": 125,
+          "valid": true,
+          "source_event": "2026-06-formal-eval"
+        },
+        {
+          "pipeline": "enriched-inline-reasoning-rag",
+          "model": "gemma",
+          "mode": "nothink",
+          "f1": 0.8176,
+          "precision": 0.8239,
+          "recall": 0.8113,
+          "n_instances": 125,
+          "valid": true,
+          "source_event": "2026-07-06-final-harvest"
+        },
+        {
+          "pipeline": "mixed-extractors-self-consistency-rag",
+          "model": "gemma",
+          "mode": "nothink",
+          "f1": 0.8165,
+          "precision": 0.8241,
+          "recall": 0.809,
+          "n_instances": 125,
+          "valid": true,
+          "source_event": "2026-07-06-final-harvest"
+        },
+        {
+          "pipeline": "enriched-schema-rag",
+          "model": "qwen",
+          "mode": "nothink",
+          "f1": 0.8346,
+          "precision": 0.8346,
+          "recall": 0.8346,
+          "n_instances": 125,
+          "valid": true,
+          "source_event": "2026-07-08-ainbox-missing-eval"
+        },
+        {
+          "pipeline": "enriched-inline-reasoning-rag",
+          "model": "qwen",
+          "mode": "think",
+          "f1": 0.8297,
+          "precision": 0.8297,
+          "recall": 0.8297,
+          "n_instances": 125,
+          "valid": true,
+          "source_event": "2026-07-06-final-harvest"
+        },
+        {
+          "pipeline": "enriched-inline-reasoning-rag",
+          "model": "qwen",
+          "mode": "think",
+          "f1": 0.8297,
+          "precision": 0.8297,
+          "recall": 0.8297,
+          "n_instances": 125,
+          "valid": true,
+          "source_event": "2026-06-formal-eval"
+        },
+        {
+          "pipeline": "enriched-inline-reasoning-rag",
+          "model": "qwen",
+          "mode": "nothink",
+          "f1": 0.828,
+          "precision": 0.828,
+          "recall": 0.828,
+          "n_instances": 125,
+          "valid": true,
+          "source_event": "2026-07-08-ainbox-missing-eval"
+        },
+        {
+          "pipeline": "enriched-schema-rag",
+          "model": "qwen",
+          "mode": "think",
+          "f1": 0.8201,
+          "precision": 0.8201,
+          "recall": 0.8201,
+          "n_instances": 125,
+          "valid": true,
+          "source_event": "2026-06-formal-eval"
+        },
+        {
+          "pipeline": "mixed-extractors-self-consistency-rag",
+          "model": "qwen",
+          "mode": "think",
+          "f1": 0.8177,
+          "precision": 0.8177,
+          "recall": 0.8177,
+          "n_instances": 125,
+          "valid": true,
+          "source_event": "2026-06-formal-eval"
+        },
+        {
+          "pipeline": "mixed-extractors-self-consistency-rag",
+          "model": "qwen",
+          "mode": "nothink",
+          "f1": 0.8129,
+          "precision": 0.8129,
+          "recall": 0.8129,
+          "n_instances": 125,
+          "valid": true,
+          "source_event": "2026-07-06-final-harvest"
+        },
+        {
+          "pipeline": "enriched-schema-rag",
+          "model": "qwen",
+          "mode": "nothink",
+          "f1": 0.8015,
+          "precision": 0.809,
+          "recall": 0.7942,
+          "n_instances": 125,
+          "valid": true,
+          "source_event": "2026-07-06-final-harvest"
+        }
+      ],
+      "methodology": {
+        "metric": "micro-F1 on 125 instances (145 test minus a 20-instance drop-set), and gap-closed over baseline, gap = max(0, (F1 - F1_base) / (1 - F1_base)), averaged over gemma4-e4b and qwen3-14b.",
+        "baselines_125_instance": {
+          "gemma4-e4b": 0.7895,
+          "qwen3-14b": 0.7805
+        },
+        "drop_set": {
+          "n_excluded": 20,
+          "reason": "Schemas structurally unscoreable on the constrained-decoding inference stack; excluded uniformly from every system and both baselines, so gap-closed comparisons remain fair.",
+          "groups": {
+            "medical_trials": {
+              "n": 8,
+              "why": "$defs/$ref schema → llama.cpp GBNF grammar-compilation failure"
+            },
+            "cultural_monuments": {
+              "n": 2,
+              "why": "$defs/$ref schema → llama.cpp GBNF grammar-compilation failure"
+            },
+            "stem_biology": {
+              "n": 10,
+              "why": "recursive $ref taxonomic-tree schema → parser recursion failures"
+            }
+          }
+        },
+        "caveats": [
+          "Modes: nothink = spec config (thinking off); think = June formal run (thinking on). Each team's best reported 125-instance result is used regardless of mode.",
+          "VerbaNex gemma: all three gemma pipelines destabilise the shared gemma backend at full-run scale (they complete in isolation, smoke F1 ~ 0.76); VerbaNex gets gap 0 on gemma and is carried by its qwen result — true gemma standing is likely higher.",
+          "Engine stability: the gemma backend (llama.cpp) crashes under sustained load; results were repaired per-instance on a restarted engine.",
+          "Third-party self-eval data (CodeStrange, JSONautas) and June think-mode data are used where a team lacked a clean spec-config run of their own."
+        ]
+      }
+    },
+    {
+      "team": "Krishan",
+      "institution": "Independent",
+      "rank": 2,
+      "avg_gap_closed": 0.1202,
+      "best": {
+        "gemma4-e4b": {
+          "pipeline": "schema_dynamic",
+          "mode": "nothink",
+          "f1": 0.8142,
+          "precision": 0.8142,
+          "recall": 0.8142,
+          "gap_closed": 0.1172
+        },
+        "qwen3-14b": {
+          "pipeline": "schema_dynamic",
+          "mode": "nothink",
+          "f1": 0.8076,
+          "precision": 0.8076,
+          "recall": 0.8076,
+          "gap_closed": 0.1232
+        }
+      },
+      "pipelines": [
+        {
+          "pipeline": "schema_dynamic",
+          "model": "gemma",
+          "mode": "nothink",
+          "f1": 0.8142,
+          "precision": 0.8142,
+          "recall": 0.8142,
+          "n_instances": 125,
+          "valid": true,
+          "source_event": "2026-07-08-ainbox-missing-eval"
+        },
+        {
+          "pipeline": "english_fewshot",
+          "model": "gemma",
+          "mode": "nothink",
+          "f1": 0.8107,
+          "precision": 0.8107,
+          "recall": 0.8107,
+          "n_instances": 125,
+          "valid": true,
+          "source_event": "2026-07-08-ainbox-missing-eval"
+        },
+        {
+          "pipeline": "schema_dynamic",
+          "model": "gemma",
+          "mode": "think",
+          "f1": 0.8093,
+          "precision": 0.8093,
+          "recall": 0.8093,
+          "n_instances": 125,
+          "valid": true,
+          "source_event": "2026-07-06-final-harvest"
+        },
+        {
+          "pipeline": "schema_dynamic",
+          "model": "gemma",
+          "mode": "think",
+          "f1": 0.8093,
+          "precision": 0.8093,
+          "recall": 0.8093,
+          "n_instances": 125,
+          "valid": true,
+          "source_event": "2026-06-formal-eval"
+        },
+        {
+          "pipeline": "english_fewshot",
+          "model": "gemma",
+          "mode": "think",
+          "f1": 0.8089,
+          "precision": 0.8089,
+          "recall": 0.8089,
+          "n_instances": 125,
+          "valid": true,
+          "source_event": "2026-07-06-final-harvest"
+        },
+        {
+          "pipeline": "english_fewshot",
+          "model": "gemma",
+          "mode": "think",
+          "f1": 0.8089,
+          "precision": 0.8089,
+          "recall": 0.8089,
+          "n_instances": 125,
+          "valid": true,
+          "source_event": "2026-06-formal-eval"
+        },
+        {
+          "pipeline": "spanish_fewshot",
+          "model": "gemma",
+          "mode": "nothink",
+          "f1": 0.8041,
+          "precision": 0.8041,
+          "recall": 0.8041,
+          "n_instances": 125,
+          "valid": true,
+          "source_event": "2026-07-08-ainbox-missing-eval"
+        },
+        {
+          "pipeline": "spanish_fewshot",
+          "model": "gemma",
+          "mode": "think",
+          "f1": 0.8004,
+          "precision": 0.8033,
+          "recall": 0.7976,
+          "n_instances": 125,
+          "valid": true,
+          "source_event": "2026-07-06-final-harvest"
+        },
+        {
+          "pipeline": "spanish_fewshot",
+          "model": "gemma",
+          "mode": "think",
+          "f1": 0.8004,
+          "precision": 0.8033,
+          "recall": 0.7976,
+          "n_instances": 125,
+          "valid": true,
+          "source_event": "2026-06-formal-eval"
+        },
+        {
+          "pipeline": "schema_dynamic",
+          "model": "qwen",
+          "mode": "nothink",
+          "f1": 0.8076,
+          "precision": 0.8076,
+          "recall": 0.8076,
+          "n_instances": 125,
+          "valid": true,
+          "source_event": "2026-07-08-ainbox-missing-eval"
+        },
+        {
+          "pipeline": "english_fewshot",
+          "model": "qwen",
+          "mode": "think",
+          "f1": 0.8064,
+          "precision": 0.8064,
+          "recall": 0.8064,
+          "n_instances": 125,
+          "valid": true,
+          "source_event": "2026-07-06-final-harvest"
+        },
+        {
+          "pipeline": "english_fewshot",
+          "model": "qwen",
+          "mode": "think",
+          "f1": 0.8064,
+          "precision": 0.8064,
+          "recall": 0.8064,
+          "n_instances": 125,
+          "valid": true,
+          "source_event": "2026-06-formal-eval"
+        },
+        {
+          "pipeline": "english_fewshot",
+          "model": "qwen",
+          "mode": "nothink",
+          "f1": 0.8048,
+          "precision": 0.8081,
+          "recall": 0.8015,
+          "n_instances": 125,
+          "valid": true,
+          "source_event": "2026-07-08-ainbox-missing-eval"
+        },
+        {
+          "pipeline": "spanish_fewshot",
+          "model": "qwen",
+          "mode": "think",
+          "f1": 0.8045,
+          "precision": 0.8045,
+          "recall": 0.8045,
+          "n_instances": 125,
+          "valid": true,
+          "source_event": "2026-07-06-final-harvest"
+        },
+        {
+          "pipeline": "spanish_fewshot",
+          "model": "qwen",
+          "mode": "think",
+          "f1": 0.8045,
+          "precision": 0.8045,
+          "recall": 0.8045,
+          "n_instances": 125,
+          "valid": true,
+          "source_event": "2026-06-formal-eval"
+        },
+        {
+          "pipeline": "spanish_fewshot",
+          "model": "qwen",
+          "mode": "nothink",
+          "f1": 0.8036,
+          "precision": 0.8036,
+          "recall": 0.8036,
+          "n_instances": 125,
+          "valid": true,
+          "source_event": "2026-07-08-ainbox-missing-eval"
+        },
+        {
+          "pipeline": "schema_dynamic",
+          "model": "qwen",
+          "mode": "think",
+          "f1": 0.8004,
+          "precision": 0.8004,
+          "recall": 0.8004,
+          "n_instances": 125,
+          "valid": true,
+          "source_event": "2026-07-06-final-harvest"
+        },
+        {
+          "pipeline": "schema_dynamic",
+          "model": "qwen",
+          "mode": "think",
+          "f1": 0.8004,
+          "precision": 0.8004,
+          "recall": 0.8004,
+          "n_instances": 125,
+          "valid": true,
+          "source_event": "2026-06-formal-eval"
+        }
+      ],
+      "methodology": {
+        "metric": "micro-F1 on 125 instances (145 test minus a 20-instance drop-set), and gap-closed over baseline, gap = max(0, (F1 - F1_base) / (1 - F1_base)), averaged over gemma4-e4b and qwen3-14b.",
+        "baselines_125_instance": {
+          "gemma4-e4b": 0.7895,
+          "qwen3-14b": 0.7805
+        },
+        "drop_set": {
+          "n_excluded": 20,
+          "reason": "Schemas structurally unscoreable on the constrained-decoding inference stack; excluded uniformly from every system and both baselines, so gap-closed comparisons remain fair.",
+          "groups": {
+            "medical_trials": {
+              "n": 8,
+              "why": "$defs/$ref schema → llama.cpp GBNF grammar-compilation failure"
+            },
+            "cultural_monuments": {
+              "n": 2,
+              "why": "$defs/$ref schema → llama.cpp GBNF grammar-compilation failure"
+            },
+            "stem_biology": {
+              "n": 10,
+              "why": "recursive $ref taxonomic-tree schema → parser recursion failures"
+            }
+          }
+        },
+        "caveats": [
+          "Modes: nothink = spec config (thinking off); think = June formal run (thinking on). Each team's best reported 125-instance result is used regardless of mode.",
+          "VerbaNex gemma: all three gemma pipelines destabilise the shared gemma backend at full-run scale (they complete in isolation, smoke F1 ~ 0.76); VerbaNex gets gap 0 on gemma and is carried by its qwen result — true gemma standing is likely higher.",
+          "Engine stability: the gemma backend (llama.cpp) crashes under sustained load; results were repaired per-instance on a restarted engine.",
+          "Third-party self-eval data (CodeStrange, JSONautas) and June think-mode data are used where a team lacked a clean spec-config run of their own."
+        ]
+      }
+    },
+    {
+      "team": "CodeStrange",
+      "institution": "Independent / UH",
+      "rank": 3,
+      "avg_gap_closed": 0.0995,
+      "best": {
+        "gemma4-e4b": {
+          "pipeline": "combo_guard_react_repair_ref",
+          "mode": "nothink",
+          "f1": 0.809,
+          "precision": 0.809,
+          "recall": 0.809,
+          "gap_closed": 0.0925
+        },
+        "qwen3-14b": {
+          "pipeline": "combo_guard_react_repair_ref",
+          "mode": "nothink",
+          "f1": 0.8039,
+          "precision": 0.8068,
+          "recall": 0.8011,
+          "gap_closed": 0.1065
+        }
+      },
+      "pipelines": [
+        {
+          "pipeline": "combo_guard_react_repair_ref",
+          "model": "gemma",
+          "mode": "nothink",
+          "f1": 0.809,
+          "precision": 0.809,
+          "recall": 0.809,
+          "n_instances": 125,
+          "valid": true,
+          "source_event": "2026-07-06-final-harvest"
+        },
+        {
+          "pipeline": "combo_guard_list_spacy_ref",
+          "model": "gemma",
+          "mode": "nothink",
+          "f1": 0.7717,
+          "precision": 0.8044,
+          "recall": 0.7415,
+          "n_instances": 125,
+          "valid": true,
+          "source_event": "2026-07-06-final-harvest"
+        },
+        {
+          "pipeline": "grounded",
+          "model": "gemma",
+          "mode": "nothink",
+          "f1": 0.4717,
+          "precision": 0.666,
+          "recall": 0.3651,
+          "n_instances": 125,
+          "valid": true,
+          "source_event": "2026-07-06-final-harvest"
+        },
+        {
+          "pipeline": "combo_guard_react_repair_ref",
+          "model": "qwen",
+          "mode": "nothink",
+          "f1": 0.8039,
+          "precision": 0.8068,
+          "recall": 0.8011,
+          "n_instances": 125,
+          "valid": true,
+          "source_event": "2026-07-06-final-harvest"
+        },
+        {
+          "pipeline": "combo_guard_list_spacy_ref",
+          "model": "qwen",
+          "mode": "nothink",
+          "f1": 0.7965,
+          "precision": 0.801,
+          "recall": 0.7921,
+          "n_instances": 125,
+          "valid": true,
+          "source_event": "2026-07-06-final-harvest"
+        },
+        {
+          "pipeline": "grounded",
+          "model": "qwen",
+          "mode": "nothink",
+          "f1": 0.726,
+          "precision": 0.755,
+          "recall": 0.6991,
+          "n_instances": 125,
+          "valid": true,
+          "source_event": "2026-07-06-final-harvest"
+        }
+      ],
+      "methodology": {
+        "metric": "micro-F1 on 125 instances (145 test minus a 20-instance drop-set), and gap-closed over baseline, gap = max(0, (F1 - F1_base) / (1 - F1_base)), averaged over gemma4-e4b and qwen3-14b.",
+        "baselines_125_instance": {
+          "gemma4-e4b": 0.7895,
+          "qwen3-14b": 0.7805
+        },
+        "drop_set": {
+          "n_excluded": 20,
+          "reason": "Schemas structurally unscoreable on the constrained-decoding inference stack; excluded uniformly from every system and both baselines, so gap-closed comparisons remain fair.",
+          "groups": {
+            "medical_trials": {
+              "n": 8,
+              "why": "$defs/$ref schema → llama.cpp GBNF grammar-compilation failure"
+            },
+            "cultural_monuments": {
+              "n": 2,
+              "why": "$defs/$ref schema → llama.cpp GBNF grammar-compilation failure"
+            },
+            "stem_biology": {
+              "n": 10,
+              "why": "recursive $ref taxonomic-tree schema → parser recursion failures"
+            }
+          }
+        },
+        "caveats": [
+          "Modes: nothink = spec config (thinking off); think = June formal run (thinking on). Each team's best reported 125-instance result is used regardless of mode.",
+          "VerbaNex gemma: all three gemma pipelines destabilise the shared gemma backend at full-run scale (they complete in isolation, smoke F1 ~ 0.76); VerbaNex gets gap 0 on gemma and is carried by its qwen result — true gemma standing is likely higher.",
+          "Engine stability: the gemma backend (llama.cpp) crashes under sustained load; results were repaired per-instance on a restarted engine.",
+          "Third-party self-eval data (CodeStrange, JSONautas) and June think-mode data are used where a team lacked a clean spec-config run of their own."
+        ]
+      }
+    },
+    {
+      "team": "FranRodrigo",
+      "institution": "Official",
+      "rank": 4,
+      "avg_gap_closed": 0.0629,
+      "best": {
+        "gemma4-e4b": {
+          "pipeline": "cot",
+          "mode": "nothink",
+          "f1": 0.7812,
+          "precision": 0.7742,
+          "recall": 0.7884,
+          "gap_closed": 0.0
+        },
+        "qwen3-14b": {
+          "pipeline": "cot",
+          "mode": "nothink",
+          "f1": 0.8081,
+          "precision": 0.8086,
+          "recall": 0.8077,
+          "gap_closed": 0.1258
+        }
+      },
+      "pipelines": [
+        {
+          "pipeline": "cot",
+          "model": "gemma",
+          "mode": "nothink",
+          "f1": 0.7812,
+          "precision": 0.7742,
+          "recall": 0.7884,
+          "n_instances": 125,
+          "valid": true,
+          "source_event": "2026-07-08-ainbox-missing-eval"
+        },
+        {
+          "pipeline": "structured",
+          "model": "gemma",
+          "mode": "nothink",
+          "f1": 0.7769,
+          "precision": 0.7999,
+          "recall": 0.7552,
+          "n_instances": 125,
+          "valid": true,
+          "source_event": "2026-07-08-ainbox-missing-eval"
+        },
+        {
+          "pipeline": "baseline",
+          "model": "gemma",
+          "mode": "think",
+          "f1": 0.7739,
+          "precision": 0.7972,
+          "recall": 0.7519,
+          "n_instances": 125,
+          "valid": true,
+          "source_event": "2026-07-06-final-harvest"
+        },
+        {
+          "pipeline": "baseline",
+          "model": "gemma",
+          "mode": "think",
+          "f1": 0.7739,
+          "precision": 0.7972,
+          "recall": 0.7519,
+          "n_instances": 125,
+          "valid": true,
+          "source_event": "2026-06-formal-eval"
+        },
+        {
+          "pipeline": "verify",
+          "model": "gemma",
+          "mode": "nothink",
+          "f1": 0,
+          "precision": 0,
+          "recall": 0.0,
+          "n_instances": 125,
+          "valid": false,
+          "source_event": "2026-07-08-ainbox-missing-eval"
+        },
+        {
+          "pipeline": "cot",
+          "model": "qwen",
+          "mode": "nothink",
+          "f1": 0.8081,
+          "precision": 0.8086,
+          "recall": 0.8077,
+          "n_instances": 125,
+          "valid": true,
+          "source_event": "2026-07-08-ainbox-missing-eval"
+        },
+        {
+          "pipeline": "structured",
+          "model": "qwen",
+          "mode": "nothink",
+          "f1": 0.7775,
+          "precision": 0.804,
+          "recall": 0.7526,
+          "n_instances": 125,
+          "valid": true,
+          "source_event": "2026-07-08-ainbox-missing-eval"
+        },
+        {
+          "pipeline": "baseline",
+          "model": "qwen",
+          "mode": "think",
+          "f1": 0.7379,
+          "precision": 0.8089,
+          "recall": 0.6783,
+          "n_instances": 125,
+          "valid": true,
+          "source_event": "2026-07-06-final-harvest"
+        },
+        {
+          "pipeline": "baseline",
+          "model": "qwen",
+          "mode": "think",
+          "f1": 0.7379,
+          "precision": 0.8089,
+          "recall": 0.6783,
+          "n_instances": 125,
+          "valid": true,
+          "source_event": "2026-06-formal-eval"
+        },
+        {
+          "pipeline": "verify",
+          "model": "qwen",
+          "mode": "nothink",
+          "f1": 0.7264,
+          "precision": 0.7268,
+          "recall": 0.7261,
+          "n_instances": 125,
+          "valid": true,
+          "source_event": "2026-07-08-ainbox-missing-eval"
+        }
+      ],
+      "methodology": {
+        "metric": "micro-F1 on 125 instances (145 test minus a 20-instance drop-set), and gap-closed over baseline, gap = max(0, (F1 - F1_base) / (1 - F1_base)), averaged over gemma4-e4b and qwen3-14b.",
+        "baselines_125_instance": {
+          "gemma4-e4b": 0.7895,
+          "qwen3-14b": 0.7805
+        },
+        "drop_set": {
+          "n_excluded": 20,
+          "reason": "Schemas structurally unscoreable on the constrained-decoding inference stack; excluded uniformly from every system and both baselines, so gap-closed comparisons remain fair.",
+          "groups": {
+            "medical_trials": {
+              "n": 8,
+              "why": "$defs/$ref schema → llama.cpp GBNF grammar-compilation failure"
+            },
+            "cultural_monuments": {
+              "n": 2,
+              "why": "$defs/$ref schema → llama.cpp GBNF grammar-compilation failure"
+            },
+            "stem_biology": {
+              "n": 10,
+              "why": "recursive $ref taxonomic-tree schema → parser recursion failures"
+            }
+          }
+        },
+        "caveats": [
+          "Modes: nothink = spec config (thinking off); think = June formal run (thinking on). Each team's best reported 125-instance result is used regardless of mode.",
+          "VerbaNex gemma: all three gemma pipelines destabilise the shared gemma backend at full-run scale (they complete in isolation, smoke F1 ~ 0.76); VerbaNex gets gap 0 on gemma and is carried by its qwen result — true gemma standing is likely higher.",
+          "Engine stability: the gemma backend (llama.cpp) crashes under sustained load; results were repaired per-instance on a restarted engine.",
+          "Third-party self-eval data (CodeStrange, JSONautas) and June think-mode data are used where a team lacked a clean spec-config run of their own."
+        ]
+      }
+    },
+    {
+      "team": "SEsml",
+      "institution": "Universidad de La Habana",
+      "rank": 5,
+      "avg_gap_closed": 0.0481,
+      "best": {
+        "gemma4-e4b": {
+          "pipeline": "baseline",
+          "mode": "nothink",
+          "f1": 0.7746,
+          "precision": 0.7975,
+          "recall": 0.753,
+          "gap_closed": 0.0
+        },
+        "qwen3-14b": {
+          "pipeline": "adaptive",
+          "mode": "think",
+          "f1": 0.8017,
+          "precision": 0.7902,
+          "recall": 0.8135,
+          "gap_closed": 0.0962
+        }
+      },
+      "pipelines": [
+        {
+          "pipeline": "baseline",
+          "model": "gemma",
+          "mode": "nothink",
+          "f1": 0.7746,
+          "precision": 0.7975,
+          "recall": 0.753,
+          "n_instances": 125,
+          "valid": true,
+          "source_event": "2026-07-06-final-harvest"
+        },
+        {
+          "pipeline": "hybrid_cot",
+          "model": "gemma",
+          "mode": "think",
+          "f1": 0.7728,
+          "precision": 0.7394,
+          "recall": 0.8093,
+          "n_instances": 125,
+          "valid": true,
+          "source_event": "2026-06-formal-eval"
+        },
+        {
+          "pipeline": "extraction",
+          "model": "gemma",
+          "mode": "think",
+          "f1": 0.7683,
+          "precision": 0.7683,
+          "recall": 0.7683,
+          "n_instances": 125,
+          "valid": true,
+          "source_event": "2026-06-formal-eval"
+        },
+        {
+          "pipeline": "adaptive",
+          "model": "gemma",
+          "mode": "think",
+          "f1": 0.7466,
+          "precision": 0.6981,
+          "recall": 0.8023,
+          "n_instances": 125,
+          "valid": true,
+          "source_event": "2026-06-formal-eval"
+        },
+        {
+          "pipeline": "adaptive",
+          "model": "gemma",
+          "mode": "nothink",
+          "f1": 0.5885,
+          "precision": 0.5156,
+          "recall": 0.6852,
+          "n_instances": 125,
+          "valid": false,
+          "source_event": "2026-07-06-final-harvest"
+        },
+        {
+          "pipeline": "hybrid_cot",
+          "model": "gemma",
+          "mode": "nothink",
+          "f1": 0.5481,
+          "precision": 0.4792,
+          "recall": 0.6402,
+          "n_instances": 125,
+          "valid": false,
+          "source_event": "2026-07-06-final-harvest"
+        },
+        {
+          "pipeline": "extraction",
+          "model": "gemma",
+          "mode": "nothink",
+          "f1": 0.525,
+          "precision": 0.5245,
+          "recall": 0.5255,
+          "n_instances": 125,
+          "valid": true,
+          "source_event": "2026-07-06-final-harvest"
+        },
+        {
+          "pipeline": "adaptive",
+          "model": "qwen",
+          "mode": "think",
+          "f1": 0.8017,
+          "precision": 0.7902,
+          "recall": 0.8135,
+          "n_instances": 125,
+          "valid": true,
+          "source_event": "2026-06-formal-eval"
+        },
+        {
+          "pipeline": "hybrid_cot",
+          "model": "qwen",
+          "mode": "think",
+          "f1": 0.7935,
+          "precision": 0.7791,
+          "recall": 0.8084,
+          "n_instances": 125,
+          "valid": true,
+          "source_event": "2026-06-formal-eval"
+        },
+        {
+          "pipeline": "extraction",
+          "model": "qwen",
+          "mode": "think",
+          "f1": 0.7543,
+          "precision": 0.7543,
+          "recall": 0.7543,
+          "n_instances": 125,
+          "valid": true,
+          "source_event": "2026-06-formal-eval"
+        },
+        {
+          "pipeline": "extraction",
+          "model": "qwen",
+          "mode": "nothink",
+          "f1": 0.5878,
+          "precision": 0.7564,
+          "recall": 0.4807,
+          "n_instances": 125,
+          "valid": false,
+          "source_event": "2026-07-06-final-harvest"
+        },
+        {
+          "pipeline": "baseline",
+          "model": "qwen",
+          "mode": "nothink",
+          "f1": 0.514,
+          "precision": 0.7364,
+          "recall": 0.3948,
+          "n_instances": 125,
+          "valid": false,
+          "source_event": "2026-07-06-final-harvest"
+        },
+        {
+          "pipeline": "adaptive",
+          "model": "qwen",
+          "mode": "nothink",
+          "f1": 0.3693,
+          "precision": 0.382,
+          "recall": 0.3575,
+          "n_instances": 125,
+          "valid": false,
+          "source_event": "2026-07-06-final-harvest"
+        },
+        {
+          "pipeline": "hybrid_cot",
+          "model": "qwen",
+          "mode": "nothink",
+          "f1": 0.3665,
+          "precision": 0.3898,
+          "recall": 0.3459,
+          "n_instances": 125,
+          "valid": false,
+          "source_event": "2026-07-06-final-harvest"
+        }
+      ],
+      "methodology": {
+        "metric": "micro-F1 on 125 instances (145 test minus a 20-instance drop-set), and gap-closed over baseline, gap = max(0, (F1 - F1_base) / (1 - F1_base)), averaged over gemma4-e4b and qwen3-14b.",
+        "baselines_125_instance": {
+          "gemma4-e4b": 0.7895,
+          "qwen3-14b": 0.7805
+        },
+        "drop_set": {
+          "n_excluded": 20,
+          "reason": "Schemas structurally unscoreable on the constrained-decoding inference stack; excluded uniformly from every system and both baselines, so gap-closed comparisons remain fair.",
+          "groups": {
+            "medical_trials": {
+              "n": 8,
+              "why": "$defs/$ref schema → llama.cpp GBNF grammar-compilation failure"
+            },
+            "cultural_monuments": {
+              "n": 2,
+              "why": "$defs/$ref schema → llama.cpp GBNF grammar-compilation failure"
+            },
+            "stem_biology": {
+              "n": 10,
+              "why": "recursive $ref taxonomic-tree schema → parser recursion failures"
+            }
+          }
+        },
+        "caveats": [
+          "Modes: nothink = spec config (thinking off); think = June formal run (thinking on). Each team's best reported 125-instance result is used regardless of mode.",
+          "VerbaNex gemma: all three gemma pipelines destabilise the shared gemma backend at full-run scale (they complete in isolation, smoke F1 ~ 0.76); VerbaNex gets gap 0 on gemma and is carried by its qwen result — true gemma standing is likely higher.",
+          "Engine stability: the gemma backend (llama.cpp) crashes under sustained load; results were repaired per-instance on a restarted engine.",
+          "Third-party self-eval data (CodeStrange, JSONautas) and June think-mode data are used where a team lacked a clean spec-config run of their own."
+        ]
+      }
+    },
+    {
+      "team": "VerbaNex",
+      "institution": "Universidad Tecnológica de Bolívar (UTB), Colombia",
+      "rank": 6,
+      "avg_gap_closed": 0.0473,
+      "best": {
+        "gemma4-e4b": null,
+        "qwen3-14b": {
+          "pipeline": "precision_master",
+          "mode": "nothink",
+          "f1": 0.8013,
+          "precision": 0.8013,
+          "recall": 0.8013,
+          "gap_closed": 0.0946
+        }
+      },
+      "pipelines": [
+        {
+          "pipeline": "smart_orchestrator",
+          "model": "gemma",
+          "mode": "nothink",
+          "f1": 0.3008,
+          "precision": 0.3005,
+          "recall": 0.3011,
+          "n_instances": 125,
+          "valid": false,
+          "source_event": "2026-07-08-ainbox-missing-eval"
+        },
+        {
+          "pipeline": "parallel_extractor",
+          "model": "gemma",
+          "mode": "nothink",
+          "f1": 0.1993,
+          "precision": 0.1993,
+          "recall": 0.1993,
+          "n_instances": 125,
+          "valid": false,
+          "source_event": "2026-07-08-ainbox-missing-eval"
+        },
+        {
+          "pipeline": "smart_orchestrator",
+          "model": "gemma",
+          "mode": "think",
+          "f1": 0.1942,
+          "precision": 0.194,
+          "recall": 0.1944,
+          "n_instances": 125,
+          "valid": false,
+          "source_event": "2026-07-06-final-harvest"
+        },
+        {
+          "pipeline": "smart_orchestrator",
+          "model": "gemma",
+          "mode": "think",
+          "f1": 0.1942,
+          "precision": 0.194,
+          "recall": 0.1944,
+          "n_instances": 125,
+          "valid": false,
+          "source_event": "2026-06-formal-eval"
+        },
+        {
+          "pipeline": "precision_master",
+          "model": "gemma",
+          "mode": "nothink",
+          "f1": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "n_instances": 125,
+          "valid": false,
+          "source_event": "2026-07-08-ainbox-missing-eval"
+        },
+        {
+          "pipeline": "precision_master",
+          "model": "qwen",
+          "mode": "nothink",
+          "f1": 0.8013,
+          "precision": 0.8013,
+          "recall": 0.8013,
+          "n_instances": 125,
+          "valid": true,
+          "source_event": "2026-07-08-ainbox-missing-eval"
+        },
+        {
+          "pipeline": "smart_orchestrator",
+          "model": "qwen",
+          "mode": "think",
+          "f1": 0.7772,
+          "precision": 0.7873,
+          "recall": 0.7673,
+          "n_instances": 125,
+          "valid": true,
+          "source_event": "2026-06-formal-eval"
+        },
+        {
+          "pipeline": "precision_master",
+          "model": "qwen",
+          "mode": "think",
+          "f1": 0.7765,
+          "precision": 0.7866,
+          "recall": 0.7666,
+          "n_instances": 125,
+          "valid": true,
+          "source_event": "2026-07-06-final-harvest"
+        },
+        {
+          "pipeline": "precision_master",
+          "model": "qwen",
+          "mode": "think",
+          "f1": 0.7765,
+          "precision": 0.7866,
+          "recall": 0.7666,
+          "n_instances": 125,
+          "valid": true,
+          "source_event": "2026-06-formal-eval"
+        },
+        {
+          "pipeline": "parallel_extractor",
+          "model": "qwen",
+          "mode": "think",
+          "f1": 0.7682,
+          "precision": 0.79,
+          "recall": 0.7475,
+          "n_instances": 125,
+          "valid": false,
+          "source_event": "2026-07-06-final-harvest"
+        },
+        {
+          "pipeline": "parallel_extractor",
+          "model": "qwen",
+          "mode": "think",
+          "f1": 0.7682,
+          "precision": 0.79,
+          "recall": 0.7475,
+          "n_instances": 125,
+          "valid": false,
+          "source_event": "2026-06-formal-eval"
+        },
+        {
+          "pipeline": "smart_orchestrator",
+          "model": "qwen",
+          "mode": "nothink",
+          "f1": 0.7436,
+          "precision": 0.7823,
+          "recall": 0.7085,
+          "n_instances": 125,
+          "valid": false,
+          "source_event": "2026-07-06-final-harvest"
+        },
+        {
+          "pipeline": "smart_orchestrator",
+          "model": "qwen",
+          "mode": "think",
+          "f1": 0.7436,
+          "precision": 0.7823,
+          "recall": 0.7085,
+          "n_instances": 125,
+          "valid": false,
+          "source_event": "2026-06-formal-eval"
+        },
+        {
+          "pipeline": "smart_orchestrator",
+          "model": "qwen",
+          "mode": "nothink",
+          "f1": 0.6333,
+          "precision": 0.6333,
+          "recall": 0.6333,
+          "n_instances": 125,
+          "valid": true,
+          "source_event": "2026-07-08-ainbox-missing-eval"
+        },
+        {
+          "pipeline": "parallel_extractor",
+          "model": "qwen",
+          "mode": "nothink",
+          "f1": 0.5567,
+          "precision": 0.5567,
+          "recall": 0.5567,
+          "n_instances": 125,
+          "valid": true,
+          "source_event": "2026-07-08-ainbox-missing-eval"
+        }
+      ],
+      "methodology": {
+        "metric": "micro-F1 on 125 instances (145 test minus a 20-instance drop-set), and gap-closed over baseline, gap = max(0, (F1 - F1_base) / (1 - F1_base)), averaged over gemma4-e4b and qwen3-14b.",
+        "baselines_125_instance": {
+          "gemma4-e4b": 0.7895,
+          "qwen3-14b": 0.7805
+        },
+        "drop_set": {
+          "n_excluded": 20,
+          "reason": "Schemas structurally unscoreable on the constrained-decoding inference stack; excluded uniformly from every system and both baselines, so gap-closed comparisons remain fair.",
+          "groups": {
+            "medical_trials": {
+              "n": 8,
+              "why": "$defs/$ref schema → llama.cpp GBNF grammar-compilation failure"
+            },
+            "cultural_monuments": {
+              "n": 2,
+              "why": "$defs/$ref schema → llama.cpp GBNF grammar-compilation failure"
+            },
+            "stem_biology": {
+              "n": 10,
+              "why": "recursive $ref taxonomic-tree schema → parser recursion failures"
+            }
+          }
+        },
+        "caveats": [
+          "Modes: nothink = spec config (thinking off); think = June formal run (thinking on). Each team's best reported 125-instance result is used regardless of mode.",
+          "VerbaNex gemma: all three gemma pipelines destabilise the shared gemma backend at full-run scale (they complete in isolation, smoke F1 ~ 0.76); VerbaNex gets gap 0 on gemma and is carried by its qwen result — true gemma standing is likely higher.",
+          "Engine stability: the gemma backend (llama.cpp) crashes under sustained load; results were repaired per-instance on a restarted engine.",
+          "Third-party self-eval data (CodeStrange, JSONautas) and June think-mode data are used where a team lacked a clean spec-config run of their own."
+        ]
+      }
+    },
+    {
+      "team": "UC3M",
+      "institution": "Universidad Carlos III de Madrid",
+      "rank": 7,
+      "avg_gap_closed": 0.0212,
+      "best": {
+        "gemma4-e4b": {
+          "pipeline": "prompted",
+          "mode": "nothink",
+          "f1": 0.7984,
+          "precision": 0.8234,
+          "recall": 0.7749,
+          "gap_closed": 0.0424
+        },
+        "qwen3-14b": {
+          "pipeline": "prompted",
+          "mode": "nothink",
+          "f1": 0.3629,
+          "precision": 0.4518,
+          "recall": 0.3032,
+          "gap_closed": 0.0
+        }
+      },
+      "pipelines": [
+        {
+          "pipeline": "prompted",
+          "model": "gemma",
+          "mode": "nothink",
+          "f1": 0.7984,
+          "precision": 0.8234,
+          "recall": 0.7749,
+          "n_instances": 125,
+          "valid": true,
+          "source_event": "2026-07-08-ainbox-missing-eval"
+        },
+        {
+          "pipeline": "rsa",
+          "model": "gemma",
+          "mode": "nothink",
+          "f1": 0.1593,
+          "precision": 0.2225,
+          "recall": 0.124,
+          "n_instances": 125,
+          "valid": true,
+          "source_event": "2026-07-08-ainbox-missing-eval"
+        },
+        {
+          "pipeline": "eagle",
+          "model": "gemma",
+          "mode": "nothink",
+          "f1": 0.0744,
+          "precision": 0.0744,
+          "recall": 0.0744,
+          "n_instances": 125,
+          "valid": true,
+          "source_event": "2026-07-08-ainbox-missing-eval"
+        },
+        {
+          "pipeline": "prompted",
+          "model": "qwen",
+          "mode": "nothink",
+          "f1": 0.3629,
+          "precision": 0.4518,
+          "recall": 0.3032,
+          "n_instances": 125,
+          "valid": true,
+          "source_event": "2026-07-08-ainbox-missing-eval"
+        },
+        {
+          "pipeline": "rsa",
+          "model": "qwen",
+          "mode": "nothink",
+          "f1": 0.1593,
+          "precision": 0.2225,
+          "recall": 0.124,
+          "n_instances": 125,
+          "valid": true,
+          "source_event": "2026-07-08-ainbox-missing-eval"
+        },
+        {
+          "pipeline": "eagle",
+          "model": "qwen",
+          "mode": "nothink",
+          "f1": 0.123,
+          "precision": 0.1241,
+          "recall": 0.1218,
+          "n_instances": 125,
+          "valid": true,
+          "source_event": "2026-07-08-ainbox-missing-eval"
+        }
+      ],
+      "methodology": {
+        "metric": "micro-F1 on 125 instances (145 test minus a 20-instance drop-set), and gap-closed over baseline, gap = max(0, (F1 - F1_base) / (1 - F1_base)), averaged over gemma4-e4b and qwen3-14b.",
+        "baselines_125_instance": {
+          "gemma4-e4b": 0.7895,
+          "qwen3-14b": 0.7805
+        },
+        "drop_set": {
+          "n_excluded": 20,
+          "reason": "Schemas structurally unscoreable on the constrained-decoding inference stack; excluded uniformly from every system and both baselines, so gap-closed comparisons remain fair.",
+          "groups": {
+            "medical_trials": {
+              "n": 8,
+              "why": "$defs/$ref schema → llama.cpp GBNF grammar-compilation failure"
+            },
+            "cultural_monuments": {
+              "n": 2,
+              "why": "$defs/$ref schema → llama.cpp GBNF grammar-compilation failure"
+            },
+            "stem_biology": {
+              "n": 10,
+              "why": "recursive $ref taxonomic-tree schema → parser recursion failures"
+            }
+          }
+        },
+        "caveats": [
+          "Modes: nothink = spec config (thinking off); think = June formal run (thinking on). Each team's best reported 125-instance result is used regardless of mode.",
+          "VerbaNex gemma: all three gemma pipelines destabilise the shared gemma backend at full-run scale (they complete in isolation, smoke F1 ~ 0.76); VerbaNex gets gap 0 on gemma and is carried by its qwen result — true gemma standing is likely higher.",
+          "Engine stability: the gemma backend (llama.cpp) crashes under sustained load; results were repaired per-instance on a restarted engine.",
+          "Third-party self-eval data (CodeStrange, JSONautas) and June think-mode data are used where a team lacked a clean spec-config run of their own."
+        ]
+      }
+    },
+    {
+      "team": "GRADIANT",
+      "institution": "Gradiant",
+      "rank": 8,
+      "avg_gap_closed": 0.0,
+      "best": {
+        "gemma4-e4b": {
+          "pipeline": "limited",
+          "mode": "nothink",
+          "f1": 0.6792,
+          "precision": 0.608,
+          "recall": 0.7691,
+          "gap_closed": 0.0
+        },
+        "qwen3-14b": {
+          "pipeline": "limited",
+          "mode": "nothink",
+          "f1": 0.7564,
+          "precision": 0.737,
+          "recall": 0.7767,
+          "gap_closed": 0.0
+        }
+      },
+      "pipelines": [
+        {
+          "pipeline": "stable",
+          "model": "gemma",
+          "mode": "nothink",
+          "f1": 0.7092,
+          "precision": 0.7785,
+          "recall": 0.6513,
+          "n_instances": 125,
+          "valid": false,
+          "source_event": "2026-07-06-final-harvest"
+        },
+        {
+          "pipeline": "limited",
+          "model": "gemma",
+          "mode": "nothink",
+          "f1": 0.6792,
+          "precision": 0.608,
+          "recall": 0.7691,
+          "n_instances": 125,
+          "valid": true,
+          "source_event": "2026-07-06-final-harvest"
+        },
+        {
+          "pipeline": "experimental",
+          "model": "gemma",
+          "mode": "nothink",
+          "f1": 0.4911,
+          "precision": 0.7537,
+          "recall": 0.3642,
+          "n_instances": 125,
+          "valid": false,
+          "source_event": "2026-07-06-final-harvest"
+        },
+        {
+          "pipeline": "stable",
+          "model": "qwen",
+          "mode": "nothink",
+          "f1": 0.7766,
+          "precision": 0.79,
+          "recall": 0.7636,
+          "n_instances": 125,
+          "valid": false,
+          "source_event": "2026-07-06-final-harvest"
+        },
+        {
+          "pipeline": "limited",
+          "model": "qwen",
+          "mode": "nothink",
+          "f1": 0.7564,
+          "precision": 0.737,
+          "recall": 0.7767,
+          "n_instances": 125,
+          "valid": true,
+          "source_event": "2026-07-06-final-harvest"
+        },
+        {
+          "pipeline": "experimental",
+          "model": "qwen",
+          "mode": "nothink",
+          "f1": 0.2555,
+          "precision": 0.7698,
+          "recall": 0.1532,
+          "n_instances": 125,
+          "valid": false,
+          "source_event": "2026-07-06-final-harvest"
+        }
+      ],
+      "methodology": {
+        "metric": "micro-F1 on 125 instances (145 test minus a 20-instance drop-set), and gap-closed over baseline, gap = max(0, (F1 - F1_base) / (1 - F1_base)), averaged over gemma4-e4b and qwen3-14b.",
+        "baselines_125_instance": {
+          "gemma4-e4b": 0.7895,
+          "qwen3-14b": 0.7805
+        },
+        "drop_set": {
+          "n_excluded": 20,
+          "reason": "Schemas structurally unscoreable on the constrained-decoding inference stack; excluded uniformly from every system and both baselines, so gap-closed comparisons remain fair.",
+          "groups": {
+            "medical_trials": {
+              "n": 8,
+              "why": "$defs/$ref schema → llama.cpp GBNF grammar-compilation failure"
+            },
+            "cultural_monuments": {
+              "n": 2,
+              "why": "$defs/$ref schema → llama.cpp GBNF grammar-compilation failure"
+            },
+            "stem_biology": {
+              "n": 10,
+              "why": "recursive $ref taxonomic-tree schema → parser recursion failures"
+            }
+          }
+        },
+        "caveats": [
+          "Modes: nothink = spec config (thinking off); think = June formal run (thinking on). Each team's best reported 125-instance result is used regardless of mode.",
+          "VerbaNex gemma: all three gemma pipelines destabilise the shared gemma backend at full-run scale (they complete in isolation, smoke F1 ~ 0.76); VerbaNex gets gap 0 on gemma and is carried by its qwen result — true gemma standing is likely higher.",
+          "Engine stability: the gemma backend (llama.cpp) crashes under sustained load; results were repaired per-instance on a restarted engine.",
+          "Third-party self-eval data (CodeStrange, JSONautas) and June think-mode data are used where a team lacked a clean spec-config run of their own."
+        ]
+      }
+    },
+    {
+      "team": "Inigo",
+      "institution": "Universidad Pública de Navarra",
+      "rank": 9,
+      "avg_gap_closed": 0.0,
+      "best": {
+        "gemma4-e4b": {
+          "pipeline": "e232",
+          "mode": "nothink",
+          "f1": 0.7504,
+          "precision": 0.7734,
+          "recall": 0.7287,
+          "gap_closed": 0.0
+        },
+        "qwen3-14b": {
+          "pipeline": "e232",
+          "mode": "nothink",
+          "f1": 0.732,
+          "precision": 0.7508,
+          "recall": 0.7142,
+          "gap_closed": 0.0
+        }
+      },
+      "pipelines": [
+        {
+          "pipeline": "e232",
+          "model": "gemma",
+          "mode": "nothink",
+          "f1": 0.7504,
+          "precision": 0.7734,
+          "recall": 0.7287,
+          "n_instances": 125,
+          "valid": true,
+          "source_event": "2026-07-08-ainbox-missing-eval"
+        },
+        {
+          "pipeline": "e226",
+          "model": "gemma",
+          "mode": "nothink",
+          "f1": 0.7486,
+          "precision": 0.7703,
+          "recall": 0.7281,
+          "n_instances": 125,
+          "valid": true,
+          "source_event": "2026-07-08-ainbox-missing-eval"
+        },
+        {
+          "pipeline": "e231",
+          "model": "gemma",
+          "mode": "nothink",
+          "f1": 0.7439,
+          "precision": 0.765,
+          "recall": 0.7238,
+          "n_instances": 125,
+          "valid": true,
+          "source_event": "2026-07-08-ainbox-missing-eval"
+        },
+        {
+          "pipeline": "e232",
+          "model": "qwen",
+          "mode": "nothink",
+          "f1": 0.732,
+          "precision": 0.7508,
+          "recall": 0.7142,
+          "n_instances": 125,
+          "valid": true,
+          "source_event": "2026-07-08-ainbox-missing-eval"
+        },
+        {
+          "pipeline": "e226",
+          "model": "qwen",
+          "mode": "nothink",
+          "f1": 0.7316,
+          "precision": 0.7495,
+          "recall": 0.7145,
+          "n_instances": 125,
+          "valid": true,
+          "source_event": "2026-07-08-ainbox-missing-eval"
+        },
+        {
+          "pipeline": "e231",
+          "model": "qwen",
+          "mode": "nothink",
+          "f1": 0.7254,
+          "precision": 0.7637,
+          "recall": 0.6908,
+          "n_instances": 125,
+          "valid": true,
+          "source_event": "2026-07-08-ainbox-missing-eval"
+        }
+      ],
+      "methodology": {
+        "metric": "micro-F1 on 125 instances (145 test minus a 20-instance drop-set), and gap-closed over baseline, gap = max(0, (F1 - F1_base) / (1 - F1_base)), averaged over gemma4-e4b and qwen3-14b.",
+        "baselines_125_instance": {
+          "gemma4-e4b": 0.7895,
+          "qwen3-14b": 0.7805
+        },
+        "drop_set": {
+          "n_excluded": 20,
+          "reason": "Schemas structurally unscoreable on the constrained-decoding inference stack; excluded uniformly from every system and both baselines, so gap-closed comparisons remain fair.",
+          "groups": {
+            "medical_trials": {
+              "n": 8,
+              "why": "$defs/$ref schema → llama.cpp GBNF grammar-compilation failure"
+            },
+            "cultural_monuments": {
+              "n": 2,
+              "why": "$defs/$ref schema → llama.cpp GBNF grammar-compilation failure"
+            },
+            "stem_biology": {
+              "n": 10,
+              "why": "recursive $ref taxonomic-tree schema → parser recursion failures"
+            }
+          }
+        },
+        "caveats": [
+          "Modes: nothink = spec config (thinking off); think = June formal run (thinking on). Each team's best reported 125-instance result is used regardless of mode.",
+          "VerbaNex gemma: all three gemma pipelines destabilise the shared gemma backend at full-run scale (they complete in isolation, smoke F1 ~ 0.76); VerbaNex gets gap 0 on gemma and is carried by its qwen result — true gemma standing is likely higher.",
+          "Engine stability: the gemma backend (llama.cpp) crashes under sustained load; results were repaired per-instance on a restarted engine.",
+          "Third-party self-eval data (CodeStrange, JSONautas) and June think-mode data are used where a team lacked a clean spec-config run of their own."
+        ]
+      }
+    },
+    {
+      "team": "JSONautas",
+      "institution": "UHO-UO-UCI",
+      "rank": 10,
+      "avg_gap_closed": 0.0,
+      "best": {
+        "gemma4-e4b": null,
+        "qwen3-14b": {
+          "pipeline": "baseline",
+          "mode": "nothink",
+          "f1": 0.5805,
+          "precision": 0.62,
+          "recall": 0.5457,
+          "gap_closed": 0.0
+        }
+      },
+      "pipelines": [
+        {
+          "pipeline": "grammar_cd",
+          "model": "gemma",
+          "mode": "nothink",
+          "f1": 0.6139,
+          "precision": 0.7007,
+          "recall": 0.5463,
+          "n_instances": 125,
+          "valid": false,
+          "source_event": "2026-07-06-final-harvest"
+        },
+        {
+          "pipeline": "baseline",
+          "model": "gemma",
+          "mode": "nothink",
+          "f1": 0.4197,
+          "precision": 0.5236,
+          "recall": 0.3503,
+          "n_instances": 125,
+          "valid": false,
+          "source_event": "2026-07-06-final-harvest"
+        },
+        {
+          "pipeline": "rag",
+          "model": "gemma",
+          "mode": "nothink",
+          "f1": 0.3777,
+          "precision": 0.472,
+          "recall": 0.3148,
+          "n_instances": 125,
+          "valid": false,
+          "source_event": "2026-07-06-final-harvest"
+        },
+        {
+          "pipeline": "prompt_eng",
+          "model": "gemma",
+          "mode": "nothink",
+          "f1": 0.3588,
+          "precision": 0.6314,
+          "recall": 0.2506,
+          "n_instances": 125,
+          "valid": false,
+          "source_event": "2026-07-06-final-harvest"
+        },
+        {
+          "pipeline": "prompt_eng",
+          "model": "qwen",
+          "mode": "nothink",
+          "f1": 0.6534,
+          "precision": 0.708,
+          "recall": 0.6066,
+          "n_instances": 125,
+          "valid": false,
+          "source_event": "2026-07-06-final-harvest"
+        },
+        {
+          "pipeline": "rag",
+          "model": "qwen",
+          "mode": "nothink",
+          "f1": 0.6116,
+          "precision": 0.6791,
+          "recall": 0.5563,
+          "n_instances": 125,
+          "valid": false,
+          "source_event": "2026-07-06-final-harvest"
+        },
+        {
+          "pipeline": "grammar_cd",
+          "model": "qwen",
+          "mode": "nothink",
+          "f1": 0.5907,
+          "precision": 0.6843,
+          "recall": 0.5197,
+          "n_instances": 125,
+          "valid": false,
+          "source_event": "2026-07-06-final-harvest"
+        },
+        {
+          "pipeline": "baseline",
+          "model": "qwen",
+          "mode": "nothink",
+          "f1": 0.5805,
+          "precision": 0.62,
+          "recall": 0.5457,
+          "n_instances": 125,
+          "valid": true,
+          "source_event": "2026-07-06-final-harvest"
+        }
+      ],
+      "methodology": {
+        "metric": "micro-F1 on 125 instances (145 test minus a 20-instance drop-set), and gap-closed over baseline, gap = max(0, (F1 - F1_base) / (1 - F1_base)), averaged over gemma4-e4b and qwen3-14b.",
+        "baselines_125_instance": {
+          "gemma4-e4b": 0.7895,
+          "qwen3-14b": 0.7805
+        },
+        "drop_set": {
+          "n_excluded": 20,
+          "reason": "Schemas structurally unscoreable on the constrained-decoding inference stack; excluded uniformly from every system and both baselines, so gap-closed comparisons remain fair.",
+          "groups": {
+            "medical_trials": {
+              "n": 8,
+              "why": "$defs/$ref schema → llama.cpp GBNF grammar-compilation failure"
+            },
+            "cultural_monuments": {
+              "n": 2,
+              "why": "$defs/$ref schema → llama.cpp GBNF grammar-compilation failure"
+            },
+            "stem_biology": {
+              "n": 10,
+              "why": "recursive $ref taxonomic-tree schema → parser recursion failures"
+            }
+          }
+        },
+        "caveats": [
+          "Modes: nothink = spec config (thinking off); think = June formal run (thinking on). Each team's best reported 125-instance result is used regardless of mode.",
+          "VerbaNex gemma: all three gemma pipelines destabilise the shared gemma backend at full-run scale (they complete in isolation, smoke F1 ~ 0.76); VerbaNex gets gap 0 on gemma and is carried by its qwen result — true gemma standing is likely higher.",
+          "Engine stability: the gemma backend (llama.cpp) crashes under sustained load; results were repaired per-instance on a restarted engine.",
+          "Third-party self-eval data (CodeStrange, JSONautas) and June think-mode data are used where a team lacked a clean spec-config run of their own."
+        ]
+      }
+    },
+    {
+      "team": "MOLD",
+      "institution": "University of Havana",
+      "rank": 11,
+      "avg_gap_closed": 0.0,
+      "best": {
+        "gemma4-e4b": {
+          "pipeline": "vigil",
+          "mode": "nothink",
+          "f1": 0.7354,
+          "precision": 0.711,
+          "recall": 0.7616,
+          "gap_closed": 0.0
+        },
+        "qwen3-14b": {
+          "pipeline": "arcane",
+          "mode": "nothink",
+          "f1": 0.7115,
+          "precision": 0.7079,
+          "recall": 0.7151,
+          "gap_closed": 0.0
+        }
+      },
+      "pipelines": [
+        {
+          "pipeline": "vigil",
+          "model": "gemma",
+          "mode": "nothink",
+          "f1": 0.7354,
+          "precision": 0.711,
+          "recall": 0.7616,
+          "n_instances": 125,
+          "valid": true,
+          "source_event": "2026-07-06-final-harvest"
+        },
+        {
+          "pipeline": "arcane",
+          "model": "gemma",
+          "mode": "nothink",
+          "f1": 0.7342,
+          "precision": 0.7079,
+          "recall": 0.7626,
+          "n_instances": 125,
+          "valid": true,
+          "source_event": "2026-07-06-final-harvest"
+        },
+        {
+          "pipeline": "mira",
+          "model": "gemma",
+          "mode": "nothink",
+          "f1": 0.7298,
+          "precision": 0.7086,
+          "recall": 0.7524,
+          "n_instances": 125,
+          "valid": true,
+          "source_event": "2026-07-06-final-harvest"
+        },
+        {
+          "pipeline": "baseline",
+          "model": "gemma",
+          "mode": "nothink",
+          "f1": 0.7263,
+          "precision": 0.7035,
+          "recall": 0.7507,
+          "n_instances": 125,
+          "valid": true,
+          "source_event": "2026-07-06-final-harvest"
+        },
+        {
+          "pipeline": "arcane",
+          "model": "qwen",
+          "mode": "nothink",
+          "f1": 0.7115,
+          "precision": 0.7079,
+          "recall": 0.7151,
+          "n_instances": 125,
+          "valid": true,
+          "source_event": "2026-07-06-final-harvest"
+        },
+        {
+          "pipeline": "vigil",
+          "model": "qwen",
+          "mode": "nothink",
+          "f1": 0.7095,
+          "precision": 0.7028,
+          "recall": 0.7163,
+          "n_instances": 125,
+          "valid": true,
+          "source_event": "2026-07-06-final-harvest"
+        },
+        {
+          "pipeline": "mira",
+          "model": "qwen",
+          "mode": "nothink",
+          "f1": 0.7044,
+          "precision": 0.7048,
+          "recall": 0.704,
+          "n_instances": 125,
+          "valid": true,
+          "source_event": "2026-07-06-final-harvest"
+        },
+        {
+          "pipeline": "baseline",
+          "model": "qwen",
+          "mode": "nothink",
+          "f1": 0.6912,
+          "precision": 0.6991,
+          "recall": 0.6835,
+          "n_instances": 125,
+          "valid": true,
+          "source_event": "2026-07-06-final-harvest"
+        }
+      ],
+      "methodology": {
+        "metric": "micro-F1 on 125 instances (145 test minus a 20-instance drop-set), and gap-closed over baseline, gap = max(0, (F1 - F1_base) / (1 - F1_base)), averaged over gemma4-e4b and qwen3-14b.",
+        "baselines_125_instance": {
+          "gemma4-e4b": 0.7895,
+          "qwen3-14b": 0.7805
+        },
+        "drop_set": {
+          "n_excluded": 20,
+          "reason": "Schemas structurally unscoreable on the constrained-decoding inference stack; excluded uniformly from every system and both baselines, so gap-closed comparisons remain fair.",
+          "groups": {
+            "medical_trials": {
+              "n": 8,
+              "why": "$defs/$ref schema → llama.cpp GBNF grammar-compilation failure"
+            },
+            "cultural_monuments": {
+              "n": 2,
+              "why": "$defs/$ref schema → llama.cpp GBNF grammar-compilation failure"
+            },
+            "stem_biology": {
+              "n": 10,
+              "why": "recursive $ref taxonomic-tree schema → parser recursion failures"
+            }
+          }
+        },
+        "caveats": [
+          "Modes: nothink = spec config (thinking off); think = June formal run (thinking on). Each team's best reported 125-instance result is used regardless of mode.",
+          "VerbaNex gemma: all three gemma pipelines destabilise the shared gemma backend at full-run scale (they complete in isolation, smoke F1 ~ 0.76); VerbaNex gets gap 0 on gemma and is carried by its qwen result — true gemma standing is likely higher.",
+          "Engine stability: the gemma backend (llama.cpp) crashes under sustained load; results were repaired per-instance on a restarted engine.",
+          "Third-party self-eval data (CodeStrange, JSONautas) and June think-mode data are used where a team lacked a clean spec-config run of their own."
+        ]
+      }
+    }
+  ],
+  "methodology": {
+    "metric": "micro-F1 on 125 instances (145 test minus a 20-instance drop-set), and gap-closed over baseline, gap = max(0, (F1 - F1_base) / (1 - F1_base)), averaged over gemma4-e4b and qwen3-14b.",
+    "baselines_125_instance": {
+      "gemma4-e4b": 0.7895,
+      "qwen3-14b": 0.7805
+    },
+    "drop_set": {
+      "n_excluded": 20,
+      "reason": "Schemas structurally unscoreable on the constrained-decoding inference stack; excluded uniformly from every system and both baselines, so gap-closed comparisons remain fair.",
+      "groups": {
+        "medical_trials": {
+          "n": 8,
+          "why": "$defs/$ref schema → llama.cpp GBNF grammar-compilation failure"
+        },
+        "cultural_monuments": {
+          "n": 2,
+          "why": "$defs/$ref schema → llama.cpp GBNF grammar-compilation failure"
+        },
+        "stem_biology": {
+          "n": 10,
+          "why": "recursive $ref taxonomic-tree schema → parser recursion failures"
+        }
+      }
+    },
+    "caveats": [
+      "Modes: nothink = spec config (thinking off); think = June formal run (thinking on). Each team's best reported 125-instance result is used regardless of mode.",
+      "VerbaNex gemma: all three gemma pipelines destabilise the shared gemma backend at full-run scale (they complete in isolation, smoke F1 ~ 0.76); VerbaNex gets gap 0 on gemma and is carried by its qwen result — true gemma standing is likely higher.",
+      "Engine stability: the gemma backend (llama.cpp) crashes under sustained load; results were repaired per-instance on a restarted engine.",
+      "Third-party self-eval data (CodeStrange, JSONautas) and June think-mode data are used where a team lacked a clean spec-config run of their own."
+    ]
+  }
+}
